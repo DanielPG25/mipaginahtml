@@ -167,9 +167,9 @@
   </a>
 </h2>
 <p>El archivo de configuración de hugo se llama &ldquo;config.toml&rdquo; y en el podemos cambiar varias cosas para modificar nuestra web a nuestro gusto.</p>
-<p>Lo primero que querremos cambiar será nuestro tema. En la página oficial de <a href="https://gohugo.io/">Hugo</a> podemos encontrar bastantes temas de los que elegir. En mi caso, elegí <strong>Coder</strong>. Cada tema se instala de forma diferente, pero solo hay que seguir la guía que existe en la página oficial del tema. En mi caso, lo primero fue añadir el submódulo con el tema en mi directorio principal de la página:</p>
+<p>Lo primero que querremos cambiar será nuestro tema. En la página oficial de <a href="https://gohugo.io/">Hugo</a> podemos encontrar bastantes temas de los que elegir. En mi caso, elegí <strong>Coder</strong>. Cada tema se instala de forma diferente, pero solo hay que seguir la guía que existe en la página oficial del tema. En este caso, lo primero fue añadir el submódulo con el tema en mi directorio principal de la página:</p>
 <p><code>git submodule add https://github.com/luizdepra/hugo-coder.git themes/hugo-coder</code>.</p>
-<p>A continuación, si seguimos la documentación de la página, encontraremos que hay que modificar nuestro &ldquo;config.toml&rdquo;, y para ello nos ponen uno de ejemplo que podremos copiar y modfificar:</p>
+<p>A continuación, si seguimos la documentación de la página, encontraremos que hay que modificar nuestro &ldquo;config.toml&rdquo;, y para ello nos ponen uno de ejemplo que podremos copiar y modficar:</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">baseurl = &#34;http://www.example.com&#34;
 title = &#34;johndoe&#34;
 theme = &#34;hugo-coder&#34;
@@ -242,7 +242,7 @@ disqusShortname = &#34;yourdiscussshortname&#34;
   name = &#34;About&#34;
   weight = 2
   url = &#34;about/&#34;
-</code></pre></div><p>Como se puede ver en la siguiente imagen, he modificado las línes referentes a la url base, el título y el tema. También he añadido alguna información personal sobre mí y he cambiado el avatar.</p>
+</code></pre></div><p>Como se puede ver en la siguiente imagen, he modificado las líneas referentes a la url base, el título y el tema. También he añadido alguna información personal sobre mí y he cambiado el avatar.</p>
 <p><img src="/images/configuracion.png" alt="configuracion.png"></p>
 <p>También podemos modificar la información referente a las redes sociales para que redireccionen a las nuestras o suprimir esa información por completo.</p>
 <h2 id="despliegue">
@@ -259,11 +259,11 @@ disqusShortname = &#34;yourdiscussshortname&#34;
 <p>Con este comando, hugo nos crea un nuevo fichero <em>markdown</em> dentro de <strong>content/posts</strong>. El directorio &ldquo;content&rdquo;, es donde guardaremos todos nuestros posts, ya que por defecto, el tema que elegí los busca ahí al hacer el despliegue. El comando anterior, al crear los markdown, también añade algunos campos que podemos rellenar para personalizar aún más nuestros posts:</p>
 <p><img src="/images/extramark.png" alt="extramark.png"></p>
 <p>Ahora ya solo queda publicar nuestra web estática en Internet, para lo cual hay muchos servicios de hosting disponibles. En mi caso elegí <strong>Render</strong>.</p>
-<p><strong>Render</strong> es gratuito para las páginas estáticas, ofrece un gran mantenimiento y permite un despliegue rápido y autómatico desde un repositorio de <em>Github</em>. El proceso de despliegue es sencillo:</p>
+<p><strong>Render</strong> es gratuito para las páginas estáticas, ofrece un gran mantenimiento y permite un despliegue rápido y automático desde un repositorio de <em>Github</em>. El proceso de despliegue es sencillo:</p>
 <ul>
 <li>En primer lugar debemos tener nuestro esquema de directorios creados por hugo subido en <em>Github</em>.</li>
-<li>A continuación nos creamos una cuenta en <em>Render</em>, y le damos permiso para acceder al repositorio de la paǵina en <em>Github</em>.</li>
-<li>Seleccionamos el nombre que tendrá nuestra web y la rama del repositorio que queremos deplegar.</li>
+<li>A continuación nos creamos una cuenta en <em>Render</em>, y le damos permiso para acceder al repositorio de la página en <em>Github</em>.</li>
+<li>Seleccionamos el nombre que tendrá nuestra web y la rama del repositorio que queremos desplegar.</li>
 <li>Cuando nos aparezca &ldquo;Build Command&rdquo; lo rellenamos con lo siguiente:</li>
 </ul>
 <p><code>hugo -D</code></p>
