@@ -21,8 +21,8 @@
 <meta property="og:description" content="Generador de Web Estática Hugo" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://www.sysadblog.com/posts/prueba/" />
-<meta property="article:published_time" content="2021-09-30T09:16:53+02:00" />
-<meta property="article:modified_time" content="2021-09-30T09:16:53+02:00" />
+<meta property="article:published_time" content="2021-10-07T09:16:53+02:00" />
+<meta property="article:modified_time" content="2021-10-07T09:16:53+02:00" />
 
 
     <title>
@@ -127,13 +127,13 @@
           <div class="date">
             <span class="posted-on">
               <i class="fa fa-calendar" aria-hidden="true"></i>
-              <time datetime='2021-09-30T09:16:53&#43;02:00'>
-                September 30, 2021
+              <time datetime='2021-10-07T09:16:53&#43;02:00'>
+                October 7, 2021
               </time>
             </span>
             <span class="reading-time">
               <i class="fa fa-clock-o" aria-hidden="true"></i>
-              One-minute read
+              5-minute read
             </span>
           </div>
           <div class="authors">
@@ -158,15 +158,159 @@
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
-<p>Hugo es un generador de páginas estáticas rápido y moderno escrito en Go. Utiliza las librerías de Go <em>html/template</em> y <em>text/template</em> como base para las plantillas que utiliza. Instalarlo en Debian es de lo más sencillo, solo hay que usar el siguiente comando:</p>
+<p>Hugo es un generador de páginas estáticas rápido y moderno escrito en Go. Utiliza las librerías de Go <em>html/template</em> y <em>text/template</em> como base para las plantillas que utiliza. Permite escribir en <em>Markdown</em>, el cual lee al realizar un despliegue, transformándolo en <em>html</em>, lo que nos permite generar páginas estáticas de forma muy sencilla. Instalarlo en Debian es de lo más sencillo, solo hay que usar el siguiente comando:</p>
 <p><code>sudo apt-get install hugo</code></p>
-<h2 id="hlc">
-  hlc
-  <a class="heading-link" href="#hlc">
+<h2 id="modificación-de-la-configuración">
+  Modificación de la configuración
+  <a class="heading-link" href="#modificaci%c3%b3n-de-la-configuraci%c3%b3n">
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
+<p>El archivo de configuración de hugo se llama &ldquo;config.toml&rdquo; y en el podemos cambiar varias cosas para modificar nuestra web a nuestro gusto.</p>
+<p>Lo primero que querremos cambiar será nuestro tema. En la página oficial de <a href="https://gohugo.io/">Hugo</a> podemos encontrar bastantes temas de los que elegir. En mi caso, elegí <strong>Coder</strong>. Cada tema se instala de forma diferente, pero solo hay que seguir la guía que existe en la página oficial del tema. En mi caso, lo primero fue añadir el submódulo con el tema en mi directorio principal de la página:</p>
+<p><code>git submodule add https://github.com/luizdepra/hugo-coder.git themes/hugo-coder</code>.</p>
+<p>A continuación, si seguimos la documentación de la página, encontraremos que hay que modificar nuestro &ldquo;config.toml&rdquo;, y para ello nos ponen uno de ejemplo que podremos copiar y modfificar:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">baseurl = &#34;http://www.example.com&#34;
+title = &#34;johndoe&#34;
+theme = &#34;hugo-coder&#34;
+languagecode = &#34;en&#34;
+defaultcontentlanguage = &#34;en&#34;
+
+paginate = 20
+
+pygmentsstyle = &#34;bw&#34;
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+
+disqusShortname = &#34;yourdiscussshortname&#34;
+
+[params]
+  author = &#34;John Doe&#34;
+  info = &#34;Full Stack DevOps and Magician&#34;
+  description = &#34;John Doe&#39;s personal website&#34;
+  keywords = &#34;blog,developer,personal&#34;
+  avatarurl = &#34;images/avatar.jpg&#34;
+  #gravatar = &#34;john.doe@example.com&#34;
+
+  favicon_32 = &#34;/img/favicon-32x32.png&#34;
+  favicon_16 = &#34;/img/favicon-16x16.png&#34;
+
+  footercontent = &#34;Enter a text here.&#34;
+  hideFooter = false
+  hideCredits = false
+  hideCopyright = false
+  since = 2019
+
+  enableTwemoji = true
+
+  colorScheme = &#34;auto&#34;
+  hidecolorschemetoggle = false
+
+  customCSS = [&#34;css/custom.css&#34;]
+  customSCSS = [&#34;scss/custom.scss&#34;]
+  customJS = [&#34;js/custom.js&#34;]
+
+[taxonomies]
+  category = &#34;categories&#34;
+  series = &#34;series&#34;
+  tag = &#34;tags&#34;
+  author = &#34;authors&#34;
+
+# Social links
+[[params.social]]
+  name = &#34;Github&#34;
+  icon = &#34;fa fa-github fa-2x&#34;
+  weight = 1
+  url = &#34;https://github.com/johndoe/&#34;
+[[params.social]]
+  name = &#34;Gitlab&#34;
+  icon = &#34;fa fa-gitlab fa-2x&#34;
+  weight = 2
+  url = &#34;https://gitlab.com/johndoe/&#34;
+[[params.social]]
+  name = &#34;Twitter&#34;
+  icon = &#34;fa fa-twitter fa-2x&#34;
+  weight = 3
+  url = &#34;https://twitter.com/johndoe/&#34;
+
+# Menu links
+[[menu.main]]
+  name = &#34;Blog&#34;
+  weight = 1
+  url  = &#34;posts/&#34;
+[[menu.main]]
+  name = &#34;About&#34;
+  weight = 2
+  url = &#34;about/&#34;
+</code></pre></div><p>Como se puede ver en la siguiente imagen, he modificado las línes referentes a la url base, el título y el tema. También he añadido alguna información personal sobre mí y he cambiado el avatar.</p>
 <p><img src="/images/configuracion.png" alt="configuracion.png"></p>
+<p>También podemos modificar la información referente a las redes sociales para que redireccionen a las nuestras o suprimir esa información por completo.</p>
+<h2 id="despliegue">
+  Despliegue
+  <a class="heading-link" href="#despliegue">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Podemos ver como quedaría la página que hemos y el tema que hemos elegido usando el siguiente comando, que despliega la página de forma local:</p>
+<p><code>hugo server -D</code></p>
+<p><img src="/images/local.png" alt="local.png"></p>
+<p>Una vez que hemos comprobado que el tema es de nuestro gusto, podemos empezar a escribir posts. Para ello, hugo nos lo pone fácil:</p>
+<p><code>hugo new posts/nombre_del_post.md</code></p>
+<p>Con este comando, hugo nos crea un nuevo fichero <em>markdown</em> dentro de <strong>content/posts</strong>. El directorio &ldquo;content&rdquo;, es donde guardaremos todos nuestros posts, ya que por defecto, el tema que elegí los busca ahí al hacer el despliegue. El comando anterior, al crear los markdown, también añade algunos campos que podemos rellenar para personalizar aún más nuestros posts:</p>
+<p><img src="/images/extramark.png" alt="extramark.png"></p>
+<p>Ahora ya solo queda publicar nuestra web estática en Internet, para lo cual hay muchos servicios de hosting disponibles. En mi caso elegí <strong>Render</strong>.</p>
+<p><strong>Render</strong> es gratuito para las páginas estáticas, ofrece un gran mantenimiento y permite un despliegue rápido y autómatico desde un repositorio de <em>Github</em>. El proceso de despliegue es sencillo:</p>
+<ul>
+<li>En primer lugar debemos tener nuestro esquema de directorios creados por hugo subido en <em>Github</em>.</li>
+<li>A continuación nos creamos una cuenta en <em>Render</em>, y le damos permiso para acceder al repositorio de la paǵina en <em>Github</em>.</li>
+<li>Seleccionamos el nombre que tendrá nuestra web y la rama del repositorio que queremos deplegar.</li>
+<li>Cuando nos aparezca &ldquo;Build Command&rdquo; lo rellenamos con lo siguiente:</li>
+</ul>
+<p><code>hugo -D</code></p>
+<ul>
+<li>El comando anterior permitirá que cada vez que se produzca un despliegue, se genere el html a partir de los ficheros que se encuentran en nuestro <em>Github</em>, por lo que de esa forma, nos ahorramos tener que generarlo nosotros cada vez que subamos un cambio a <em>Github</em>.</li>
+<li>En &ldquo;Publish directory&rdquo;, escribimos &ldquo;<em>public</em>&rdquo;, ya que ese el directorio por defecto en el que se guarda el <em>html</em> generado por el comando anterior.</li>
+<li>Guardamos los cambios y desplegamos.</li>
+</ul>
+<p>Con esto, ya tenemos lista lo configuración para el despliegue de nuestra página web. Cada vez que hagamos un cambio en nuestro <em>github</em>, <em>Render</em> lo notará y volverá a deplegar la página de forma automática si no hemos cambiado esa configuración.</p>
+<p>Esto método es el más sencillo y directo para la creación y despliegue de nuestra web. Sin embargo, por motivos de una práctica que estoy realizando, el despliegue de esta web será diferente.</p>
+<p>En mi caso, ejecuto en mi máquina el comando anterior:</p>
+<p><code>hugo -D</code></p>
+<p>Esto generará en mi directorio <em>&ldquo;public&rdquo;</em> el html de mi web (ese directorio de encuentra añadido a mi fichero <em>.gitignore</em> para que no lo suba a github cada vez que lo actualice).</p>
+<p>El contenido del directorio <em>&ldquo;public&rdquo;</em>, es copiado después a otro repositorio de <em>Github</em>, que es el que tengo asignado a mi web estática en <em>Render</em>. En este caso, no es necesario rellenar los campos de &ldquo;Build Command&rdquo; y &ldquo;Publish directory&rdquo;, ya que es todo el repositorio el que tiene que desplegar, y no hace falta un comando para eso.</p>
+<h2 id="automatización-del-despliegue">
+  Automatización del despliegue
+  <a class="heading-link" href="#automatizaci%c3%b3n-del-despliegue">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para la automatización del despliegue, he creado un script bastante sencillo que ejecuta los pasos que he descrito anteriormente:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="">#!/bin/sh
+</span><span style=""></span>
+
+<span style="font-style:italic"># Primero generamos el html</span>
+
+hugo -D
+
+<span style="font-style:italic">#Primero subimos los cambios hechos a nuestro repositorio principal (el contenido de public está añadido a .gitignore):</span>
+
+git add .
+git commit -am <span style="font-style:italic">&#34;Cambios&#34;</span>
+git push
+
+<span style="font-style:italic">#Una vez subido, copiamos los archivos generados de public a nuestro repositorio secundario:</span>
+
+cp -R public/* ../mipaginahtml
+
+<span style="font-style:italic">#Ahora nos movemos a ese directorio y subimos los cambios a nuestro github</span>
+
+cd ../mipaginahtml
+git add .
+git commit -am <span style="font-style:italic">&#34;Cambios&#34;</span>
+git push
+
+</code></pre></div><p>Este script lo ejecutaremos cada vez que realicemos algún cambio en nuestra web o añadamos algún artículo. A continuación la ejecución del script:</p>
+<p><img src="/images/ejecucionscript.png" alt="ejecucionscript.png"></p>
 
       </div>
 
