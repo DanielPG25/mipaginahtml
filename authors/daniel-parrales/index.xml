@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Daniel Parrales on Sysadblog</title>
+    <link>http://www.sysadblog.com/authors/daniel-parrales/</link>
+    <description>Recent content in Daniel Parrales on Sysadblog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 07 Oct 2021 18:03:08 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Compilación de un paquete escrito en C</title>
+      <link>http://www.sysadblog.com/posts/compilacion/</link>
+      <pubDate>Thu, 07 Oct 2021 18:03:08 +0200</pubDate>
+      
+      <guid>http://www.sysadblog.com/posts/compilacion/</guid>
+      <description>Compilación de un programa en C utilizando un Makefile    Empezamos eligigiendo un paquete basado en C de la librería de paquetes de Debian. En mi caso, he elegido lvm2. Para descargar sus fuentes usamos lo siguiente (previamente hemos creado un directorio en /opt al que hemos llamado lvm):
+mkdir /opt/lvm &amp;amp;&amp;amp; cd /opt/lvm apt source lvm2 Para compilar el paquete hemos de instalar primero las dependencias. Para ello podemos instalar todos los paquetes que aparecen en la línea build-depends del fichero .</description>
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>http://www.sysadblog.com/posts/hugo/</link>
+      <pubDate>Thu, 07 Oct 2021 09:16:53 +0200</pubDate>
+      
+      <guid>http://www.sysadblog.com/posts/hugo/</guid>
+      <description>Generador de páginas estáticas: Hugo    Sobre Hugo    Hugo es un generador de páginas estáticas rápido y moderno escrito en Go. Utiliza las librerías de Go html/template y text/template como base para las plantillas que utiliza. Permite escribir en Markdown, el cual lee al realizar un despliegue, transformándolo en html, lo que nos permite generar páginas estáticas de forma muy sencilla. Instalarlo en Debian es de lo más sencillo, solo hay que usar el siguiente comando:</description>
+    </item>
+    
+  </channel>
+</rss>
