@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Instalación de un servidor DHCP en Debian">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Instalación de un servidor DHCP en Debian"/>
+<meta name="twitter:description" content="Instalación de un servidor DHCP en Debian"/>
+
+    <meta property="og:title" content="Instalación de un servidor DHCP en Debian" />
+<meta property="og:description" content="Instalación de un servidor DHCP en Debian" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.sysadblog.com/posts/dhcp/" />
+<meta property="article:published_time" content="2021-10-08T19:53:50+02:00" />
+<meta property="article:modified_time" content="2021-10-08T19:53:50+02:00" />
+
+
+    <title>
+  Instalación de un servidor DHCP en Debian · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="http://www.sysadblog.com/posts/dhcp/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.sysadblog.com/posts/dhcp/">
+              Instalación de un servidor DHCP en Debian
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-10-08T19:53:50&#43;02:00'>
+                October 8, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              3-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="ejercicio-1-instalación-y-configuración-del-servidor-dhcp-en-linux">
+  Ejercicio 1: Instalación y configuración del servidor dhcp en linux
+  <a class="heading-link" href="#ejercicio-1-instalaci%c3%b3n-y-configuraci%c3%b3n-del-servidor-dhcp-en-linux">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<h2 id="instalación-y-configuración-en-el-servidor">
+  Instalación y configuración en el servidor
+  <a class="heading-link" href="#instalaci%c3%b3n-y-configuraci%c3%b3n-en-el-servidor">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para este ejercicio vamos a instalar y configurar de forma básica un servidor dhcp en linux. El servidor deberá tener la siguiente configuración:</p>
+<ul>
+<li>Rango de direcciones a repartir: 192.168.0.100 - 192.168.0.110</li>
+<li>Máscara de red: 255.255.255.0</li>
+<li>Duración de la concesión: 1 hora</li>
+<li>Puerta de enlace: 192.168.0.1</li>
+<li>Servidores DNS: 8.8.8.8, 8.8.4.4</li>
+</ul>
+<p>Para empezar vamos a descargar el paquete isc-dhcp-server, con el que instalaremos el servidor:</p>
+<p><code>apt install isc-dhcp-server</code></p>
+<p>Una vez instalado, nos iremos al archivo de configuración del servidor, localizado en <em>/etc/dhcp/dhcpd.conf</em>, y añadiremos la siguiente configuración al final del fichero:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">subnet 192.168.0.0 netmask 255.255.255.0 {
+        range 192.168.0.100 192.168.0.110;
+        option subnet-mask 255.255.255.0;
+        option routers 192.168.0.1;
+        option domain-name-servers 8.8.8.8, 8.8.4.4;
+        default-lease-time 3600;
+        max-lease-time 3600;
+}
+</code></pre></div><p>También hay que añadir en el fichero <em>/etc/default/isc-dhcp-server</em> la siguiente línea:</p>
+<p><code>INTERFACESv4=&quot;eth1&quot;</code></p>
+<p>Hay que asegurarse también de que la tarjeta de red que le hemos indicado en la configuración se encuentra dentro del rango de subred que hemos indicado en nuestra configuración:</p>
+<p><img src="/images/ip_servidor.png" alt="ip_servidor.png"></p>
+<p>Ahora ya podemos reiniciar el servicio para que empiece a trabajar con la configuración que le hemos indicado:</p>
+<p><code>systemctl restart isc-dhcp-server</code></p>
+<p>Podemos comprobar que está funcionando con el siguiente comando:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl status isc-dhcp-server
+
+● isc-dhcp-server.service - LSB: DHCP server
+     Loaded: loaded (/etc/init.d/isc-dhcp-server; generated)
+     Active: active (running) since Fri 2021-10-08 17:25:24 UTC; 33s ago
+       Docs: man:systemd-sysv-generator(8)
+    Process: 762 ExecStart=/etc/init.d/isc-dhcp-server start (code=exited, status=0/SUCCESS)
+      Tasks: 4 (limit: 528)
+     Memory: 4.8M
+        CPU: 31ms
+     CGroup: /system.slice/isc-dhcp-server.service
+             └─777 /usr/sbin/dhcpd -4 -q -cf /etc/dhcp/dhcpd.conf eth1
+
+Oct 08 17:25:22 Router systemd[1]: Starting LSB: DHCP server...
+Oct 08 17:25:22 Router isc-dhcp-server[762]: Launching IPv4 server only.
+Oct 08 17:25:22 Router dhcpd[777]: Wrote 0 leases to leases file.
+Oct 08 17:25:22 Router dhcpd[777]: Server starting service.
+Oct 08 17:25:24 Router isc-dhcp-server[762]: Starting ISC DHCPv4 server: dhcpd.
+Oct 08 17:25:24 Router systemd[1]: Started LSB: DHCP server.
+Oct 08 17:25:33 Router dhcpd[777]: DHCPDISCOVER from 52:54:00:a1:3c:04 via eth1
+Oct 08 17:25:34 Router dhcpd[777]: DHCPOFFER on 192.168.0.100 to 52:54:00:a1:3c:04 (Cliente) via eth1
+Oct 08 17:25:34 Router dhcpd[777]: DHCPREQUEST for 192.168.0.100 (192.168.0.1) from 52:54:00:a1:3c:04 (Cliente) via eth1
+Oct 08 17:25:34 Router dhcpd[777]: DHCPACK on 192.168.0.100 to 52:54:00:a1:3c:04 (Cliente) via eth1
+</code></pre></div><p>Con esto ya tenemos configurado el servidor.</p>
+<h2 id="configuración-en-el-cliente">
+  Configuración en el cliente
+  <a class="heading-link" href="#configuraci%c3%b3n-en-el-cliente">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>En el lado del cliente, la única configuración que debemos cambiar es en <em>/etc/network/interfaces</em>. En mi caso, quedó así:</p>
+<p><img src="/images/conf_cliente.png" alt="conf_cliente.png"></p>
+<p>Ahora solo debemos ejecutar el siguiente comando:</p>
+<p><code>dhclient eth1</code></p>
+<p>Con esto, el cliente solicitará al servidor que hemos configurado antes una ip y la información que esté configurado para transmitir. Tras la ejecución del comando anterior, mi tarjeta de red quedó configurada de la siguiente forma:</p>
+<p><img src="/images/ip_cliente.png" alt="ip_cliente.png"></p>
+<h2 id="comprobaciones">
+  Comprobaciones
+  <a class="heading-link" href="#comprobaciones">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Como podemos ver, ha recibido una ip del rango especificado anteriormente. Ahora veamos si ha recibido el resto de la configuración. Para ello nos iremos al fichero <em>/var/lib/dhcp/dhclient.eth1.leases</em>, en el que nos encontramos lo siguiente:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">lease {
+  interface &#34;eth1&#34;;
+  fixed-address 192.168.0.100;
+  option subnet-mask 255.255.255.0;
+  option routers 192.168.0.1;
+  option dhcp-lease-time 3600;
+  option dhcp-message-type 5;
+  option domain-name-servers 8.8.8.8,8.8.4.4;
+  option dhcp-server-identifier 192.168.0.1;
+  renew 5 2021/10/08 18:04:27;
+  rebind 5 2021/10/08 18:27:51;
+  expire 5 2021/10/08 18:35:21;
+}
+</code></pre></div><p>Como podemos ver, ha recibido toda la configuración que especificamos antes.</p>
+<p>También podemos comprobar en el lado del servidor la lista de concesiones del servidor. Esto se encuentra en el fichero <em>/var/lib/dhcp/dhcpd.leases</em>. En este fichero encontramos lo siguiente:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">lease 192.168.0.100 {
+  starts 5 2021/10/08 17:35:21;
+  ends 5 2021/10/08 18:35:21;
+  cltt 5 2021/10/08 17:35:21;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 52:54:00:a1:3c:04;
+  uid &#34;\377\000\241&lt;\004\000\001\000\001(\362\366\036RT\000\241&lt;\004&#34;;
+  client-hostname &#34;Cliente&#34;;
+}
+</code></pre></div><p>Se puede observar que la información sobre las horas coincide perfectamente con la parte del cliente.</p>
+<p>Con esto hemos acabado de configurar el servidor y hemos comprobado que funciona perfectamente.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
