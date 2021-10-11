@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 11 Oct 2021 16:26:50 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Oct 2021 19:32:07 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>http://www.sysadblog.com/posts/metasploitable3/</link>
+      <pubDate>Mon, 11 Oct 2021 19:32:07 +0200</pubDate>
+      
+      <guid>http://www.sysadblog.com/posts/metasploitable3/</guid>
+      <description>Tomar el control de la máquina Ubuntu de Metasploitable3 a través de un ataque de fuerza bruta por SSH    En esta parte vamos a utilizar una máquina con sistema operativo Kali Linux para tomar el control de una máquina Ubuntu creada a través de “Metasploitable3”, por lo que ha sido creada con multitud de vulnerabilidades que podremos aprovechar. En este caso en concreto, he optado por usar un ataque de fuerza bruta para conectarme por ssh a la máquina y una vez dentro escalar privilegios para convertirme en root, obteniendo así el control total de la máquina.</description>
+    </item>
+    
     <item>
       <title>Ejercicios para trabajar con el almacenamiento en libvirt</title>
       <link>http://www.sysadblog.com/posts/almacemientolibvirt/</link>

