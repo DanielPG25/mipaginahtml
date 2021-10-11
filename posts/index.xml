@@ -36,5 +36,15 @@ mkdir /opt/lvm &amp;amp;&amp;amp; cd /opt/lvm apt source lvm2 Para compilar el p
       <description>Generador de páginas estáticas: Hugo    Sobre Hugo    Hugo es un generador de páginas estáticas rápido y moderno escrito en Go. Utiliza las librerías de Go html/template y text/template como base para las plantillas que utiliza. Permite escribir en Markdown, el cual lee al realizar un despliegue, transformándolo en html, lo que nos permite generar páginas estáticas de forma muy sencilla. Instalarlo en Debian es de lo más sencillo, solo hay que usar el siguiente comando:</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>http://www.sysadblog.com/posts/almacemientolibvirt/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.sysadblog.com/posts/almacemientolibvirt/</guid>
+      <description>Ejercicios para trabajar con el almacenamiento en libvirt    Crea un nuevo pool de almacenamiento de tipo lvm, y crea un volumen de 3Gi dentro que sea una volumen lógico. Con virt-install instala una máquina que se llame original_tunombre cuyo disco sea el volumen creado.    Lo primero es crear un fichero .xml que defina el pool de almacenamiento que vamos a crear:
+&amp;lt;pool type=&amp;#39;logical&amp;#39;&amp;gt; &amp;lt;name&amp;gt;lvm-pool&amp;lt;/name&amp;gt; &amp;lt;capacity unit=&amp;#39;bytes&amp;#39;&amp;gt;5368709120&amp;lt;/capacity&amp;gt; &amp;lt;source&amp;gt; &amp;lt;name&amp;gt;vg1&amp;lt;/name&amp;gt; &amp;lt;/source&amp;gt; &amp;lt;target&amp;gt; &amp;lt;path&amp;gt;/home/dparrales/Descargas/pool-lvm&amp;lt;/path&amp;gt; &amp;lt;permissions&amp;gt; &amp;lt;mode&amp;gt;0711&amp;lt;/mode&amp;gt; &amp;lt;owner&amp;gt;0&amp;lt;/owner&amp;gt; &amp;lt;group&amp;gt;0&amp;lt;/group&amp;gt; &amp;lt;/permissions&amp;gt; &amp;lt;/target&amp;gt; &amp;lt;/pool&amp;gt; Después definimos el pool de almacenamiento y lo iniciamos:</description>
+    </item>
+    
   </channel>
 </rss>
