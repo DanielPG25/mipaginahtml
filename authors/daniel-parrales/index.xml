@@ -6,7 +6,16 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 11 Oct 2021 19:32:07 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 14 Oct 2021 20:32:54 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Práctica de configuración de un servidor DHCP manualmente y con ansible</title>
+      <link>http://www.sysadblog.com/posts/practicadhcp/</link>
+      <pubDate>Thu, 14 Oct 2021 20:32:54 +0200</pubDate>
+      
+      <guid>http://www.sysadblog.com/posts/practicadhcp/</guid>
+      <description>Práctica DHCP    Escenario    Preparación del escenario Crea un escenario en libvirt/kvm (no uses Vagrant) de la siguiente manera: Máquina Servidor: Tiene tres tarjetas de red: una que le da acceso a internet (NAT o pública) y dos redes privadas (muy aisladas). Máquina nodo_lan1: Un cliente linux conectado a la primera red privada. Máquina nodo_lan2: Un cliente linux conectado a la segunda red privada. Servidor dhcp Instala un servidor dhcp en el ordenador “servidor” que de servicio a los ordenadores de red local, teniendo en cuenta: Por la red privada 1: Reparte configuración en la red 192.</description>
+    </item>
+    
     <item>
       <title>Tomar el control de Metasploitable3</title>
       <link>http://www.sysadblog.com/posts/metasploitable3/</link>
