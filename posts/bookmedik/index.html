@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Instalación de BookMedik y acceso usando LAMP">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Instalación de BookMedik y acceso usando LAMP"/>
+<meta name="twitter:description" content="Instalación de BookMedik y acceso usando LAMP"/>
+
+    <meta property="og:title" content="Instalación de BookMedik y acceso usando LAMP" />
+<meta property="og:description" content="Instalación de BookMedik y acceso usando LAMP" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.sysadblog.com/posts/bookmedik/" />
+<meta property="article:published_time" content="2021-10-16T20:11:36+02:00" />
+<meta property="article:modified_time" content="2021-10-16T20:11:36+02:00" />
+
+
+    <title>
+  Instalación de BookMedik y acceso usando LAMP · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="http://www.sysadblog.com/posts/bookmedik/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.sysadblog.com/posts/bookmedik/">
+              Instalación de BookMedik y acceso usando LAMP
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-10-16T20:11:36&#43;02:00'>
+                October 16, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="instalación-de-la-aplicación-bookmedik">
+  Instalación de la aplicación BookMedik
+  <a class="heading-link" href="#instalaci%c3%b3n-de-la-aplicaci%c3%b3n-bookmedik">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Vamos a instala la aplicación BookMedik, un sistema para llevar el control de citas medicas, pacientes, médicos, historiales e citas, áreas medicas y mucho mas, pensado para centros médicos, clínicas y médicos independientes. Puedes encontrar la aplicación en <a href="https://github.com/evilnapsis/bookmedik">https://github.com/evilnapsis/bookmedik</a>.</p>
+<p>Para realizar la instalación sigue los siguientes pasos:</p>
+<h2 id="crea-la-base-de-datos-y-las-tablas-necesarias-recuperando-la-copia-de-seguridad-e-la-base-de-datos-que-encuentras-en-el-fichero-schemasql-se-creará-una-base-de-datos-llamada-bookmedik-crea-un-usuario-que-tenga-privilegios-sobre-dicha-base-de-datos">
+  Crea la base de datos y las tablas necesarias recuperando la copia de seguridad e la base de datos que encuentras en el fichero schema.sql. Se creará una base de datos llamada bookmedik crea un usuario que tenga privilegios sobre dicha base de datos.
+  <a class="heading-link" href="#crea-la-base-de-datos-y-las-tablas-necesarias-recuperando-la-copia-de-seguridad-e-la-base-de-datos-que-encuentras-en-el-fichero-schemasql-se-crear%c3%a1-una-base-de-datos-llamada-bookmedik-crea-un-usuario-que-tenga-privilegios-sobre-dicha-base-de-datos">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Partimos de que tenemos instalado un servidor LAMP en nuestra máquina. Así pues, lo primero es entrar como root en mariadb, crear la base la base de datos y poblarla usando los datos que encontramos en ek fichero <em>schema.sql</em>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u root -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 30
+Server version: 10.5.12-MariaDB-0+deb11u1 Debian 11
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+MariaDB [(none)]&gt; create database bookmedik;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]&gt; use bookmedik; 
+Database changed
+MariaDB [bookmedik]&gt; set sql_mode=&#39;&#39;;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [bookmedik]&gt; create table user (
+    -&gt; id int not null auto_increment primary key,
+    -&gt; username varchar(50),
+    -&gt; name varchar(50),
+    -&gt; lastname varchar(50),
+    -&gt; email varchar(255),
+    -&gt; password varchar(60),
+    -&gt; is_active boolean not null default 1,
+    -&gt; is_admin boolean not null default 0,
+    -&gt; created_at datetime
+    -&gt; );
+Query OK, 0 rows affected (0.038 sec)
+
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; insert into user (username,password,is_admin,is_active,created_at) value (&#34;admin&#34;,sha1(md5(&#34;admin&#34;)),1,1,NOW());
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; create table pacient (
+    -&gt; id int not null auto_increment primary key,
+    -&gt; no varchar(50),
+    -&gt; name varchar(50),
+    -&gt; lastname varchar(50),
+    -&gt; gender varchar(1),
+    -&gt; day_of_birth date,
+    -&gt; email varchar(255),
+    -&gt; address varchar(255),
+    -&gt; phone varchar(255),
+    -&gt; image varchar(255),
+    -&gt; sick varchar(500),
+    -&gt; medicaments varchar(500),
+    -&gt; alergy varchar(500),
+    -&gt; is_favorite boolean not null default 1,
+    -&gt; is_active boolean not null default 1,
+    -&gt; created_at datetime
+    -&gt; );
+Query OK, 0 rows affected (0.015 sec)
+
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; create table category (
+    -&gt; id int not null auto_increment primary key,
+    -&gt; name varchar(200)
+    -&gt; );
+Query OK, 0 rows affected (0.015 sec)
+
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; insert into category (name) value (&#34;Modulo 1&#34;);
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; create table medic (
+    -&gt; id int not null auto_increment primary key,
+    -&gt; no varchar(50),
+    -&gt; name varchar(50),
+    -&gt; lastname varchar(50),
+    -&gt; gender varchar(1),
+    -&gt; day_of_birth date,
+    -&gt; email varchar(255),
+    -&gt; address varchar(255),
+    -&gt; phone varchar(255),
+    -&gt; image varchar(255),
+    -&gt; is_active boolean not null default 1,
+    -&gt; created_at datetime,
+    -&gt; category_id int,
+    -&gt; foreign key (category_id) references category(id)
+    -&gt; );
+Query OK, 0 rows affected (0.014 sec)
+
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; create table status (
+    -&gt; id int not null auto_increment primary key,
+    -&gt; name varchar(100)
+    -&gt; );
+Query OK, 0 rows affected (0.015 sec)
+
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; insert into status (id,name) values (1,&#34;Pendiente&#34;), (2,&#34;Aplicada&#34;),(3,&#34;No asistio&#34;),(4,&#34;Cancelada&#34;);
+Query OK, 4 rows affected (0.004 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; create table payment (
+    -&gt; id int not null auto_increment primary key,
+    -&gt; name varchar(100)
+    -&gt; );
+Query OK, 0 rows affected (0.036 sec)
+
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; insert into payment (id,name) values  (1,&#34;Pendiente&#34;),(2,&#34;Pagado&#34;),(3,&#34;Anulado&#34;);
+Query OK, 3 rows affected (0.005 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [bookmedik]&gt; 
+MariaDB [bookmedik]&gt; create table reservation(
+    -&gt; id int not null auto_increment primary key,
+    -&gt; title varchar(100),
+    -&gt; note text,
+    -&gt; message text,
+    -&gt; date_at varchar(50),
+    -&gt; time_at varchar(50),
+    -&gt; created_at datetime,
+    -&gt; pacient_id int,
+    -&gt; symtoms text,
+    -&gt; sick text,
+    -&gt; medicaments text,
+    -&gt; user_id int,
+    -&gt; medic_id int,
+    -&gt; price double,
+    -&gt; is_web boolean not null default 0,
+    -&gt; payment_id int not null default 1,
+    -&gt; foreign key (payment_id) references payment(id),
+    -&gt; status_id int not null default 1,
+    -&gt; foreign key (status_id) references status(id),
+    -&gt; foreign key (user_id) references user(id),
+    -&gt; foreign key (pacient_id) references pacient(id),
+    -&gt; foreign key (medic_id) references medic(id)
+    -&gt; );
+Query OK, 0 rows affected (0.067 sec)
+
+</code></pre></div><p>Una vez hecho esto, creamos un usuario y le damos acceso a la base de datos que hemos creado:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">grant all on bookmedik.* to &#39;medik&#39;@&#39;%&#39; identified by &#39;******&#39; with grant option;
+</code></pre></div><p>Con esto hemos acabado la primera parte.</p>
+<h2 id="crea-un-virtualhost-con-el-que-accederas-con-el-nombre-bookmediktunombreorg-copia-en-el-documentroot-los-ficheros-de-la-aplicación">
+  Crea un virtualhost con el que accederas con el nombre bookmedik.tunombre.org. Copia en el DocumentRoot los ficheros de la aplicación.
+  <a class="heading-link" href="#crea-un-virtualhost-con-el-que-accederas-con-el-nombre-bookmediktunombreorg-copia-en-el-documentroot-los-ficheros-de-la-aplicaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Empecemos por crear el virtualhost. Para ello vamos a copiar los datos del fichero <em>/etc/apache2/sites-available/000-default.conf</em> en otro fichero en la misma carpeta al que llamaremos <em>medik.conf</em>:</p>
+<p><code>cat /etc/apache2/sites-available/000-default.conf &gt; /etc/apache2/sites-available/medik.conf</code></p>
+<p>Ahora vamos a modificar ese nuevo fichero para adaptarlo a nuestro escenario:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
+
+        ServerName bookmedik.dparrales.org
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/bookmedik
+        ErrorLog ${APACHE_LOG_DIR}/bookmedik.error.log
+        CustomLog ${APACHE_LOG_DIR}/bookmedik.access.log combined
+
+&lt;/VirtualHost&gt;
+</code></pre></div><p>Ahora clonaremos el repositorio en el directorio que hemos indicado en el DocumentRoot:</p>
+<p><code>root@servidormariadb:/var/www# git clonehttps://github.com/evilnapsis/bookmedik.git</code></p>
+<h2 id="vamos-a-configurar-el-acceso-a-la-base-de-datos-desde-la-aplicación">
+  Vamos a configurar el acceso a la base de datos desde la aplicación.
+  <a class="heading-link" href="#vamos-a-configurar-el-acceso-a-la-base-de-datos-desde-la-aplicaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Tenemos que cambiar el fichero <em>core/controller/Database.php</em> que se encuentra dentro del directorio clonado. Lo rellenaremos con los datos del usuario que creamos en el primer paso:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;?php
+class Database {
+        public static $db;
+        public static $con;
+        function Database(){
+                $this-&gt;user=&#34;medik&#34;;$this-&gt;pass=&#34;******&#34;;$this-&gt;host=&#34;localhost&#34;;$this-&gt;ddbb=&#34;bookmedik&#34;;
+        }
+
+        function connect(){
+                $con = new mysqli($this-&gt;host,$this-&gt;user,$this-&gt;pass,$this-&gt;ddbb);
+                $con-&gt;query(&#34;set sql_mode=&#39;&#39;&#34;);
+                return $con;
+        }
+
+        public static function getCon(){
+                if(self::$con==null &amp;&amp; self::$db==null){
+                        self::$db = new Database();
+                        self::$con = self::$db-&gt;connect();
+                }
+                return self::$con;
+        }
+
+}
+?&gt;
+</code></pre></div><p>Ahora tenemos que habilitar el virtualhost que creamos antes y reiniciar el servicio:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite medik.conf
+
+systemctl reload apache2
+</code></pre></div><p>Una vez hecho esto, añadimos la siguiente línea al fichero <em>/etc/hosts</em> de la máquina con la que accederemos a la base de datos:</p>
+<p><code>192.168.122.201 bookmedik.dparrales.org</code></p>
+<h2 id="accedemos-al-virtualhost">
+  Accedemos al virtualhost:
+  <a class="heading-link" href="#accedemos-al-virtualhost">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para ello usamos la url que hemos añadido antes al DocumentRoot:</p>
+<p><img src="/images/bookmedik/login.png" alt="login.png"></p>
+<p>Las credenciales por defecto son <em>admin</em>/<em>admin</em></p>
+<p><img src="/images/bookmedik/acceso.png" alt="acceso.png"></p>
+<p>Con esto ya habríamos acabado de instalar <em>bookmedik</em></p>
+<h2 id="extra-como-parte-del-ejercicio-se-nos-pide-cambiar-la-memoria-máxima-de-uso-de-un-script-php-parámetro-memory_limit-a-256mb">
+  Extra: Como parte del ejercicio se nos pide cambiar la memoria máxima de uso de un script PHP (parámetro memory_limit) a 256Mb.
+  <a class="heading-link" href="#extra-como-parte-del-ejercicio-se-nos-pide-cambiar-la-memoria-m%c3%a1xima-de-uso-de-un-script-php-par%c3%a1metro-memory_limit-a-256mb">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para ello nos dirigimos al fichero <em>/etc/php/7.4/apache2/php.ini</em> y cambiamos el parámetro <em>memory_limit</em> a 256:</p>
+<p><img src="/images/bookmedik/memory.png" alt="memory.png"></p>
+<p>Podemos comprobar que ha funcionado, crearemos un fichero en el DocumentRoot al que llamaremos <em>info.php</em> y le añadiremos la siguiente línea:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;?php phpinfo(); ?&gt;
+</code></pre></div><p>Recargamos el servicio y accedemos a la ip del servidor junto con el nombre del fichero que hemos creado (<em>info.php</em>):</p>
+<p><code>systemctl reload apache2</code></p>
+<p><img src="/images/bookmedik/infophp.png" alt="infophp.png"></p>
+<p>Como podemos ver, el parámetro sobre la memoria máxima ha sido modificado de forma satisfactoria.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

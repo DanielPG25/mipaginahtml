@@ -6,7 +6,18 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 16 Oct 2021 17:04:04 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Oct 2021 20:11:36 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación de BookMedik y acceso usando LAMP</title>
+      <link>http://www.sysadblog.com/posts/bookmedik/</link>
+      <pubDate>Sat, 16 Oct 2021 20:11:36 +0200</pubDate>
+      
+      <guid>http://www.sysadblog.com/posts/bookmedik/</guid>
+      <description>Instalación de la aplicación BookMedik    Vamos a instala la aplicación BookMedik, un sistema para llevar el control de citas medicas, pacientes, médicos, historiales e citas, áreas medicas y mucho mas, pensado para centros médicos, clínicas y médicos independientes. Puedes encontrar la aplicación en https://github.com/evilnapsis/bookmedik.
+Para realizar la instalación sigue los siguientes pasos:
+Crea la base de datos y las tablas necesarias recuperando la copia de seguridad e la base de datos que encuentras en el fichero schema.</description>
+    </item>
+    
     <item>
       <title>Instalación de phpmyadmin usando un virtualhost</title>
       <link>http://www.sysadblog.com/posts/phpmyadmin/</link>
