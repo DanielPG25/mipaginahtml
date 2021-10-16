@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Vamos a instalar phpmyadmin desde los repositorios y vamos a acceder a través de un virtualhost">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Instalación de phpmyadmin usando un virtualhost"/>
+<meta name="twitter:description" content="Vamos a instalar phpmyadmin desde los repositorios y vamos a acceder a través de un virtualhost"/>
+
+    <meta property="og:title" content="Instalación de phpmyadmin usando un virtualhost" />
+<meta property="og:description" content="Vamos a instalar phpmyadmin desde los repositorios y vamos a acceder a través de un virtualhost" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.sysadblog.com/posts/phpmyadmin/" />
+<meta property="article:published_time" content="2021-10-16T17:04:04+02:00" />
+<meta property="article:modified_time" content="2021-10-16T17:04:04+02:00" />
+
+
+    <title>
+  Instalación de phpmyadmin usando un virtualhost · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="http://www.sysadblog.com/posts/phpmyadmin/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.sysadblog.com/posts/phpmyadmin/">
+              Instalación de phpmyadmin usando un virtualhost
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-10-16T17:04:04&#43;02:00'>
+                October 16, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              4-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="instalación-de-phpmyadmin">
+  Instalación de phpmyadmin
+  <a class="heading-link" href="#instalaci%c3%b3n-de-phpmyadmin">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p><em>phpmyadmin</em> es una aplicación web escrita en PHP que nos posibilita la gestión de una base de datos mysql/mariadb.</p>
+<p>Normalmente vamos a instalar las aplicaciones web descargando directamente el código de la aplicación al servidor, pero en este ejercicio vamos a instalar la aplicación desde los repositorios de Debian (para este ejercicio previamente hemos instalado un servidor LAMP en nuestra máquina).</p>
+<p>Realizaremos los siguientes pasos:</p>
+<h2 id="accede-desde-el-terminal-a-la-base-de-datos-con-el-root-con-contraseña-y-crea-una-base-de-datos-y-un-usuario-que-tenga-permiso-sobre-ella">
+  Accede desde el terminal a la base de datos con el <code>root</code> (con contraseña) y crea una base de datos y un usuario que tenga permiso sobre ella.
+  <a class="heading-link" href="#accede-desde-el-terminal-a-la-base-de-datos-con-el-root-con-contrase%c3%b1a-y-crea-una-base-de-datos-y-un-usuario-que-tenga-permiso-sobre-ella">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Vamos a suponer que hemos instalado el paquete de mariadb y hemos securizado la base de datos ejecutando la base de datos ejecutando <code>mysql_secure_installation </code>.</p>
+<p>Vamos a entrar como root:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u root -p
+
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 31
+Server version: 10.5.12-MariaDB-0+deb11u1 Debian 11
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+MariaDB [(none)]&gt;
+</code></pre></div><p>Y creamos una base de datos y un usuario con permisos sobre ella:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">MariaDB [(none)]&gt; create database prueba;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]&gt; grant all on prueba.* to &#39;dparrales&#39;@&#39;%&#39; identified by &#39;*******&#39; with grant option;
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [(none)]&gt;
+</code></pre></div><h2 id="instala-desde-los-repositorios-la-aplicación-phpmyadmin-accede-al-servidor-al-directorio-phpmyadmin-y-comprueba-que-tienes-acceso">
+  Instala desde los repositorios la aplicación phpmyadmin. Accede al servidor, al directorio phpmyadmin y comprueba que tienes acceso.
+  <a class="heading-link" href="#instala-desde-los-repositorios-la-aplicaci%c3%b3n-phpmyadmin-accede-al-servidor-al-directorio-phpmyadmin-y-comprueba-que-tienes-acceso">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para instalar <em>phpmyadmin</em> desde los repositorios de debian usamos el siguiente comando:</p>
+<p><code>apt install phpmyadmin</code></p>
+<p>Cuando nos pregunte que servidor web queremos configurar, seleccionamos <em>apache2</em> (en nuestro caso). Como ya tenemos una base de datos creada, seleccionamos que no queremos que nos cree una.</p>
+<p>Una vez haya terminado la instalación, accedemos a la url de nuestro servidor e intentamos entrar en la directorio <em>phpmyadmin</em>:</p>
+<p><img src="/images/phpmyadmin/acceso.png" alt="acceso.png"></p>
+<p>Como podemos ver tenemos acceso al directorio <em>phpmyadmin</em>.</p>
+<h2 id="se-ha-creado-en-el-documentroot-un-directorio-que-se-llama-phpmyadmin-entonces-cómo-podemos-acceder">
+  ¿Se ha creado en el DocumentRoot un directorio que se llama phpmyadmin? Entonces, ¿cómo podemos acceder?
+  <a class="heading-link" href="#se-ha-creado-en-el-documentroot-un-directorio-que-se-llama-phpmyadmin-entonces-c%c3%b3mo-podemos-acceder">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Veamos el DocumentRoot (<em>/var/www/html</em>):</p>
+<p><img src="/images/phpmyadmin/documentroot.png" alt="documentroot.png"></p>
+<p>Como podemos ver, no se ha creado ningún directorio llamado <em>phpmyadmin</em>. La razón por la que podemos acceder es debido a que al instalar <em>phpmyadmin</em>, ha creado un fichero en el directorio <em>/etc/apache2/conf-available</em> llamado <em>phpmyadmin.conf</em>. En este fichero encontramos lo siguiente:</p>
+<p><img src="/images/phpmyadmin/alias.png" alt="alias.png"></p>
+<p>La línea donde pone &ldquo;Alias&rdquo; lo que hace es crear un enlace simbólico, por lo que realmente la aplicación se encuentra en el directorio <em>/usr/share/phpmyadmin</em>.</p>
+<h2 id="quita-la-configuración-de-acceso-a-phpmyadmin-y-comprueba-que-ya-no-puedes-acceder-a-continuación-crea-un-virtualhost-al-que-hay-que-acceder-con-el-nombre-basededatostunombreorg-y-que-nos-muestre-la-aplicación">
+  Quita la configuración de acceso a phpmyadmin y comprueba que ya no puedes acceder. A continuación crea un virtualhost, al que hay que acceder con el nombre basededatos.tunombre.org, y que nos muestre la aplicación.
+  <a class="heading-link" href="#quita-la-configuraci%c3%b3n-de-acceso-a-phpmyadmin-y-comprueba-que-ya-no-puedes-acceder-a-continuaci%c3%b3n-crea-un-virtualhost-al-que-hay-que-acceder-con-el-nombre-basededatostunombreorg-y-que-nos-muestre-la-aplicaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p><strong>Nota</strong>: En la configuración del virtualhost copia las 3 directivas directory que se encuentran en el fichero /etc/apache2/conf-available/myphpadmin.conf.</p>
+<p>Para quitar la configuración de acceso a <em>phpmyadmin</em> basta con comentar la línea de alias y reiniciar el servicio <em>apache2</em>:</p>
+<p><img src="/images/phpmyadmin/comentar.png" alt="comentar.png"></p>
+<p>Al hacer esto perdemos el acceso al directorio <em>phpmyadmin</em>:</p>
+<p><img src="/images/phpmyadmin/noacceso.png" alt="noacceso.png"></p>
+<p>Ahora crearemos un virtualhost para tener acceso a través de él a <em>phpmyadmin</em>. Lo primero será ir al directorio <em>/etc/apache2/sites-available</em> y copiar el contenido del fichero <em>000-default.conf</em> a otro fichero que he llamado <em>phpmyadmin-daniel.conf</em>:</p>
+<p><code>cat 000-default.conf &gt; phpmyadmin-daniel.conf</code></p>
+<p>Ya podemos modificar el nuevo fichero para adaptarlo a nuestras necesidades. En mi caso he dejado el fichero así:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
+
+        ServerName basededatos.dparrales.org
+        ServerAdmin webmaster@localhost
+        DocumentRoot /usr/share/phpmyadmin
+
+
+        ErrorLog ${APACHE_LOG_DIR}/dparrales_error.log
+        CustomLog ${APACHE_LOG_DIR}/dparrales_access.log combined
+
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+
+#Alias /phpmyadmin /usr/share/phpmyadmin
+
+&lt;Directory /usr/share/phpmyadmin&gt;
+    Options SymLinksIfOwnerMatch
+    DirectoryIndex index.php
+
+    &lt;IfModule mod_php7.c&gt;
+        php_admin_value upload_tmp_dir /var/lib/phpmyadmin/tmp
+        php_admin_value open_basedir /usr/share/phpmyadmin/:/usr/share/doc/phpmyadmin/:/etc/phpmyadmin/:/var/lib/phpmyadmin/:/usr/share/php/:/usr/share/javascript/
+    &lt;/IfModule&gt;
+
+&lt;/Directory&gt;
+&lt;Directory /usr/share/phpmyadmin/templates&gt;
+    Require all denied
+&lt;/Directory&gt;
+&lt;Directory /usr/share/phpmyadmin/libraries&gt;
+    Require all denied
+&lt;/Directory&gt;
+
+&lt;/VirtualHost&gt;
+</code></pre></div><p>Ahora activamos el virtualhost:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite phpmyadmin-daniel.conf 
+
+systemctl reload apache2
+</code></pre></div><p>Ya solo queda añadir la siguiente línea al fichero <em>/etc/hosts</em> de la máquina con la que vayamos a acceder a <em>phpmyadmin</em>:</p>
+<p><code>192.168.122.201 basededatos.dparrales.org</code></p>
+<h2 id="accede-a-phpmyadmin-y-comprueba-que-puede-acceder-con-el-usuario-que-creaste-en-el-punto-1-y-que-puede-gestionar-su-base-de-datos">
+  Accede a phpmyadmin y comprueba que puede acceder con el usuario que creaste en el punto 1 y que puede gestionar su base de datos.
+  <a class="heading-link" href="#accede-a-phpmyadmin-y-comprueba-que-puede-acceder-con-el-usuario-que-creaste-en-el-punto-1-y-que-puede-gestionar-su-base-de-datos">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Antes de acceder</p>
+<p>Vamos a acceder ahora a <em>phpmyadmin</em> a través de la url que le hemos asignado antes al <em>virtualhost</em>:</p>
+<p><img src="/images/phpmyadmin/acceso2.png" alt="acceso2.png"></p>
+<p>Solo queda comprobar si tenemos acceso a la base de datos con el usuario que creamos al principio del ejercicio:</p>
+<p><img src="/images/phpmyadmin/comprobacion.png" alt="comprobacion.png"></p>
+<p>Y con esto hemos completado el ejercicio con éxito.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
