@@ -6,7 +6,18 @@
     <description>Recent content on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 16 Oct 2021 20:11:36 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 21 Oct 2021 18:27:53 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mapear URL a ubicaciones de un sistema de ficheros con Apache2</title>
+      <link>http://www.sysadblog.com/posts/mapearurl/</link>
+      <pubDate>Thu, 21 Oct 2021 18:27:53 +0200</pubDate>
+      
+      <guid>http://www.sysadblog.com/posts/mapearurl/</guid>
+      <description>Mapear URL a ubicaciones de un sistema de ficheros    Base: Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.
+En este ejercicio cumpliremos los siguientes objetivos:
+ Cuando se entre a la dirección www.mapeo.com se redireccionará automáticamente a www.mapeo.com/principal, donde se mostrará el mensaje de bienvenida. En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido.</description>
+    </item>
+    
     <item>
       <title>Instalación de BookMedik y acceso usando LAMP</title>
       <link>http://www.sysadblog.com/posts/bookmedik/</link>

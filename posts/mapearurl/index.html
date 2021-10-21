@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Mapear URL a ubicaciones de un sistema de ficheros con Apache2">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mapear URL a ubicaciones de un sistema de ficheros con Apache2"/>
+<meta name="twitter:description" content="Mapear URL a ubicaciones de un sistema de ficheros con Apache2"/>
+
+    <meta property="og:title" content="Mapear URL a ubicaciones de un sistema de ficheros con Apache2" />
+<meta property="og:description" content="Mapear URL a ubicaciones de un sistema de ficheros con Apache2" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.sysadblog.com/posts/mapearurl/" />
+<meta property="article:published_time" content="2021-10-21T18:27:53+02:00" />
+<meta property="article:modified_time" content="2021-10-21T18:27:53+02:00" />
+
+
+    <title>
+  Mapear URL a ubicaciones de un sistema de ficheros con Apache2 · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="http://www.sysadblog.com/posts/mapearurl/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.sysadblog.com/posts/mapearurl/">
+              Mapear URL a ubicaciones de un sistema de ficheros con Apache2
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-10-21T18:27:53&#43;02:00'>
+                October 21, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              5-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="mapear-url-a-ubicaciones-de-un-sistema-de-ficheros">
+  Mapear URL a ubicaciones de un sistema de ficheros
+  <a class="heading-link" href="#mapear-url-a-ubicaciones-de-un-sistema-de-ficheros">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p><strong>Base:</strong> Crea un nuevo host virtual que es accedido con el nombre <code>www.mapeo.com</code>, cuyo DocumentRoot sea /srv/mapeo.</p>
+<p>En este ejercicio cumpliremos los siguientes objetivos:</p>
+<ul>
+<li>Cuando se entre a la dirección <code>www.mapeo.com</code> se redireccionará automáticamente a <code>www.mapeo.com/principal</code>, donde se mostrará el mensaje de bienvenida.</li>
+<li>En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido. ¿Qué configuración tienes que poner?</li>
+<li>Si accedes a la página <code>www.mapeo.com/principal/documentos</code> se visualizarán los documentos que hay en /home/usuario/doc. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos siempre que el propietario del enlace y del fichero al que apunta sean el mismo usuario.</li>
+<li>En todo el host virtual se debe redefinir los mensajes de error de objeto no encontrado y no permitido. Para el ello se crearan dos ficheros html dentro del directorio error. Entrega las modificaciones necesarias en la configuración y una comprobación del buen funcionamiento.</li>
+</ul>
+<hr>
+<h2 id="cuando-se-entre-a-la-dirección-wwwmapeocom-se-redireccionará-automáticamente-a-wwwmapeocomprincipal-donde-se-mostrará-el-mensaje-de-bienvenida">
+  Cuando se entre a la dirección <code>www.mapeo.com</code> se redireccionará automáticamente a <code>www.mapeo.com/principal</code>, donde se mostrará el mensaje de bienvenida.
+  <a class="heading-link" href="#cuando-se-entre-a-la-direcci%c3%b3n-wwwmapeocom-se-redireccionar%c3%a1-autom%c3%a1ticamente-a-wwwmapeocomprincipal-donde-se-mostrar%c3%a1-el-mensaje-de-bienvenida">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Lo primero será instalar el servidor Apache2 si no lo tenemos ya instalado:</p>
+<p><code>apt install apache2</code></p>
+<p>Una vez instalado entramos en el directorio <code>/etc/apache2/sites-available</code> y creamos allí un nuevo virtualhost. En mi caso he copiado el contenido del virtualhost por defecto para no tener que escribir toda la configuración a mano:</p>
+<p><code>cat 000-default.conf &gt;&gt; mapeo.conf</code></p>
+<p>Una vez creado el fichero, lo modificamos de la siguiente forma:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
+
+        ServerName www.mapeo.com
+        ServerAdmin webmaster@localhost
+        DocumentRoot /srv/mapeo
+        ErrorLog ${APACHE_LOG_DIR}/mapeo_error.log
+        CustomLog ${APACHE_LOG_DIR}/mapeo_access.log combined
+        RedirectMatch &#34;^/$&#34; &#34;/principal&#34;
+
+&lt;/VirtualHost&gt;
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+</code></pre></div><p>También debemos modificar el fichero <code>/etc/apache2/apache2.conf</code>, cambiando o añadiendo la siguiente información:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;Directory /srv/&gt;
+        Options FollowSymLinks
+        AllowOverride None
+        Require all granted
+&lt;/Directory&gt;
+</code></pre></div><p>Ahora debemos habilitar el virtualhost que hemos creado y reiniciar el servicio:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite mapeo.conf
+
+systemctl reload apache2
+</code></pre></div><p>Ya solo tenemos que cambiar el fichero <code>/etc/hosts</code> en la máquina desde la que queremos acceder a la web (cambiaremos la ip según la ip de la máquina servidora). Añadimos entonces la siguiente línea:</p>
+<p><code>192.168.121.156 www.mapeo.com</code></p>
+<p>Con esto, ya podemos acceder desde nuestro navegador a <code>www.mapeo.com</code>, lo que nos redirigirá a <code>www.mapeo.com/principal</code>. Si abrimos la herramienta del desarrollador web podemos ver como funciona la redirección:</p>
+<p><img src="/images/mapearurl/redireccion.png" alt="redireccion.png"></p>
+<h2 id="en-el-directorio-principal-no-se-permite-ver-la-lista-de-los-ficheros-no-se-permite-que-se-siga-los-enlaces-simbólicos-y-no-se-permite-negociación-de-contenido-qué-configuración-tienes-que-poner">
+  En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido. ¿Qué configuración tienes que poner?
+  <a class="heading-link" href="#en-el-directorio-principal-no-se-permite-ver-la-lista-de-los-ficheros-no-se-permite-que-se-siga-los-enlaces-simb%c3%b3licos-y-no-se-permite-negociaci%c3%b3n-de-contenido-qu%c3%a9-configuraci%c3%b3n-tienes-que-poner">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para lograr este objetivo, vamos a tener que modificar el fichero del virtual para eliminar las opciones que se nos piden:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
+
+        ServerName www.mapeo.com
+        ServerAdmin webmaster@localhost
+        DocumentRoot /srv/mapeo
+        ErrorLog ${APACHE_LOG_DIR}/mapeo_error.log
+        CustomLog ${APACHE_LOG_DIR}/mapeo_access.log combined
+        RedirectMatch &#34;^/$&#34; &#34;/principal&#34;
+
+        &lt;Directory /srv/mapeo/principal&gt;
+                Options -Indexes -FollowSymLinks -MultiViews
+        &lt;/Directory&gt;
+
+
+
+&lt;/VirtualHost&gt;
+</code></pre></div><p>Esta configuración estará activa solo para el directorio <em>/srv/mapeo/principal</em> y sus hijos (a no ser que se indique lo contrario). Para probar si la configuración a funcionado vamos a crear un enlace simbólico y vamos a intentar acceder a él. Si la configuración a funcionado, debería salirnos un error 403 (acceso restringido).</p>
+<p>Primero creamos un enlace simbólico a un archivo que he creado:</p>
+<p><code>ln -s /home/vagrant/hola.txt enlacesim</code></p>
+<p>Ahora probemos a entrar desde el navegador:</p>
+<p><img src="/images/mapearurl/enlacesimbolico_no.png" alt="enlacesimbolico_no.png"></p>
+<p>Como vemos, tenemos el acceso restringido debido a la configuración que hemos añadido al virtualhost.</p>
+<h2 id="si-accedes-a-la-página-wwwmapeocomprincipaldocumentos-se-visualizarán-los-documentos-que-hay-en-homeusuariodoc-por-lo-tanto-se-permitirá-el-listado-de-fichero-y-el-seguimiento-de-enlaces-simbólicos-siempre-que-el-propietario-del-enlace-y-del-fichero-al-que-apunta-sean-el-mismo-usuario">
+  Si accedes a la página <code>www.mapeo.com/principal/documentos</code> se visualizarán los documentos que hay en /home/usuario/doc. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos siempre que el propietario del enlace y del fichero al que apunta sean el mismo usuario.
+  <a class="heading-link" href="#si-accedes-a-la-p%c3%a1gina-wwwmapeocomprincipaldocumentos-se-visualizar%c3%a1n-los-documentos-que-hay-en-homeusuariodoc-por-lo-tanto-se-permitir%c3%a1-el-listado-de-fichero-y-el-seguimiento-de-enlaces-simb%c3%b3licos-siempre-que-el-propietario-del-enlace-y-del-fichero-al-que-apunta-sean-el-mismo-usuario">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para lograr este objetivo, debemos modificar dos ficheros:</p>
+<ul>
+<li>Primero modificamos el fichero de nuestro virtualhost, y añadimos las siguientes línea para crear el alias:</li>
+</ul>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Alias &#34;/principal/documentos&#34; &#34;/home/usuario/doc/&#34;
+&lt;Directory /home/usuario/&gt;
+        Options Indexes SymLinksIfOwnerMatch
+        Require all granted
+&lt;/Directory&gt;
+</code></pre></div><p><em>Nota:</em> Antes de todo, hemos de crear el directorio <em>/home/usuario/doc</em> y añadir algunos ficheros.</p>
+<p>Ahora reiniciamos el servicio y ya podríamos acceder:</p>
+<p><code>systemctl reload apache2</code></p>
+<p>Antes de acceder, comprobemos lo que hay en el directorio <em>/home/usuario/doc</em>:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l /home/usuario/doc/
+total 0
+-rw-r--r-- 1 root root 0 Oct 20 17:00 1.txt
+-rw-r--r-- 1 root root 0 Oct 20 17:00 2.txt
+-rw-r--r-- 1 root root 0 Oct 20 17:00 3.txt
+</code></pre></div><p>Vamos a ver lo que nos muestra la página:</p>
+<p><img src="/images/mapearurl/principal_documentos.png" alt="principal_documentos.png"></p>
+<p>Como podemos ver, el alias ha funcionado correctamente.</p>
+<h2 id="en-todo-el-host-virtual-se-debe-redefinir-los-mensajes-de-error-de-objeto-no-encontrado-y-no-permitido-para-el-ello-se-crearan-dos-ficheros-html-dentro-del-directorio-error-entrega-las-modificaciones-necesarias-en-la-configuración-y-una-comprobación-del-buen-funcionamiento">
+  En todo el host virtual se debe redefinir los mensajes de error de objeto no encontrado y no permitido. Para el ello se crearan dos ficheros html dentro del directorio error. Entrega las modificaciones necesarias en la configuración y una comprobación del buen funcionamiento.
+  <a class="heading-link" href="#en-todo-el-host-virtual-se-debe-redefinir-los-mensajes-de-error-de-objeto-no-encontrado-y-no-permitido-para-el-ello-se-crearan-dos-ficheros-html-dentro-del-directorio-error-entrega-las-modificaciones-necesarias-en-la-configuraci%c3%b3n-y-una-comprobaci%c3%b3n-del-buen-funcionamiento">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Lo primero es crear el directorio <code>error</code> dentro del DocumentRoot, en el cual almacenaremos los mensajes de error personalizados:</p>
+<p><code>mkdir /srv/mapeo/error</code></p>
+<p>A continuación, crearemos los ficheros <em>.html</em> que mostrarán los mensajes de error. Los he llamado <em>403.html</em> y <em>404.html</em>, y los he rellenado con la siguiente información:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat 403.html 
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;utf-8&#34;&gt;
+    &lt;title&gt;Error 404&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;No tienes los permisos necesarios para ver lo que has buscado. No seas pillín&lt;/h1&gt;
+    &lt;img src=&#34;/error/pillin.jpg&#34; alt=&#34;403&#34;&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat 404.html 
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&#34;utf-8&#34;&gt;
+    &lt;title&gt;Error 404&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;No hemos podido encontrar lo que estabas buscando. Sentimos las molestias &lt;/h1&gt;
+    &lt;img src=&#34;/error/gomennasai.jpg&#34; alt=&#34;404&#34;&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div><p>Ahora solo tenemos que añadir las siguientes líneas al fichero del virtualhost:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ErrorDocument 404 /error/404.html
+ErrorDocument 403 /error/403.html
+</code></pre></div><p>Reiniciamos el servicio y listo:</p>
+<p><code>systemctl reload apache2</code></p>
+<p>Probemos ahora los mensajes a ver si funcionan:</p>
+<ul>
+<li>Error 403:</li>
+</ul>
+<p><img src="/images/mapearurl/nopermiso.png" alt="nopermiso.png"></p>
+<ul>
+<li>Error 404:</li>
+</ul>
+<p><img src="/images/mapearurl/noencontrado.png" alt="noencontrado.png"></p>
+<p>Con esto hemos acabado el ejercicio. Como detalle final, vamos a ver como ha quedado configuración final del virtualhost:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat mapeo.conf
+
+&lt;VirtualHost *:80&gt;
+
+        ServerName www.mapeo.com
+        ServerAdmin webmaster@localhost
+        DocumentRoot /srv/mapeo
+        ErrorLog ${APACHE_LOG_DIR}/mapeo_error.log
+        CustomLog ${APACHE_LOG_DIR}/mapeo_access.log combined
+
+        ErrorDocument 404 /error/404.html
+        ErrorDocument 403 /error/403.html
+
+        Alias &#34;/principal/documentos&#34; &#34;/home/usuario/doc/&#34;
+        &lt;Directory /home/usuario/doc/&gt;
+                Options Indexes SymLinksIfOwnerMatch
+                Require all granted
+        &lt;/Directory&gt;
+
+
+        RedirectMatch &#34;^/$&#34; &#34;/principal&#34;
+        &lt;Directory /srv/mapeo/principal&gt;
+                Options -Indexes -FollowSymLinks -MultiViews
+        &lt;/Directory&gt;
+
+
+&lt;/VirtualHost&gt;
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+
+</code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
