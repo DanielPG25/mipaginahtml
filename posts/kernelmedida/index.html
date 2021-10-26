@@ -220,7 +220,7 @@ drwxr-xr-x   4 debian debian   4096 ago 30 00:04 virt
 egrep &#39;=m&#39; .config | wc -l
 
 3721
-</code></pre></div><p>En total hay enlazados 2188 módulos de forma estática y 3721 de forma dinámica, lo que nos da un total de 5909 módulos. Como hay cerca de 6000 módulos, sería una tarea demasiado larga y tediosa el revisarlos todos uno por uno, por lo que haremos uso del comando <code>make localmodconfig</code>, que comprobará cuales de los módulos están siendo utilizados en este momento por el sistema y modificará el fichero <em>.config</em> en concordancia, descartando los que no estén siendo usados ya no se consideran imprescindibles:</p>
+</code></pre></div><p>En total hay enlazados 2188 módulos de forma estática y 3721 de forma dinámica, lo que nos da un total de 5909 módulos. Como hay cerca de 6000 módulos, sería una tarea demasiado larga y tediosa el revisarlos todos uno por uno, por lo que haremos uso del comando <code>make localyesconfig</code>, que comprobará cuales de los módulos están siendo utilizados en este momento por el sistema y modificará el fichero <em>.config</em> en concordancia, descartando los que no estén siendo usados ya no se consideran imprescindibles, y añadiendo los dinámicos al grupo de los estáticos. (No he usado el comando <code>make localmodconfig</code> debido a que caba problemas en mi máquina)</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make localyesconfig
 
 using config: &#39;.config&#39;
@@ -318,7 +318,7 @@ PCI sound devices (SND_PCI) [Y/n/?] y
 egrep &#39;=m&#39; .config | wc -l
 
 4
-</code></pre></div><p>El número se ha reducido considerablemente, desde casi 6000 a unos 1600 módulos. Ahora podremos realizar nuestra primera compilación, que no debería cambiar nada en nuestro sistema ya que los módulos son los que estamos usando actualmente, pero podremos comprobar que no ha ocurrido ningún problema y nuestro sistema arranca como es debido:</p>
+</code></pre></div><p>El número se ha reducido considerablemente, desde casi 6000 a unos 1850 módulos. Ahora podremos realizar nuestra primera compilación, que no debería cambiar nada en nuestro sistema ya que los módulos son los que estamos usando actualmente, pero podremos comprobar que no ha ocurrido ningún problema y nuestro sistema arranca como es debido:</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make -j8 bindeb-pkg
 </code></pre></div><p>Con este comando empezaremos la compilación, indicando con <code>bindeb-pkg</code> que cree un paquete .deb en el directorio padre y con <code>-j</code> el número de hilos que usaremos en la compilación. Durante la compilación es posible que nos surjan errores de dependencias, por lo que será necesario instalar los paquetes que nos indique y volver a realizar la compilación hasta que finalice correctamente.</p>
 <p>Durante la instalación me surgió el siguiente error:</p>
