@@ -6,7 +6,17 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 26 Oct 2021 13:17:15 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 26 Oct 2021 20:06:50 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Modificación de un virtualhost con el fichero .htaccess</title>
+      <link>http://www.sysadblog.com/posts/htaccess_apache2/</link>
+      <pubDate>Tue, 26 Oct 2021 20:06:50 +0200</pubDate>
+      
+      <guid>http://www.sysadblog.com/posts/htaccess_apache2/</guid>
+      <description>Configuración de apache mediante archivo .htaccess    Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? ¿Para qué sirve la directiva AllowOverride de apache2?. Utilizando archivos .htaccess realiza las siguientes configuraciones:
+ Habilita el listado de ficheros en la URL http://host.dominio/nas. Crea una redirección permanente: cuando entremos en http://host.dominio/google salte a www.google.es. Pedir autentificación para entrar en la URL http://host.</description>
+    </item>
+    
     <item>
       <title>Compilación de un Kernel a medida</title>
       <link>http://www.sysadblog.com/posts/kernelmedida/</link>

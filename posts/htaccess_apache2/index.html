@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Modificación de un virtualhost con el fichero .htaccess">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Modificación de un virtualhost con el fichero .htaccess"/>
+<meta name="twitter:description" content="Modificación de un virtualhost con el fichero .htaccess"/>
+
+    <meta property="og:title" content="Modificación de un virtualhost con el fichero .htaccess" />
+<meta property="og:description" content="Modificación de un virtualhost con el fichero .htaccess" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://www.sysadblog.com/posts/htaccess_apache2/" />
+<meta property="article:published_time" content="2021-10-26T20:06:50+02:00" />
+<meta property="article:modified_time" content="2021-10-26T20:06:50+02:00" />
+
+
+    <title>
+  Modificación de un virtualhost con el fichero .htaccess · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="http://www.sysadblog.com/posts/htaccess_apache2/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="http://www.sysadblog.com/posts/htaccess_apache2/">
+              Modificación de un virtualhost con el fichero .htaccess
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-10-26T20:06:50&#43;02:00'>
+                October 26, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              4-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="configuración-de-apache-mediante-archivo-htaccess">
+  Configuración de apache mediante archivo .htaccess
+  <a class="heading-link" href="#configuraci%c3%b3n-de-apache-mediante-archivo-htaccess">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? ¿Para qué sirve la directiva AllowOverride de apache2?. Utilizando archivos .htaccess realiza las siguientes configuraciones:</p>
+<ul>
+<li>Habilita el listado de ficheros en la URL <code>http://host.dominio/nas</code>.</li>
+<li>Crea una redirección permanente: cuando entremos en <code>http://host.dominio/google</code> salte a <code>www.google.es</code>.</li>
+<li>Pedir autentificación para entrar en la URL <code>http://host.dominio/prohibido</code>. (No la hagas si has elegido como proveedor CDMON, en la plataforma de prueba, no funciona.)</li>
+</ul>
+<hr>
+<p>En primer lugar, vamos a hacer una pequeña introducción sobre el fichero <code>.htaccess</code>. Este fichero se usa para modificar la configuración de un virtualhost sin tener que acceder al fichero de configuración directamente. Esto es útil cuando no tienes acceso al fichero de configuración debido a que no tienes privilegios de administrador en la página (como ocurren con los hosting que hay por internet).</p>
+<p>Hay que elegir bien el hosting que queremos usar, debido a que no todos tienen activada esta opción, o solo es accesible si pagas. Si quieres utilizar estos ficheros para modificar la configuración de un apache2 del que si tengas privilegios de administrador, primero debemos activar esa opción en el virtualhost o en el fichero <code>apache2.conf</code> usando la directiva <code>AllowOverride</code>.</p>
+<h2 id="habilita-el-listado-de-ficheros-en-la-url-httphostdominionas">
+  Habilita el listado de ficheros en la URL <code>http://host.dominio/nas</code>.
+  <a class="heading-link" href="#habilita-el-listado-de-ficheros-en-la-url-httphostdominionas">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>En mi caso, he elegido el hosting <a href="https://es.000webhost.com">000webhost</a>, ya que tenía una cuenta ahí de otro ejercicio anterior, y además, permite un fácil uso del fichero <code>.htaccess</code>. Cuando nos creamos una cuenta, podemos crear y modificar ficheros directamente desde el navegador web, lo que hace muy cómodo la edición de los ficheros y la configuración del virtualhost (en las siguientes imágenes se pueden ver más archivos, pero estos no son relevantes para el ejercicio, ya que son los que ya tenía subidos al hosting de otro ejercicio).</p>
+<p>Una vez dado de alta en el servicio, entramos en el gestor de contenido de la web. Allí encontramos un fichero <code>.htaccess</code> que se ha creado por defecto. Como <em>000webhost</em> trae activado por defecto la opción <code>Indexes</code>, la vamos a desactivar en la carpeta principal de la web, ya que no nos interesa mostrar el contenido de esta carpeta:</p>
+<p><img src="/images/htaccess/inicio.png" alt="inicio.png"></p>
+<p><img src="/images/htaccess/deshabilitar_indexes.png" alt="deshabilitar_indexes.png"></p>
+<p>Ahora creamos la carpeta <code>nas</code> en el directorio principal, y dentro de esta carpeta creamos otro fichero <code>.htaccess</code> y habilitamos la opción <code>Indexes</code> en este fichero:</p>
+<p><img src="/images/htaccess/habilitar_indexes.png" alt="habilitar_indexes.png"></p>
+<p>Si ahora intentamos entrar en el directorio <code>/nas</code> desde el navegador, nos mostrará la lista de archivos:</p>
+<p><img src="/images/htaccess/nas.png" alt="nas.png"></p>
+<h2 id="crea-una-redirección-permanente-cuando-entremos-en-httphostdominiogoogle-salte-a-wwwgooglees">
+  Crea una redirección permanente: cuando entremos en <code>http://host.dominio/google</code> salte a <code>www.google.es</code>.
+  <a class="heading-link" href="#crea-una-redirecci%c3%b3n-permanente-cuando-entremos-en-httphostdominiogoogle-salte-a-wwwgooglees">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para lograr esto, simplemente tenemos que añadir la directiva de redirección en el fichero <code>.htaccess</code> del directorio principal:</p>
+<p><img src="/images/htaccess/redireccion_google.png" alt="redireccion_google.png"></p>
+<p>Podemos ver la redirección en funcionamiento si utilizamos la herramienta del desarrollador web y vemos los paquetes que recibimos del servidor:</p>
+<p><img src="/images/htaccess/cabeceras_redireccion_google.png" alt="cabeceras_redireccion_google.png"></p>
+<h2 id="pedir-autentificación-para-entrar-en-la-url-httphostdominioprohibido">
+  Pedir autentificación para entrar en la URL <code>http://host.dominio/prohibido</code>.
+  <a class="heading-link" href="#pedir-autentificaci%c3%b3n-para-entrar-en-la-url-httphostdominioprohibido">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Primero crearemos la carpeta <code>prohibido</code> y añadiremos un fichero <code>index.html</code> simple para verificar el funcionamiento. Mi fichero contiene la siguiente información:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#34;utf-8&#34;&gt;
+        &lt;title&gt;Lo lograste amigo&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h2&gt;No todo el mundo tiene acceso a este lugar. Debes de ser importante&lt;/h2&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div><p>A continuación, vamos a crear el fichero con los usuarios y contraseñas que van a tener acceso al directorio. Para ello usamos el siguiente comando:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">htpasswd -n danielp
+New password: 
+Re-type new password: 
+danielp:$apr1$orQTJvKo$0JMl4WuNYAIi9rMXrLfzd/
+</code></pre></div><p>Este comando nos devuelve por pantalla el usuario y la contraseña encriptada. Ahora podemos copiarlos e insertarlos en el fichero donde vamos a guardar los usuarios y contraseñas. Como no queremos que el hosting sirva este fichero, vamos a ubicarlo en el directorio raíz, ya que ese directorio no es servido:</p>
+<p><img src="/images/htaccess/pass.png" alt="pass.png"></p>
+<p>Ahora, dentro del directorio <code>prohibido</code>, creamos un fichero <code>.htaccess</code> en el que configuraremos la autentificación básica:</p>
+<p><img src="/images/htaccess/configuracion_autentificacion_basica.png" alt="configuracion_autentificacion_basica.png"></p>
+<p><em>Nota:</em> Para averiguar la dirección de tu directorio raíz en 000webhost, basta con ir a los detalles de la página web. En los detalles nos aparecerá lo siguiente:</p>
+<p><img src="/images/htaccess/directorio_raiz.png" alt="directorio_raiz.png"></p>
+<p>Ya podemos intentar acceder al directorio <code>/prohibido</code>, lo que nos devolverá lo siguiente:</p>
+<p><img src="/images/htaccess/basica_hosting.png" alt="basica_hosting.png"></p>
+<p>Si introducimos las credenciales que hemos creado antes, podremos acceder a la página:</p>
+<p><img src="/images/htaccess/acceso_000webhost.png.png" alt="acceso_000webhost.png"></p>
+<p>Con esto hemos acabado el ejercicio propuesto.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
