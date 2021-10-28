@@ -6,7 +6,18 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 26 Oct 2021 20:06:50 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 28 Oct 2021 11:07:36 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Implantación de aplicaciones web PHP</title>
+      <link>http://www.sysadblog.com/posts/practicacms/</link>
+      <pubDate>Thu, 28 Oct 2021 11:07:36 +0200</pubDate>
+      
+      <guid>http://www.sysadblog.com/posts/practicacms/</guid>
+      <description>Práctica: Implantación de aplicaciones web PHP    Los requisitos previos son los siguientes:
+ Crea una instancia de vagrant basado en un box debian o ubuntu Instala en esa máquina virtual toda la pila LAMP  Tarea 1: Instalación de un CMS PHP en mi servidor local    Los objetivos de esta tarea son los siguientes:
+ Configura el servidor web con virtual hosting para que el CMS sea accesible desde la dirección: www.</description>
+    </item>
+    
     <item>
       <title>Modificación de un virtualhost con el fichero .htaccess</title>
       <link>http://www.sysadblog.com/posts/htaccess_apache2/</link>
