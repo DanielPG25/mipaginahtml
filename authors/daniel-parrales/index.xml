@@ -6,7 +6,17 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 28 Oct 2021 11:07:36 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 28 Oct 2021 20:11:20 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejecución de PHP con PHP-FPM</title>
+      <link>http://www.sysadblog.com/posts/ejecucion_php_fpm/</link>
+      <pubDate>Thu, 28 Oct 2021 20:11:20 +0200</pubDate>
+      
+      <guid>http://www.sysadblog.com/posts/ejecucion_php_fpm/</guid>
+      <description>Ejecución de PHP con PHP-FPM    El ejercicio tendrá los siguientes pasos:
+ Desinstala el módulo de apache2 que permite la ejecución de PHP. Instala PHP-FPM. Configura apache2 para que utilice PHP-FPM para ejecutar PHP, lo puedes hacer para todos los virtualhost o en cada uno de los virtualhost. Comprueba accediendo a un fichero info.php, que los script PHP se estan ejecutando con PHP-FPM. Comprueba que los CMS instalados siguen funcionando.</description>
+    </item>
+    
     <item>
       <title>Implantación de aplicaciones web PHP</title>
       <link>http://www.sysadblog.com/posts/practicacms/</link>
