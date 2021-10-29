@@ -38,6 +38,11 @@
   </url>
   
   <url>
+    <loc>https://sysadblog.onrender.com/categories/aplicaciones-web/</loc>
+    <lastmod>2021-10-28T20:11:20+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://sysadblog.onrender.com/posts/ejecucion_php_fpm/</loc>
     <lastmod>2021-10-28T20:11:20+02:00</lastmod>
   </url>
@@ -50,6 +55,16 @@
   <url>
     <loc>https://sysadblog.onrender.com/posts/htaccess_apache2/</loc>
     <lastmod>2021-10-26T20:06:50+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/servicios-de-red/</loc>
+    <lastmod>2021-10-26T20:06:50+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/</loc>
+    <lastmod>2021-10-26T13:17:15+02:00</lastmod>
   </url>
   
   <url>
@@ -85,6 +100,11 @@
   <url>
     <loc>https://sysadblog.onrender.com/posts/lara/</loc>
     <lastmod>2021-10-14T08:30:50+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</loc>
+    <lastmod>2021-10-11T19:32:07+02:00</lastmod>
   </url>
   
   <url>

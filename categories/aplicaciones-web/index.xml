@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Aplicaciones Web on Sysadblog</title>
+    <link>https://sysadblog.onrender.com/categories/aplicaciones-web/</link>
+    <description>Recent content in Aplicaciones Web on Sysadblog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 28 Oct 2021 20:11:20 +0200</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/aplicaciones-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejecución de PHP con PHP-FPM</title>
+      <link>https://sysadblog.onrender.com/posts/ejecucion_php_fpm/</link>
+      <pubDate>Thu, 28 Oct 2021 20:11:20 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/ejecucion_php_fpm/</guid>
+      <description>Ejecución de PHP con PHP-FPM    El ejercicio tendrá los siguientes pasos:
+ Desinstala el módulo de apache2 que permite la ejecución de PHP. Instala PHP-FPM. Configura apache2 para que utilice PHP-FPM para ejecutar PHP, lo puedes hacer para todos los virtualhost o en cada uno de los virtualhost. Comprueba accediendo a un fichero info.php, que los script PHP se estan ejecutando con PHP-FPM. Comprueba que los CMS instalados siguen funcionando.</description>
+    </item>
+    
+    <item>
+      <title>Implantación de aplicaciones web PHP</title>
+      <link>https://sysadblog.onrender.com/posts/practicacms/</link>
+      <pubDate>Thu, 28 Oct 2021 11:07:36 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practicacms/</guid>
+      <description>Práctica: Implantación de aplicaciones web PHP    Los requisitos previos son los siguientes:
+ Crea una instancia de vagrant basado en un box debian o ubuntu Instala en esa máquina virtual toda la pila LAMP  Tarea 1: Instalación de un CMS PHP en mi servidor local    Los objetivos de esta tarea son los siguientes:
+ Configura el servidor web con virtual hosting para que el CMS sea accesible desde la dirección: www.</description>
+    </item>
+    
+    <item>
+      <title>Instalación de BookMedik y acceso usando LAMP</title>
+      <link>https://sysadblog.onrender.com/posts/bookmedik/</link>
+      <pubDate>Sat, 16 Oct 2021 20:11:36 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/bookmedik/</guid>
+      <description>Instalación de la aplicación BookMedik    Vamos a instala la aplicación BookMedik, un sistema para llevar el control de citas medicas, pacientes, médicos, historiales e citas, áreas medicas y mucho mas, pensado para centros médicos, clínicas y médicos independientes. Puedes encontrar la aplicación en https://github.com/evilnapsis/bookmedik.
+Para realizar la instalación sigue los siguientes pasos:
+Crea la base de datos y las tablas necesarias recuperando la copia de seguridad e la base de datos que encuentras en el fichero schema.</description>
+    </item>
+    
+    <item>
+      <title>Instalación de phpmyadmin usando un virtualhost</title>
+      <link>https://sysadblog.onrender.com/posts/phpmyadmin/</link>
+      <pubDate>Sat, 16 Oct 2021 17:04:04 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/phpmyadmin/</guid>
+      <description>Instalación de phpmyadmin    phpmyadmin es una aplicación web escrita en PHP que nos posibilita la gestión de una base de datos mysql/mariadb.
+Normalmente vamos a instalar las aplicaciones web descargando directamente el código de la aplicación al servidor, pero en este ejercicio vamos a instalar la aplicación desde los repositorios de Debian (para este ejercicio previamente hemos instalado un servidor LAMP en nuestra máquina).
+Realizaremos los siguientes pasos:</description>
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>https://sysadblog.onrender.com/posts/hugo/</link>
+      <pubDate>Thu, 07 Oct 2021 09:16:53 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/hugo/</guid>
+      <description>Generador de páginas estáticas: Hugo    Sobre Hugo    Hugo es un generador de páginas estáticas rápido y moderno escrito en Go. Utiliza las librerías de Go html/template y text/template como base para las plantillas que utiliza. Permite escribir en Markdown, el cual lee al realizar un despliegue, transformándolo en html, lo que nos permite generar páginas estáticas de forma muy sencilla. Instalarlo en Debian es de lo más sencillo, solo hay que usar el siguiente comando:</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Seguridad y Alta Disponibilidad on Sysadblog</title>
+    <link>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</link>
+    <description>Recent content in Seguridad y Alta Disponibilidad on Sysadblog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 11 Oct 2021 19:32:07 +0200</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tomar el control de Metasploitable3</title>
+      <link>https://sysadblog.onrender.com/posts/metasploitable3/</link>
+      <pubDate>Mon, 11 Oct 2021 19:32:07 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/metasploitable3/</guid>
+      <description>Tomar el control de la máquina Ubuntu de Metasploitable3 a través de un ataque de fuerza bruta por SSH    En esta parte vamos a utilizar una máquina con sistema operativo Kali Linux para tomar el control de una máquina Ubuntu creada a través de “Metasploitable3”, por lo que ha sido creada con multitud de vulnerabilidades que podremos aprovechar. En este caso en concreto, he optado por usar un ataque de fuerza bruta para conectarme por ssh a la máquina y una vez dentro escalar privilegios para convertirme en root, obteniendo así el control total de la máquina.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -16,5 +16,41 @@
       <description></description>
     </item>
     
+    <item>
+      <title>Aplicaciones Web</title>
+      <link>https://sysadblog.onrender.com/categories/aplicaciones-web/</link>
+      <pubDate>Thu, 28 Oct 2021 20:11:20 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/categories/aplicaciones-web/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Servicios de Red</title>
+      <link>https://sysadblog.onrender.com/categories/servicios-de-red/</link>
+      <pubDate>Tue, 26 Oct 2021 20:06:50 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/categories/servicios-de-red/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Administración de Sistemas Operativos</title>
+      <link>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/</link>
+      <pubDate>Tue, 26 Oct 2021 13:17:15 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Seguridad y Alta Disponibilidad</title>
+      <link>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</link>
+      <pubDate>Mon, 11 Oct 2021 19:32:07 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

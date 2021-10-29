@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Administración de Sistemas Operativos on Sysadblog</title>
+    <link>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/</link>
+    <description>Recent content in Administración de Sistemas Operativos on Sysadblog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 26 Oct 2021 13:17:15 +0200</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Compilación de un Kernel a medida</title>
+      <link>https://sysadblog.onrender.com/posts/kernelmedida/</link>
+      <pubDate>Tue, 26 Oct 2021 13:17:15 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/kernelmedida/</guid>
+      <description>Compilación de un kernel a medida    En esta práctica vamos a descargar un kernel y vamos a intentar retirarle el mayor número de módulos posibles para reducir al máximo su tamaño, siempre asegurándonos de que siga siendo funcional.
+En primer lugar, para tener localizados todos los archivos que descarguemos y generemos, vamos a crear una nueva carpeta:
+mkdir kernel &amp;amp;&amp;amp; cd kernel Ahora vamos a instalar los paquetes que vamos a usar para la compilación (el paquete qtbase5-dev lo usaremos más adelante para seleccionar que módulos quitar del kernel de forma más amena):</description>
+    </item>
+    
+    <item>
+      <title>Compilación de un paquete escrito en C</title>
+      <link>https://sysadblog.onrender.com/posts/compilacion/</link>
+      <pubDate>Thu, 07 Oct 2021 18:03:08 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/compilacion/</guid>
+      <description>Compilación de un programa en C utilizando un Makefile    Empezamos eligigiendo un paquete basado en C de la librería de paquetes de Debian. En mi caso, he elegido lvm2. Para descargar sus fuentes usamos lo siguiente (previamente hemos creado un directorio en /opt al que hemos llamado lvm):
+mkdir /opt/lvm &amp;amp;&amp;amp; cd /opt/lvm apt source lvm2 Para compilar el paquete hemos de instalar primero las dependencias. Para ello podemos instalar todos los paquetes que aparecen en la línea build-depends del fichero .</description>
+    </item>
+    
+  </channel>
+</rss>
