@@ -163,7 +163,7 @@
 </h2>
 <p>Vamos a suponer que hemos instalado el paquete de mariadb y hemos securizado la base de datos ejecutando la base de datos ejecutando <code>mysql_secure_installation </code>.</p>
 <p>Vamos a entrar como root:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u root -p
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u root -p
 
 Enter password: 
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
@@ -176,7 +176,7 @@ Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the cu
 
 MariaDB [(none)]&gt;
 </code></pre></div><p>Y creamos una base de datos y un usuario con permisos sobre ella:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">MariaDB [(none)]&gt; create database prueba;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">MariaDB [(none)]&gt; create database prueba;
 Query OK, 1 row affected (0.001 sec)
 
 MariaDB [(none)]&gt; grant all on prueba.* to &#39;dparrales&#39;@&#39;%&#39; identified by &#39;*******&#39; with grant option;
@@ -220,7 +220,7 @@ MariaDB [(none)]&gt;
 <p>Ahora crearemos un virtualhost para tener acceso a través de él a <em>phpmyadmin</em>. Lo primero será ir al directorio <em>/etc/apache2/sites-available</em> y copiar el contenido del fichero <em>000-default.conf</em> a otro fichero que he llamado <em>phpmyadmin-daniel.conf</em>:</p>
 <p><code>cat 000-default.conf &gt; phpmyadmin-daniel.conf</code></p>
 <p>Ya podemos modificar el nuevo fichero para adaptarlo a nuestras necesidades. En mi caso he dejado el fichero así:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
 
         ServerName basededatos.dparrales.org
         ServerAdmin webmaster@localhost
@@ -254,7 +254,7 @@ MariaDB [(none)]&gt;
 
 &lt;/VirtualHost&gt;
 </code></pre></div><p>Ahora activamos el virtualhost:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite phpmyadmin-daniel.conf 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite phpmyadmin-daniel.conf 
 
 systemctl reload apache2
 </code></pre></div><p>Ya solo queda añadir la siguiente línea al fichero <em>/etc/hosts</em> de la máquina con la que vayamos a acceder a <em>phpmyadmin</em>:</p>

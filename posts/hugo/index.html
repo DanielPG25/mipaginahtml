@@ -170,7 +170,7 @@
 <p>Lo primero que querremos cambiar será nuestro tema. En la página oficial de <a href="https://gohugo.io/">Hugo</a> podemos encontrar bastantes temas de los que elegir. En mi caso, elegí <strong>Coder</strong>. Cada tema se instala de forma diferente, pero solo hay que seguir la guía que existe en la página oficial del tema. En este caso, lo primero fue añadir el submódulo con el tema en mi directorio principal de la página:</p>
 <p><code>git submodule add https://github.com/luizdepra/hugo-coder.git themes/hugo-coder</code>.</p>
 <p>A continuación, si seguimos la documentación de la página, encontraremos que hay que modificar nuestro &ldquo;config.toml&rdquo;, y para ello nos ponen uno de ejemplo que podremos copiar y modificar:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">baseurl = &#34;http://www.example.com&#34;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">baseurl = &#34;http://www.example.com&#34;
 title = &#34;johndoe&#34;
 theme = &#34;hugo-coder&#34;
 languagecode = &#34;en&#34;
@@ -285,28 +285,28 @@ disqusShortname = &#34;yourdiscussshortname&#34;
   </a>
 </h2>
 <p>Para la automatización del despliegue, he creado un script bastante sencillo que ejecuta los pasos que he descrito anteriormente:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="">#!/bin/sh
-</span><span style=""></span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>
 
-<span style="font-style:italic"># Primero generamos el html</span>
+<span style="color:#75715e"># Primero generamos el html</span>
 
 hugo -D
 
-<span style="font-style:italic">#Primero subimos los cambios hechos a nuestro repositorio principal (el contenido de public está añadido a .gitignore):</span>
+<span style="color:#75715e">#Primero subimos los cambios hechos a nuestro repositorio principal (el contenido de public está añadido a .gitignore):</span>
 
 git add .
-git commit -am <span style="font-style:italic">&#34;Cambios&#34;</span>
+git commit -am <span style="color:#e6db74">&#34;Cambios&#34;</span>
 git push
 
-<span style="font-style:italic">#Una vez subido, copiamos los archivos generados de public a nuestro repositorio secundario:</span>
+<span style="color:#75715e">#Una vez subido, copiamos los archivos generados de public a nuestro repositorio secundario:</span>
 
 cp -R public/* ../mipaginahtml
 
-<span style="font-style:italic">#Ahora nos movemos a ese directorio y subimos los cambios a nuestro github</span>
+<span style="color:#75715e">#Ahora nos movemos a ese directorio y subimos los cambios a nuestro github</span>
 
 cd ../mipaginahtml
 git add .
-git commit -am <span style="font-style:italic">&#34;Cambios&#34;</span>
+git commit -am <span style="color:#e6db74">&#34;Cambios&#34;</span>
 git push
 
 </code></pre></div><p>Este script lo ejecutaremos cada vez que realicemos algún cambio en nuestra web o añadamos algún artículo. A continuación la ejecución del script:</p>

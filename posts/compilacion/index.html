@@ -153,23 +153,23 @@
   </a>
 </h1>
 <p>Empezamos eligigiendo un paquete basado en C de la librería de paquetes de Debian. En mi caso, he elegido lvm2. Para descargar sus fuentes usamos lo siguiente (previamente hemos creado un directorio en /opt al que hemos llamado lvm):</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mkdir /opt/lvm &amp;&amp; cd /opt/lvm
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mkdir /opt/lvm &amp;&amp; cd /opt/lvm
 
 apt source lvm2
 </code></pre></div><p>Para compilar el paquete hemos de instalar primero las dependencias. Para ello podemos instalar todos los paquetes que aparecen en la línea build-depends del fichero .src que hemos descargado, o podemos usar el siguiente comando:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt build-dep lvm2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt build-dep lvm2
 </code></pre></div><p>Una vez hecho esto ya podemos entrar en la carpeta que se ha descargado, en mi caso llamada &ldquo;lvm2-2.03.11&rdquo; y ejecutamos lo siguiente:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">./configure
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">./configure
 </code></pre></div><p>Con este comando, se comprueba si todas las dependencias están cubiertas, y si es así, genera el fichero Makefile necesario para la compilación. Así pues, una vez que haya finalizado ejecutamos lo siguiente:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make
 
 make install
 </code></pre></div><p>Con esto ya estaría instalado el paquete. Para comprobarlo podemos intentar ejecutar el comando y tabular. Si completa la información del comando, es que el paquete se ha instalado con éxito:</p>
 <p><img src="/images/lvm.png" alt="lvm.png"></p>
 <p>Ahora podemos limpiar los ficheros que no necesitemos con el siguiente comando:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make clean
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make clean
 </code></pre></div><p>También podemos desinstalar el paquete (si lo permite su Makefile) con el siguiente comando:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make uninstall
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make uninstall
 </code></pre></div><h2 id="también-podemos-usar-las-fuentes-para-crear-un-paquete-deb-e-instalarlo-con-dpkg">
   También podemos usar las fuentes para crear un paquete .deb e instalarlo con dpkg
   <a class="heading-link" href="#tambi%c3%a9n-podemos-usar-las-fuentes-para-crear-un-paquete-deb-e-instalarlo-con-dpkg">
@@ -177,34 +177,34 @@ make install
   </a>
 </h2>
 <p>Para ello, vamos a necesitar dos paquetes primero:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install dpkg-dev devscripts
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install dpkg-dev devscripts
 </code></pre></div><p>Ahora, al igual que antes, creamos un directorio en el que guardaremos las fuentes del paquete y nos aseguramos de que sus dependecias estén cubiertas:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mkdir /opt/lvm &amp;&amp; cd /opt/lvm
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mkdir /opt/lvm &amp;&amp; cd /opt/lvm
 
 apt source lvm2
 
 apt build-dep lvm2
 </code></pre></div><p>Una vez que hayamos modificado los archivos que necesitemos, procedemos a crear el fichero .deb:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">dpkg-buildpackage -rfakeroot -b -uc -us
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">dpkg</span><span style="color:#f92672">-</span><span style="color:#a6e22e">buildpackage</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">rfakeroot</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">b</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">uc</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">us</span>
 </code></pre></div><p>Estará un tiempo creando el paquete, y cuando termine el fichero .deb estará en el directorio padre</p>
 <p><img src="/images/paquetedeb.png" alt="paquetedeb.png"></p>
 <p>Ahora solo debemos instalarlo con dpkg:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">dpkg -i lvm2_2.03.11-2.1_amd64.deb 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">dpkg</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">i</span> <span style="color:#a6e22e">lvm2_2</span><span style="color:#ae81ff">.03.11</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2.1</span><span style="color:#a6e22e">_amd64</span>.<span style="color:#a6e22e">deb</span> 
 
-Selecting previously unselected <span style="font-weight:bold">package</span> lvm2.
-(Reading database ... 44411 files and directories currently installed.)
-Preparing to unpack lvm2_2.03.11-2.1_amd64.deb ...
-Unpacking lvm2 (2.03.11-2.1) ...
-Setting up lvm2 (2.03.11-2.1) ...
-update-initramfs: deferring update (trigger activated)
-Created symlink /etc/systemd/system/sysinit.target.wants/blk-availability.service <span style="">→</span> /lib/systemd/system/blk-availability.service.
-Created symlink /etc/systemd/system/sysinit.target.wants/lvm2-monitor.service <span style="">→</span> /lib/systemd/system/lvm2-monitor.service.
-Created symlink /etc/systemd/system/sysinit.target.wants/lvm2-lvmpolld.socket <span style="">→</span> /lib/systemd/system/lvm2-lvmpolld.socket.
-Processing triggers <span style="font-weight:bold">for</span> initramfs-tools (0.140) ...
-update-initramfs: Generating /boot/initrd.img-5.10.0-8-amd64
-Processing triggers <span style="font-weight:bold">for</span> man-db (2.9.4-2) ...
+<span style="color:#a6e22e">Selecting</span> <span style="color:#a6e22e">previously</span> <span style="color:#a6e22e">unselected</span> <span style="color:#f92672">package</span> <span style="color:#a6e22e">lvm2</span>.
+(<span style="color:#a6e22e">Reading</span> <span style="color:#a6e22e">database</span> <span style="color:#f92672">...</span> <span style="color:#ae81ff">44411</span> <span style="color:#a6e22e">files</span> <span style="color:#a6e22e">and</span> <span style="color:#a6e22e">directories</span> <span style="color:#a6e22e">currently</span> <span style="color:#a6e22e">installed</span>.)
+<span style="color:#a6e22e">Preparing</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">unpack</span> <span style="color:#a6e22e">lvm2_2</span><span style="color:#ae81ff">.03.11</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2.1</span><span style="color:#a6e22e">_amd64</span>.<span style="color:#a6e22e">deb</span> <span style="color:#f92672">...</span>
+<span style="color:#a6e22e">Unpacking</span> <span style="color:#a6e22e">lvm2</span> (<span style="color:#ae81ff">2.03.11</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2.1</span>) <span style="color:#f92672">...</span>
+<span style="color:#a6e22e">Setting</span> <span style="color:#a6e22e">up</span> <span style="color:#a6e22e">lvm2</span> (<span style="color:#ae81ff">2.03.11</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2.1</span>) <span style="color:#f92672">...</span>
+<span style="color:#a6e22e">update</span><span style="color:#f92672">-</span><span style="color:#a6e22e">initramfs</span>: <span style="color:#a6e22e">deferring</span> <span style="color:#a6e22e">update</span> (<span style="color:#a6e22e">trigger</span> <span style="color:#a6e22e">activated</span>)
+<span style="color:#a6e22e">Created</span> <span style="color:#a6e22e">symlink</span> <span style="color:#f92672">/</span><span style="color:#a6e22e">etc</span><span style="color:#f92672">/</span><span style="color:#a6e22e">systemd</span><span style="color:#f92672">/</span><span style="color:#a6e22e">system</span><span style="color:#f92672">/</span><span style="color:#a6e22e">sysinit</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">wants</span><span style="color:#f92672">/</span><span style="color:#a6e22e">blk</span><span style="color:#f92672">-</span><span style="color:#a6e22e">availability</span>.<span style="color:#a6e22e">service</span> <span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#f92672">/</span><span style="color:#a6e22e">lib</span><span style="color:#f92672">/</span><span style="color:#a6e22e">systemd</span><span style="color:#f92672">/</span><span style="color:#a6e22e">system</span><span style="color:#f92672">/</span><span style="color:#a6e22e">blk</span><span style="color:#f92672">-</span><span style="color:#a6e22e">availability</span>.<span style="color:#a6e22e">service</span>.
+<span style="color:#a6e22e">Created</span> <span style="color:#a6e22e">symlink</span> <span style="color:#f92672">/</span><span style="color:#a6e22e">etc</span><span style="color:#f92672">/</span><span style="color:#a6e22e">systemd</span><span style="color:#f92672">/</span><span style="color:#a6e22e">system</span><span style="color:#f92672">/</span><span style="color:#a6e22e">sysinit</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">wants</span><span style="color:#f92672">/</span><span style="color:#a6e22e">lvm2</span><span style="color:#f92672">-</span><span style="color:#a6e22e">monitor</span>.<span style="color:#a6e22e">service</span> <span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#f92672">/</span><span style="color:#a6e22e">lib</span><span style="color:#f92672">/</span><span style="color:#a6e22e">systemd</span><span style="color:#f92672">/</span><span style="color:#a6e22e">system</span><span style="color:#f92672">/</span><span style="color:#a6e22e">lvm2</span><span style="color:#f92672">-</span><span style="color:#a6e22e">monitor</span>.<span style="color:#a6e22e">service</span>.
+<span style="color:#a6e22e">Created</span> <span style="color:#a6e22e">symlink</span> <span style="color:#f92672">/</span><span style="color:#a6e22e">etc</span><span style="color:#f92672">/</span><span style="color:#a6e22e">systemd</span><span style="color:#f92672">/</span><span style="color:#a6e22e">system</span><span style="color:#f92672">/</span><span style="color:#a6e22e">sysinit</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">wants</span><span style="color:#f92672">/</span><span style="color:#a6e22e">lvm2</span><span style="color:#f92672">-</span><span style="color:#a6e22e">lvmpolld</span>.<span style="color:#a6e22e">socket</span> <span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#f92672">/</span><span style="color:#a6e22e">lib</span><span style="color:#f92672">/</span><span style="color:#a6e22e">systemd</span><span style="color:#f92672">/</span><span style="color:#a6e22e">system</span><span style="color:#f92672">/</span><span style="color:#a6e22e">lvm2</span><span style="color:#f92672">-</span><span style="color:#a6e22e">lvmpolld</span>.<span style="color:#a6e22e">socket</span>.
+<span style="color:#a6e22e">Processing</span> <span style="color:#a6e22e">triggers</span> <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">initramfs</span><span style="color:#f92672">-</span><span style="color:#a6e22e">tools</span> (<span style="color:#ae81ff">0.140</span>) <span style="color:#f92672">...</span>
+<span style="color:#a6e22e">update</span><span style="color:#f92672">-</span><span style="color:#a6e22e">initramfs</span>: <span style="color:#a6e22e">Generating</span> <span style="color:#f92672">/</span><span style="color:#a6e22e">boot</span><span style="color:#f92672">/</span><span style="color:#a6e22e">initrd</span>.<span style="color:#a6e22e">img</span><span style="color:#f92672">-</span><span style="color:#ae81ff">5.10.0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">8</span><span style="color:#f92672">-</span><span style="color:#a6e22e">amd64</span>
+<span style="color:#a6e22e">Processing</span> <span style="color:#a6e22e">triggers</span> <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">man</span><span style="color:#f92672">-</span><span style="color:#a6e22e">db</span> (<span style="color:#ae81ff">2.9.4</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>) <span style="color:#f92672">...</span>
 </code></pre></div><p>Con esto ya está instalado el paquete. Podemos comprobarlo con el siguiente comando:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt policy lvm2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt policy lvm2
 
 lvm2:
   Installed: 2.03.11-2.1

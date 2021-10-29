@@ -161,7 +161,7 @@
   </a>
 </h2>
 <p>Partimos de que tenemos instalado un servidor LAMP en nuestra máquina. Así pues, lo primero es entrar como root en mariadb, crear la base la base de datos y poblarla usando los datos que encontramos en ek fichero <em>schema.sql</em>.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u root -p
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u root -p
 Enter password: 
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
 Your MariaDB connection id is 30
@@ -303,7 +303,7 @@ MariaDB [bookmedik]&gt; create table reservation(
 Query OK, 0 rows affected (0.067 sec)
 
 </code></pre></div><p>Una vez hecho esto, creamos un usuario y le damos acceso a la base de datos que hemos creado:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">grant all on bookmedik.* to &#39;medik&#39;@&#39;%&#39; identified by &#39;******&#39; with grant option;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">grant all on bookmedik.* to &#39;medik&#39;@&#39;%&#39; identified by &#39;******&#39; with grant option;
 </code></pre></div><p>Con esto hemos acabado la primera parte.</p>
 <h2 id="crea-un-virtualhost-con-el-que-accederas-con-el-nombre-bookmediktunombreorg-copia-en-el-documentroot-los-ficheros-de-la-aplicación">
   Crea un virtualhost con el que accederas con el nombre bookmedik.tunombre.org. Copia en el DocumentRoot los ficheros de la aplicación.
@@ -314,7 +314,7 @@ Query OK, 0 rows affected (0.067 sec)
 <p>Empecemos por crear el virtualhost. Para ello vamos a copiar los datos del fichero <em>/etc/apache2/sites-available/000-default.conf</em> en otro fichero en la misma carpeta al que llamaremos <em>medik.conf</em>:</p>
 <p><code>cat /etc/apache2/sites-available/000-default.conf &gt; /etc/apache2/sites-available/medik.conf</code></p>
 <p>Ahora vamos a modificar ese nuevo fichero para adaptarlo a nuestro escenario:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
 
         ServerName bookmedik.dparrales.org
         ServerAdmin webmaster@localhost
@@ -332,7 +332,7 @@ Query OK, 0 rows affected (0.067 sec)
   </a>
 </h2>
 <p>Tenemos que cambiar el fichero <em>core/controller/Database.php</em> que se encuentra dentro del directorio clonado. Lo rellenaremos con los datos del usuario que creamos en el primer paso:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;?php
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;?php
 class Database {
         public static $db;
         public static $con;
@@ -357,7 +357,7 @@ class Database {
 }
 ?&gt;
 </code></pre></div><p>Ahora tenemos que habilitar el virtualhost que creamos antes y reiniciar el servicio:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite medik.conf
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite medik.conf
 
 systemctl reload apache2
 </code></pre></div><p>Una vez hecho esto, añadimos la siguiente línea al fichero <em>/etc/hosts</em> de la máquina con la que accederemos a la base de datos:</p>
@@ -382,7 +382,7 @@ systemctl reload apache2
 <p>Para ello nos dirigimos al fichero <em>/etc/php/7.4/apache2/php.ini</em> y cambiamos el parámetro <em>memory_limit</em> a 256:</p>
 <p><img src="/images/bookmedik/memory.png" alt="memory.png"></p>
 <p>Podemos comprobar que ha funcionado, crearemos un fichero en el DocumentRoot al que llamaremos <em>info.php</em> y le añadiremos la siguiente línea:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;?php phpinfo(); ?&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;?php phpinfo(); ?&gt;
 </code></pre></div><p>Recargamos el servicio y accedemos a la ip del servidor junto con el nombre del fichero que hemos creado (<em>info.php</em>):</p>
 <p><code>systemctl reload apache2</code></p>
 <p><img src="/images/bookmedik/infophp.png" alt="infophp.png"></p>

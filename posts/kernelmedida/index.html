@@ -154,11 +154,11 @@
 </h1>
 <p>En esta práctica vamos a descargar un kernel y vamos a intentar retirarle el mayor número de módulos posibles para reducir al máximo su tamaño, siempre asegurándonos de que siga siendo funcional.</p>
 <p>En primer lugar, para tener localizados todos los archivos que descarguemos y generemos, vamos a crear una nueva carpeta:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mkdir kernel &amp;&amp; cd kernel
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mkdir kernel &amp;&amp; cd kernel
 </code></pre></div><p>Ahora vamos a instalar los paquetes que vamos a usar para la compilación (el paquete <code>qtbase5-dev</code> lo usaremos más adelante para seleccionar que módulos quitar del kernel de forma más amena):</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install build-essential qtbase5-dev pkg-config
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install build-essential qtbase5-dev pkg-config
 </code></pre></div><p>También tenemos que averiguar cual es la versión del kernel que estamos usando. Para ello usamos el comando:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">uname -r
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">uname -r
 
 5.10.0-9-amd64
 </code></pre></div><p>Ahora que sabemos nuestra versión del kernel, podemos irnos a <a href="https://mirrors.edge.kernel.org/pub/linux/kernel/">kernel.org</a> y descargar desde allí la ultima versión disponible (en mi caso la 5.14.13):</p>
@@ -166,12 +166,12 @@
 <p>Una vez descargada, debemos descomprimir el archivo:</p>
 <p><code>tar -Jxf linux-5.14.13.tar.xz</code></p>
 <p>Ahora veamos y comparemos el archivo comprimido con su versión descomprimida:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">du -sh *
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">du -sh *
 
 1,2G	linux-5.14.13
 116M	linux-5.14.13.tar.xz
 </code></pre></div><p>Como podemos ver, el archivo que descargamos desde la web ocupaba 116MB, mientras que la descompresión ocupa 1.2GB. Nuestra objetivo final será reducir ese tamaño lo máximo posible. Veamos ahora lo que contiene el fichero descomprimido:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l
 
 total 876
 drwxr-xr-x  25 debian debian   4096 ago 30 00:04 arch
@@ -206,13 +206,13 @@ drwxr-xr-x   4 debian debian   4096 ago 30 00:04 virt
 </code></pre></div><p>Dentro del directorio hay un fichero llamado Makefile, el cual contiene todas las instrucciones que se realizarán al llevar a cabo la compilación del kernel. Para ver todas las opciones disponibles con el comando <code>make</code> podemos usar <code>make help</code>. De entre todas las opciones, la que más nos interesa ahora es <code>make oldconfig</code>, el cual generará un fichero <em>.config</em>, el cual contiene la información sobre que módulos serán enlazadados estáticamente y cuales serán enlazados dinámicamente. El comando generará el fichero a partir de nuestra configuración actual del kernel (ubicada en <em>/boot/</em>). Así pues, ejecutaremos el comando, y como parte del ejercicio, le diremos que no queremos incluir componentes opcionales cada vez que nos lo pregunte (que serán muchas):</p>
 <p><code>make oldconfig</code></p>
 <p>No pongo la salida del comando, ya que es demasiada larga. Basta con decir que respondí que no a todo lo que pude, y lo que no aceptaba un no, lo dejé como estaba por defecto. Una vez acabado, ya tendremos generado nuestro fichero <em>.config</em>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -la | egrep .config
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -la | egrep .config
 
 -rw-r--r--   1 debian debian     59 ago 30 00:04 .cocciconfig
 -rw-r--r--   1 debian debian 241163 oct 19 18:09 .config
 -rw-r--r--   1 debian debian    555 ago 30 00:04 Kconfig
 </code></pre></div><p>Veamos ahora cuantos ficheros de <em>.config</em> han quedado enlazados dinámicamente (<em>m</em>) y cuantos estáticamente (<em>y</em>):</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">egrep &#39;=y&#39; .config | wc -l
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">egrep &#39;=y&#39; .config | wc -l
 
 2188
 
@@ -221,7 +221,7 @@ egrep &#39;=m&#39; .config | wc -l
 
 3721
 </code></pre></div><p>En total hay enlazados 2188 módulos de forma estática y 3721 de forma dinámica, lo que nos da un total de 5909 módulos. Como hay cerca de 6000 módulos, sería una tarea demasiado larga y tediosa el revisarlos todos uno por uno, por lo que haremos uso del comando <code>make localyesconfig</code>, que comprobará cuales de los módulos están siendo utilizados en este momento por el sistema y modificará el fichero <em>.config</em> en concordancia, descartando los que no estén siendo usados ya no se consideran imprescindibles, y añadiendo los dinámicos al grupo de los estáticos. (No he usado el comando <code>make localmodconfig</code> debido a que caba problemas en mi máquina)</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make localyesconfig
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make localyesconfig
 
 using config: &#39;.config&#39;
 glue_helper config not found!!
@@ -311,7 +311,7 @@ PCI sound devices (SND_PCI) [Y/n/?] y
 # configuration written to .config
 #
 </code></pre></div><p>Veamos ahora cuantos módulos hay enlazados estáticamente y dinámicamente:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">egrep &#39;=y&#39; .config | wc -l
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">egrep &#39;=y&#39; .config | wc -l
 
 1843
 
@@ -319,7 +319,7 @@ egrep &#39;=m&#39; .config | wc -l
 
 4
 </code></pre></div><p>El número se ha reducido considerablemente, desde casi 6000 a unos 1850 módulos. Ahora podremos realizar nuestra primera compilación, que no debería cambiar nada en nuestro sistema ya que los módulos son los que estamos usando actualmente, pero podremos comprobar que no ha ocurrido ningún problema y nuestro sistema arranca como es debido:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make -j8 bindeb-pkg
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make -j8 bindeb-pkg
 </code></pre></div><p>Con este comando empezaremos la compilación, indicando con <code>bindeb-pkg</code> que cree un paquete .deb en el directorio padre y con <code>-j</code> el número de hilos que usaremos en la compilación. Durante la compilación es posible que nos surjan errores de dependencias, por lo que será necesario instalar los paquetes que nos indique y volver a realizar la compilación hasta que finalice correctamente.</p>
 <p>Durante la instalación me surgió el siguiente error:</p>
 <p><img src="/images/compilacionkernel/error_compilacion.png" alt="error_compilacion.png"></p>
@@ -328,7 +328,7 @@ egrep &#39;=m&#39; .config | wc -l
 <p>Una vez solucionado ese error, la compilación finalizó exitosamente:</p>
 <p><img src="/images/compilacionkernel/compilacion_exito.png" alt="compilacion_exito.png"></p>
 <p>Podemos ver que se han generado los ficheros .deb en el directorio padre:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l
 
 total 251624
 drwxr-xr-x 25 debian debian      4096 oct 19 19:00 linux-5.14
@@ -344,11 +344,11 @@ drwxr-xr-x 25 debian debian      4096 oct 19 19:00 linux-5.14
 <p>Se ha creado una nueva configuración en el directorio <em>/boot</em> y para acceder al nuevo kernel debemos reiniciar la máquina y en <em>Opciones avanzadas para Debian GNU/Linux</em> debemos seleccionar el nuevo kernel:</p>
 <p><img src="/images/compilacionkernel/arranque.png" alt="arranque.png"></p>
 <p>Si arranca con éxito, significa que hemos compilado e instalado con éxito el kernel. En este caso debería arrancar el sistema de forma normal, ya que realmente no hemos modificado los módulos que el sistema carga. Podemos comprobar el kernel que se está usando:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">uname -r
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">uname -r
 
 5.14.13
 </code></pre></div><p>Como podemos ver, se está usando el nuevo kernel. Una vez que hemos verificado que ha funcionado, vamos a volver a reiniciar la máquina y entrar con el kernel original, para, esta vez sí, dejarlo lo más ligero posible. Antes de volver a compilar el kernel, debemos eliminar los archivos residuales de la compilación anterior, para lo cual usamos el comando <code>make clean</code>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make clean
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make clean
   CLEAN   arch/x86/entry/vdso
   CLEAN   arch/x86/kernel/cpu
   CLEAN   arch/x86/kernel
@@ -374,7 +374,7 @@ drwxr-xr-x 25 debian debian      4096 oct 19 19:00 linux-5.14
 </code></pre></div><p>Antes de volver a compilar el paquete, vamos a hacer uso del comando <code>make xconfig</code> para abrir una aplicación gráfica que nos facilitará bastante la labor de elegir que módulos añadir y que módulos quitar:</p>
 <p><img src="/images/compilacionkernel/xconfig.png" alt="xconfig.png"></p>
 <p>Lo único que queda ahora es repetir el proceso de <code>make xconfig</code>, <code>make clean</code> e instalar el nuevo paquete generado quitando cada vez más módulos, haciendo pruebas sobre cuales quitar o cuales no, hasta dejar al kernel con una cantidad de módulos que nos parezca adecuada. En mi caso, tras bastantes compilaciones diferentes, el kernel que me quedó tenía el siguiente número de módulos:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">egrep &#39;=y&#39; .config | wc -l
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">egrep &#39;=y&#39; .config | wc -l
 748
 
 egrep &#39;=m&#39; .config | wc -l

@@ -172,7 +172,7 @@
 <p><img src="/images/routernat_horizon/cliente1_seguridad.png" alt="cliente1_seguridad.png"></p>
 <p><img src="/images/routernat_horizon/puerto_seguridad_cliente1.png" alt="puerto_seguridad_cliente1.png"></p>
 <p>Una vez eliminada la seguridad de las máquinas, podemos configurar la instancia &lsquo;router&rsquo; para que enrute los paquetes que pasan a través de él:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o ens3 -j MASQUERADE
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o ens3 -j MASQUERADE
 
 echo 1 &gt; /proc/sys/net/ipv4/ip_forward
 </code></pre></div><p>Ya podemos acceder a nuestra máquina cliente para probar si de verdad tiene acceso a Internet, pero para ello no podemos utilizar una conexión ssh convencional, ya que no tenemos acceso a ella directamente desde el exterior. Es por ello que usaremos el ssh agent:</p>

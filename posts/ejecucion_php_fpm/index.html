@@ -172,7 +172,7 @@
 <p>Para ello podemos utilizar el siguiente comando:</p>
 <p><code>apt remove libapache2-mod-php</code></p>
 <p>Sin embargo, yo he optado por deshabilitar el módulo en apache, de forma que si más adelante lo necesito, pueda volver a activarlo sin problemas:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2dismod php7.4
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2dismod php7.4
 
 systemctl reload apache2
 </code></pre></div><h2 id="instala-php-fpm">
@@ -213,7 +213,7 @@ systemctl reload apache2
 </ul>
 <p><code>SetHandler &quot;proxy:unix:/run/php/php7.4-fpm.sock|fcgi://localhost&quot;</code></p>
 <p>A continuación debemos activar la configuración (solo si queremos que la configuración afecte a todos los virtualhost) y reniniar el servicio:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2enconf php7.4-fpm
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2enconf php7.4-fpm
 
 systemctl reload apache2
 </code></pre></div><h2 id="comprueba-accediendo-a-un-fichero-infophp-que-los-script-php-se-estan-ejecutando-con-php-fpm-comprueba-que-los-cms-instalados-siguen-funcionando">
@@ -223,7 +223,7 @@ systemctl reload apache2
   </a>
 </h2>
 <p>El fichero <code>info.php</code> contiene la siguiente información:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;?php
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;?php
 phpinfo();
 ?&gt;
 </code></pre></div><p>Vamos a colocar el fichero en los DocumentRoot de nuestros cms, para ver si se están ejecutando con <code>php-fpm</code>:</p>

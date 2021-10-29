@@ -172,7 +172,7 @@
 <p>Una vez instalado entramos en el directorio <code>/etc/apache2/sites-available</code> y creamos allí un nuevo virtualhost. En mi caso he copiado el contenido del virtualhost por defecto para no tener que escribir toda la configuración a mano:</p>
 <p><code>cat 000-default.conf &gt;&gt; mapeo.conf</code></p>
 <p>Una vez creado el fichero, lo modificamos de la siguiente forma:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
 
         ServerName www.mapeo.com
         ServerAdmin webmaster@localhost
@@ -185,13 +185,13 @@
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
 </code></pre></div><p>También debemos modificar el fichero <code>/etc/apache2/apache2.conf</code>, cambiando o añadiendo la siguiente información:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;Directory /srv/&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;Directory /srv/&gt;
         Options FollowSymLinks
         AllowOverride None
         Require all granted
 &lt;/Directory&gt;
 </code></pre></div><p>Ahora debemos habilitar el virtualhost que hemos creado y reiniciar el servicio:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite mapeo.conf
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite mapeo.conf
 
 systemctl reload apache2
 </code></pre></div><p>Ya solo tenemos que cambiar el fichero <code>/etc/hosts</code> en la máquina desde la que queremos acceder a la web (cambiaremos la ip según la ip de la máquina servidora). Añadimos entonces la siguiente línea:</p>
@@ -205,7 +205,7 @@ systemctl reload apache2
   </a>
 </h2>
 <p>Para lograr este objetivo, vamos a tener que modificar el fichero del virtual para eliminar las opciones que se nos piden:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
 
         ServerName www.mapeo.com
         ServerAdmin webmaster@localhost
@@ -237,7 +237,7 @@ systemctl reload apache2
 <ul>
 <li>Primero modificamos el fichero de nuestro virtualhost, y añadimos las siguientes línea para crear el alias:</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Alias &#34;/principal/documentos&#34; &#34;/home/usuario/doc/&#34;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Alias &#34;/principal/documentos&#34; &#34;/home/usuario/doc/&#34;
 &lt;Directory /home/usuario/&gt;
         Options Indexes SymLinksIfOwnerMatch
         Require all granted
@@ -246,7 +246,7 @@ systemctl reload apache2
 <p>Ahora reiniciamos el servicio y ya podríamos acceder:</p>
 <p><code>systemctl reload apache2</code></p>
 <p>Antes de acceder, comprobemos lo que hay en el directorio <em>/home/usuario/doc</em>:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l /home/usuario/doc/
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l /home/usuario/doc/
 total 0
 -rw-r--r-- 1 root root 0 Oct 20 17:00 1.txt
 -rw-r--r-- 1 root root 0 Oct 20 17:00 2.txt
@@ -263,7 +263,7 @@ total 0
 <p>Lo primero es crear el directorio <code>error</code> dentro del DocumentRoot, en el cual almacenaremos los mensajes de error personalizados:</p>
 <p><code>mkdir /srv/mapeo/error</code></p>
 <p>A continuación, crearemos los ficheros <em>.html</em> que mostrarán los mensajes de error. Los he llamado <em>403.html</em> y <em>404.html</em>, y los he rellenado con la siguiente información:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat 403.html 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat 403.html 
 
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -276,7 +276,7 @@ total 0
     &lt;img src=&#34;/error/pillin.jpg&#34; alt=&#34;403&#34;&gt;
   &lt;/body&gt;
 &lt;/html&gt;
-</code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat 404.html 
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat 404.html 
 
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
@@ -290,7 +290,7 @@ total 0
   &lt;/body&gt;
 &lt;/html&gt;
 </code></pre></div><p>Ahora solo tenemos que añadir las siguientes líneas al fichero del virtualhost:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ErrorDocument 404 /error/404.html
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ErrorDocument 404 /error/404.html
 ErrorDocument 403 /error/403.html
 </code></pre></div><p>Reiniciamos el servicio y listo:</p>
 <p><code>systemctl reload apache2</code></p>
@@ -304,7 +304,7 @@ ErrorDocument 403 /error/403.html
 </ul>
 <p><img src="/images/mapearurl/noencontrado.png" alt="noencontrado.png"></p>
 <p>Con esto hemos acabado el ejercicio. Como detalle final, vamos a ver como ha quedado configuración final del virtualhost:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat mapeo.conf
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat mapeo.conf
 
 &lt;VirtualHost *:80&gt;
 

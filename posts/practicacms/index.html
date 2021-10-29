@@ -178,7 +178,7 @@
   </a>
 </h3>
 <p>Vamos a crear el fichero de configuración del virtualhost en el directorio <code>/etc/apache2/sites-available</code>, y lo vamos a llamar <em>dparrales-mediawiki.conf</em>. La configuración del virtualhost es la siguiente:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
     ServerAdmin webmaster@localhost
     ServerName www.dparrales-mediawiki.com
     ServerAlias www.dparrales-mediawiki.com
@@ -198,7 +198,7 @@
 </code></pre></div><p>Ahora habilitamos el virtualhost con el siguiente comando:</p>
 <p><code>a2ensite dparrales-mediawiki.conf</code></p>
 <p>También hay que crear la carpeta y un archivo de prueba en el DocumentRoot:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">tree /var/www/www.dparrales-mediawiki.com/
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">tree /var/www/www.dparrales-mediawiki.com/
 /var/www/www.dparrales-mediawiki.com/
 └── info.php
 
@@ -216,7 +216,7 @@
   </a>
 </h3>
 <p>Antes con continuar con la instalación, debemos crear una base de datos en mariadb y un usuario con permisos sobre esa base de datos:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u root -p
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u root -p
 Enter password: 
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
 Your MariaDB connection id is 6
@@ -239,13 +239,13 @@ Query OK, 0 rows affected (0.010 sec)
   </a>
 </h3>
 <p>Ahora podemos descargar los archivos de configuración y descomprimir el cms en el DocumentRoot:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wget https://releases.wikimedia.org/mediawiki/1.36/mediawiki-1.36.2.tar.gz
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wget https://releases.wikimedia.org/mediawiki/1.36/mediawiki-1.36.2.tar.gz
 
 tar -vxf mediawiki-1.36.2.tar.gz
 </code></pre></div><p>Ya podemos configurar el cms si accedemos desde el navegador a la ruta donde se encuentra el fichero de configuración:</p>
 <p><img src="/images/practicacms/configuracion_mediawiki1.png" alt="configuracion_mediawiki1.png"></p>
 <p>Como podemos ver, se nos pide que instalemos unos paquetes antes de realizar la configuración:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install php-mbstring php-xml php-intl
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install php-mbstring php-xml php-intl
 
 systemctl reload apache2
 </code></pre></div><p>Ahora al acceder a la misma url nos sale el menú de configuración:</p>
@@ -253,7 +253,7 @@ systemctl reload apache2
 <p>Ya podemos iniciar la configuración de mediawiki. Tras rellenar todos los campos en las páginas de configuración con los datos del usuario y de la base de datos que creamos antes, llegamos al final de la instalación:</p>
 <p><img src="/images/practicacms/finalizarmediawiki.png" alt="finalizarmediawiki.png"></p>
 <p>Haciendo caso a lo que nos dice la página y copiamos el archivo que se ha descargado (<em>LocalSettings.php</em>) en el directorio donde se encontraba el <em>index.php</em> (<em><code>www.dparrales-mediawiki.com/mediawiki-1.36.2/mw-config</code></em>):</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l
 
 total 1636
 -rw-rw-r--  1 www-data www-data     168 Sep 30 16:46 CODE_OF_CONDUCT.md
@@ -312,7 +312,7 @@ drwxr-xr-x 17 www-data www-data    4096 Oct 20 12:33 vendor
 <p>A continuación, descomprimimos el archivo en la carpeta <code>/extensions</code> de mediawiki:</p>
 <p><code>tar -xzf SimpleCalendar-master-dc0b4a4.tar.gz -C /var/www/www.dparrales-mediawiki.com/mediawiki-1.36.2/extensions/</code></p>
 <p>Ya solo tenemos que añadir la siguiente línea al final del fichero <em>LocalSettings.php</em> y reiniciar el servicio:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wfLoadExtension( &#39;SimpleCalendar&#39; );
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wfLoadExtension( &#39;SimpleCalendar&#39; );
 
 systemctl reload apache2
 </code></pre></div><p>Con esto ya debería aparecernos la nueva extensión en la lista de extensiones instaladas:</p>
@@ -340,9 +340,9 @@ systemctl reload apache2
   </a>
 </h2>
 <p>Para realizar la copia de seguridad basta con utilizar el siguiente comando, lo que nos generará un fichero sql con la información de la base de datos que le indiquemos:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysqldump -v --opt --events --routines --triggers --default-character-set=utf8 -u mediawiki -p mediawiki &gt; db_backup_mediawiki_`date +%Y%m%d_%H%M%S`.sql
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysqldump -v --opt --events --routines --triggers --default-character-set=utf8 -u mediawiki -p mediawiki &gt; db_backup_mediawiki_`date +%Y%m%d_%H%M%S`.sql
 </code></pre></div><p>Este fichero <code>.sql</code> podemos comprimirlo después para que sea más manejable, pero como esta base de datos es nueva y apenas tiene contenido, no he visto necesario comprimirlo:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -lh
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -lh
 
 -rw-r--r-- 1 vagrant vagrant 2.4M Oct 26 06:36 db_backup_mediawiki_20211026_063630.sql
 </code></pre></div><h2 id="crea-otra-máquina-con-vagrant-conectada-con-una-red-interna-a-la-anterior-y-configura-un-servidor-de-base-de-datos">
@@ -352,7 +352,7 @@ systemctl reload apache2
   </a>
 </h2>
 <p>Para ello vamos a utilizar la misma configuración de vagrant que con el anterior, por lo que su creación será bastante rápida. A continuación el <code>Vagrantfile</code> que he usado:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Vagrant.configure(&#34;2&#34;) do |config|
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Vagrant.configure(&#34;2&#34;) do |config|
       config.vm.provider :libvirt do |v|
       v.memory = 1024
       end
@@ -378,10 +378,10 @@ systemctl reload apache2
      end
 end
 </code></pre></div><p>A continuación instalamos, securizamos la base de datos mariadb y la configuramos para que pueda ser accedida desde el exterior:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt-get install mariadb-server
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt-get install mariadb-server
 
 mysql_secure_installation
-</code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/mysql/mariadb.conf.d/50-server.cnf
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/mysql/mariadb.conf.d/50-server.cnf
 
 bind-address            = 0.0.0.0
 </code></pre></div><p>Reiniciamos el servicio para que cargue la nueva configuración:</p>
@@ -441,7 +441,7 @@ bind-address            = 0.0.0.0
 <ul>
 <li>Creamos un nuevo virtualhost para OpenCart:</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;VirtualHost *:80&gt;
     ServerAdmin webmaster@localhost
     ServerName www.dparrales-opencart.org
     ServerAlias www.dparrales-opencart.org
@@ -461,13 +461,13 @@ bind-address            = 0.0.0.0
 </code></pre></div><ul>
 <li>Habilitamos el virtualhost y reiniciamos el servicio:</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite dparrales-opencart.conf 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite dparrales-opencart.conf 
 
 systemctl reload apache2
 </code></pre></div><ul>
 <li>Descargamos y extraemos el archivo de instalación de opencart en el DocumentRoot:</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l /var/www/opencart/
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l /var/www/opencart/
 total 17296
 -rw-r--r-- 1 root    root       33574 Aug 27 07:28 CHANGELOG.md
 -rw-r--r-- 1 root    root      327817 Aug 27 07:28 CHANGELOG_AUTO.md
@@ -483,7 +483,7 @@ drwxr-xr-x 7 root    root        4096 Aug 27 07:28 upload
 </code></pre></div><ul>
 <li>Antes de seguir con la instalación, creamos la base de datos y un nuevo usuario para administrar dicha base de datos:</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u root -p
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u root -p
 Enter password: 
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
 Your MariaDB connection id is 6
@@ -502,7 +502,7 @@ Query OK, 0 rows affected (0.015 sec)
 </code></pre></div><ul>
 <li>Leemos las instrucciones para instalar <em>opencart</em>:</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">- Linux Install -
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">- Linux Install -
 
 1. Upload all of the files and folders to your server from the &#34;Upload&#34; folder, place them in your web root. The web root is different on some servers, cPanel it should be public_html/ and on Plesk it should be httpdocs/.
 
@@ -538,7 +538,7 @@ Query OK, 0 rows affected (0.015 sec)
 </code></pre></div><ul>
 <li>Seguimos lo que se nos indica:</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mv config-dist.php config.php
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mv config-dist.php config.php
 mv admin/config-dist.php admin/config.php
 chmod 0755 system/storage/cache/
 chmod 0755 system/storage/download/
@@ -556,7 +556,7 @@ mv upload/* .
 </code></pre></div><ul>
 <li>Nos quedan los siguientes ficheros y directorios en el DocumentRoot:</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l /var/www/opencart/
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l /var/www/opencart/
 total 32
 drwxr-xr-x 6 www-data www-data 4096 Oct 27 15:32 admin
 drwxr-xr-x 6 www-data www-data 4096 Aug 27 07:28 catalog

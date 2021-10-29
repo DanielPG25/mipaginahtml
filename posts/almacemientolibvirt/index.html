@@ -159,7 +159,7 @@
   </a>
 </h3>
 <p>Lo primero es crear un fichero .xml que defina el pool de almacenamiento que vamos a crear:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;pool type=&#39;logical&#39;&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;pool type=&#39;logical&#39;&gt;
   &lt;name&gt;lvm-pool&lt;/name&gt;
   &lt;capacity unit=&#39;bytes&#39;&gt;5368709120&lt;/capacity&gt;
   &lt;source&gt;
@@ -175,7 +175,7 @@
   &lt;/target&gt;
 &lt;/pool&gt;
 </code></pre></div><p>Después definimos el pool de almacenamiento y lo iniciamos:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virsh -c qemu:///system pool-define --file pool_lvm.xml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virsh -c qemu:///system pool-define --file pool_lvm.xml
 
 virsh -c qemu:///system pool-start lvm-pool
 </code></pre></div><p>Ahora creamos el volumen lógico en el pool de almacenamiento:</p>
@@ -201,11 +201,11 @@ virsh -c qemu:///system pool-start lvm-pool
   </a>
 </h3>
 <p>Lo primero es crear el volumen de aprovisionamiento:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">qemu-img create -b /var/lib/libvirt/images/original_dparrales.qcow2 -f qcow2 aprovv_dparrales.qcow2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">qemu-img create -b /var/lib/libvirt/images/original_dparrales.qcow2 -f qcow2 aprovv_dparrales.qcow2
 
 qemu-img create -b /var/lib/libvirt/images/original_dparrales.qcow2 -f qcow2 aprovv2_dparrales.qcow2
 </code></pre></div><p>Lo primero es crear las máquinas con los siguiente comandos:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virt-install --connect qemu:///system --network network=default --name=nodo1_dparrales --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/aprovv_dparrales.qcow2 --import
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virt-install --connect qemu:///system --network network=default --name=nodo1_dparrales --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/aprovv_dparrales.qcow2 --import
 
 virt-install --connect qemu:///system --network network=default --name=nodo2_dparrales --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/aprovv2_dparrales.qcow2 --import
 </code></pre></div><p>Como podemos ver, están usando el disco qcow2 que hemos creado antes:</p>
@@ -221,7 +221,7 @@ virt-install --connect qemu:///system --network network=default --name=nodo2_dpa
 <p>Para cambiar el formato de imagen, ejecutamos el siguiente comando:</p>
 <p><code>sudo qemu-img convert ~/aprovv_dparrales.qcow2 /var/lib/libvirt/images/aprovv_dparrales.raw</code></p>
 <p>Ahora hay que cambiar la definición del dominio para que use el nuevo disco. Para ello usamos el siguiente comando y cambiamos la siguiente información:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo virsh edit --domain nodo1_dparrales
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo virsh edit --domain nodo1_dparrales
 
 </code></pre></div><p><img src="/images/almacenamientolibvirt/nodo1_raw.png" alt="nodo1_raw.png"></p>
 <p>Una vez que hayamos modificado la información anterior, podemos iniciar la máquina. Si todo ha ido bien, nos saldrá la autentificación de usuario y la máquina funcionará correctamente:</p>
@@ -233,13 +233,13 @@ virt-install --connect qemu:///system --network network=default --name=nodo2_dpa
   </a>
 </h3>
 <p>Lo primero es determinar el volumen que está usando la máquina virtual. Para ello usamos el siguiente comando:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virsh -c qemu:///system domblklist --domain nodo2_dparrales
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virsh -c qemu:///system domblklist --domain nodo2_dparrales
 
  Destino   Fuente
 ----------------------------------------------------
  hda       /home/dparrales/aprovv2_dparrales.qcow2
 </code></pre></div><p>A continuación obtenemos información sobre el fichero de imagen:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">qemu-img info  /home/dparrales/aprovv2_dparrales.qcow2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">qemu-img info  /home/dparrales/aprovv2_dparrales.qcow2
 image: /home/dparrales/aprovv2_dparrales.qcow2
 file format: qcow2
 virtual size: 3 GiB (3221225472 bytes)
@@ -255,11 +255,11 @@ Format specific information:
     corrupt: false
     extended l2: false
 </code></pre></div><p>Después creamos una nueva imagen con un tamaño de 4GB:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">qemu-img create -f qcow2 -o preallocation=metadata aprovv2_dparrales_new.qcow2 4G
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">qemu-img create -f qcow2 -o preallocation=metadata aprovv2_dparrales_new.qcow2 4G
 
 Formatting &#39;aprovv2_dparrales_new.qcow2&#39;, fmt=qcow2 cluster_size=65536 extended_l2=off preallocation=metadata compression_type=zlib size=4294967296 lazy_refcounts=off refcount_bits=16
 </code></pre></div><p>Ahora redimensionamos el nuevo disco a partir del disco antiguo:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virt-resize --expand /dev/sda1 aprovv2_dparrales aprovv2_dparrales_new.qcow2  
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virt-resize --expand /dev/sda1 aprovv2_dparrales aprovv2_dparrales_new.qcow2  
 
 [   0.0] Examining aprovv2_dparrales.qcow2
 **********
@@ -282,7 +282,7 @@ method.
 Resize operation completed with no errors.  Before deleting the old disk, 
 carefully check that the resized disk boots and works correctly
 </code></pre></div><p>Una vez terminado, cambiamos el nombre a los discos para que coincidan con la ruta que aparece en la configuración de la máquina:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mv aprovv2_dparrales.qcow2 aprovv2_dparrales_old.qcow2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mv aprovv2_dparrales.qcow2 aprovv2_dparrales_old.qcow2
 
 mv aprovv2_dparrales_new.qcow2 aprovv2_dparrales.qcow2
 </code></pre></div><p>Ya podemos iniciar la máquina, y si todo ha ido bien, arrancará con el nuevo disco y podremos comprobar que tiene 1 GB más de tamaño:</p>
@@ -295,7 +295,7 @@ mv aprovv2_dparrales_new.qcow2 aprovv2_dparrales.qcow2
 </h3>
 <p>Antes de hacer el snapshot, debemos cambiar el tipo de imagen que tiene el nodo1 de raw a qcow2, ya que los ficheros raw no tienen soporte para hacer snapshots con el comando <em>&ldquo;virsh snapshot-create-as&rdquo;</em>.</p>
 <p>Así pues, volvemos a cambiar el tipo de disco del nodo1 siguiendo los pasos anteriores. Tras cambiarlo, debería quedarnos algo así:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virsh -c qemu:///system domblklist nodo1_dparrales
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virsh -c qemu:///system domblklist nodo1_dparrales
 
  Destino   Fuente
 ---------------------------------------------------

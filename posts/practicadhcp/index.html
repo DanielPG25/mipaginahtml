@@ -158,7 +158,7 @@
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Preparación del escenario
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Preparación del escenario
 
 Crea un escenario en libvirt/kvm (no uses Vagrant) de la siguiente manera:
 
@@ -186,7 +186,7 @@ Vamos a conectar un cliente windows a una de las redes. Vamos a comprobar que oc
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Tarea 1: Explica brevemente cómo has creado el escenario con libvirt/KVM.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Tarea 1: Explica brevemente cómo has creado el escenario con libvirt/KVM.
 
 Tarea 2: Muestra el fichero de configuración del servidor, la lista de concesiones, la modificación en la configuración que has hecho en el cliente para que tome la configuración de forma automática y muestra la salida del comando ` ip a` en los clientes.
 
@@ -206,20 +206,20 @@ Tarea 6: Realiza un playbook con ansible que configure de forma automática el s
 <p>Vamos a crear primero las tres máquinas que funcionarán como servidor y clientes. Primero crearemos el servidor, y después usaremos la imagen creada como base para aprovisionamiento ligero para las tres máquinas necesarias. Para crear la máquina que tendrá la imagen base usamos el siguiente comando:</p>
 <p><code>virt-install --connect qemu:///system --cdrom /var/lib/libvirt/images/debian-11.0.0-amd64-netinst.iso --network network=default --name Servidor-DHCP --memory 1024 --vcpus 1 --disk size=10</code></p>
 <p>Ahora creamos los tres volúmenes de aprovisionamiento ligero que usaremos para el servidor y los clientes:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">qemu-img create -b /var/lib/libvirt/images/Servidor-DHCP.qcow2 -f qcow2 /var/lib/libvirt/images/servidor_dhcp.qcow2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">qemu-img create -b /var/lib/libvirt/images/Servidor-DHCP.qcow2 -f qcow2 /var/lib/libvirt/images/servidor_dhcp.qcow2
 
 qemu-img create -b /var/lib/libvirt/images/Servidor-DHCP.qcow2 -f qcow2 /var/lib/libvirt/images/cliente_dhcp1.qcow2
 
 qemu-img create -b /var/lib/libvirt/images/Servidor-DHCP.qcow2 -f qcow2 /var/lib/libvirt/images/cliente_dhcp2.qcow2
 </code></pre></div><p>Ya podemos crear las tres máquinas basadas en esos volúmenes:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virt-install --connect qemu:///system --name Servidor-DHCP --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/servidor_dhcp.qcow2 --import
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">virt-install --connect qemu:///system --name Servidor-DHCP --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/servidor_dhcp.qcow2 --import
 
 virt-install --connect qemu:///system --name ClienteDhcp1 --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/cliente_dhcp1.qcow2 --import
 
 virt-install --connect qemu:///system --name ClienteDhcp2 --memory 1024 --vcpus 1 --disk /var/lib/libvirt/images/cliente_dhcp2.qcow2 --import
 
 </code></pre></div><p>También debemos crear las redes aisladas a las que conectaremos los clientes y el servidor. A continuación el xml de cada una de las redes:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;network&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;network&gt;
   &lt;name&gt;veryprivate1&lt;/name&gt;
   &lt;bridge name=&#34;puente2&#34; stp=&#34;on&#34; delay=&#34;0&#34;/&gt;
 &lt;/network&gt;
@@ -233,7 +233,7 @@ virt-install --connect qemu:///system --name ClienteDhcp2 --memory 1024 --vcpus 
 &lt;/network&gt;
 
 </code></pre></div><p>Ahora añadimos ambas interfaces al Servidor, y añadir una a cada uno de los clientes además que quitarles la interfaz <em>default</em> que tienen:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Servidor:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Servidor:
 
 virsh -c qemu:///system attach-interface --domain Servidor-DHCP --persistent network veryprivate1
 
@@ -250,7 +250,7 @@ virsh -c qemu:///system detach-interface --domain ClienteDhcp2 network 52:54:00:
 
 virsh -c qemu:///system detach-interface --domain ClienteDhcp1 network 52:54:00:7d:a1:37 --persistent
 </code></pre></div><p>Ya solo queda configurar las interfaces del servidor y el escenario estaría listo:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/network/interfaces
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/network/interfaces
 
 # The primary network interface
 allow-hotplug ens3
@@ -278,7 +278,7 @@ iface ens9 inet static
   </a>
 </h2>
 <p>En el fichero de configuración añadimos las siguientes líneas:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">/etc/dhcp/dhcpd.conf
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">/etc/dhcp/dhcpd.conf
 
 subnet 192.168.100.0 netmask 255.255.255.0 {
         range 192.168.100.50 192.168.100.100;
@@ -305,7 +305,7 @@ subnet 192.168.200.0 netmask 255.255.255.0 {
 <ul>
 <li>Cliente 1:</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">/etc/network/interfaces
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">/etc/network/interfaces
 
 auto ens8
 allow-hotplug ens8
@@ -313,7 +313,7 @@ iface ens8 inet dhcp
 </code></pre></div><ul>
 <li>Cliente 2:</li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">/etc/network/interfaces
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">/etc/network/interfaces
 
 auto ens8
 allow-hotplug ens8
@@ -322,7 +322,7 @@ iface ens8 inet dhcp
 <p><img src="/images/dhcp_practica/ipa_cliente1.png" alt="ipa_cliente1.png"></p>
 <p><img src="/images/dhcp_practica/ipa_cliente2.png" alt="ipa_cliente2.png"></p>
 <p>Como podemos ver, cada cliente ha recibido su ip. Veamos ahora la lista de concesiones en el servidor:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat /var/lib/dhcp/dhcpd.leases
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat /var/lib/dhcp/dhcpd.leases
 
 # The format of this file is documented in the dhcpd.leases(5) manual page.
 # This lease file was written by isc-dhcp-4.4.1
@@ -364,7 +364,7 @@ lease 192.168.200.50 {
 <p>Lo primero es activar el bit de &ldquo;forwarding&rdquo;. Para hacerlo de forma permanente descomentamos la siguiente línea en el fichero /etc/sysctl.conf:</p>
 <p><code>net.ipv4.ip_forward=1</code></p>
 <p>Ahora añadimos las reglas de iptables (hay que instalar el paquete si no está ya instalado) necesarias para que el servidor haga nat y los clientes puedan salir a internet. Las reglas vamos a añadirlas al fichero <em>/etc/network/interfaces</em> para hacerlas permanentes:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback"># Red privada 1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback"># Red privada 1
 allow_hotplug ens8
 auto ens8
 iface ens8 inet static
