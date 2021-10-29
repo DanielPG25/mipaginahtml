@@ -2,37 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Daniel Parrales on Sysadblog</title>
-    <link>https://www.sysadblog.onrender.com/authors/daniel-parrales/</link>
+    <link>https://sysadblog.onrender.com/authors/daniel-parrales/</link>
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 29 Oct 2021 09:49:22 +0200</lastBuildDate><atom:link href="https://www.sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Oct 2021 09:49:22 +0200</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Infraestructura de red router-nat desde horizon</title>
-      <link>https://www.sysadblog.onrender.com/posts/routernat-horizon/</link>
+      <link>https://sysadblog.onrender.com/posts/routernat-horizon/</link>
       <pubDate>Fri, 29 Oct 2021 09:49:22 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/routernat-horizon/</guid>
+      <guid>https://sysadblog.onrender.com/posts/routernat-horizon/</guid>
       <description>Infraestructura de red router-nat desde horizon    El escenario tendrá las siguientes características:
  Crea una red que se debe llamar “red_interna”, con direccionamiento 192.168.0.0/24, tendrá el DHCP activado, el gateway será el 192.168.0.1 y el DNS que reparte el 192.168.202.2. Crea una instancia a partir de una imagen, llamada router conecta a tu red y a la red “red_interna” en la dirección 192.168.0.1. Esta máquina será la puerta de enlace del la otra máquina.</description>
     </item>
     
     <item>
       <title>Ejecución de PHP con PHP-FPM</title>
-      <link>https://www.sysadblog.onrender.com/posts/ejecucion_php_fpm/</link>
+      <link>https://sysadblog.onrender.com/posts/ejecucion_php_fpm/</link>
       <pubDate>Thu, 28 Oct 2021 20:11:20 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/ejecucion_php_fpm/</guid>
+      <guid>https://sysadblog.onrender.com/posts/ejecucion_php_fpm/</guid>
       <description>Ejecución de PHP con PHP-FPM    El ejercicio tendrá los siguientes pasos:
  Desinstala el módulo de apache2 que permite la ejecución de PHP. Instala PHP-FPM. Configura apache2 para que utilice PHP-FPM para ejecutar PHP, lo puedes hacer para todos los virtualhost o en cada uno de los virtualhost. Comprueba accediendo a un fichero info.php, que los script PHP se estan ejecutando con PHP-FPM. Comprueba que los CMS instalados siguen funcionando.</description>
     </item>
     
     <item>
       <title>Implantación de aplicaciones web PHP</title>
-      <link>https://www.sysadblog.onrender.com/posts/practicacms/</link>
+      <link>https://sysadblog.onrender.com/posts/practicacms/</link>
       <pubDate>Thu, 28 Oct 2021 11:07:36 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/practicacms/</guid>
+      <guid>https://sysadblog.onrender.com/posts/practicacms/</guid>
       <description>Práctica: Implantación de aplicaciones web PHP    Los requisitos previos son los siguientes:
  Crea una instancia de vagrant basado en un box debian o ubuntu Instala en esa máquina virtual toda la pila LAMP  Tarea 1: Instalación de un CMS PHP en mi servidor local    Los objetivos de esta tarea son los siguientes:
  Configura el servidor web con virtual hosting para que el CMS sea accesible desde la dirección: www.</description>
@@ -40,20 +40,20 @@
     
     <item>
       <title>Modificación de un virtualhost con el fichero .htaccess</title>
-      <link>https://www.sysadblog.onrender.com/posts/htaccess_apache2/</link>
+      <link>https://sysadblog.onrender.com/posts/htaccess_apache2/</link>
       <pubDate>Tue, 26 Oct 2021 20:06:50 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/htaccess_apache2/</guid>
+      <guid>https://sysadblog.onrender.com/posts/htaccess_apache2/</guid>
       <description>Configuración de apache mediante archivo .htaccess    Date de alta en un proveedor de hosting. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? ¿Para qué sirve la directiva AllowOverride de apache2?. Utilizando archivos .htaccess realiza las siguientes configuraciones:
  Habilita el listado de ficheros en la URL http://host.dominio/nas. Crea una redirección permanente: cuando entremos en http://host.dominio/google salte a www.google.es. Pedir autentificación para entrar en la URL http://host.</description>
     </item>
     
     <item>
       <title>Compilación de un Kernel a medida</title>
-      <link>https://www.sysadblog.onrender.com/posts/kernelmedida/</link>
+      <link>https://sysadblog.onrender.com/posts/kernelmedida/</link>
       <pubDate>Tue, 26 Oct 2021 13:17:15 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/kernelmedida/</guid>
+      <guid>https://sysadblog.onrender.com/posts/kernelmedida/</guid>
       <description>Compilación de un kernel a medida    En esta práctica vamos a descargar un kernel y vamos a intentar retirarle el mayor número de módulos posibles para reducir al máximo su tamaño, siempre asegurándonos de que siga siendo funcional.
 En primer lugar, para tener localizados todos los archivos que descarguemos y generemos, vamos a crear una nueva carpeta:
 mkdir kernel &amp;amp;&amp;amp; cd kernel Ahora vamos a instalar los paquetes que vamos a usar para la compilación (el paquete qtbase5-dev lo usaremos más adelante para seleccionar que módulos quitar del kernel de forma más amena):</description>
@@ -61,10 +61,10 @@ mkdir kernel &amp;amp;&amp;amp; cd kernel Ahora vamos a instalar los paquetes qu
     
     <item>
       <title>Mapear URL a ubicaciones de un sistema de ficheros con Apache2</title>
-      <link>https://www.sysadblog.onrender.com/posts/mapearurl/</link>
+      <link>https://sysadblog.onrender.com/posts/mapearurl/</link>
       <pubDate>Thu, 21 Oct 2021 18:27:53 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/mapearurl/</guid>
+      <guid>https://sysadblog.onrender.com/posts/mapearurl/</guid>
       <description>Mapear URL a ubicaciones de un sistema de ficheros    Base: Crea un nuevo host virtual que es accedido con el nombre www.mapeo.com, cuyo DocumentRoot sea /srv/mapeo.
 En este ejercicio cumpliremos los siguientes objetivos:
  Cuando se entre a la dirección www.mapeo.com se redireccionará automáticamente a www.mapeo.com/principal, donde se mostrará el mensaje de bienvenida. En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido.</description>
@@ -72,10 +72,10 @@ En este ejercicio cumpliremos los siguientes objetivos:
     
     <item>
       <title>Instalación de BookMedik y acceso usando LAMP</title>
-      <link>https://www.sysadblog.onrender.com/posts/bookmedik/</link>
+      <link>https://sysadblog.onrender.com/posts/bookmedik/</link>
       <pubDate>Sat, 16 Oct 2021 20:11:36 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/bookmedik/</guid>
+      <guid>https://sysadblog.onrender.com/posts/bookmedik/</guid>
       <description>Instalación de la aplicación BookMedik    Vamos a instala la aplicación BookMedik, un sistema para llevar el control de citas medicas, pacientes, médicos, historiales e citas, áreas medicas y mucho mas, pensado para centros médicos, clínicas y médicos independientes. Puedes encontrar la aplicación en https://github.com/evilnapsis/bookmedik.
 Para realizar la instalación sigue los siguientes pasos:
 Crea la base de datos y las tablas necesarias recuperando la copia de seguridad e la base de datos que encuentras en el fichero schema.</description>
@@ -83,10 +83,10 @@ Crea la base de datos y las tablas necesarias recuperando la copia de seguridad 
     
     <item>
       <title>Instalación de phpmyadmin usando un virtualhost</title>
-      <link>https://www.sysadblog.onrender.com/posts/phpmyadmin/</link>
+      <link>https://sysadblog.onrender.com/posts/phpmyadmin/</link>
       <pubDate>Sat, 16 Oct 2021 17:04:04 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/phpmyadmin/</guid>
+      <guid>https://sysadblog.onrender.com/posts/phpmyadmin/</guid>
       <description>Instalación de phpmyadmin    phpmyadmin es una aplicación web escrita en PHP que nos posibilita la gestión de una base de datos mysql/mariadb.
 Normalmente vamos a instalar las aplicaciones web descargando directamente el código de la aplicación al servidor, pero en este ejercicio vamos a instalar la aplicación desde los repositorios de Debian (para este ejercicio previamente hemos instalado un servidor LAMP en nuestra máquina).
 Realizaremos los siguientes pasos:</description>
@@ -94,58 +94,58 @@ Realizaremos los siguientes pasos:</description>
     
     <item>
       <title>Práctica de configuración de un servidor DHCP manualmente y con ansible</title>
-      <link>https://www.sysadblog.onrender.com/posts/practicadhcp/</link>
+      <link>https://sysadblog.onrender.com/posts/practicadhcp/</link>
       <pubDate>Thu, 14 Oct 2021 20:32:54 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/practicadhcp/</guid>
+      <guid>https://sysadblog.onrender.com/posts/practicadhcp/</guid>
       <description>Práctica DHCP    Escenario    Preparación del escenario Crea un escenario en libvirt/kvm (no uses Vagrant) de la siguiente manera: Máquina Servidor: Tiene tres tarjetas de red: una que le da acceso a internet (NAT o pública) y dos redes privadas (muy aisladas). Máquina nodo_lan1: Un cliente linux conectado a la primera red privada. Máquina nodo_lan2: Un cliente linux conectado a la segunda red privada. Servidor dhcp Instala un servidor dhcp en el ordenador “servidor” que de servicio a los ordenadores de red local, teniendo en cuenta: Por la red privada 1: Reparte configuración en la red 192.</description>
     </item>
     
     <item>
       <title>Tomar el control de Metasploitable3</title>
-      <link>https://www.sysadblog.onrender.com/posts/metasploitable3/</link>
+      <link>https://sysadblog.onrender.com/posts/metasploitable3/</link>
       <pubDate>Mon, 11 Oct 2021 19:32:07 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/metasploitable3/</guid>
+      <guid>https://sysadblog.onrender.com/posts/metasploitable3/</guid>
       <description>Tomar el control de la máquina Ubuntu de Metasploitable3 a través de un ataque de fuerza bruta por SSH    En esta parte vamos a utilizar una máquina con sistema operativo Kali Linux para tomar el control de una máquina Ubuntu creada a través de “Metasploitable3”, por lo que ha sido creada con multitud de vulnerabilidades que podremos aprovechar. En este caso en concreto, he optado por usar un ataque de fuerza bruta para conectarme por ssh a la máquina y una vez dentro escalar privilegios para convertirme en root, obteniendo así el control total de la máquina.</description>
     </item>
     
     <item>
       <title>Ejercicios para trabajar con el almacenamiento en libvirt</title>
-      <link>https://www.sysadblog.onrender.com/posts/almacemientolibvirt/</link>
+      <link>https://sysadblog.onrender.com/posts/almacemientolibvirt/</link>
       <pubDate>Mon, 11 Oct 2021 16:26:50 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/almacemientolibvirt/</guid>
+      <guid>https://sysadblog.onrender.com/posts/almacemientolibvirt/</guid>
       <description>Ejercicios para trabajar con el almacenamiento en libvirt    Crea un nuevo pool de almacenamiento de tipo lvm, y crea un volumen de 3Gi dentro que sea una volumen lógico. Con virt-install instala una máquina que se llame original_tunombre cuyo disco sea el volumen creado.    Lo primero es crear un fichero .xml que defina el pool de almacenamiento que vamos a crear:
 &amp;lt;pool type=&amp;#39;logical&amp;#39;&amp;gt; &amp;lt;name&amp;gt;lvm-pool&amp;lt;/name&amp;gt; &amp;lt;capacity unit=&amp;#39;bytes&amp;#39;&amp;gt;5368709120&amp;lt;/capacity&amp;gt; &amp;lt;source&amp;gt; &amp;lt;name&amp;gt;vg1&amp;lt;/name&amp;gt; &amp;lt;/source&amp;gt; &amp;lt;target&amp;gt; &amp;lt;path&amp;gt;/home/dparrales/Descargas/pool-lvm&amp;lt;/path&amp;gt; &amp;lt;permissions&amp;gt; &amp;lt;mode&amp;gt;0711&amp;lt;/mode&amp;gt; &amp;lt;owner&amp;gt;0&amp;lt;/owner&amp;gt; &amp;lt;group&amp;gt;0&amp;lt;/group&amp;gt; &amp;lt;/permissions&amp;gt; &amp;lt;/target&amp;gt; &amp;lt;/pool&amp;gt; Después definimos el pool de almacenamiento y lo iniciamos:</description>
     </item>
     
     <item>
       <title>Instalación de un servidor DHCP en Debian</title>
-      <link>https://www.sysadblog.onrender.com/posts/dhcp/</link>
+      <link>https://sysadblog.onrender.com/posts/dhcp/</link>
       <pubDate>Fri, 08 Oct 2021 19:53:50 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/dhcp/</guid>
+      <guid>https://sysadblog.onrender.com/posts/dhcp/</guid>
       <description>Ejercicio 1: Instalación y configuración del servidor dhcp en linux    Instalación y configuración en el servidor    Para este ejercicio vamos a instalar y configurar de forma básica un servidor dhcp en linux. El servidor deberá tener la siguiente configuración:
  Rango de direcciones a repartir: 192.168.0.100 - 192.168.0.110 Máscara de red: 255.255.255.0 Duración de la concesión: 1 hora Puerta de enlace: 192.168.0.1 Servidores DNS: 8.</description>
     </item>
     
     <item>
       <title>Compilación de un paquete escrito en C</title>
-      <link>https://www.sysadblog.onrender.com/posts/compilacion/</link>
+      <link>https://sysadblog.onrender.com/posts/compilacion/</link>
       <pubDate>Thu, 07 Oct 2021 18:03:08 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/compilacion/</guid>
+      <guid>https://sysadblog.onrender.com/posts/compilacion/</guid>
       <description>Compilación de un programa en C utilizando un Makefile    Empezamos eligigiendo un paquete basado en C de la librería de paquetes de Debian. En mi caso, he elegido lvm2. Para descargar sus fuentes usamos lo siguiente (previamente hemos creado un directorio en /opt al que hemos llamado lvm):
 mkdir /opt/lvm &amp;amp;&amp;amp; cd /opt/lvm apt source lvm2 Para compilar el paquete hemos de instalar primero las dependencias. Para ello podemos instalar todos los paquetes que aparecen en la línea build-depends del fichero .</description>
     </item>
     
     <item>
       <title>Hugo</title>
-      <link>https://www.sysadblog.onrender.com/posts/hugo/</link>
+      <link>https://sysadblog.onrender.com/posts/hugo/</link>
       <pubDate>Thu, 07 Oct 2021 09:16:53 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/hugo/</guid>
+      <guid>https://sysadblog.onrender.com/posts/hugo/</guid>
       <description>Generador de páginas estáticas: Hugo    Sobre Hugo    Hugo es un generador de páginas estáticas rápido y moderno escrito en Go. Utiliza las librerías de Go html/template y text/template como base para las plantillas que utiliza. Permite escribir en Markdown, el cual lee al realizar un despliegue, transformándolo en html, lo que nos permite generar páginas estáticas de forma muy sencilla. Instalarlo en Debian es de lo más sencillo, solo hay que usar el siguiente comando:</description>
     </item>
     

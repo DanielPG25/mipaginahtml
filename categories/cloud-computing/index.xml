@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cloud Computing on Sysadblog</title>
-    <link>https://www.sysadblog.onrender.com/categories/cloud-computing/</link>
+    <link>https://sysadblog.onrender.com/categories/cloud-computing/</link>
     <description>Recent content in Cloud Computing on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 29 Oct 2021 09:49:22 +0200</lastBuildDate><atom:link href="https://www.sysadblog.onrender.com/categories/cloud-computing/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Oct 2021 09:49:22 +0200</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/cloud-computing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Infraestructura de red router-nat desde horizon</title>
-      <link>https://www.sysadblog.onrender.com/posts/routernat-horizon/</link>
+      <link>https://sysadblog.onrender.com/posts/routernat-horizon/</link>
       <pubDate>Fri, 29 Oct 2021 09:49:22 +0200</pubDate>
       
-      <guid>https://www.sysadblog.onrender.com/posts/routernat-horizon/</guid>
+      <guid>https://sysadblog.onrender.com/posts/routernat-horizon/</guid>
       <description>Infraestructura de red router-nat desde horizon    El escenario tendrá las siguientes características:
  Crea una red que se debe llamar “red_interna”, con direccionamiento 192.168.0.0/24, tendrá el DHCP activado, el gateway será el 192.168.0.1 y el DNS que reparte el 192.168.202.2. Crea una instancia a partir de una imagen, llamada router conecta a tu red y a la red “red_interna” en la dirección 192.168.0.1. Esta máquina será la puerta de enlace del la otra máquina.</description>
     </item>
