@@ -5,6 +5,16 @@
     <link>http://www.sysadblog.com/categories/</link>
     <description>Recent content in Categories on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="http://www.sysadblog.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Fri, 29 Oct 2021 09:49:22 +0200</lastBuildDate><atom:link href="http://www.sysadblog.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cloud Computing</title>
+      <link>http://www.sysadblog.com/categories/cloud-computing/</link>
+      <pubDate>Fri, 29 Oct 2021 09:49:22 +0200</pubDate>
+      
+      <guid>http://www.sysadblog.com/categories/cloud-computing/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
