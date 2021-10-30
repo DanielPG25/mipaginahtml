@@ -6,7 +6,17 @@
     <description>Recent content in Servicios de Red on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 26 Oct 2021 20:06:50 +0200</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/servicios-de-red/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 30 Oct 2021 16:05:17 +0200</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/servicios-de-red/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Apache2 como proxy inverso</title>
+      <link>https://sysadblog.onrender.com/posts/apache2_proxyinverso/</link>
+      <pubDate>Sat, 30 Oct 2021 16:05:17 +0200</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/apache2_proxyinverso/</guid>
+      <description>Apache2 como proxy inverso    Descarga el siguiente fichero donde encontrarás un escenario vagrant y una receta ansible para configurar el siguiente escenario:
+ Una máquina “proxy” conectada al exterior y a una red interna. Una máquina “servidorweb” conectada a la red interna.  En la máquina “servidorweb” tenemos instalado un apache2 con dos virtualhost. Suponemos que no podemos acceder a ella por la red de mantenimiento, por lo tanto lo que tienes que hacer es lo siguiente:</description>
+    </item>
+    
     <item>
       <title>Modificación de un virtualhost con el fichero .htaccess</title>
       <link>https://sysadblog.onrender.com/posts/htaccess_apache2/</link>
