@@ -3,37 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://sysadblog.onrender.com/categories/aplicaciones-web/</loc>
+    <lastmod>2021-11-04T10:29:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/authors/</loc>
+    <lastmod>2021-11-04T10:29:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/</loc>
+    <lastmod>2021-11-04T10:29:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
+    <lastmod>2021-11-04T10:29:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/flask_apache2_wsgi/</loc>
+    <lastmod>2021-11-04T10:29:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/</loc>
+    <lastmod>2021-11-04T10:29:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/</loc>
+    <lastmod>2021-11-04T10:29:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://sysadblog.onrender.com/posts/apache2_proxyinverso/</loc>
     <lastmod>2021-10-30T16:05:17+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://sysadblog.onrender.com/authors/</loc>
-    <lastmod>2021-10-30T16:05:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/</loc>
-    <lastmod>2021-10-30T16:05:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
-    <lastmod>2021-10-30T16:05:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/posts/</loc>
-    <lastmod>2021-10-30T16:05:17+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://sysadblog.onrender.com/categories/servicios-de-red/</loc>
-    <lastmod>2021-10-30T16:05:17+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/</loc>
     <lastmod>2021-10-30T16:05:17+02:00</lastmod>
   </url>
   
@@ -50,11 +60,6 @@
   <url>
     <loc>https://sysadblog.onrender.com/posts/routernat-horizon/</loc>
     <lastmod>2021-10-29T09:49:22+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/aplicaciones-web/</loc>
-    <lastmod>2021-10-28T20:11:20+02:00</lastmod>
   </url>
   
   <url>

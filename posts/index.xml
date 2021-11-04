@@ -6,7 +6,19 @@
     <description>Recent content in Posts on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 30 Oct 2021 16:05:17 +0200</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 04 Nov 2021 10:29:00 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Desplegando aplicaciones flask con apache2 &#43; mod_wsgi</title>
+      <link>https://sysadblog.onrender.com/posts/flask_apache2_wsgi/</link>
+      <pubDate>Thu, 04 Nov 2021 10:29:00 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/flask_apache2_wsgi/</guid>
+      <description>Desplegando aplicaciones flask con apache2 + mod_wsgi    En este ejercicio tenemos que configurar la aplicación guestbook para que sea servida con apache2 y el módulo wsgi. Para ello vamos a tener que realizar los siguientes pasos:
+Crear el entorno virtual con el que vamos a trabajar    Para ello tenemos que instalar el paquete necesario para crear entornos virtuales con python3:
+apt install python3-venv
+A continuación podemos crear el entorno con el siguiente comando:</description>
+    </item>
+    
     <item>
       <title>Apache2 como proxy inverso</title>
       <link>https://sysadblog.onrender.com/posts/apache2_proxyinverso/</link>

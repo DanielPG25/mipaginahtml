@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Desplegando aplicaciones flask con apache2 &#43; mod_wsgi">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Desplegando aplicaciones flask con apache2 &#43; mod_wsgi"/>
+<meta name="twitter:description" content="Desplegando aplicaciones flask con apache2 &#43; mod_wsgi"/>
+
+    <meta property="og:title" content="Desplegando aplicaciones flask con apache2 &#43; mod_wsgi" />
+<meta property="og:description" content="Desplegando aplicaciones flask con apache2 &#43; mod_wsgi" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/flask_apache2_wsgi/" />
+<meta property="article:published_time" content="2021-11-04T10:29:00+01:00" />
+<meta property="article:modified_time" content="2021-11-04T10:29:00+01:00" />
+
+
+    <title>
+  Desplegando aplicaciones flask con apache2 &#43; mod_wsgi · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/flask_apache2_wsgi/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/flask_apache2_wsgi/">
+              Desplegando aplicaciones flask con apache2 &#43; mod_wsgi
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-11-04T10:29:00&#43;01:00'>
+                November 4, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              2-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/aplicaciones-web/">Aplicaciones Web</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="desplegando-aplicaciones-flask-con-apache2--mod_wsgi">
+  Desplegando aplicaciones flask con apache2 + mod_wsgi
+  <a class="heading-link" href="#desplegando-aplicaciones-flask-con-apache2--mod_wsgi">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>En este ejercicio tenemos que configurar la aplicación <a href="https://github.com/josedom24/guestbook">guestbook</a> para que sea servida con apache2 y el módulo wsgi. Para ello vamos a tener que realizar los siguientes pasos:</p>
+<h2 id="crear-el-entorno-virtual-con-el-que-vamos-a-trabajar">
+  Crear el entorno virtual con el que vamos a trabajar
+  <a class="heading-link" href="#crear-el-entorno-virtual-con-el-que-vamos-a-trabajar">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para ello tenemos que instalar el paquete necesario para crear entornos virtuales con python3:</p>
+<p><code>apt install python3-venv</code></p>
+<p>A continuación podemos crear el entorno con el siguiente comando:</p>
+<p><code>python3 -m venv flask</code></p>
+<p>Ahora activamos el entorno virtual que hemos creado e instalamos flask y redis:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">source flask/bin/activate
+
+pip install flask redis
+
+apt install redis
+</code></pre></div><p>Ahora solo tenemos que clonar el repositorio, ejecutar el <code>app.py</code> y ver si funciona:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">git clone https://github.com/josedom24/guestbook.git
+
+python3 app.py
+</code></pre></div><p><img src="/images/apache2_flask/guestbook.png" alt="guestbook.png"></p>
+<p>Como vemos, la aplicación funciona. Ahora tenemos que hacer que funcione usando apache2 para que ejecute flask.</p>
+<h2 id="configurar-apache2-para-que-ejecute-la-aplicación">
+  Configurar apache2 para que ejecute la aplicación
+  <a class="heading-link" href="#configurar-apache2-para-que-ejecute-la-aplicaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Si no lo está ya, instalamos apache2 y el módulo wsgi:</p>
+<p><code>apt install apache2 libapache2-mod-wsgi-py3</code></p>
+<p>Activamos el módulo wsgi si no lo está ya:</p>
+<p><code>a2enmod wsgi</code></p>
+<p>Creamos el fichero <code>wsgi.py</code> en el mismo directorio donde se encuentra la aplicación:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano guestbook/app/wsgi.py 
+
+from app import prog as application
+</code></pre></div><p>Tenemos que tener en cuenta lo siguiente:</p>
+<ul>
+<li>El primer app corresponde con el nombre del módulo, es decir del fichero del programa, en nuestro caso se llama app.py.</li>
+<li>Prog se corresponde con la aplicación flask creada en app.py: <code>prog = Flask(__name__)</code>.</li>
+<li>Importamos la aplicación flask, pero la llamamos <code>application</code> necesario para que el servidor web pueda enviarle peticiones.</li>
+</ul>
+<p>A continuación creamos un virtualhost para que ejecute la aplicación:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/apache2/sites-available/guestbook.conf
+
+&lt;VirtualHost *:80&gt;
+
+        ServerName www.guestbook.com
+        ServerAdmin webmaster@localhost
+        DocumentRoot /home/vagrant/guestbook/app
+        ErrorLog ${APACHE_LOG_DIR}/guestbook-error.log
+        CustomLog ${APACHE_LOG_DIR}/guestbook-access.log combined
+
+        WSGIDaemonProcess guestbook python-path=/home/vagrant/guestbook/app:/home/vagrant/flask/lib/python3.9/site-packages
+        WSGIProcessGroup guestbook
+        WSGIScriptAlias / /home/vagrant/guestbook/app/wsgi.py process-group=guestbook
+        &lt;Directory /home/vagrant/guestbook/app&gt;
+                Require all granted
+        &lt;/Directory&gt;
+
+&lt;/VirtualHost&gt;
+</code></pre></div><p>Ahora activamos el virtualhost que acabamos de crear y reiniciamos el servicio:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite guestbook.conf
+
+systemctl reload apache2
+</code></pre></div><p>Con esto ya podemos acceder a la web siempre y cuando indiquemos la resolución estática de nombres en el fichero <code>/etc/hosts</code> de nuestra máquina:</p>
+<p><code>192.168.121.161 www.guestbook.com</code></p>
+<p>Entramos en la web y vemos si funciona:</p>
+<p><img src="/images/apache2_flask/entrada_final_guestbook.png" alt="entrada_final_guestbook.png"></p>
+<p>Con esto ya habríamos terminado de configurar apache2 para que ejecute la aplicación flask.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
