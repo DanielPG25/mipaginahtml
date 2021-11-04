@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Instalación de un servidor LEMP en nuestra VPS">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Instalación de un servidor LEMP en nuestra VPS"/>
+<meta name="twitter:description" content="Instalación de un servidor LEMP en nuestra VPS"/>
+
+    <meta property="og:title" content="Instalación de un servidor LEMP en nuestra VPS" />
+<meta property="og:description" content="Instalación de un servidor LEMP en nuestra VPS" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/practica_nginx/" />
+<meta property="article:published_time" content="2021-11-04T11:08:45+01:00" />
+<meta property="article:modified_time" content="2021-11-04T11:08:45+01:00" />
+
+
+    <title>
+  Instalación de un servidor LEMP en nuestra VPS · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/practica_nginx/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/practica_nginx/">
+              Instalación de un servidor LEMP en nuestra VPS
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-11-04T11:08:45&#43;01:00'>
+                November 4, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/servicios-de-red/">Servicios de Red</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="instalación-de-un-servidor-lemp-en-nuestra-vps">
+  Instalación de un servidor LEMP en nuestra VPS
+  <a class="heading-link" href="#instalaci%c3%b3n-de-un-servidor-lemp-en-nuestra-vps">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<h2 id="instalación">
+  Instalación
+  <a class="heading-link" href="#instalaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Vamos a tener los siguientes pasos:</p>
+<ul>
+<li>Instala un servidor web nginx</li>
+<li>Instala un servidor de base de datos MariaDB. Ejecuta el programa necesario para asegurar el servicio, ya que lo vamos a tener corriendo en el entorno de producción.</li>
+<li>Instala un servidor de aplicaciones PHP-FPM.</li>
+</ul>
+<hr>
+<p>Vamos entonces a instalar nginx:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt update &amp;&amp; apt install nginx
+</code></pre></div><p>Ahora instalamos mariadb y lo securizamos con su script:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install mariadb-server
+
+mysql_secure_installation
+</code></pre></div><p>Por último, instalamos un servidor de aplicaciones PHP-FPM:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install php7.4-fpm php7.4
+</code></pre></div><h2 id="virtualhosting">
+  VirtualHosting
+  <a class="heading-link" href="#virtualhosting">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Los pasos de este punto son los siguientes:</p>
+<ul>
+<li>Crea un virtualhost al que vamos acceder con el nombre <code>www.tudominio.algo</code> Recuerda que tendrás que crear un registro CNAME en la zona DNS.</li>
+<li>Cuando se acceda al virtualhost por defecto default nos tiene que redirigir al virtualhost que hemos creado en el punto anterior.</li>
+</ul>
+<hr>
+<p>Así pues, vamos a crear el registro cname en nuestra zona dns:</p>
+<p><img src="/images/practica_nginx/dns_cname.png" alt="dns_cname.png"></p>
+<p>Ahora tenemos que crear el virtualhost al que accederemos con nuestro dominio. Para ello nos vamos al directorio <code>/etc/nginx/sites-available</code> y creamos allí un virtualhost, al que he llamado <code>sysadblog</code>. Este virtualhost tendrá la siguiente configuración:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/sysadblog;
+
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name www.sysadblog.com;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+}
+</code></pre></div><p>Ahora debemos cambiar el virtualhost por defecto para que redireccione al nuevo que hemos creado. Para ello, añadimos la siguiente línea al bloque de <code>server</code> del virtualhost <code>default</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">rewrite ^/$ http://www.sysadblog.com permanent;
+</code></pre></div><p>Ya simplemente tenemos que crear el enlace simbólico al nuevo virtualhost que hemos creado y reiniciar el servicio:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ln -s /etc/nginx/sites-available/sysadblog /etc/nginx/sites-enabled/
+
+systemctl reload nginx
+</code></pre></div><p>Con esto, si accedemos a la url <code>www.sysadblog.com</code> nos saldrá el mensaje de entrada que hemos puesto en el DocumentRoot:</p>
+<p><img src="/images/practica_nginx/primer_acceso.png" alt="primer_acceso.png"></p>
+<p>También podemos comprobar que funciona la redirección si intentamos entrar en la web usando la ip de mi máquina:</p>
+<p><img src="/images/practica_nginx/redireccion_inicial.png" alt="redireccion_inicial.png"></p>
+<h2 id="mapeo-de-url">
+  Mapeo de URL
+  <a class="heading-link" href="#mapeo-de-url">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Los objetivos de este apartado serán los siguientes:</p>
+<ul>
+<li>Cuando se acceda a <code>www.tudominio.algo</code> se nos redigirá a la página <code>www.tudominio.algo/principal</code>. En el directorio principal no se permite ver la lista de los ficheros y no se permite que se siga los enlaces simbólicos.</li>
+<li>En la página <code>www.tudominio.algo/principal</code> se debe mostrar una página web estática (utiliza alguna plantilla para que tenga hoja de estilo o la página estática que has generado en IAW). En esta página debe aparecer tu nombre, y una lista de enlaces a las aplicaciones que vamos a ir desplegando posteriormente.</li>
+<li>Si accedes a la página <code>www.tudominio.algo/principal/documentos</code> se visualizarán los documentos que hay en /srv/doc. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos.</li>
+<li>En todo el host virtual se debe redefinir los mensajes de error de objeto no encontrado y no permitido. Para el ello se crearan dos ficheros html dentro del directorio error.</li>
+</ul>
+<hr>
+<p>En primer lugar, vamos a crear la redirección. Para ello vamos a añadir la siguiente línea al fichero de configuración de nuestro virtualhost:</p>
+<p><code>rewrite ^/$ http://www.sysadblog.com/principal permanent;</code></p>
+<p>Ahora vamos a añadir las opciones necesarias para que no se vea la lista de contenidos ni se sigan los enlaces simbólicos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">location /principal {
+    autoindex off;
+    disable_symlinks on;
+}
+</code></pre></div><p>Tenemos que recordar reiniciar el servicio cada vez que hagamos algún cambio en la configuración:</p>
+<p><code>systemctl restart nginx</code></p>
+<p>Con esto ya podemos acceder a la página a través de la url anterior y nos redirigirá al nuevo enlace:</p>
+<p><img src="/images/practica_nginx/redireccion_principal.png" alt="redireccion_principal.png"></p>
+<p>Podemos comprobar que si quitamos el fichero index.html, no se nos muestra la lista de archivos:</p>
+<p><img src="/images/practica_nginx/prohibicion_principal.png" alt="prohibicion_principal.png"></p>
+<p>Ahora vamos a poner bonita nuestra página web. Para ello buscamos una plantilla gratuita (hay muchas en Internet). Una vez que hayamos elegido una, la ponemos en nuestro DocumentRoot y la modificamos a nuestro gusto:</p>
+<p><img src="/images/practica_nginx/pagina_estatica.png" alt="pagina_estatica.png"></p>
+<p>A continuación vamos a crear un alias en nuestro virtualhost para que cada vez que se acceda a <code>www.sysadblog.com/principal/documentos</code>, se nos muestre lo que haya en el directorio <code>/srv/doc</code>. En este directorio se permitirá el listado de ficheros y el seguimiento de enlaces simbólicos. Para ello, añadimos a nuestro virtualhost lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">location /principal/documentos {
+        alias /srv/doc;
+        autoindex on;
+        disable_symlinks off;           
+}
+</code></pre></div><p>Reiniciamos el servicio y probamos si funciona:</p>
+<p><code>systemctl reload nginx</code></p>
+<p><img src="/images/practica_nginx/enlace_simbolico.png" alt="enlace_simbolico.png"></p>
+<p><img src="/images/practica_nginx/comprobar_alias.png" alt="comprobar_alias.png"></p>
+<p><img src="/images/practica_nginx/texto_tres.png" alt="texto_tres.png"></p>
+<p>Como vemos, la configuración que hemos añadido funciona perfectamente. Ya solo queda cambiar los mensajes de error en el virtualhost. Para ello, vamos a añadir las siguientes líneas a la configuración del virtualhost:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">error_page 404 /error/404.html;
+error_page 403 /error/403.html;
+</code></pre></div><p>Probemos ahora los nuevos mensajes de error:</p>
+<p><img src="/images/practica_nginx/404.png" alt="404.png"></p>
+<p><img src="/images/practica_nginx/403.png" alt="403.png"></p>
+<p>Los mensajes funcionan perfectamente, por lo que hemos terminado con este apartado.</p>
+<h2 id="autentificación">
+  Autentificación
+  <a class="heading-link" href="#autentificaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>El objetivo de este apartado será el siguiente:</p>
+<ul>
+<li>Autentificación básica. Limita el acceso a la URL <code>www.tudominio.algo/secreto</code>.</li>
+</ul>
+<hr>
+<p>Para poder usar la autentificación básica con nginx, debemos descargar primero el siguiente paquete:</p>
+<p><code>apt install apache2-utils</code></p>
+<p>Una vez instalado, pasamos a crear <code>htpasswd</code> con el usuario que usaremos para la autentificación:</p>
+<p><code>htpasswd -c /etc/apache2/.htpasswd usuario1</code></p>
+<p>Ahora modificamos la configuración del virtualhost para que utilice la autentificación básica:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">location /secreto {
+        auth_basic           “Área secreta”;
+        auth_basic_user_file /etc/apache2/.htpasswd;
+}
+</code></pre></div><p>Reiniamos el servicio y probamos si funciona:</p>
+<p><code>systemctl restart nginx</code></p>
+<p><img src="/images/practica_nginx/area_secreta.png" alt="area_secreta.png"></p>
+<p><img src="/images/practica_nginx/secreto.png" alt="secreto.png"></p>
+<p>Como vemos, la configuración de la autentificación básica ha funcionado. Pasemos entonces al siguiente punto:</p>
+<h2 id="php">
+  PHP
+  <a class="heading-link" href="#php">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Este apartado tendrá los siguientes objetivos:</p>
+<ul>
+<li>Configura el nuevo virtualhost, para que pueda ejecutar PHP. Determina que configuración tiene por defecto php-fpm (socket unix o socket TCP) para configurar nginx de forma adecuada.</li>
+<li>Crea un fichero info.php que demuestre que está funcionando el servidor LEMP.</li>
+</ul>
+<hr>
+<p>Podemos ver la configuración que tiene por defecto php-fpm si vemos el fichero <code>/etc/php/7.4/fpm/pool.d/www.conf</code>. En ese fichero nos encontramos la siguiente línea:</p>
+<p><img src="/images/practica_nginx/php-fpm.png" alt="php-fpm.png"></p>
+<p>Esa línea nos indica que está configurado para usar socket unix, por lo que configuraremos el virtualhost para que use ese mismo socket:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">location ~ \.php$ {
+       include snippets/fastcgi-php.conf;
+       fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+}
+</code></pre></div><p>Reiniciamos el servicio y lo probamos creando un fichero <code>info.php</code>:</p>
+<p><code>systemctl restart nginx</code></p>
+<p><img src="/images/practica_nginx/info-php.png" alt="info-php.png"></p>
+<p>Como podemos ver, ha cargado el fichero <code>info.php</code>, por lo que hemos comprobado que puede ejecutar php usando php-fpm.</p>
+<h2 id="ansible">
+  Ansible
+  <a class="heading-link" href="#ansible">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>En este apartado vamos a relizar lo siguiente:</p>
+<ul>
+<li>
+<p>Realiza la configuración básica de nginx creando una receta ansible. Utilizando como base la receta ansible que utilizaste para el <a href="https://fp.josedomingo.org/sri2122/u03/doc/ejercicio_proxy/ejercicio_proxy.zip">ejercicio 6</a>, modifícala para añadir las siguientes funcionalidades:</p>
+<ul>
+<li>Instalación de los servicios. (Cada servicio se instalará y configurará en un rol diferenciado)</li>
+<li>Como hace la receta original, creará virtualhost que tengas definido en una lista. Estos virtual host estarán configurados para ejecutar PHP.</li>
+<li>La receta debe poder desactivar los virtualhost que tengas definido en una lista.</li>
+<li>Como la receta tiene que ser lo más general posible, si quieres hacer algo más de la práctica, añade las tareas a un rol llamado practica.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>La receta de ansible se encuentra en mi <a href="https://github.com/DanielPG25/Ansible_nginx">github</a></p>
+<hr>
+<p>Como dato final, pongo la configuración de mi virtualhost de nginx después de todos los cambios realizados en la práctica:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/sysadblog;
+
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name www.sysadblog.com;
+
+        rewrite ^/$ http://www.sysadblog.com/principal permanent;
+        location /principal {
+                autoindex off;
+                disable_symlinks on;
+        }
+
+        location /principal/documentos {
+                alias /srv/doc;
+                autoindex on;
+                disable_symlinks off;           
+        }
+        
+        location /secreto {
+                auth_basic &#34;Area secreta&#34;;
+                auth_basic_user_file /etc/apache2/.htpasswd;
+        }
+
+        location ~ \.php$ {
+               include snippets/fastcgi-php.conf;
+               fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+        }
+
+
+        error_page 404 /error/404.html;
+        error_page 403 /error/403.html;
+
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+</code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

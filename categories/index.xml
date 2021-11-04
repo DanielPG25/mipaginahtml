@@ -6,22 +6,22 @@
     <description>Recent content in Categories on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Nov 2021 10:29:00 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 04 Nov 2021 11:08:45 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Servicios de Red</title>
+      <link>https://sysadblog.onrender.com/categories/servicios-de-red/</link>
+      <pubDate>Thu, 04 Nov 2021 11:08:45 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/categories/servicios-de-red/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Aplicaciones Web</title>
       <link>https://sysadblog.onrender.com/categories/aplicaciones-web/</link>
       <pubDate>Thu, 04 Nov 2021 10:29:00 +0100</pubDate>
       
       <guid>https://sysadblog.onrender.com/categories/aplicaciones-web/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Servicios de Red</title>
-      <link>https://sysadblog.onrender.com/categories/servicios-de-red/</link>
-      <pubDate>Sat, 30 Oct 2021 16:05:17 +0200</pubDate>
-      
-      <guid>https://sysadblog.onrender.com/categories/servicios-de-red/</guid>
       <description></description>
     </item>
     
