@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Nov 2021 11:08:45 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 06 Nov 2021 20:39:03 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Migración de Centos 8 a Rocky Linux</title>
+      <link>https://sysadblog.onrender.com/posts/migrarcentos_rocky/</link>
+      <pubDate>Sat, 06 Nov 2021 20:39:03 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/migrarcentos_rocky/</guid>
+      <description>Migración de Centos 8 a Rocky Linux    Debido a las últimas noticias sobre Centos 8, nos vemos obligados a tener que tomar un decisión con respecto al futuro de las máquinas que ahora mismo estén funcionando con Centos 8. Esta decisión será a que sistema operativo debemos migrar dichas máquinas. En este momento hay varias opciones de entre las que elegir: Rocky Linux, Alma Linux, Red Hat Enterprise Linux, Oracle Linux, etc.</description>
+    </item>
+    
     <item>
       <title>Instalación de un servidor LEMP en nuestra VPS</title>
       <link>https://sysadblog.onrender.com/posts/practica_nginx/</link>

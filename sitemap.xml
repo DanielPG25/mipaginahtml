@@ -3,18 +3,38 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/</loc>
+    <lastmod>2021-11-06T20:39:03+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://sysadblog.onrender.com/authors/</loc>
-    <lastmod>2021-11-04T11:08:45+01:00</lastmod>
+    <lastmod>2021-11-06T20:39:03+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://sysadblog.onrender.com/categories/</loc>
-    <lastmod>2021-11-04T11:08:45+01:00</lastmod>
+    <lastmod>2021-11-06T20:39:03+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
-    <lastmod>2021-11-04T11:08:45+01:00</lastmod>
+    <lastmod>2021-11-06T20:39:03+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/migrarcentos_rocky/</loc>
+    <lastmod>2021-11-06T20:39:03+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/</loc>
+    <lastmod>2021-11-06T20:39:03+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/</loc>
+    <lastmod>2021-11-06T20:39:03+01:00</lastmod>
   </url>
   
   <url>
@@ -23,17 +43,7 @@
   </url>
   
   <url>
-    <loc>https://sysadblog.onrender.com/posts/</loc>
-    <lastmod>2021-11-04T11:08:45+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://sysadblog.onrender.com/categories/servicios-de-red/</loc>
-    <lastmod>2021-11-04T11:08:45+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/</loc>
     <lastmod>2021-11-04T11:08:45+01:00</lastmod>
   </url>
   
@@ -80,11 +90,6 @@
   <url>
     <loc>https://sysadblog.onrender.com/posts/htaccess_apache2/</loc>
     <lastmod>2021-10-26T20:06:50+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/</loc>
-    <lastmod>2021-10-26T13:17:15+02:00</lastmod>
   </url>
   
   <url>
