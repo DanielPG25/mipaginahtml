@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Interconexión de un servidor Oracle 19c con PostgreSQL">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Interconexión de un servidor Oracle 19c con PostgreSQL"/>
+<meta name="twitter:description" content="Interconexión de un servidor Oracle 19c con PostgreSQL"/>
+
+    <meta property="og:title" content="Interconexión de un servidor Oracle 19c con PostgreSQL" />
+<meta property="og:description" content="Interconexión de un servidor Oracle 19c con PostgreSQL" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/interconexion_oracle_postgre/" />
+<meta property="article:published_time" content="2021-11-07T12:50:20+01:00" />
+<meta property="article:modified_time" content="2021-11-07T12:50:20+01:00" />
+
+
+    <title>
+  Interconexión de un servidor Oracle 19c con PostgreSQL · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/interconexion_oracle_postgre/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/interconexion_oracle_postgre/">
+              Interconexión de un servidor Oracle 19c con PostgreSQL
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-11-07T12:50:20&#43;01:00'>
+                November 7, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/administraci%C3%B3n-de-bases-de-datos/">Administración de Bases de Datos</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="interconexión-de-oracle19c-con-postgresql">
+  Interconexión de Oracle19c con PostgreSQL
+  <a class="heading-link" href="#interconexi%c3%b3n-de-oracle19c-con-postgresql">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Tenemos las siguientes dos máquinas en el escenario:</p>
+<ul>
+<li>Oracle (Centos 8): con ip 192.168.122.12</li>
+<li>Postgre (Debian 10): con ip 192.168.122.18</li>
+</ul>
+<p>Partimos también de la base de que ambas máquinas están ya configuradas para el acceso remoto.</p>
+<h2 id="desde-oracle19c-a-postgresql">
+  Desde Oracle19c a PostgreSQL
+  <a class="heading-link" href="#desde-oracle19c-a-postgresql">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Oracle no cuenta con un soporte nativo para realizar interconexiones con otros gestores de bases de datos que no sean Oracle, por lo que vamos a utlizar ODBC (Open Database Connectivity), que nos permite el acceso a cualquier base de datos en cualquier aplicación.</p>
+<p>Es por ello, que en primer lugar, vamos a instalar la paquetería necesaria para hacer uso de ODBC:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dnf update &amp;&amp; dnf install unixODBC 
+</code></pre></div><p>Como vamos a realizar una interconexión con PostgreSQL, debemos descargar el driver necesario para conectarnos con PostgreSQL:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dnf install postgresql-odbc
+</code></pre></div><p>Ahora miraremos y modificaremos el fichero configuración de los drivers de ODBBC, ubicado en ‘/etc/odbcinst.ini’. Vamos a comentar todos los drivers salvo el de PostgreSQL, debido a que no van a ser necesarios en este ejercicio.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/odbcinst.ini
+
+[PostgreSQL]
+Description     = ODBC for PostgreSQL
+Driver          = /usr/lib/psqlodbcw.so
+Setup           = /usr/lib/libodbcpsqlS.so
+Driver64        = /usr/lib64/psqlodbcw.so
+Setup64         = /usr/lib64/libodbcpsqlS.so
+FileUsage   = 1
+</code></pre></div><p>Ahora tenemos que crear un DSN (Data Source Name) en el fichero ‘/etc/odbc.ini’, que será el que usaremos para definir la conexión, y que proximamente usaremos para conectarnos con PostgreSQL:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/odbc.ini
+
+[PSQLU]
+Debug           = 0
+CommLog         = 0
+ReadOnly        = 0
+Driver          = PostgreSQL
+Servername      = 192.168.122.18
+Username        = dparrales1
+Password        = dparrales1
+Port            = 5432
+Database        = prueba1
+Trace           = 0
+TraceFile       = /tmp/sql.log
+</code></pre></div><p>Una vez hecho esto, podemos probar la conexión usando el comando ‘isql’:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">isql PSQLU
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+</code></pre></div><p>Como vemos, ha conseguido conectar con la base de datos PostgreSQL. Tambien nos ha abierto un cliente desde el cual podemos ejecutar consultas en dicha base de datos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">SQL&gt; select * from dept;
++------------+---------------+--------------+
+| deptno     | dname         | loc          |
++------------+---------------+--------------+
+| 10         | ACCOUNTING    | NEW YORK     |
+| 20         | RESEARCH      | DALLAS       |
+| 30         | SALES         | CHICAGO      |
+| 40         | OPERATIONS    | BOSTON       |
++------------+---------------+--------------+
+SQLRowCount returns 4
+4 rows fetched
+</code></pre></div><p>Ahora que hemos configurado el driver, tenemos que modificar la configuración de Oracle para que use ese driver. Para ello, vamos a crear un fichero en ‘$ORACLE_HOME/hs/admin/’, cuyo nombre será <code>init[DSN].ora</code>. Como hemos llamado a nuestro DSN “PSQLU”, nuestro fichero se llamará ‘initPSQLU.ora’:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /opt/oracle/product/19c/dbhome_1/hs/admin/initPSQLU.ora
+
+HS_FDS_CONNECT_INFO = PSQLU
+HS_FDS_TRACE_LEVEL = DEBUG
+HS_FDS_SHAREABLE_NAME = /usr/lib64/psqlodbcw.so
+HS_LANGUAGE = AMERICAN_AMERICA.WE8ISO8859P1
+set ODBCINI=/etc/odbc.ini
+</code></pre></div><p>Una vez hecho esto, vamos a configurar el listener para que utilice la configuración que acabamos de crear:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+
+SID_LIST_LISTENER=
+  (SID_LIST=
+      (SID_DESC=
+         (SID_NAME=PSQLU)
+         (ORACLE_HOME=/opt/oracle/product/19c/dbhome_1)
+         (PROGRAM=dg4odbc)
+      )
+  )
+</code></pre></div><p>Ahora modificaremos el fichero tnsnames.ora, para facilitar la interconexión de los servidores. Añadiremos la siguiente configuración:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /opt/oracle/product/19c/dbhome_1/network/admin/tnsnames.ora
+
+PSQLU  =
+  (DESCRIPTION=
+    (ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))
+    (CONNECT_DATA=(SID=PSQLU))
+    (HS=OK)
+  )
+</code></pre></div><p>Ahora solo queda reinicar el ‘listener’ y ya estaríamos listos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">lsnrctl stop
+
+lsnrctl start
+</code></pre></div><p>Entramos en la shell de oracle, y creamos el enlace que vamos a usar:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">CREATE DATABASE LINK postgreslink
+CONNECT TO &#34;dparrales1&#34; IDENTIFIED BY &#34;dparrales1&#34;
+USING &#39;PSQLU&#39;;
+</code></pre></div><p>Ahora podemos probar si enlace que hemos funciona haciendo alguna consulta:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">SELECT dept.&#34;dname&#34;, dept.&#34;deptno&#34; from &#34;dept&#34;@postgreslink dept;
+
+dname   deptno
+---------------------------------------------
+ACCOUNTING  10
+
+RESEARCH   20
+
+SALES   30
+
+OPERATIONS  40
+</code></pre></div><ul>
+<li>Nota: Todo lo haga referencia a las tablas de Postgres, debemos meterlo entre comillas dobles.</li>
+</ul>
+<p>Con esto ya hemos terminado de conectar Oracle con PostgreSQL, y hemos demostrado su funcionamiento.</p>
+<hr>
+<h2 id="desde-postgresql-a-oracle19c">
+  Desde PostgreSQL a Oracle19c
+  <a class="heading-link" href="#desde-postgresql-a-oracle19c">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para ello vamos a usar las dos máquinas del ejercicio anterior, que ya están configuradas para el acceso remoto. Al igual que pasaba con Oracle, PostgreSQL no tiene un soporte nativo para conexiones con otros gestores, por lo que tendremos que usar otra herramienta externa. Es por ello que usaremos la herramienta ‘oracle_fdw’ (Foreign Data Wrapper for Oracle). Esta herramienta también cuenta con versiones para otros gestores de base de datos, pero nosotros nos centraremos en Oracle.
+El paquete ‘oracle_fdw’ no se encuentra actualmente disponible para debian buster, por lo que tendremos que compilarlo a mano. Para ello instalaremos los siguientes paquetes, que usaremos para realizar dicha compilación:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt update &amp;&amp; apt install libaio1 postgresql-server-dev-all build-essential git
+</code></pre></div><p>También tendremos que descargarnos los paquetes oficiales de ‘Oracle Instant Client’, lo que nos permitirá hacer uso del cliente Oracle para realizar las conexiones a bases de datos remotas. Esto lo haremos con el usuario ‘postgres’:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basic-linux.x64-21.1.0.0.0.zip
+
+wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sdk-linux.x64-21.1.0.0.0.zip
+
+wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sqlplus-linux.x64-21.1.0.0.0.zip
+</code></pre></div><p>Si descomprimimos los archivos, lo harán en una carpeta llamada ‘instantclient_21_1’, la cual tendrá todos los binarios que necesitaremos. Para poder usar esos binarios sin tener que indicar la ruta completa, vamos a tener que crear las variables de entorno necesaria:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">export ORACLE_HOME=/home/postgres/instantclient_21_1
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME
+
+export PATH=$PATH:$ORACLE_HOME
+</code></pre></div><p>Podemos comprobar que podemos conectarnos remotamente usando ese binario a la base de datos de Oracle:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sqlplus c##dparrales1/dparrales1@192.168.122.12/ORCLCDB
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Sun Oct 31 20:49:18 2021
+Version 21.1.0.0.0
+
+Copyright (c) 1982, 2020, Oracle.  All rights reserved.
+
+Hora de Ultima Conexion Correcta: Dom Oct 31 2021 20:48:22 +01:00
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL&gt;
+</code></pre></div><p>Ahora debemos descargar el fichero en el que se encuentra el código fuente de ‘oracle_fdw’:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wget https://github.com/laurenz/oracle_fdw/archive/refs/tags/ORACLE_FDW_2_3_0.zip
+</code></pre></div><p>Lo descomprimimos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">unzip ORACLE_FDW_2_3_0.zip
+</code></pre></div><p>Lo ponemos en el directorio ‘/home/postgres’ cambiándole el nombre:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mv oracle_fdw-ORACLE_FDW_2_3_0/ oracle_fdw
+</code></pre></div><p>En este momento debemos compilar ‘oracle_fdw’:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make 
+
+make install
+</code></pre></div><p>Una vez hecho, debería dejarnos crear el link, pero en mi caso, a pesar de tener creadas las variables de entorno, me indicaba que no podía encontrar las librerías, por lo que tuve que crear un fichero llamado ‘oracle.conf’ en el directorio ‘/etc/ld.so.conf.d/’, en el cual puse la siguiente información:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">/home/postgres/instantclient_21_1
+/usr/share/postgresql/11/extension
+</code></pre></div><p>Tras lo cual recargué las librerías que acabamos de crear y reinicié el servicio:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldconfig
+
+systemctl restart postgresql
+</code></pre></div><p>Con esto, ya podemos entrar en la base de datos y crear el enlace:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">psql -d prueba1
+
+psql (11.13 (Debian 11.13-0+deb10u1))
+Digite «help» para obtener ayuda.
+
+prueba1=# create extension oracle_fdw;
+CREATE EXTENSION
+</code></pre></div><p>Podemos comprobar que se ha creado usando la siguiente orden en la base de datos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">\dx
+                                Listado de extensiones instaladas
+   Nombre   | Versión |  Esquema   |                         Descripción                          
+------------+---------+------------+--------------------------------------------------------------
+ dblink     | 1.2     | public     | connect to other PostgreSQL databases from within a database
+ oracle_fdw | 1.2     | public     | foreign data wrapper for Oracle access
+ plpgsql    | 1.0     | pg_catalog | PL/pgSQL procedural language
+(3 filas)
+</code></pre></div><p>El siguiente paso es crear un nuevo esquema al cual, posteriormente, importaremos las tablas de la base de datos Oracle:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">CREATE SCHEMA oracle;
+</code></pre></div><p>Para importar las tablas de la base de datos Oracle, tenemos que definir un nuevo servidor remoto que utilice la extensión que acabamos de crear:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">CREATE SERVER oracle FOREIGN DATA WRAPPER oracle_fdw OPTIONS (dbserver &#39;//192.168.122.12/ORCLCDB&#39;);
+</code></pre></div><p>Ahora tenemos que mapear a nuestro usuario para que se corresponda con un usuario en la base de datos Oracle que tenga privilegios sobre las tablas que queremos importar:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">CREATE USER MAPPING FOR dparrales1 SERVER oracle OPTIONS (user &#39;c##dparrales1&#39;, password &#39;dparrales1&#39;);
+</code></pre></div><p>Es importante que no se nos olvide darle los privilegios necesario al usuario que hemos mapeado sobre el esquema  y el servidor que acabamos de crear:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">GRANT ALL PRIVILEGES ON SCHEMA oracle TO dparrales1;
+
+GRANT ALL PRIVILEGES ON FOREIGN SERVER oracle TO dparrales1;
+</code></pre></div><p>En este momento salimos de la cuenta administrador, y entramos como el usuario dparrales1, para importar las tablas de la base de datos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">psql -h localhost -U dparrales1 -d prueba1
+
+IMPORT FOREIGN SCHEMA &#34;C##DPARRALES1&#34; FROM SERVER oracle INTO oracle;
+</code></pre></div><p>Ahora podemos ver los datos que acabamos de importar (concretamente la tabla ‘emp’) usando la siguiente sintaxis en la consulta:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">select * from oracle.EMP;
+ empno | ename  |    job    | mgr  |      hiredate       |   sal   |  comm   | deptno 
+-------+--------+-----------+------+---------------------+---------+---------+--------
+  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 00:00:00 |  800.00 |         |     20
+  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 00:00:00 | 1600.00 |  300.00 |     30
+  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 00:00:00 | 1250.00 |  500.00 |     30
+  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 00:00:00 | 2975.00 |         |     20
+  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 00:00:00 | 1250.00 | 1400.00 |     30
+  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 00:00:00 | 2850.00 |         |     30
+  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 00:00:00 | 2450.00 |         |     10
+  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 00:00:00 | 3000.00 |         |     20
+  7839 | KING   | PRESIDENT |      | 1981-11-17 00:00:00 | 5000.00 |         |     10
+  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 00:00:00 | 1500.00 |    0.00 |     30
+  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 00:00:00 | 1100.00 |         |     20
+  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 00:00:00 |  950.00 |         |     30
+  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 00:00:00 | 3000.00 |         |     20
+(13 filas)
+</code></pre></div><p>Como vemos, hemos tenido éxito al mostrar las tablas del servidor oracle, por lo que la interconexión ya estaría realizada.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

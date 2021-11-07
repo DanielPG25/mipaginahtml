@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Administración de Bases de Datos on Sysadblog</title>
+    <link>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-bases-de-datos/</link>
+    <description>Recent content in Administración de Bases de Datos on Sysadblog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 07 Nov 2021 12:50:20 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-bases-de-datos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Interconexión de un servidor Oracle 19c con PostgreSQL</title>
+      <link>https://sysadblog.onrender.com/posts/interconexion_oracle_postgre/</link>
+      <pubDate>Sun, 07 Nov 2021 12:50:20 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/interconexion_oracle_postgre/</guid>
+      <description>Interconexión de Oracle19c con PostgreSQL    Tenemos las siguientes dos máquinas en el escenario:
+ Oracle (Centos 8): con ip 192.168.122.12 Postgre (Debian 10): con ip 192.168.122.18  Partimos también de la base de que ambas máquinas están ya configuradas para el acceso remoto.
+Desde Oracle19c a PostgreSQL    Oracle no cuenta con un soporte nativo para realizar interconexiones con otros gestores de bases de datos que no sean Oracle, por lo que vamos a utlizar ODBC (Open Database Connectivity), que nos permite el acceso a cualquier base de datos en cualquier aplicación.</description>
+    </item>
+    
+  </channel>
+</rss>
