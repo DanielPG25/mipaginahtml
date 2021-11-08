@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Instalación y configuración del servidor bind9 en nuestra red local">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Instalación y configuración del servidor bind9 en nuestra red local"/>
+<meta name="twitter:description" content="Instalación y configuración del servidor bind9 en nuestra red local"/>
+
+    <meta property="og:title" content="Instalación y configuración del servidor bind9 en nuestra red local" />
+<meta property="og:description" content="Instalación y configuración del servidor bind9 en nuestra red local" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/bind9_redlocal/" />
+<meta property="article:published_time" content="2021-11-08T20:31:22+01:00" />
+<meta property="article:modified_time" content="2021-11-08T20:31:22+01:00" />
+
+
+    <title>
+  Instalación y configuración del servidor bind9 en nuestra red local · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/bind9_redlocal/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/bind9_redlocal/">
+              Instalación y configuración del servidor bind9 en nuestra red local
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-11-08T20:31:22&#43;01:00'>
+                November 8, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              3-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/servicios-de-red/">Servicios de Red</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="instalación-y-configuración-del-servidor-bind9-en-nuestra-red-local">
+  Instalación y configuración del servidor bind9 en nuestra red local
+  <a class="heading-link" href="#instalaci%c3%b3n-y-configuraci%c3%b3n-del-servidor-bind9-en-nuestra-red-local">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<h2 id="escenario">
+  Escenario
+  <a class="heading-link" href="#escenario">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<ul>
+<li>En nuestra red local tenemos un servidor Web que sirve dos páginas web: <code>www.iesgn.org</code>, <code>departamentos.iesgn.org</code>.</li>
+<li>Vamos a instalar en nuestra red local un servidor DNS (lo puedes instalar en el mismo equipo que tiene el servidor web)</li>
+<li>El nombre del servidor DNS va a ser tunombre.iesgn.org.</li>
+</ul>
+<h2 id="servidor-bind9">
+  Servidor bind9
+  <a class="heading-link" href="#servidor-bind9">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Instala un servidor dns bind9. Las características del servidor DNS que queremos instalar son las siguientes:</p>
+<ul>
+<li>El servidor DNS se llama tunombre.iesgn.org y por supuesto, va a ser el servidor con autoridad para la zona iesgn.org.</li>
+<li>Vamos a suponer que tenemos un servidor para recibir los correos que se llame correo.iesgn.org y que está en la dirección x.x.x.200 (esto es ficticio).</li>
+<li>Vamos a suponer que tenemos un servidor ftp que se llame <code>ftp.iesgn.org</code> y que está en x.x.x.201 (esto es ficticio)</li>
+<li>Además queremos nombrar a los clientes.</li>
+<li>También hay que nombrar a los virtualhosts de apache: <code>www.iesgn.org</code> y <code>departamentos.iesgn.org</code></li>
+<li>Se tiene que configurar la zona de resolución inversa.</li>
+</ul>
+<hr>
+<h2 id="procedimiento">
+  Procedimiento
+  <a class="heading-link" href="#procedimiento">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Primero instalamos el servidor dns:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install bind9
+</code></pre></div><p>A continuación cambiamos el nombre de nuestra máquina a <code>dparrales.iesgn.org</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/hostname
+
+dparrales
+
+nano /etc/hosts
+
+127.0.0.2       dparrales.iesgn.org     dparrales
+</code></pre></div><p>Para asegurarnos de que hemos cambiado el nombre, podemos ejecutar el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">hostname -f
+
+dparrales.iesgn.org
+</code></pre></div><p>Ahora vamos a modificar el fichero de configuración de <code>bind</code> para que se adapte a los requisitos que nos han pedido:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/bind/named.conf.local
+
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+include &#34;/etc/bind/zones.rfc1918&#34;;
+zone &#34;iesgn.org&#34; { 
+        type master;
+        file &#34;db.iesgn.org&#34;; 
+};
+
+zone &#34;121.168.192.in-addr.arpa&#34; {
+        type master;
+        file &#34;db.121.168.192&#34;;
+};
+</code></pre></div><p>A continuación hemos de crear los ficheros que hemos incluido en la configuración (<code>db.iesgn.org</code> y <code>db.121.168.192</code>), en el directorio <code>/var/cache/bind/</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /var/cache/bind/db.iesgn.org
+
+$TTL    86400
+@       IN      SOA     dparrales.iesgn.org. root.iesgn. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      dparrales.iesgn.org.
+@       IN      MX      10 correo.iesgn.org.
+
+$ORIGIN iesgn.org.
+
+dparrales       IN      A       192.168.121.176
+correo          IN      A       192.168.121.200
+ftp             IN      A       192.168.121.201
+cliente1        IN      A       192.168.121.35
+www             IN      CNAME   dparrales      
+departamentos   IN      CNAME   dparrales 
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /var/cache/bind/db.121.168.192
+
+$TTL    86400
+@       IN      SOA     dparrales.iesgn.org. root.iesgn. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      dparrales.iesgn.org.
+
+$ORIGIN 121.168.192.in-addr.arpa.
+
+176     IN      PTR     dparrales.iesgn.org.
+200     IN      PTR     correo.iesgn.org.
+201     IN      PTR     ftp.iesgn.org.
+</code></pre></div><p>Ahora debemos reiniciar el servicio:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl status bind9
+</code></pre></div><p>Por último, tenemos que hacer que el cliente use el servidor dns que acabamos de crear. Esto lo hacemos modificando el fichero <code>/etc/resolv.conf</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nameserver 192.168.121.176
+</code></pre></div><p>Con esto ya podemos hacer las pruebas necesarias para ver si funciona:</p>
+<ul>
+<li><code>departamentos.iesgn.org</code>:</li>
+</ul>
+<p><img src="/images/instalar_dns/departamentos_iesgn.png" alt="departamentos_iesgn.png"></p>
+<ul>
+<li><code>www.iesgn.org</code>:</li>
+</ul>
+<p><img src="/images/instalar_dns/www_iesgn.png" alt="www_iesgn.png"></p>
+<ul>
+<li><code>ftp.iesgn.org</code>:</li>
+</ul>
+<p><img src="/images/instalar_dns/ftp_iesgn.png" alt="ftp_iesgn.png"></p>
+<ul>
+<li>DNS con autoridad en <code>iesgn.org</code>:</li>
+</ul>
+<p><img src="/images/instalar_dns/ns_iesgn.png" alt="ns_iesgn.png"></p>
+<ul>
+<li>Servidor de correo:</li>
+</ul>
+<p><img src="/images/instalar_dns/correo_iesgn.png" alt="correo_iesgn.png"></p>
+<ul>
+<li><code>www.josedomingo.org</code>:</li>
+</ul>
+<p><img src="/images/instalar_dns/josedom_iesgn.png" alt="josedom_iesgn.png"></p>
+<ul>
+<li>Una resolución inversa:</li>
+</ul>
+<p><img src="/images/instalar_dns/inversa_iesgn.png" alt="inversa_iesgn.png"></p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

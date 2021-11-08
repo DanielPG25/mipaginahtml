@@ -6,7 +6,16 @@
     <description>Recent content in Categories on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 Nov 2021 12:50:20 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Nov 2021 20:31:22 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Servicios de Red</title>
+      <link>https://sysadblog.onrender.com/categories/servicios-de-red/</link>
+      <pubDate>Mon, 08 Nov 2021 20:31:22 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/categories/servicios-de-red/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Administración de Bases de Datos</title>
       <link>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-bases-de-datos/</link>
@@ -22,15 +31,6 @@
       <pubDate>Sat, 06 Nov 2021 20:39:03 +0100</pubDate>
       
       <guid>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Servicios de Red</title>
-      <link>https://sysadblog.onrender.com/categories/servicios-de-red/</link>
-      <pubDate>Thu, 04 Nov 2021 11:08:45 +0100</pubDate>
-      
-      <guid>https://sysadblog.onrender.com/categories/servicios-de-red/</guid>
       <description></description>
     </item>
     

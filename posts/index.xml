@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 Nov 2021 12:50:20 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Nov 2021 20:31:22 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación y configuración del servidor bind9 en nuestra red local</title>
+      <link>https://sysadblog.onrender.com/posts/bind9_redlocal/</link>
+      <pubDate>Mon, 08 Nov 2021 20:31:22 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/bind9_redlocal/</guid>
+      <description>Instalación y configuración del servidor bind9 en nuestra red local    Escenario     En nuestra red local tenemos un servidor Web que sirve dos páginas web: www.iesgn.org, departamentos.iesgn.org. Vamos a instalar en nuestra red local un servidor DNS (lo puedes instalar en el mismo equipo que tiene el servidor web) El nombre del servidor DNS va a ser tunombre.iesgn.org.  Servidor bind9    Instala un servidor dns bind9.</description>
+    </item>
+    
     <item>
       <title>Interconexión de un servidor Oracle 19c con PostgreSQL</title>
       <link>https://sysadblog.onrender.com/posts/interconexion_oracle_postgre/</link>
