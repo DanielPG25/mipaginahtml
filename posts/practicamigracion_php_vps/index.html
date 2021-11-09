@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Migración de aplicaciones web PHP en tu VPS">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Migración de aplicaciones web PHP en tu VPS"/>
+<meta name="twitter:description" content="Migración de aplicaciones web PHP en tu VPS"/>
+
+    <meta property="og:title" content="Migración de aplicaciones web PHP en tu VPS" />
+<meta property="og:description" content="Migración de aplicaciones web PHP en tu VPS" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/practicamigracion_php_vps/" />
+<meta property="article:published_time" content="2021-11-09T17:53:28+01:00" />
+<meta property="article:modified_time" content="2021-11-09T17:53:28+01:00" />
+
+
+    <title>
+  Migración de aplicaciones web PHP en tu VPS · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/practicamigracion_php_vps/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/practicamigracion_php_vps/">
+              Migración de aplicaciones web PHP en tu VPS
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-11-09T17:53:28&#43;01:00'>
+                November 9, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              9-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/aplicaciones-web/">Aplicaciones Web</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="instalaciónmigración-de-aplicaciones-web-php-en-tu-vps">
+  Instalación/migración de aplicaciones web PHP en tu VPS
+  <a class="heading-link" href="#instalaci%c3%b3nmigraci%c3%b3n-de-aplicaciones-web-php-en-tu-vps">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Esta práctica constará de dos tareas:</p>
+<p>Tarea 1:</p>
+<p>Realizar la migración de la primera aplicación que tienes instalada en la práctica anterior a nuestro entorno de producción, para ello ten en cuenta lo siguiente:</p>
+<ul>
+<li>La aplicación se tendrá que migrar a un nuevo virtualhost al que se accederá con el nombre <code>portal.tudominio.algo</code>.</li>
+<li>Vamos a nombrar el servicio de base de datos que tenemos en producción. Como es un servicio interno no la vamos a nombrar en la zona DNS, la vamos a nombrar usando resolución estática. El nombre del servicio de base de datos se debe llamar: <code>bd.tudominio.algo</code>.</li>
+<li>Realiza la migración de la aplicación.</li>
+<li>Asegurate que las URL limpias de drupal siguen funcionando en nginx.</li>
+<li>La aplicación debe estar disponible en la URL: portal.tudominio.algo (Sin ningún directorio).</li>
+</ul>
+<p>Tarea 2:</p>
+<p>Instalación / migración de la aplicación Nextcloud:</p>
+<ul>
+<li>Instala la aplicación web Nextcloud en tu entorno de desarrollo.</li>
+<li>Realiza la migración al servidor en producción, para que la aplicación sea accesible en la URL: <code>www.tudominio.algo/cloud</code></li>
+<li>Instala en un ordenador el cliente de nextcloud y realiza la configuración adecuada para acceder a “tu nube”.</li>
+</ul>
+<hr>
+<h2 id="tarea-1">
+  Tarea 1
+  <a class="heading-link" href="#tarea-1">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para la migración vamos a usar github. He creado un repositorio privado en github, el cual tendrá toda la configuración y ficheros de mediawiki, de forma que cuando esté mi vps, solo tendré que clonar el repositorio en el DocumentRoot y hacer las configuraciones precisas. El virtualhost tendrá la siguiente información:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/www.dparrales-mediawiki.com/mediawiki-1.36.2;
+
+        index index.html index.php index.htm index.nginx-debian.html;
+
+        server_name portal.sysadblog.com;
+
+        location ~ \.php$ {
+               include snippets/fastcgi-php.conf;
+               fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+        }
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+}
+</code></pre></div><p>Una vez que hemos configurado el virtualhost, lo habilitamos creando un enlace simbólico:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ln -s /etc/nginx/sites-available/dparrales-mediawiki /etc/nginx/sites-enabled/
+</code></pre></div><p>Ahora tenemos que añadir las tablas de mediawiki a nuestra base de datos. Para ello vamos a utlizar la copia de seguridad que conseguimos en su momento con el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysqldump -v --opt --events --routines --triggers --default-character-set=utf8 -u mediawiki -p mediawiki &gt; db_backup_mediawiki_`date +%Y%m%d_%H%M%S`.sql
+</code></pre></div><p>Con el comando anterior conseguimos un fichero <code>.sql</code> que contiene toda la información de la base de datos de mediawiki. Vamos a utilizar este fichero para incorporar toda esa información a la base de datos de nuestro vps. Para ello, primero hemos tenido que crear una base de datos en mariadb y haber creado un usuario con permisos sobre esa base de datos. Una vez que hayamos cumplido estos requisitos, podemos incorporar los datos de mediawiki a nuestra base de datos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u mediawiki -p mediawiki &lt; db_backup_mediawiki_20211026_063630.sql
+</code></pre></div><p>Una vez que hayamos incorporado toda la información necesaria a la base de datos, solo tenemos que cambiar la configuración de mediawiki (localizada en el fichero <code>LocalSettings.php</code>). Sin embargo, antes vamos a modificar el fichero <code>/etc/hosts</code> de nuestra vps para añadir la siguiente línea:</p>
+<p><code>127.0.0.1 bd.sysadblog.com</code></p>
+<p>Con esta línea, cuando configuremos mediawiki y le indiquemos la dirección de la base de datos, podremos utilizar este alias. De esta forma, si migramos la base de datos a otra máquina, no tendremos que cambiar la dirección de la base de datos en la configuración, sino que simplemente podremos añadir la línea al fichero <code>/etc/hosts</code>. Así pues, ya podemos modificar el fichero <code>LocalSettings.php</code> de mediawiki para actualizar la información de la base de datos:</p>
+<p><img src="/images/practicamigracion_php_vps/nueva_config.png" alt="nueva_config.png"></p>
+<p>También debemos cambiar la configuración en este fichero que indica el dominio de la página, ya que lo hemos cambiado:</p>
+<p><img src="/images/practicamigracion_php_vps/config_dos.png" alt="config_dos.png"></p>
+<p>Ahora reiniciamos nginx para que lea la nueva configuración:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart nginx
+</code></pre></div><p>Para acceder a nuestra aplicación, tenemos que crear un nuevo registro en nuestro DNS de time cname que apunte a la url <code>portal.sysadblog.com</code>:</p>
+<p><img src="/images/practicamigracion_php_vps/dns_nuevaentrada.png" alt="dns_nuevaentrada.png"></p>
+<p>Con esto ya deberíamos poder acceder a nuestra aplicación:</p>
+<p><img src="/images/practicamigracion_php_vps/mediawiki.png" alt="mediawiki.png"></p>
+<p>Como vemos podemos acceder, pero nos indica que nos faltan algunas librerías de php. Las instalamos y probamos otra vez:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install php-mbstring php-xml php-intl php-mysql
+</code></pre></div><p><img src="/images/practicamigracion_php_vps/mediawiki2.png" alt="mediawiki2.png"></p>
+<p>Podemos acceder perfectamente, por lo que podemos decir que la migración ha sido un éxito.</p>
+<hr>
+<h2 id="tarea-2">
+  Tarea 2
+  <a class="heading-link" href="#tarea-2">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h2 id="instala-la-aplicación-web-nextcloud-en-tu-entorno-de-desarrollo">
+  Instala la aplicación web Nextcloud en tu entorno de desarrollo.
+  <a class="heading-link" href="#instala-la-aplicaci%c3%b3n-web-nextcloud-en-tu-entorno-de-desarrollo">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para facilitar la migración después, he instalado nginx y php-fpm en mi entorno de desarrollo. De esta forma, la migración será más limpia y tendremos que cambiar menos ficheros.</p>
+<p>Para empezar vamos a descargar el fichero <code>.zip</code> en el directorio <code>/var/www</code> de forma que cuando lo descomprimamos, nos creará una carpeta llamada <code>nextcloud</code>, la cual nos servirá como DocumentRoot:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wget https://download.nextcloud.com/server/releases/nextcloud-22.2.0.zip
+
+unzip nextcloud-22.2.0.zip
+</code></pre></div><p>Una vez hecho esto, vamos a crear el virtualhost de nextcloud. Afortunadamente, la documentación de nextcloud nos ofrece una plantilla completa del virtualhost, por lo que podemos copiarla y ajustarla a nuestras necesidades. Mi configuración del virtualhost ha quedado así:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">upstream php-handler {
+    #server 127.0.0.1:9000;
+    server unix:/run/php/php7.4-fpm.sock;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name cloud.example.com;
+
+    client_max_body_size 512M;
+    client_body_timeout 300s;
+    fastcgi_buffers 64 4K;
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+    }
+
+    gzip on;
+    gzip_vary on;
+    gzip_comp_level 4;
+    gzip_min_length 256;
+    gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
+    gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
+
+    add_header Referrer-Policy                      &#34;no-referrer&#34;   always;
+    add_header X-Content-Type-Options               &#34;nosniff&#34;       always;
+    add_header X-Download-Options                   &#34;noopen&#34;        always;
+    add_header X-Frame-Options                      &#34;SAMEORIGIN&#34;    always;
+    add_header X-Permitted-Cross-Domain-Policies    &#34;none&#34;          always;
+    add_header X-Robots-Tag                         &#34;none&#34;          always;
+    add_header X-XSS-Protection                     &#34;1; mode=block&#34; always;
+
+    fastcgi_hide_header X-Powered-By;
+
+    root /var/www/nextcloud;
+
+    index index.php index.html /index.php$request_uri;
+
+    location = / {
+        if ( $http_user_agent ~ ^DavClnt ) {
+            return 302 /remote.php/webdav/$is_args$args;
+        }
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+    location ^~ /.well-known {
+
+        location = /.well-known/carddav { return 301 /remote.php/dav/; }
+        location = /.well-known/caldav  { return 301 /remote.php/dav/; }
+
+        location /.well-known/acme-challenge    { try_files $uri $uri/ =404; }
+        location /.well-known/pki-validation    { try_files $uri $uri/ =404; }
+
+        return 301 /index.php$request_uri;
+    }
+
+    location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)(?:$|/)  { return 404; }
+    location ~ ^/(?:\.|autotest|occ|issue|indie|db_|console)                { return 404; }
+
+    location ~ \.php(?:$|/) {
+        rewrite ^/(?!index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|oc[ms]-provider\/.+|.+\/richdocumentscode\/proxy) /index.php$request_uri;
+
+        fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+        set $path_info $fastcgi_path_info;
+
+        try_files $fastcgi_script_name =404;
+
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $path_info;
+
+        fastcgi_param modHeadersAvailable true;         # Avoid sending the security headers twice
+        fastcgi_param front_controller_active true;     # Enable pretty urls
+        fastcgi_pass php-handler;
+
+        fastcgi_intercept_errors on;
+        fastcgi_request_buffering off;
+    }
+
+    location ~ \.(?:css|js|svg|gif|png|jpg|ico)$ {
+        try_files $uri /index.php$request_uri;
+        expires 6M;         # Cache-Control policy borrowed from `.htaccess`
+        access_log off;     # Optional: Don&#39;t log access to assets
+    }
+
+    location ~ \.woff2?$ {
+        try_files $uri /index.php$request_uri;
+        expires 7d;         # Cache-Control policy borrowed from `.htaccess`
+        access_log off;     # Optional: Don&#39;t log access to assets
+    }
+
+    location /remote {
+        return 301 /remote.php$request_uri;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php$request_uri;
+    }
+}
+</code></pre></div><p>Ahora debemos habilitar el virtualhost creando el enlace simbólico:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ln -s /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled/nextcloud
+</code></pre></div><p>Y reiniciamos el servicio:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart nginx
+</code></pre></div><p>Con esto, ya podemos añadir la línea en el fichero <code>/etc/hosts</code> para que resuelva el nombre:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">192.168.121.20 cloud.example.com
+</code></pre></div><p>Ahora intentamos acceder a la url:</p>
+<p><img src="/images/practicamigracion_php_vps/modulosPHP_nextcloud.png" alt="modulosPHP_nextcloud.png"></p>
+<p>Como vemos, nos indica que tenemos que instalar esos módulos para que funcione la aplicación. Así pues los instalamos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install php-zip php-dom php-xmlwriter php-xmlreader php-xml php-mbstring php-gd php-simplexml php-curl php-mysql
+</code></pre></div><p>Una vez instalados volvemos a entrar en la url:</p>
+<p><img src="/images/practicamigracion_php_vps/nextcloud_entrada.png" alt="nextcloud_entrada.png"></p>
+<p>Ya podemos registrarnos. Así pues, lo rellenamos con la información del usuario y la base de datos que hemos creado anteriormente para nextcloud:</p>
+<p><img src="/images/practicamigracion_php_vps/nextcloud_registro.png" alt="nextcloud_registro.png"></p>
+<p>Una vez hecho esto, ya podemos dejar que se instale. Cuando acabe, ya podremos acceder a nuestra cuenta cuando entremos en la web:</p>
+<p><img src="/images/practicamigracion_php_vps/nextcloud_instalado.png" alt="nextcloud_instalado.png"></p>
+<h2 id="realiza-la-migración-al-servidor-en-producción-para-que-la-aplicación-sea-accesible-en-la-url-wwwtudominioalgocloud">
+  Realiza la migración al servidor en producción, para que la aplicación sea accesible en la URL: <code>www.tudominio.algo/cloud</code>
+  <a class="heading-link" href="#realiza-la-migraci%c3%b3n-al-servidor-en-producci%c3%b3n-para-que-la-aplicaci%c3%b3n-sea-accesible-en-la-url-wwwtudominioalgocloud">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para realizar la migración vamos a usar el mismo método que usamos anteriormente. Esto es, crear un repositorio en github donde se encuentre la configuración y los ficheros de nextcloud, el cual usaremos para clonar su contenido en nuestra vps, y hacer una copia de seguridad de la base de datos, la cual incorporaremos a la base de datos que hemos creado en nuestra vps. Así pues, vamos a realizar en primer lugar la copia de seguridad:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysqldump -v --opt --events --routines --triggers --default-character-set=utf8 -u nextcloud -p nextcloud &gt; db_backup_nextcloud_`date +%Y%m%d_%H%M%S`.sql
+</code></pre></div><p>Una vez que la hallamos transferido a nuestra vps (mediante github, scp, etc), pasamos a incorporarla a nuestra base de datos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u nextcloud -p nextcloud &lt; db_backup_nextcloud_20211106_103948.sql
+</code></pre></div><p>Ya hemos añadido la base de datos, así que ahora podemos clonar el directorio donde hemos subido los archivos de nextcloud en el DocumentRoot que elijamos. Una vez clonado, podemos añadir la siguiente configuración a nuestro virtualhost principal (donde tenemos la página principal del dominio):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">        location = /robots.txt {
+            allow all;
+            log_not_found off;
+            access_log off;
+        }
+
+        location /.well-known {
+
+            location = /.well-known/carddav   { return 301 /cloud/remote.php/dav/; }
+            location = /.well-known/caldav    { return 301 /cloud/remote.php/dav/; }
+
+            location /.well-known/acme-challenge    { try_files $uri $uri/ =404; }
+            location /.well-known/pki-validation    { try_files $uri $uri/ =404; }
+
+            try_files $uri $uri/ =404;
+        }
+
+        location ^~ /cloud {
+            client_max_body_size 512M;
+            fastcgi_buffers 64 4K;
+
+            gzip on;
+            gzip_vary on;
+            gzip_comp_level 4;
+            gzip_min_length 256;
+            gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
+            gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
+
+            add_header Referrer-Policy                      &#34;no-referrer&#34;   always;
+            add_header X-Content-Type-Options               &#34;nosniff&#34;       always;
+            add_header X-Download-Options                   &#34;noopen&#34;        always;
+            add_header X-Frame-Options                      &#34;SAMEORIGIN&#34;    always;
+            add_header X-Permitted-Cross-Domain-Policies    &#34;none&#34;          always;
+            add_header X-Robots-Tag                         &#34;none&#34;          always;
+            add_header X-XSS-Protection                     &#34;1; mode=block&#34; always;
+
+            fastcgi_hide_header X-Powered-By;
+
+            index index.php index.html /cloud/index.php$request_uri;
+
+            expires 1m;
+
+            location = /cloud {
+                if ( $http_user_agent ~ ^DavClnt ) {
+                    return 302 /cloud/remote.php/webdav/$is_args$args;
+                }
+            }
+
+            location ~ ^/cloud/(?:build|tests|config|lib|3rdparty|templates|data)(?:$|/)    { return 404; }
+            location ~ ^/cloud/(?:\.|autotest|occ|issue|indie|db_|console)                { return 404; }
+
+            location ~ \.php(?:$|/) {
+                fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+                set $path_info $fastcgi_path_info;
+
+                try_files $fastcgi_script_name =404;
+
+                include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_param PATH_INFO $path_info;
+
+                fastcgi_param modHeadersAvailable true;
+                fastcgi_param front_controller_active true;
+                fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+
+                fastcgi_intercept_errors on;
+                fastcgi_request_buffering off;
+            }
+
+            location ~ \.(?:css|js|svg|gif)$ {
+                try_files $uri /cloud/index.php$request_uri;
+                expires 6M;
+                access_log off;
+            }
+
+            location ~ \.woff2?$ {
+                try_files $uri /cloud/index.php$request_uri;
+                expires 7d;
+                access_log off;
+            }
+
+            location /cloud {
+                try_files $uri $uri/ /cloud/index.php$request_uri;
+            }
+        }
+</code></pre></div><ul>
+<li>Nota: la configuración se encuentra disponible en la página oficial de Nextcloud, en la documentación de nginx. Yo solo la he modificado para adaptarla a nuestro escenario.</li>
+</ul>
+<p>Ahora, para aplicar los cambios, debemos reiniciar el servicio de nginx:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl reload nginx
+</code></pre></div><p>Por supuesto, debemos recordar que ya que hemos migrado la aplicación, debemos cambiar el fichero de configuración de la misma para que se adapte al nuevo entorno:</p>
+<p><img src="/images/practicamigracion_php_vps/nextcloud_config.png" alt="nextcloud_config.png"></p>
+<p>Con esto, intentamos acceder a nuestra página de nextcloud:</p>
+<p><img src="/images/practicamigracion_php_vps/nextcloud_acceso_vps.png" alt="nextcloud_acceso_vps.png"></p>
+<p>Si introducimos el usuario y la contraseña que pusimos durante la instalación debería dejarnos entrar, lo que significaría que la migración ha sido un éxito:</p>
+<p><img src="/images/practicamigracion_php_vps/nextcloud_vps_dashboard.png" alt="nextcloud_vps_dashboard.png"></p>
+<p>Como podemos ver, tenemos acceso con ese usuario y contraseña, por lo que podemos considerar la migración un éxito.</p>
+<h2 id="instala-en-un-ordenador-el-cliente-de-nextcloud-y-realiza-la-configuración-adecuada-para-acceder-a-tu-nube">
+  Instala en un ordenador el cliente de nextcloud y realiza la configuración adecuada para acceder a “tu nube”.
+  <a class="heading-link" href="#instala-en-un-ordenador-el-cliente-de-nextcloud-y-realiza-la-configuraci%c3%b3n-adecuada-para-acceder-a-tu-nube">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>El cliente de nextcloud se encuentra dentro de la paquetería de debian, por lo que para instalarlo simplemente debemos ejecutar lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install nextcloud-desktop
+</code></pre></div><p>Una vez instalado, para ejecutarlo usamos el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nextcloud
+</code></pre></div><p>Al ejecutarlo nos abre la siguiente ventana:</p>
+<p><img src="/images/practicamigracion_php_vps/cliente.png" alt="cliente.png"></p>
+<p>En esta ventana le damos al botón &ldquo;Entrar&rdquo;, tras lo cual nos preguntará por el host de nuestro servidor. Introducimos entonces la url de nuestro servidor de nextcloud y no autentificamos para darle permiso. Tras ello elegimos que carpeta queremos sincronizar y la damos a conectar. Con esto ya hemos conectado el servidor y el cliente.</p>
+<p>Vamos a comprobar que están sincronizados. Voy a crear un fichero en la carpeta compartida de mi anfitrión, y si están sincronizados, debería aparecernos en el navegador, y por tanto, en el servidor:</p>
+<p><img src="/images/practicamigracion_php_vps/fichero_prueba.png" alt="fichero_prueba.png"></p>
+<p><img src="/images/practicamigracion_php_vps/confirmacion.png" alt="confirmacion.png"></p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
