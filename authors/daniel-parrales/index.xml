@@ -6,7 +6,18 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 09 Nov 2021 17:53:28 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Nov 2021 20:14:24 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Desplegando aplicaciones flask con apache2 &#43; gunicorn</title>
+      <link>https://sysadblog.onrender.com/posts/flask_apache2_gunicorn/</link>
+      <pubDate>Tue, 09 Nov 2021 20:14:24 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/flask_apache2_gunicorn/</guid>
+      <description>Desplegando aplicaciones flask con apache2 + gunicorn    Vamos a explicar paso por paso como configurar apache y ngnix para que usen gunicorn para servir aplicaciones web python, en concreto, la aplicación guestbook.
+En primer lugar tenemos que instalar los paquetes que usaremos para el ejercicio, incluyendo los paquetes necesarios para crear el entorno virtual y las dependencias de guesbook:
+apt install python3-venv libapache2-mod-wsgi-py3 git redis Ahora creamos el entorno virtual en el que instalaremos flask:</description>
+    </item>
+    
     <item>
       <title>Migración de aplicaciones web PHP en tu VPS</title>
       <link>https://sysadblog.onrender.com/posts/practicamigracion_php_vps/</link>

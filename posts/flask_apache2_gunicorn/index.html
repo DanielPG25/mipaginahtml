@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Desplegando aplicaciones flask con apache2 &#43; gunicorn">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Desplegando aplicaciones flask con apache2 &#43; gunicorn"/>
+<meta name="twitter:description" content="Desplegando aplicaciones flask con apache2 &#43; gunicorn"/>
+
+    <meta property="og:title" content="Desplegando aplicaciones flask con apache2 &#43; gunicorn" />
+<meta property="og:description" content="Desplegando aplicaciones flask con apache2 &#43; gunicorn" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/flask_apache2_gunicorn/" />
+<meta property="article:published_time" content="2021-11-09T20:14:24+01:00" />
+<meta property="article:modified_time" content="2021-11-09T20:14:24+01:00" />
+
+
+    <title>
+  Desplegando aplicaciones flask con apache2 &#43; gunicorn · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/flask_apache2_gunicorn/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/flask_apache2_gunicorn/">
+              Desplegando aplicaciones flask con apache2 &#43; gunicorn
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-11-09T20:14:24&#43;01:00'>
+                November 9, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              3-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/aplicaciones-web/">Aplicaciones Web</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="desplegando-aplicaciones-flask-con-apache2--gunicorn">
+  Desplegando aplicaciones flask con apache2 + gunicorn
+  <a class="heading-link" href="#desplegando-aplicaciones-flask-con-apache2--gunicorn">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Vamos a explicar paso por paso como configurar apache y ngnix para que usen gunicorn para servir aplicaciones web python, en concreto, la aplicación <code>guestbook</code>.</p>
+<p>En primer lugar tenemos que instalar los paquetes que usaremos para el ejercicio, incluyendo los paquetes necesarios para crear el entorno virtual y las dependencias de <code>guesbook</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install python3-venv libapache2-mod-wsgi-py3 git redis
+</code></pre></div><p>Ahora creamos el entorno virtual en el que instalaremos flask:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">python3 -m venv flask
+</code></pre></div><p>Activamos el entorno virtual e instalamos flask y gunicorn con pip:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">source flask/bin/activate
+
+pip install flask gunicorn
+</code></pre></div><p>Ya podemos clonar el repositorio de github con la aplicación guestbook:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">git clone https://github.com/josedom24/guestbook.git
+</code></pre></div><p>No se nos puede olvidar crear el fichero <code>wsgi.py</code> en el mismo directorio donde se encuentra la aplicación <code>app.py</code>, añadiendo la siguiente línea al fichero <code>wsgi.py</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano wsgi.py
+
+from app import prog as application
+</code></pre></div><p>Con esto ya podríamos ejecutar la aplicación y acceder a ella si usamos el comando específico de gunicorn:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gunicorn -w 2 -b :8080 wsgi:application
+</code></pre></div><p>Si accedemos al puerto 8080 de la máquina veremos la aplicación en funcionamiento:</p>
+<p><img src="/images/flask_apache2_gunicorn/guestbook_gunicorn_app.png" alt="guestbook_gunicorn_app.png"></p>
+<p>Con la opción <code>-w</code> indico el número de procesos que van a servir las peticiones, y con la opción <code>-b</code> indico la dirección y el puerto de escucha.</p>
+<p>Ahora procedamos a crear unidad systemd para poder controlar el proceso de gunicorn de forma más sencilla. Para ello creamos el fichero <code>gunicorn-guestbook.service</code> en el directorio <code>/etc/systemd/system/</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/systemd/system/gunicorn-guestbook.service
+
+[Unit]
+Description=gunicorn-guestbook
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+User=www-data
+Group=www-data
+Restart=always
+
+ExecStart=/home/vagrant/flask/bin/gunicorn -w 2 -b :8080 wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+WorkingDirectory=/home/vagrant/guestbook/app
+Environment=PYTHONPATH=&#39;/home/vagrant/guestbook/app:/home/vagrant/flask/lib/python3.9/site-packages&#39;
+
+PrivateTmp=true
+</code></pre></div><p>Activamos la unidad de systemd, y la iniciamos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl enable gunicorn-guestbook.service
+
+systemctl start gunicorn-guestbook.service
+</code></pre></div><p>Si cambiamos el contenido de la unidad tendremos que recargar el demonio:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl daemon-reload
+</code></pre></div><p>Con esta configuración ya podemos controlar gunicorn con systemctl, como si fuera un servicio más. Ahora podemos configurar apache o nginx como un proxy inverso que haga uso del servicio que hemos creado para servir las aplicaciones python.</p>
+<ul>
+<li>En apache2:</li>
+</ul>
+<p>Creamos un virtualhost con la siguiente configuración:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano guestbook.conf
+
+&lt;VirtualHost *:80&gt;
+
+	ServerName www.guestbook.com
+	ServerAdmin webmaster@localhost
+	DocumentRoot /home/vagrant/guesbook/app
+	ProxyPass / http://127.0.0.1:8080/
+	ProxyPassReverse / http://127.0.0.1:8080/
+	&lt;Directory /home/vagrant/guesbook/app&gt;
+		Require all granted
+	&lt;/Directory&gt;
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+&lt;/VirtualHost&gt;
+</code></pre></div><p>Una vez creado el virtualhost lo habilitamos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2ensite guestbook.conf
+</code></pre></div><p>También debemos habilitar los módulos del proxy:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2enmod proxy proxy_http
+</code></pre></div><p>Reiniciamos el servicio y probamos la conexión (hay que recordar añadir la dirección estática al fichero <code>/etc/hosts</code> del anfitrión):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl reload apache2
+</code></pre></div><p><img src="/images/flask_apache2_gunicorn/guestbook_apache2.png" alt="guestbook_apache2.png"></p>
+<p>Podemos acceder a la página, por lo que podemos decir que funciona.</p>
+<ul>
+<li>En nginx:</li>
+</ul>
+<p>Creamos un virtualhost con la siguiente configuración:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano guestbook
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /home/vagrant/guestbook/app;
+
+        index index.html index.php index.htm index.nginx-debian.html;
+
+        server_name www.guestbook.com;
+
+        location / {
+                proxy_pass http://localhost:8080;
+                include proxy_params;
+        }
+
+}
+</code></pre></div><p>Creamos el enlace simbólico del virtualhost y reiniciamos el servicio:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ln -s /etc/nginx/sites-available/guestbook /etc/nginx/sites-enabled/
+
+systemctl reload nginx
+</code></pre></div><p>Ahora probamos a acceder a guestbook desde el navegador:</p>
+<p><img src="/images/flask_apache2_gunicorn/guestbook_nginx.png" alt="guestbook_nginx.png"></p>
+<p>También funciona al acceder a <code>www.guestbook.com</code> cuando lo sirve nginx.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
