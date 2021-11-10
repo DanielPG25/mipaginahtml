@@ -6,7 +6,17 @@
     <description>Recent content on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 09 Nov 2021 21:15:20 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Nov 2021 20:12:40 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación y configuración de un servidor DNS esclavo</title>
+      <link>https://sysadblog.onrender.com/posts/dns_maestro_esclavo/</link>
+      <pubDate>Wed, 10 Nov 2021 20:12:40 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/dns_maestro_esclavo/</guid>
+      <description>Instalación y configuración de un servidor DNS esclavo    El servidor DNS actual funciona como DNS maestro. Vamos a instalar un nuevo servidor DNS que va a estar configurado como DNS esclavo del anterior, donde se van a ir copiando periódicamente las zonas del DNS maestro. Suponemos que el nombre del servidor DNS esclavo se va llamar tusapellidos.iesgn.org.
+ Realiza la instalación del servidor DNS esclavo. Comprueba si las zonas definidas en el maestro tienen algún error con el comando adecuado.</description>
+    </item>
+    
     <item>
       <title>Desplegando aplicaciones flask con apache2 &#43; uwsgi</title>
       <link>https://sysadblog.onrender.com/posts/flask_apache2_uwsgi/</link>
