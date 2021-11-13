@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Cifrado asimétrico con gpg y openssl">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Cifrado asimétrico con gpg y openssl"/>
+<meta name="twitter:description" content="Cifrado asimétrico con gpg y openssl"/>
+
+    <meta property="og:title" content="Cifrado asimétrico con gpg y openssl" />
+<meta property="og:description" content="Cifrado asimétrico con gpg y openssl" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/cifradoasimetrico_gpg_openssl/" />
+<meta property="article:published_time" content="2021-11-13T19:50:18+01:00" />
+<meta property="article:modified_time" content="2021-11-13T19:50:18+01:00" />
+
+
+    <title>
+  Cifrado asimétrico con gpg y openssl · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/cifradoasimetrico_gpg_openssl/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/cifradoasimetrico_gpg_openssl/">
+              Cifrado asimétrico con gpg y openssl
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-11-13T19:50:18&#43;01:00'>
+                November 13, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              14-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/seguridad-y-alta-disponibilidad/">Seguridad y Alta Disponibilidad</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="cifrado-asimétrico-con-gpg-y-openssl">
+  Cifrado asimétrico con gpg y openssl
+  <a class="heading-link" href="#cifrado-asim%c3%a9trico-con-gpg-y-openssl">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<h2 id="tarea-1-generación-de-claves-gpg">
+  Tarea 1: Generación de claves (gpg)
+  <a class="heading-link" href="#tarea-1-generaci%c3%b3n-de-claves-gpg">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Los algoritmos de cifrado asimétrico utilizan dos claves para el cifrado y descifrado de mensajes. Cada persona involucrada (receptor y emisor) debe disponer, por tanto, de una pareja de claves pública y privada. Para generar nuestra pareja de claves con gpg utilizamos la opción <code>--gen-key</code>:</p>
+<p>Para esta práctica no es necesario que indiquemos frase de paso en la generación de las claves (al menos para la clave pública).</p>
+<h3 id="genera-un-par-de-claves-pública-y-privada-en-que-directorio-se-guarda-las-claves-de-un-usuario">
+  Genera un par de claves (pública y privada). ¿En que directorio se guarda las claves de un usuario?
+  <a class="heading-link" href="#genera-un-par-de-claves-p%c3%bablica-y-privada-en-que-directorio-se-guarda-las-claves-de-un-usuario">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para generar el par de claves, usamos el comando con la opción <code>--gen-key</code> y respondemos a las preguntas que nos indica:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --gen-key 
+gpg (GnuPG) 2.2.27; Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Nota: Usa &#34;gpg --full-generate-key&#34; para el diálogo completo de generación de clave.
+
+GnuPG debe construir un ID de usuario para identificar su clave.
+
+Nombre y apellidos: Daniel Parrales Garcia
+Dirección de correo electrónico: micorreo@gmail.com
+Ha seleccionado este ID de usuario:
+    &#34;Daniel Parrales Garcia &lt;micorreo@gmail.com&gt;&#34;
+
+¿Cambia (N)ombre, (D)irección o (V)ale/(S)alir? V
+Es necesario generar muchos bytes aleatorios. Es una buena idea realizar
+alguna otra tarea (trabajar en otra ventana/consola, mover el ratón, usar
+la red y los discos) durante la generación de números primos. Esto da al
+generador de números aleatorios mayor oportunidad de recoger suficiente
+entropía.
+Es necesario generar muchos bytes aleatorios. Es una buena idea realizar
+alguna otra tarea (trabajar en otra ventana/consola, mover el ratón, usar
+la red y los discos) durante la generación de números primos. Esto da al
+generador de números aleatorios mayor oportunidad de recoger suficiente
+entropía.
+gpg: clave 003678CA94289486 marcada como de confianza absoluta
+gpg: certificado de revocación guardado como &#39;/home/dparrales/.gnupg/openpgp-revocs.d/5E357C9F804207FABAB0B54C003678CA94289486.rev&#39;
+claves pública y secreta creadas y firmadas.
+
+pub   rsa3072 2021-11-13 [SC] [caduca: 2023-11-13]
+      5E357C9F804207FABAB0B54C003678CA94289486
+uid                      Daniel Parrales Garcia &lt;micorreo@gmail.com&gt;
+sub   rsa3072 2021-11-13 [E] [caduca: 2023-11-13]
+</code></pre></div><p>Con esto se ha generado correctamente el par de claves. Las claves se han guardado en el directorio personal del usuario que las creó, dentro de una carpeta oculta llamada <code>.gnupg</code>. En esta carpeta se ha generado un fichero llamado <code>pubring.kbx</code>, el cual contendrá todas las claves públicas que generemos o importemos, funcionando como una especie de &ldquo;llavero&rdquo; de nuestras claves. También se ha creado un certificado de revocación en <code>gnupg/openpgp-revocs.d/</code> que usaremos cuando queramos dejar de utilizar dicha clave, lo que a su vez notificará a otros usuarios de que no usen esa clave más.</p>
+<h3 id="lista-las-claves-públicas-que-tienes-en-tu-almacén-de-claves-explica-los-distintos-datos-que-nos-muestra-cómo-deberías-haber-generado-las-claves-para-indicar-por-ejemplo-que-tenga-un-1-mes-de-validez">
+  Lista las claves públicas que tienes en tu almacén de claves. Explica los distintos datos que nos muestra. ¿Cómo deberías haber generado las claves para indicar, por ejemplo, que tenga un 1 mes de validez?
+  <a class="heading-link" href="#lista-las-claves-p%c3%bablicas-que-tienes-en-tu-almac%c3%a9n-de-claves-explica-los-distintos-datos-que-nos-muestra-c%c3%b3mo-deber%c3%adas-haber-generado-las-claves-para-indicar-por-ejemplo-que-tenga-un-1-mes-de-validez">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para listar las claves públicas de nuestro llavero usamos la opción <code>--list-keys</code> del comando gpg:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --list-keys
+/home/dparrales/.gnupg/pubring.kbx
+----------------------------------
+pub   rsa3072 2021-11-13 [SC] [caduca: 2023-11-13]
+      5E357C9F804207FABAB0B54C003678CA94289486
+uid        [  absoluta ] Daniel Parrales Garcia &lt;micorreo@gmail.com&gt;
+sub   rsa3072 2021-11-13 [E] [caduca: 2023-11-13]
+</code></pre></div><p>Los datos que nos muestra son las siguientes abreviaturas:</p>
+<ul>
+<li>pub: clave pública primaria</li>
+<li>uid: identificador único</li>
+<li>sub: clave pública secundaria</li>
+</ul>
+<p>Al crear el par de claves con gpg, no solo ha creado la pareja de publica-privada, sino que también ha creado un par de claves secundarias relacionadas con las principales. De esta forma, el par de claves primario se usa para firmar/comprobar firmas, mientras que el secundario se usa para encriptar/desencriptar.</p>
+<p>También aparece información con respecto al algoritmo usado por la clave (rsa3072), la fecha de creación (2021-11-13) y de caducidad de la validez de las claves (2023-11-13), y unas letras entre corchetes que corresponden a unos flags:</p>
+<ul>
+<li>SC: nos indica que sirve para firmar archivos (S) y certificar llaves (C).</li>
+<li>E: encriptar información.</li>
+</ul>
+<p>Para indicar que las claves tengan una determinada validez, tenemos que haber usado la opción <code>--full-gen-key</code> en lugar de la opción <code>--key-gen</code>. Si lo hubieramos hecho así nos habría aparecido la siguiente información (además de otras opciones como el tamaño de la clave, tipo de clave, etc):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Por favor, especifique el período de validez de la clave.
+         0 = la clave nunca caduca
+      &lt;n&gt;  = la clave caduca en n días
+      &lt;n&gt;w = la clave caduca en n semanas
+      &lt;n&gt;m = la clave caduca en n meses
+      &lt;n&gt;y = la clave caduca en n años
+¿Validez de la clave (0)?
+</code></pre></div><p>Así pues, en esta pregunta responderíamos &lsquo;1m&rsquo; para que su validez fuera de un mes.</p>
+<h3 id="lista-las-claves-privadas-de-tu-almacén-de-claves">
+  Lista las claves privadas de tu almacén de claves.
+  <a class="heading-link" href="#lista-las-claves-privadas-de-tu-almac%c3%a9n-de-claves">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para listar las claves privadas de nuestro &ldquo;llavero&rdquo; usamos la opción <code>--list-secret-keys</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --list-secret-keys
+/home/dparrales/.gnupg/pubring.kbx
+----------------------------------
+sec   rsa3072 2021-11-13 [SC] [caduca: 2023-11-13]
+      5E357C9F804207FABAB0B54C003678CA94289486
+uid        [  absoluta ] Daniel Parrales Garcia &lt;micorreo@gmail.com&gt;
+ssb   rsa3072 2021-11-13 [E] [caduca: 2023-11-13]
+</code></pre></div><h2 id="tarea-2-importar--exportar-clave-pública-gpg">
+  Tarea 2: Importar / exportar clave pública (gpg)
+  <a class="heading-link" href="#tarea-2-importar--exportar-clave-p%c3%bablica-gpg">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para enviar archivos cifrados a otras personas, necesitamos disponer de sus claves públicas. De la misma manera, si queremos que cierta persona pueda enviarnos datos cifrados, ésta necesita conocer nuestra clave pública. Para ello, podemos hacérsela llegar por email por ejemplo. Cuando recibamos una clave pública de otra persona, ésta deberemos incluirla en nuestro keyring o anillo de claves, que es el lugar donde se almacenan todas las claves públicas de las que disponemos.</p>
+<h3 id="exporta-tu-clave-pública-en-formato-ascii-y-guárdalo-en-un-archivo-nombre_apellidoasc-y-envíalo-al-compañero-con-el-que-vas-a-hacer-esta-práctica">
+  Exporta tu clave pública en formato ASCII y guárdalo en un archivo nombre_apellido.asc y envíalo al compañero con el que vas a hacer esta práctica.
+  <a class="heading-link" href="#exporta-tu-clave-p%c3%bablica-en-formato-ascii-y-gu%c3%a1rdalo-en-un-archivo-nombre_apellidoasc-y-env%c3%adalo-al-compa%c3%b1ero-con-el-que-vas-a-hacer-esta-pr%c3%a1ctica">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para exportar la clave pública en formato ASCII debemos usar dos opciones: <code>--export</code> y <code>-a</code>. Tras la opción export incluimos el uid de la clave que queramos exportar. Esto generará una cadena de texto con la clave publica, por lo que tendremos que redirigir la salida del comando a un fichero, al que he llamado &lsquo;dparrales.asc&rsquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg -a --export 5E357C9F804207FABAB0B54C003678CA94289486 &gt;&gt; dparrales.asc
+</code></pre></div><p>Este fichero es el que enviaremos a nuestro compañero. En mi caso, voy a enviar mi clave a mi compañera &ldquo;Lara Pruna Ternero&rdquo;, y yo recibiré la suya.</p>
+<h3 id="importa-las-claves-públicas-recibidas-de-vuestro-compañero">
+  Importa las claves públicas recibidas de vuestro compañero.
+  <a class="heading-link" href="#importa-las-claves-p%c3%bablicas-recibidas-de-vuestro-compa%c3%b1ero">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>La clave pública que he recibido se encuentra en un fichero llamado <code>lara_pruna.asc</code>. Para importarla usamos la opción <code>--import</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --import lara_pruna.asc 
+gpg: clave 51D0DEC846173F6A: clave pública &#34;Lara Pruna Ternero &lt;larapruter@gmail.com&gt;&#34; importada
+gpg: Cantidad total procesada: 1
+gpg:               importadas: 1
+</code></pre></div><p>Como vemos, nos indica que ha importado correctamente la clave.</p>
+<h3 id="comprueba-que-las-claves-se-han-incluido-correctamente-en-vuestro-keyring">
+  Comprueba que las claves se han incluido correctamente en vuestro keyring.
+  <a class="heading-link" href="#comprueba-que-las-claves-se-han-incluido-correctamente-en-vuestro-keyring">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Podemos comprobar si se ha añadido de forma correcta usando el comando que usamos anteriormente para listar las claves públicas:</p>
+<p><img src="/images/cifrado_asimetrico_gpg_openssl/clave_publica_lara.png" alt="clave_publica_lara.png"></p>
+<p>Como podemos ver, la clave se ha añadido correctamente.</p>
+<h2 id="tarea-3-cifrado-asimétrico-con-claves-públicas-gpg">
+  Tarea 3: Cifrado asimétrico con claves públicas (gpg)
+  <a class="heading-link" href="#tarea-3-cifrado-asim%c3%a9trico-con-claves-p%c3%bablicas-gpg">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Tras realizar el ejercicio anterior, podemos enviar ya documentos cifrados utilizando la clave pública de los destinatarios del mensaje.</p>
+<h3 id="cifraremos-un-archivo-cualquiera-y-lo-remitiremos-por-email-a-uno-de-nuestros-compañeros-que-nos-proporcionó-su-clave-pública">
+  Cifraremos un archivo cualquiera y lo remitiremos por email a uno de nuestros compañeros que nos proporcionó su clave pública.
+  <a class="heading-link" href="#cifraremos-un-archivo-cualquiera-y-lo-remitiremos-por-email-a-uno-de-nuestros-compa%c3%b1eros-que-nos-proporcion%c3%b3-su-clave-p%c3%bablica">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Vamos a cifrar un fichero que acabo de crear con el contenido &ldquo;fichero a cifrar&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">echo &#34;fichero a cifrar&#34; &gt; cifrar.txt
+</code></pre></div><p>Para cifrar el fichero debemos usar las siguientes opciones del comando gpg:</p>
+<ul>
+<li>-e: para indicar que vamos a cifrar el fichero</li>
+<li>-u: para indicar el remitente (en este caso sería yo)</li>
+<li>-r: para indicar el destinatario (en este caso Lara)</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg -e -u &#34;Daniel Parrales Garcia&#34; -r &#34;Lara Pruna Ternero&#34; cifrar.txt 
+gpg: 99912020704046AB: No hay seguridad de que esta clave pertenezca realmente
+al usuario que se nombra
+
+sub  rsa3072/99912020704046AB 2021-11-13 Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+ Huella clave primaria: 4458 9663 DC53 5930 52B6  616F 51D0 DEC8 4617 3F6A
+      Huella de subclave: B5CD 5CED A347 462B 2A8B  E614 9991 2020 7040 46AB
+
+No es seguro que la clave pertenezca a la persona que se nombra en el
+identificador de usuario. Si *realmente* sabe lo que está haciendo,
+puede contestar sí a la siguiente pregunta.
+
+¿Usar esta clave de todas formas? (s/N) s
+</code></pre></div><p>Una vez hecho esto podemos comprobar que se nos ha creado el fichero cifrado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l | egrep cifrar
+-rw-r--r--  1 dparrales dparrales    17 nov 13 16:48 cifrar.txt
+-rw-r--r--  1 dparrales dparrales   483 nov 13 16:53 cifrar.txt.gpg
+</code></pre></div><p>Vemos que nos ha generado un fichero .gpg, que es el fichero cifrado. Podemos ver la información del fichero con el comando <code>file</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">file cifrar.txt.gpg 
+cifrar.txt.gpg: PGP RSA encrypted session key - keyid: 99912020 704046AB RSA (Encrypt or Sign) 3072b .
+</code></pre></div><p>Este fichero se lo enviamos a nuestro compañero (en mi caso he usado ssh).</p>
+<h3 id="nuestro-compañero-a-su-vez-nos-remitirá-un-archivo-cifrado-para-que-nosotros-lo-descifremos">
+  Nuestro compañero, a su vez, nos remitirá un archivo cifrado para que nosotros lo descifremos.
+  <a class="heading-link" href="#nuestro-compa%c3%b1ero-a-su-vez-nos-remitir%c3%a1-un-archivo-cifrado-para-que-nosotros-lo-descifremos">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>He recibido de Lara el siguiente fichero:</p>
+<p><img src="/images/cifrado_asimetrico_gpg_openssl/documento_lara.png" alt="documento_lara.png"></p>
+<h3 id="tanto-nosotros-como-nuestro-compañero-comprobaremos-que-hemos-podido-descifrar-los-mensajes-recibidos-respectivamente">
+  Tanto nosotros como nuestro compañero comprobaremos que hemos podido descifrar los mensajes recibidos respectivamente.
+  <a class="heading-link" href="#tanto-nosotros-como-nuestro-compa%c3%b1ero-comprobaremos-que-hemos-podido-descifrar-los-mensajes-recibidos-respectivamente">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para descifrarlo usaremos la opción <code>-d</code>, que indica que queremos descifrar un fichero:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg -d prueba_lara.txt.gpg 
+gpg: cifrado con clave de 3072 bits RSA, ID 3A4CA0B54B19B8DD, creada el 2021-11-13
+      &#34;Daniel Parrales Garcia &lt;micorreo@gmail.com&gt;&#34;
+Hola, Dani, te envío los planes secretos para acabar con ASIR:
+
+   ^ ^
+^\(`v´)/^
+  I___I	   GUAJAJAJAJAJAJA
+ _/   \_
+
+
+Fd: Lara
+</code></pre></div><p>Como podemos ver, el archivo de ha descifrado con éxito.</p>
+<h3 id="por-último-enviaremos-el-documento-cifrado-a-alguien-que-no-estaba-en-la-lista-de-destinatarios-y-comprobaremos-que-este-usuario-no-podrá-descifrar-este-archivo">
+  Por último, enviaremos el documento cifrado a alguien que no estaba en la lista de destinatarios y comprobaremos que este usuario no podrá descifrar este archivo.
+  <a class="heading-link" href="#por-%c3%baltimo-enviaremos-el-documento-cifrado-a-alguien-que-no-estaba-en-la-lista-de-destinatarios-y-comprobaremos-que-este-usuario-no-podr%c3%a1-descifrar-este-archivo">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para probar esta parte, he mandado el fichero a un usuario en una máquina virtual que he creado, de forma que no posee ninguna clave pública ni privada.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg -d cifrar.txt.gpg 
+gpg: encrypted with RSA key, ID 99912020704046AB
+gpg: decryption failed: No secret key
+</code></pre></div><p>Al no disponer de la clave privada indicada en el destinatario, no he podido descifrar el documento.</p>
+<h3 id="para-terminar-indica-los-comandos-necesarios-para-borrar-las-claves-públicas-y-privadas-que-posees">
+  Para terminar, indica los comandos necesarios para borrar las claves públicas y privadas que posees.
+  <a class="heading-link" href="#para-terminar-indica-los-comandos-necesarios-para-borrar-las-claves-p%c3%bablicas-y-privadas-que-posees">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para borrar las claves públicas y privadas de que dispongo, hay que usar las opciones <code>--delete-keys</code> y <code>--delete-secret-keys</code> respectivamente, ambas seguidas de el uid de la clave que queramos borrar. Sin embargo, para poder borrarlas hay que seguir un orden: primero hay que borrar la privada, y después la pública. Para probar estos comando he creado otro par de claves que voy a borrar:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --delete-secret-keys A6434BBD80D7F096592F4B17A934842CFBDB96CF 
+gpg (GnuPG) 2.2.27; Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+
+sec  rsa3072/A934842CFBDB96CF 2021-11-08 Daniel Parrales &lt;algo@gmail.com&gt;
+
+¿Eliminar esta clave del anillo? (s/N) s
+¡Es una clave secreta! ¿Eliminar realmente? (s/N) s
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --delete-keys A6434BBD80D7F096592F4B17A934842CFBDB96CF 
+gpg (GnuPG) 2.2.27; Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+
+pub  rsa3072/A934842CFBDB96CF 2021-11-08 Daniel Parrales &lt;algo@gmail.com&gt;
+
+¿Eliminar esta clave del anillo? (s/N) 
+</code></pre></div><p>De esta forma podemos eliminar las claves que queramos.</p>
+<h2 id="tarea-4-exportar-clave-a-un-servidor-público-de-claves-pgp-gpg">
+  Tarea 4: Exportar clave a un servidor público de claves PGP (gpg)
+  <a class="heading-link" href="#tarea-4-exportar-clave-a-un-servidor-p%c3%bablico-de-claves-pgp-gpg">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Para distribuir las claves públicas es mucho más habitual utilizar un servidor específico para distribuirlas, que permite a los clientes añadir las claves públicas a sus anillos de forma mucho más sencilla.</p>
+<h3 id="genera-la-clave-de-revocación-de-tu-clave-pública-para-utilizarla-en-caso-de-que-haya-problemas">
+  Genera la clave de revocación de tu clave pública para utilizarla en caso de que haya problemas.
+  <a class="heading-link" href="#genera-la-clave-de-revocaci%c3%b3n-de-tu-clave-p%c3%bablica-para-utilizarla-en-caso-de-que-haya-problemas">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para generar la clave de revocación tenemos que hacer uso de la opción <code>--gen-revoke</code> seguido del uid de la clave de la que queramos crear la clave de revocación:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --gen-revoke 5E357C9F804207FABAB0B54C003678CA94289486
+
+sec  rsa3072/003678CA94289486 2021-11-13 Daniel Parrales Garcia &lt;micorreo@gmail.com&gt;
+
+¿Crear un certificado de revocación para esta clave? (s/N) s
+Por favor elija una razón para la revocación:
+  0 = No se dio ninguna razón
+  1 = La clave ha sido comprometida
+  2 = La clave ha sido reemplazada
+  3 = La clave ya no está en uso
+  Q = Cancelar
+(Probablemente quería seleccionar 1 aquí)
+¿Su decisión? 0
+Introduzca una descripción opcional; acábela con una línea vacía:
+&gt; 
+Razón para la revocación: No se dio ninguna razón
+(No se dió descripción)
+¿Es correcto? (s/N) s
+</code></pre></div><p>Tras confirmar que queremos crear la clave de revocación (también nos pide que digamos la razón) nos aparece la clave:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">se fuerza salida con armadura ASCII.
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Comment: This is a revocation certificate
+
+iQG2BCABCgAgFiEEXjV8n4BCB/q6sLVMADZ4ypQolIYFAmGP67ECHQAACgkQADZ4
+ypQolIZPDQv/XTrwz1CO7PGNQL4rXLuEqU8gxycm4cKtq9TMHlkowPXr61O1C+43
+igKttyRhEq0iZNdIKbRhicnO2Mjj5jyIcNa2IDVN8438gd1o6Q561wU/4id2U0Sp
+5cH6qc+TPZlKJc1R83AyKhGp4IDZjSJMM/EarMuUvWF3pkatsnMtJNjp+uW+RnMC
+Uj5UqzQojktlxLEOgNK/FPaHzMEcQzMAgksTwDP6F+UtssOisoh7UfYmFCZChM86
+14zHC/fElXmYb/RNfE6Bx0UHB51vbdyIIq8iaN7KiNk+kbHL2pg8JismOhYlz6pp
+s69Bvuyzb3aHyaT13gfglPZJ0L/0FzzAJkhZ864Fx11DJLPPN7mP++vOkmyv9FOB
+Ff+bSRE3Ly1Q/7CkYzqwQ6+4kJQQ9SKC0/AViBPpa/CquEXrf3uzirpdT6EfOMQs
+BW4+YmEb9vUfD+m/eJB9dc8DyMfq5kq6o5o4cbYOd+NIpGiwYuuysgiICgGBKvje
+IXex6QfAdJGB
+=BfEo
+-----END PGP PUBLIC KEY BLOCK-----
+Certificado de revocación creado.
+
+Por favor consérvelo en un medio que pueda esconder; si alguien consigue
+acceso a este certificado puede usarlo para inutilizar su clave.
+Es inteligente imprimir este certificado y guardarlo en otro lugar, por
+si acaso su medio resulta imposible de leer. Pero precaución: ¡el sistema
+de impresión de su máquina podría almacenar los datos y hacerlos accesibles
+a otras personas!
+</code></pre></div><p>El certificado de revocación se encuentra entre las líneas &lsquo;BEGIN PGP PUBLIC KEY BLOCK&rsquo; y &lsquo;END PGP PUBLIC KEY BLOCK&rsquo;.</p>
+<h3 id="exporta-tu-clave-pública-al-servidor-pgpredirises">
+  Exporta tu clave pública al servidor <code>pgp.rediris.es</code>
+  <a class="heading-link" href="#exporta-tu-clave-p%c3%bablica-al-servidor-pgpredirises">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para exportar la clave pública al servidor <code>pgp.rediris.es</code> tenemos que usar la opción <code>--keyserver</code> y el nombre del servidor, y la opción <code>--send-key</code> junto con el uid de la clave que queramos subir.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --keyserver pgp.rediris.es --send-keys 5E357C9F804207FABAB0B54C003678CA94289486
+gpg: enviando clave 003678CA94289486 a hkp://pgp.rediris.es
+</code></pre></div><p>Una vez enviada, podemos burcarla desde el navegador de la página:</p>
+<p><img src="/images/cifrado_asimetrico_gpg_openssl/red_iris1.png" alt="red_iris1.png"></p>
+<p><img src="/images/cifrado_asimetrico_gpg_openssl/red_iris2.png" alt="red_iris2.png"></p>
+<h3 id="borra-la-clave-pública-de-alguno-de-tus-compañeros-de-clase-e-impórtala-ahora-del-servidor-público-de-rediris">
+  Borra la clave pública de alguno de tus compañeros de clase e impórtala ahora del servidor público de rediris.
+  <a class="heading-link" href="#borra-la-clave-p%c3%bablica-de-alguno-de-tus-compa%c3%b1eros-de-clase-e-imp%c3%b3rtala-ahora-del-servidor-p%c3%bablico-de-rediris">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Vamos a borrar la clave que importamos anteriormente de Lara, usando el comando que vimos antes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --delete-keys 44589663DC53593052B6616F51D0DEC846173F6A
+gpg (GnuPG) 2.2.27; Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+
+pub  rsa3072/51D0DEC846173F6A 2021-11-13 Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+
+¿Eliminar esta clave del anillo? (s/N) s
+</code></pre></div><p>Una vez eliminada, vamos a importarla del servidor rediris. Para ello haremos uso de la opción <code>--keyserver</code> y el nombre del servidor, y la opción <code>--recv-keys</code> junto con el uid de la clave que queramos subir (tambien sirve los últimos ocho dígitos del uid):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --keyserver pgp.rediris.es --recv-keys 46173F6A
+gpg: clave 51D0DEC846173F6A: clave pública &#34;Lara Pruna Ternero &lt;larapruter@gmail.com&gt;&#34; importada
+gpg: Cantidad total procesada: 1
+gpg:               importadas: 1
+</code></pre></div><p>Ahora podemos comprobar, que efectivamente, la clave se importado correctamente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --list-keys
+/home/dparrales/.gnupg/pubring.kbx
+----------------------------------
+pub   rsa3072 2021-11-13 [SC] [caduca: 2023-11-13]
+      5E357C9F804207FABAB0B54C003678CA94289486
+uid        [  absoluta ] Daniel Parrales Garcia &lt;micorreo@gmail.com&gt;
+sub   rsa3072 2021-11-13 [E] [caduca: 2023-11-13]
+
+pub   rsa3072 2021-11-13 [SC] [caduca: 2023-11-13]
+      44589663DC53593052B6616F51D0DEC846173F6A
+uid        [desconocida] Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+sub   rsa3072 2021-11-13 [E] [caduca: 2023-11-13]
+</code></pre></div><h2 id="tarea-5-cifrado-asimétrico-con-openssl">
+  Tarea 5: Cifrado asimétrico con openssl
+  <a class="heading-link" href="#tarea-5-cifrado-asim%c3%a9trico-con-openssl">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>En esta ocasión vamos a cifrar nuestros ficheros de forma asimétrica utilizando la herramienta openssl</p>
+<h3 id="genera-un-par-de-claves-pública-y-privada">
+  Genera un par de claves (pública y privada).
+  <a class="heading-link" href="#genera-un-par-de-claves-p%c3%bablica-y-privada">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para generar el par de claves haremos uso del comando openssl con las siguientes opciones:</p>
+<ul>
+<li>genrsa: para indicar que queremos usar el algoritmo RSA.</li>
+<li>-aes128: para indicar que usaremos una clave de paso para desbloquearla que utilizará el algoritmo AES128 (podríamos haber usado otros).</li>
+<li>-out: Para indicar el nombre del fichero que tendrá el par de claves que creemos.</li>
+</ul>
+<p>Al final del comando especificaremos el tamaño de la clave. En mi caso usaré 4096 bits.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">openssl genrsa -aes128 -out clave.pem 2048
+[sudo] password for dparrales: 
+Generating RSA private key, 2048 bit long modulus (2 primes)
+.............+++++
+....................................+++++
+e is 65537 (0x010001)
+Enter pass phrase for clave.pem:
+Verifying - Enter pass phrase for clave.pem:
+</code></pre></div><p>Con esto hemos generado el par de claves en un único fichero llamado <code>clave.pem</code>.</p>
+<h3 id="envía-tu-clave-pública-a-un-compañero">
+  Envía tu clave pública a un compañero.
+  <a class="heading-link" href="#env%c3%ada-tu-clave-p%c3%bablica-a-un-compa%c3%b1ero">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Como hemos mencionado antes, openssl genera tanto la clave pública como la privada en un mismo fichero, lo que quiere decir que tendremos que extraer la pública en primer lugar, ya que sería un gran riesgo el enviar el fichero completo.</p>
+<p>Para extraer la clave pública usaremos el comando <code>openssl</code> con las siguientes opciones:</p>
+<ul>
+<li>-in: para indicar el fichero del que queremos extraer las claves.</li>
+<li>-pubout: para indicar que lo que queremos es extraer la clave pública.</li>
+<li>-out: para indicar el nombre del fichero en el que queremos extraer la clave pública.</li>
+<li>rsa: indica que queremos usar el algoritmo RSA.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">openssl rsa -in clave.pem -pubout -out clavepublica_dparrales.pem
+Enter pass phrase for clave.pem:
+writing RSA key
+</code></pre></div><p>Podemos ver el contenido del fichero con el comando <code>cat</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat clavepublica_dparrales.pem 
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAug90m2FqE4wMxe8wBI1Y
+Whmma0M/uom3xv2O9ugFtbi8Qyo/bBuge+yLe4yI7sNoBPvtSmu4SD3JAU7G3POy
++3D0zgH5zjqE6WoKjc9D2JdUuRT+AYgCMkjvSCvM9TiW+iL3ksASu6bTXckHia/k
+XLUVx7UTrU2sEKmQziZGxiyeOQmx2rpultDyethMXD8F/gFvnVWrBGhab6efFHHg
+kCRJmAgjHQth/pKOLWgxHNNIX+C5z2q17f3OckgbDIVGnZGHpflawPh8Pcuksk12
+yqDEqnoen9v5D2gCjnbjw97bSjA53T/V8NkXctTMvYR3fjxIU2gKPUdDXT7yLAzd
+XQIDAQAB
+-----END PUBLIC KEY-----
+</code></pre></div><p>Ahora podemos enviar la clave a nuestro compañero (en mi caso he usado ssh).</p>
+<h3 id="utilizando-la-clave-pública-cifra-un-fichero-de-texto-y-envíalo-a-tu-compañero">
+  Utilizando la clave pública cifra un fichero de texto y envíalo a tu compañero.
+  <a class="heading-link" href="#utilizando-la-clave-p%c3%bablica-cifra-un-fichero-de-texto-y-env%c3%adalo-a-tu-compa%c3%b1ero">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>He creado un nuevo fichero al que he llamado <code>1.txt</code>. Para cifrarlo con nuestra clave, debemos usar el comando openssl con las siguientes opciones:</p>
+<ul>
+<li>-encrypt: indicamos que vamos a cifrar un fichero.</li>
+<li>-in: indicamos el fichero que vamos a cifrar.</li>
+<li>-out: para indicar el nombre del fichero una vez lo cifremos.</li>
+<li>-inkey: para indicar la clave con la que cifraremos el fichero.</li>
+<li>-pubin: para indicar que vamos a cifrar el fichero con una clave pública.</li>
+<li>rsautl: para indicar que vamos usar el algoritmo RSA.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">openssl rsautl -encrypt -in 1.txt -out cifrado2.enc -inkey lara.pub.pem -pubin
+</code></pre></div><p>Como podemos ver, he usado la clave pública que me ha pasado lara para encriptar el ficher, tras lo cual enviamos el fichero a nuestro compañero.</p>
+<h3 id="tu-compañero-te-ha-mandado-un-fichero-cifrado-muestra-el-proceso-para-el-descifrado">
+  Tu compañero te ha mandado un fichero cifrado, muestra el proceso para el descifrado.
+  <a class="heading-link" href="#tu-compa%c3%b1ero-te-ha-mandado-un-fichero-cifrado-muestra-el-proceso-para-el-descifrado">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Mi compañero me ha mandado un fichero cifrado llamado <code>prueba_lara.enc</code>:</p>
+<p><img src="/images/cifrado_asimetrico_gpg_openssl/openssl_lara.png" alt="openssl_lara.png"></p>
+<p>Para desencriptarlo haremos uso del comando openssl con las siguientes opciones:</p>
+<ul>
+<li>-decrypt: para indicar que queremos descifrar el fichero.</li>
+<li>-in: para indicar el fichero que queremos descifrar.</li>
+<li>-out: para indicar el fichero que generaremos al descifrar el fichero.</li>
+<li>-inkey: para indicar la clave pública que usaremos para descifrar el fichero.</li>
+<li>rsautl: para indicar que vamos a usar RSA.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo openssl rsautl -decrypt -in prueba_lara.enc -out prueba.desc -inkey clave.pem 
+</code></pre></div><p>Nos ha generado un fichero llamado <code>prueba.desc</code> con el siguiente contenido:</p>
+<p><img src="/images/cifrado_asimetrico_gpg_openssl/desc_lara.png" alt="desc_lara.png"></p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
