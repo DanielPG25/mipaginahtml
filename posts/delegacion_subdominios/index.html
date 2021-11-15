@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Delegación de subdominios con bind9">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Delegación de subdominios con bind9"/>
+<meta name="twitter:description" content="Delegación de subdominios con bind9"/>
+
+    <meta property="og:title" content="Delegación de subdominios con bind9" />
+<meta property="og:description" content="Delegación de subdominios con bind9" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/delegacion_subdominios/" />
+<meta property="article:published_time" content="2021-11-15T17:36:46+01:00" />
+<meta property="article:modified_time" content="2021-11-15T17:36:46+01:00" />
+
+
+    <title>
+  Delegación de subdominios con bind9 · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/delegacion_subdominios/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/delegacion_subdominios/">
+              Delegación de subdominios con bind9
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-11-15T17:36:46&#43;01:00'>
+                November 15, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              2-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/servicios-de-red/">Servicios de Red</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="delegación-de-subdominios-con-bind9">
+  Delegación de subdominios con bind9
+  <a class="heading-link" href="#delegaci%c3%b3n-de-subdominios-con-bind9">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Tenemos un servidor DNS que gestiona la zona correspondiente al nombre de dominio iesgn.org, en esta ocasión queremos delegar el subdominio informatica.iesgn.org para que lo gestione otro servidor DNS. Por lo tanto tenemos un escenario con dos servidores DNS:</p>
+<ul>
+<li><code>tunombre.iesgn.org</code>, es servidor DNS autorizado para la zona iesgn.org.</li>
+<li><code>tunombre-ns.informatica.iesgn.org</code>, es el servidor DNS para la <code>zona informatica.iesgn.org</code> y, está instalado en otra máquina.</li>
+</ul>
+<p>Los nombres que vamos a tener en ese subdominio son los siguientes:</p>
+<ul>
+<li><code>www.informatica.iesgn.org</code> corresponde a un sitio web que está alojado en el servidor web del departamento de informática.</li>
+<li>Vamos a suponer que tenemos un servidor ftp que se llame <code>ftp.informatica.iesgn.org</code> y que está en la misma máquina.</li>
+<li>Vamos a suponer que tenemos un servidor para recibir los correos que se llame <code>correo.informatica.iesgn.org</code>.</li>
+</ul>
+<p>Realiza la instalación y configuración del nuevo servidor dns con las características anteriormente señaladas.</p>
+<hr>
+<p>En primer lugar debemos cambiar el nombre (FQDN) de nuestra máquina que va a funcionar como el delegado del subdominio:</p>
+<p><img src="/images/delegacion_subdominios/FQDN_delegado.png" alt="FQDN_delegado.png"></p>
+<p>Una vez hecho eso, vamos a configurar la máquina principal para que delegue el subdominio <code>informatica.iesgn.org</code>. Para ello hemos de modificar el fichero de la zona <code>iesgn.org</code> y añadir la siguiente información al final del mismo:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /var/cache/bind/db.iesgn.org 
+
+$ORIGIN informatica.iesgn.org.
+
+@               IN      NS      dparrales-ns
+dparrales-ns    IN      A       192.168.121.215
+</code></pre></div><p>También hemos de modificar el fichero <code>nano /etc/bind/named.conf.options</code> y añadir/modificar la siguiente línea para permitir que el servidor principal pregunte al delegado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">allow-recursion { any; };
+</code></pre></div><p>Con esto ya podemos crear la configuración de la zona directa, así como la zona directa en la máquina <code>dparrales-ns.informatica.iesgn.org</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/bind/named.conf.local
+
+include &#34;/etc/bind/zones.rfc1918&#34;;
+zone &#34;informatica.iesgn.org&#34; {
+        type master;
+        file &#34;db.informatica.iesgn.org&#34;;
+};
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /var/cache/bind/db.informatica.iesgn.org
+
+$TTL    86400
+@       IN      SOA     dparrales-ns.informatica.iesgn.org. root-informatica.iesgn. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      dparrales-ns.informatica.iesgn.org.
+@       IN      MX      10 correo.informatica.iesgn.org.
+
+$ORIGIN informatica.iesgn.org.
+
+dparrales-ns    IN      A       192.168.121.215
+departamento    IN      A       192.168.121.218
+ftp             IN      A       192.168.121.215
+correo          IN      A       192.168.121.217
+www             IN      CNAME   departamento
+</code></pre></div><p>Ya podemos reiniciar el servicio en las dos máquinas y comenzar a hacer pruebas:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart bind9
+</code></pre></div><ul>
+<li><strong>Nota:</strong> Hay que recordar modificar el fichero <code>/etc/resolv.conf</code> para que usemos el dns principal.</li>
+</ul>
+<p>Empecemos a hacer consultas:</p>
+<ul>
+<li><code>www.informatica.iesgn.org</code>:</li>
+</ul>
+<p><img src="/images/delegacion_subdominios/dig_wwwinformatica.png" alt="dig_wwwinformatica.png"></p>
+<ul>
+<li><code>ftp.informatica.iesgn.org</code>:</li>
+</ul>
+<p><img src="/images/delegacion_subdominios/dig_ftpinformatica.png" alt="dig_ftpinformatica.png"></p>
+<ul>
+<li>Zona de autoridad de <code>informatica.iesgn.org</code>:</li>
+</ul>
+<p><img src="/images/delegacion_subdominios/dig_soa_informatica.png" alt="dig_soa_informatica.png"></p>
+<ul>
+<li>Zona de autoridad de <code>iesgn.org</code>:</li>
+</ul>
+<p><img src="/images/delegacion_subdominios/dig_soa_iesgn.png" alt="dig_soa_iesgn.png"></p>
+<ul>
+<li>Servidor de correo de <code>informatica.iesgn.org</code>:</li>
+</ul>
+<p><img src="/images/delegacion_subdominios/dig_mx_informatica.png" alt="dig_mx_informatica.png"></p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

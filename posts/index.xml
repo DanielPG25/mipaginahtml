@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 13 Nov 2021 19:50:18 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 Nov 2021 17:36:46 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Delegación de subdominios con bind9</title>
+      <link>https://sysadblog.onrender.com/posts/delegacion_subdominios/</link>
+      <pubDate>Mon, 15 Nov 2021 17:36:46 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/delegacion_subdominios/</guid>
+      <description>Delegación de subdominios con bind9    Tenemos un servidor DNS que gestiona la zona correspondiente al nombre de dominio iesgn.org, en esta ocasión queremos delegar el subdominio informatica.iesgn.org para que lo gestione otro servidor DNS. Por lo tanto tenemos un escenario con dos servidores DNS:
+ tunombre.iesgn.org, es servidor DNS autorizado para la zona iesgn.org. tunombre-ns.informatica.iesgn.org, es el servidor DNS para la zona informatica.iesgn.org y, está instalado en otra máquina.</description>
+    </item>
+    
     <item>
       <title>Cifrado asimétrico con gpg y openssl</title>
       <link>https://sysadblog.onrender.com/posts/cifradoasimetrico_gpg_openssl/</link>
