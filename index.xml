@@ -6,7 +6,17 @@
     <description>Recent content on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 15 Nov 2021 17:36:46 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 17 Nov 2021 19:48:03 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Despliegue de aplicaciones python</title>
+      <link>https://sysadblog.onrender.com/posts/practica_despliegue_aplicaciones_python/</link>
+      <pubDate>Wed, 17 Nov 2021 19:48:03 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_despliegue_aplicaciones_python/</guid>
+      <description>Despliegue de aplicaciones python    Tarea 1: Entorno de desarrollo    Vamos a desarrollar la aplicación del tutorial de django 3.2. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación, para ello:
+ Realiza un fork del repositorio de GitHub: https://github.com/josedom24/django_tutorial. Crea un entorno virtual de python3 e instala las dependencias necesarias para que funcione el proyecto. Comprueba que vamos a trabajar con una base de datos sqlite.</description>
+    </item>
+    
     <item>
       <title>Delegación de subdominios con bind9</title>
       <link>https://sysadblog.onrender.com/posts/delegacion_subdominios/</link>

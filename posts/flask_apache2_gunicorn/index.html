@@ -179,7 +179,7 @@ from app import prog as application
 </code></pre></div><p>Si accedemos al puerto 8080 de la máquina veremos la aplicación en funcionamiento:</p>
 <p><img src="/images/flask_apache2_gunicorn/guestbook_gunicorn_app.png" alt="guestbook_gunicorn_app.png"></p>
 <p>Con la opción <code>-w</code> indico el número de procesos que van a servir las peticiones, y con la opción <code>-b</code> indico la dirección y el puerto de escucha.</p>
-<p>Ahora procedamos a crear unidad systemd para poder controlar el proceso de gunicorn de forma más sencilla. Para ello creamos el fichero <code>gunicorn-guestbook.service</code> en el directorio <code>/etc/systemd/system/</code>:</p>
+<p>Ahora procedamos a crear una unidad systemd para poder controlar el proceso de gunicorn de forma más sencilla. Para ello creamos el fichero <code>gunicorn-guestbook.service</code> en el directorio <code>/etc/systemd/system/</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/systemd/system/gunicorn-guestbook.service
 
 [Unit]

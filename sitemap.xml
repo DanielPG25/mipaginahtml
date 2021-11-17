@@ -3,18 +3,38 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://sysadblog.onrender.com/categories/aplicaciones-web/</loc>
+    <lastmod>2021-11-17T19:48:03+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://sysadblog.onrender.com/authors/</loc>
-    <lastmod>2021-11-15T17:36:46+01:00</lastmod>
+    <lastmod>2021-11-17T19:48:03+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://sysadblog.onrender.com/categories/</loc>
-    <lastmod>2021-11-15T17:36:46+01:00</lastmod>
+    <lastmod>2021-11-17T19:48:03+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
-    <lastmod>2021-11-15T17:36:46+01:00</lastmod>
+    <lastmod>2021-11-17T19:48:03+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/practica_despliegue_aplicaciones_python/</loc>
+    <lastmod>2021-11-17T19:48:03+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/</loc>
+    <lastmod>2021-11-17T19:48:03+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/</loc>
+    <lastmod>2021-11-17T19:48:03+01:00</lastmod>
   </url>
   
   <url>
@@ -23,17 +43,7 @@
   </url>
   
   <url>
-    <loc>https://sysadblog.onrender.com/posts/</loc>
-    <lastmod>2021-11-15T17:36:46+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://sysadblog.onrender.com/categories/servicios-de-red/</loc>
-    <lastmod>2021-11-15T17:36:46+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/</loc>
     <lastmod>2021-11-15T17:36:46+01:00</lastmod>
   </url>
   
@@ -50,11 +60,6 @@
   <url>
     <loc>https://sysadblog.onrender.com/posts/dns_maestro_esclavo/</loc>
     <lastmod>2021-11-10T20:12:40+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/aplicaciones-web/</loc>
-    <lastmod>2021-11-09T21:15:20+01:00</lastmod>
   </url>
   
   <url>
