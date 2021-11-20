@@ -6,7 +6,18 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 17 Nov 2021 19:48:03 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 Nov 2021 15:35:40 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Integridad, firmas y autenticación</title>
+      <link>https://sysadblog.onrender.com/posts/practica_integridad_firmas_autentificacion/</link>
+      <pubDate>Sat, 20 Nov 2021 15:35:40 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_integridad_firmas_autentificacion/</guid>
+      <description>Integridad, firmas y autenticación    Tarea 1: Firmas electrónicas    En este primer apartado vamos a trabajar con las firmas electrónicas.
+Manda un documento y la firma electrónica del mismo a un compañero. Verifica la firma que tu has recibido.    Para empezar, voy a mostrar las claves que tengo guardadas en mi &amp;ldquo;llavero&amp;rdquo; de claves de gpg:
+gpg --list-keys gpg: comprobando base de datos de confianza gpg: marginals needed: 3 completes needed: 1 trust model: pgp gpg: nivel: 0 validez: 1 firmada: 0 confianza: 0-, 0q, 0n, 0m, 0f, 1u gpg: siguiente comprobación de base de datos de confianza el: 2021-12-15 /home/dparrales/.</description>
+    </item>
+    
     <item>
       <title>Despliegue de aplicaciones python</title>
       <link>https://sysadblog.onrender.com/posts/practica_despliegue_aplicaciones_python/</link>

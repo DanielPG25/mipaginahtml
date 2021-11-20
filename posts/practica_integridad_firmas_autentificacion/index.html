@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Integridad, firmas y autenticación">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Integridad, firmas y autenticación"/>
+<meta name="twitter:description" content="Integridad, firmas y autenticación"/>
+
+    <meta property="og:title" content="Integridad, firmas y autenticación" />
+<meta property="og:description" content="Integridad, firmas y autenticación" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/practica_integridad_firmas_autentificacion/" />
+<meta property="article:published_time" content="2021-11-20T15:35:40+01:00" />
+<meta property="article:modified_time" content="2021-11-20T15:35:40+01:00" />
+
+
+    <title>
+  Integridad, firmas y autenticación · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/practica_integridad_firmas_autentificacion/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/practica_integridad_firmas_autentificacion/">
+              Integridad, firmas y autenticación
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-11-20T15:35:40&#43;01:00'>
+                November 20, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              25-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/seguridad-y-alta-disponibilidad/">Seguridad y Alta Disponibilidad</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="integridad-firmas-y-autenticación">
+  Integridad, firmas y autenticación
+  <a class="heading-link" href="#integridad-firmas-y-autenticaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<h2 id="tarea-1-firmas-electrónicas">
+  Tarea 1: Firmas electrónicas
+  <a class="heading-link" href="#tarea-1-firmas-electr%c3%b3nicas">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>En este primer apartado vamos a trabajar con las firmas electrónicas.</p>
+<h3 id="manda-un-documento-y-la-firma-electrónica-del-mismo-a-un-compañero-verifica-la-firma-que-tu-has-recibido">
+  Manda un documento y la firma electrónica del mismo a un compañero. Verifica la firma que tu has recibido.
+  <a class="heading-link" href="#manda-un-documento-y-la-firma-electr%c3%b3nica-del-mismo-a-un-compa%c3%b1ero-verifica-la-firma-que-tu-has-recibido">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para empezar, voy a mostrar las claves que tengo guardadas en mi &ldquo;llavero&rdquo; de claves de gpg:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --list-keys
+
+gpg: comprobando base de datos de confianza
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: nivel: 0  validez:   1  firmada:   0  confianza: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: siguiente comprobación de base de datos de confianza el: 2021-12-15
+/home/dparrales/.gnupg/pubring.kbx
+----------------------------------
+pub   rsa3072 2021-11-15 [SC] [caduca: 2021-12-15]
+      150B0A645D25B92F39531DBE6A6EB8CAF096A3F7
+uid        [  absoluta ] Daniel Parrales Garcia &lt;micorreofalso@gmail.com&gt;
+sub   rsa3072 2021-11-15 [E] [caduca: 2021-12-15]
+</code></pre></div><p>Esta clave la subiré a un servidor de claves (en este caso usaré el mismo de la pŕactica anterior: rediris), para que de esta forma mi compañera (Lara Pruna Ternero)pueda descargársela:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --keyserver pgp.rediris.es --send-keys 150B0A645D25B92F39531DBE6A6EB8CAF096A3F7
+gpg: enviando clave 6A6EB8CAF096A3F7 a hkp://pgp.rediris.es
+</code></pre></div><p>Ahora procedamos a descargar la clave pública de mi compañera del mismo servidor:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --keyserver pgp.rediris.es --recv-keys 46173F6A 
+gpg: clave 51D0DEC846173F6A: clave pública &#34;Lara Pruna Ternero &lt;larapruter@gmail.com&gt;&#34; importada
+gpg: Cantidad total procesada: 1
+gpg:               importadas: 1
+</code></pre></div><p>Podemos ver que se importado correctamente volviendo a revisar nuestro &ldquo;llavero&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --list-keys
+/home/dparrales/.gnupg/pubring.kbx
+----------------------------------
+pub   rsa3072 2021-11-15 [SC] [caduca: 2021-12-15]
+      150B0A645D25B92F39531DBE6A6EB8CAF096A3F7
+uid        [  absoluta ] Daniel Parrales Garcia &lt;micorreofalso@gmail.com&gt;
+sub   rsa3072 2021-11-15 [E] [caduca: 2021-12-15]
+
+pub   rsa3072 2021-11-13 [SC] [caduca: 2023-11-13]
+      44589663DC53593052B6616F51D0DEC846173F6A
+uid        [desconocida] Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+sub   rsa3072 2021-11-13 [E] [caduca: 2023-11-13]
+</code></pre></div><p>Una vez verificado, vamos a firmar un documento y a enviárselo junto a la firma para que pueda verificarla. En la práctica anterior hicimos uso de la opción <code>--sign</code>, que sirve para incluir tanto la firma como el documento firmado en un mismo fichero. Esta vez sin embargo, como queremos mandar el fichero firmado y la firma por separado, haremos uso de la opción <code>--detach-sign</code>. Así pues, voy a firmar un fichero que he creado de nombre <code>cifrado.txt</code>:</p>
+<p><code>gpg --detach-sign cifrado.txt</code></p>
+<p>Podemos verificar que se ha creado la firma de la siguiente forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l | egrep cifrado.txt
+-rw-r--r--  1 dparrales dparrales  1957 nov 13 18:59 cifrado.txt
+-rw-r--r--  1 dparrales dparrales   438 nov 15 09:05 cifrado.txt.sig
+</code></pre></div><p>Como vemos, nos ha generado la firma con la extensión <code>.sig</code>. Ahora procederemos a enviárselo a nuestra compañera (en mi caso haciendo uso de scp) y nosotros recibiremos su documento y su firma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l | egrep lara_planB
+-rw-r--r--  1 dparrales dparrales   208 nov 15 09:09 lara_planB.txt
+-rw-r--r--  1 dparrales dparrales   438 nov 15 09:10 lara_planB.txt.sig
+</code></pre></div><p>Ahora, para verificar la firma del fichero, tenemos que hacer uso de la opción <code>--verify</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --verify lara_planB.txt.sig lara_planB.txt
+
+gpg: Firmado el lun 15 nov 2021 09:06:06 CET
+gpg:                usando RSA clave 44589663DC53593052B6616F51D0DEC846173F6A
+gpg: Firma correcta de &#34;Lara Pruna Ternero &lt;larapruter@gmail.com&gt;&#34; [desconocido]
+gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza!
+gpg:          No hay indicios de que la firma pertenezca al propietario.
+Huellas dactilares de la clave primaria: 4458 9663 DC53 5930 52B6  616F 51D0 DEC8 4617 3F6A
+</code></pre></div><p>Efectivamente, nos indica que la verificación ha sido un éxito. También nos indica que la clave no está certificada por una firma de confianza, lo que quiere decir que no tenemos pruebas de que la clave que hemos importado pertenezca realmente a esa persona.</p>
+<h3 id="qué-significa-el-mensaje-que-aparece-en-el-momento-de-verificar-la-firma">
+  ¿Qué significa el mensaje que aparece en el momento de verificar la firma?
+  <a class="heading-link" href="#qu%c3%a9-significa-el-mensaje-que-aparece-en-el-momento-de-verificar-la-firma">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg: Firma correcta de &#34;Pepe D &lt;josedom24@gmail.com&gt;&#34; [desconocido]
+gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza!
+gpg:          No hay indicios de que la firma pertenezca al propietario.
+Huellas dactilares de la clave primaria: E8DD 5DA9 3B88 F08A DA1D  26BF 5141 3DDB 0C99 55FC
+</code></pre></div><p>El mensaje significa que efectivamente, el fichero que hemos validado ha sido firmado por la clave de &ldquo;Pepe D&rdquo;, pero no tenemos ninguna prueba de que esa persona sea &ldquo;Pepe D&rdquo;. Podría pasar que el documento lo haya firmado otra persona haciéndose pasar por &ldquo;Pepe D&rdquo; o que nosotros nos hayamos importado una clave creyendo que era de él pero en realidad no lo sea. Es por ello,</p>
+<h3 id="vamos-a-crear-un-anillo-de-confianza-entre-los-miembros-de-nuestra-clase-para-ello">
+  Vamos a crear un anillo de confianza entre los miembros de nuestra clase, para ello.
+  <a class="heading-link" href="#vamos-a-crear-un-anillo-de-confianza-entre-los-miembros-de-nuestra-clase-para-ello">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<ul>
+<li>Tu clave pública debe estar en un servidor de claves</li>
+<li>Escribe tu fingerprint en un papel y dáselo a tu compañero, para que puede descargarse tu clave pública.</li>
+<li>Te debes bajar al menos tres claves públicas de compañeros. Firma estas claves.</li>
+<li>Tu te debes asegurar que tu clave pública es firmada por al menos tres compañeros de la clase.</li>
+<li>Una vez que firmes una clave se la tendrás que devolver a su dueño, para que otra persona se la firme.</li>
+<li>Cuando tengas las tres firmas sube la clave al servidor de claves y rellena tus datos en la tabla Claves públicas PGP 2020-2021</li>
+<li>Asegúrate que te vuelves a bajar las claves públicas de tus compañeros que tengan las tres firmas.</li>
+</ul>
+<p>Para esta parte, he decidido empezar de cero, creando un nuevo para de claves y eliminando la clave de lara de mi &ldquo;llavero&rdquo;. Así pues, mi &ldquo;llavero&rdquo; contiene lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --list-keys
+/home/dparrales/.gnupg/pubring.kbx
+----------------------------------
+pub   rsa3072 2021-11-15 [SC]
+      C97939130FACC475D435CF070A3D7E065504F64B
+uid        [  absoluta ] Daniel Parrales Garcia (Para ASIR) &lt;daniparrales16@gmail.com&gt;
+sub   rsa3072 2021-11-15 [E]
+</code></pre></div><p>Es esta la clave pública que he subido a rediris:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --keyserver pgp.rediris.es --send-keys C97939130FACC475D435CF070A3D7E065504F64B
+</code></pre></div><p>Ahora vamos a importar desde el servidor las tres claves de nuestros compañeros (Lara Pruna, Omar Elhani y Miguel Córdoba) para firmarlas:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --keyserver pgp.rediris.es --recv-keys 46173F6A 
+gpg: clave 51D0DEC846173F6A: clave pública &#34;Lara Pruna Ternero &lt;larapruter@gmail.com&gt;&#34; importada
+gpg: Cantidad total procesada: 1
+gpg:               importadas: 1
+
+gpg --keyserver pgp.rediris.es --recv-keys 644AC899
+gpg: clave CA261D60644AC899: clave pública &#34;omar elhani &lt;omar.elhani1@gmail.com&gt;&#34; importada
+gpg: Cantidad total procesada: 1
+gpg:               importadas: 1
+
+gpg --keyserver pgp.rediris.es --recv-keys 8C74FBC0
+gpg: clave 93E00F9A8C74FBC0: clave pública &#34;Miguel Cordoba &lt;miguelcor.rrss@gmail.com&gt;&#34; importada
+gpg: Cantidad total procesada: 1
+gpg:               importadas: 1
+</code></pre></div><p>Veamos si están incorporadas a nuestro &ldquo;llavero&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --list-keys
+/home/dparrales/.gnupg/pubring.kbx
+----------------------------------
+pub   rsa3072 2021-11-15 [SC]
+      C97939130FACC475D435CF070A3D7E065504F64B
+uid        [  absoluta ] Daniel Parrales Garcia (Para ASIR) &lt;daniparrales16@gmail.com&gt;
+sub   rsa3072 2021-11-15 [E]
+
+pub   rsa3072 2021-11-13 [SC] [caduca: 2023-11-13]
+      44589663DC53593052B6616F51D0DEC846173F6A
+uid        [desconocida] Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+sub   rsa3072 2021-11-13 [E] [caduca: 2023-11-13]
+
+pub   rsa3072 2021-11-11 [SC] [caduca: 2023-11-11]
+      E152B3B11133E7BB6C1054B7CA261D60644AC899
+uid        [desconocida] omar elhani &lt;omar.elhani1@gmail.com&gt;
+sub   rsa3072 2021-11-11 [E] [caduca: 2023-11-11]
+
+pub   rsa3072 2021-11-11 [SC] [caduca: 2021-12-11]
+      0F99E1755360586A9B7C1F9C93E00F9A8C74FBC0
+uid        [desconocida] Miguel Cordoba &lt;miguelcor.rrss@gmail.com&gt;
+sub   rsa3072 2021-11-11 [E] [caduca: 2023-11-11]
+</code></pre></div><p>Actualmente, si nos fijamos, la validez de las claves es desconocida. Este parámetro cambiará una vez que hayamos firmado las claves. Para firma las claves haremos uso de la opción <code>--sign-key</code> seguido del identificador de la clave:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --sign-key 44589663DC53593052B6616F51D0DEC846173F6A
+
+pub  rsa3072/51D0DEC846173F6A
+     creado: 2021-11-13  caduca: 2023-11-13  uso: SC  
+     confianza: desconocido   validez: desconocido
+sub  rsa3072/99912020704046AB
+     creado: 2021-11-13  caduca: 2023-11-13  uso: E   
+[desconocida] (1). Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+
+
+pub  rsa3072/51D0DEC846173F6A
+     creado: 2021-11-13  caduca: 2023-11-13  uso: SC  
+     confianza: desconocido   validez: desconocido
+ Huella clave primaria: 4458 9663 DC53 5930 52B6  616F 51D0 DEC8 4617 3F6A
+
+     Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+
+Esta clave expirará el 2023-11-13.
+¿Está realmente seguro de querer firmar esta clave
+con su clave: &#34;Daniel Parrales Garcia (Para ASIR) &lt;daniparrales16@gmail.com&gt;&#34; (0A3D7E065504F64B)?
+
+¿Firmar de verdad? (s/N) s
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dparrales@debian:~$ gpg --sign-key E152B3B11133E7BB6C1054B7CA261D60644AC899
+
+gpg: comprobando base de datos de confianza
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: nivel: 0  validez:   1  firmada:   1  confianza: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: nivel: 1  validez:   1  firmada:   0  confianza: 1-, 0q, 0n, 0m, 0f, 0u
+gpg: siguiente comprobación de base de datos de confianza el: 2023-11-13
+pub  rsa3072/CA261D60644AC899
+     creado: 2021-11-11  caduca: 2023-11-11  uso: SC  
+     confianza: desconocido   validez: desconocido
+sub  rsa3072/2167621B8A191E79
+     creado: 2021-11-11  caduca: 2023-11-11  uso: E   
+[desconocida] (1). omar elhani &lt;omar.elhani1@gmail.com&gt;
+
+
+pub  rsa3072/CA261D60644AC899
+     creado: 2021-11-11  caduca: 2023-11-11  uso: SC  
+     confianza: desconocido   validez: desconocido
+ Huella clave primaria: E152 B3B1 1133 E7BB 6C10  54B7 CA26 1D60 644A C899
+
+     omar elhani &lt;omar.elhani1@gmail.com&gt;
+
+Esta clave expirará el 2023-11-11.
+¿Está realmente seguro de querer firmar esta clave
+con su clave: &#34;Daniel Parrales Garcia (Para ASIR) &lt;daniparrales16@gmail.com&gt;&#34; (0A3D7E065504F64B)?
+
+¿Firmar de verdad? (s/N) s
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dparrales@debian:~$ gpg --sign-key 0F99E1755360586A9B7C1F9C93E00F9A8C74FBC0
+
+gpg: comprobando base de datos de confianza
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: nivel: 0  validez:   1  firmada:   2  confianza: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: nivel: 1  validez:   2  firmada:   0  confianza: 2-, 0q, 0n, 0m, 0f, 0u
+gpg: siguiente comprobación de base de datos de confianza el: 2023-11-11
+pub  rsa3072/93E00F9A8C74FBC0
+     creado: 2021-11-11  caduca: 2021-12-11  uso: SC  
+     confianza: desconocido   validez: desconocido
+sub  rsa3072/264D8A7CC114656B
+     creado: 2021-11-11  caduca: 2023-11-11  uso: E   
+[desconocida] (1). Miguel Cordoba &lt;miguelcor.rrss@gmail.com&gt;
+
+
+pub  rsa3072/93E00F9A8C74FBC0
+     creado: 2021-11-11  caduca: 2021-12-11  uso: SC  
+     confianza: desconocido   validez: desconocido
+ Huella clave primaria: 0F99 E175 5360 586A 9B7C  1F9C 93E0 0F9A 8C74 FBC0
+
+     Miguel Cordoba &lt;miguelcor.rrss@gmail.com&gt;
+
+Esta clave expirará el 2021-12-11.
+¿Está realmente seguro de querer firmar esta clave
+con su clave: &#34;Daniel Parrales Garcia (Para ASIR) &lt;daniparrales16@gmail.com&gt;&#34; (0A3D7E065504F64B)?
+
+¿Firmar de verdad? (s/N) s
+</code></pre></div><p>Una vez firmadas, podemos observar como ha cambiado el parámetro de validez de la clave de &ldquo;desconocida&rdquo; a &ldquo;total&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --list-keys
+gpg: comprobando base de datos de confianza
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: nivel: 0  validez:   1  firmada:   3  confianza: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: nivel: 1  validez:   3  firmada:   0  confianza: 3-, 0q, 0n, 0m, 0f, 0u
+gpg: siguiente comprobación de base de datos de confianza el: 2021-12-11
+/home/dparrales/.gnupg/pubring.kbx
+----------------------------------
+pub   rsa3072 2021-11-15 [SC]
+      C97939130FACC475D435CF070A3D7E065504F64B
+uid        [  absoluta ] Daniel Parrales Garcia (Para ASIR) &lt;daniparrales16@gmail.com&gt;
+sub   rsa3072 2021-11-15 [E]
+
+pub   rsa3072 2021-11-13 [SC] [caduca: 2023-11-13]
+      44589663DC53593052B6616F51D0DEC846173F6A
+uid        [   total   ] Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+sub   rsa3072 2021-11-13 [E] [caduca: 2023-11-13]
+
+pub   rsa3072 2021-11-11 [SC] [caduca: 2023-11-11]
+      E152B3B11133E7BB6C1054B7CA261D60644AC899
+uid        [   total   ] omar elhani &lt;omar.elhani1@gmail.com&gt;
+sub   rsa3072 2021-11-11 [E] [caduca: 2023-11-11]
+
+pub   rsa3072 2021-11-11 [SC] [caduca: 2021-12-11]
+      0F99E1755360586A9B7C1F9C93E00F9A8C74FBC0
+uid        [   total   ] Miguel Cordoba &lt;miguelcor.rrss@gmail.com&gt;
+sub   rsa3072 2021-11-11 [E] [caduca: 2023-11-11]
+</code></pre></div><p>Ahora vamos a tener que exportar dichas claves manualmente, para devolvérsela a nuestros compañeros. Para ello he usado el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --export -a 44589663DC53593052B6616F51D0DEC846173F6A &gt; clave-lara.asc
+gpg --export -a E152B3B11133E7BB6C1054B7CA261D60644AC899 &gt; clave-omar.asc
+gpg --export -a 0F99E1755360586A9B7C1F9C93E00F9A8C74FBC0 &gt; clave-miguel.asc
+</code></pre></div><h3 id="muestra-las-firmas-que-tiene-tu-clave-pública">
+  Muestra las firmas que tiene tu clave pública.
+  <a class="heading-link" href="#muestra-las-firmas-que-tiene-tu-clave-p%c3%bablica">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Una vez que hayamos recibido nuestras claves firmadas, las importamos. Podemos ver las firmas de nuestra clave usando el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --list-sig
+/home/dparrales/.gnupg/pubring.kbx
+----------------------------------
+pub   rsa3072 2021-11-15 [SC]
+      C97939130FACC475D435CF070A3D7E065504F64B
+uid        [  absoluta ] Daniel Parrales Garcia (Para ASIR) &lt;daniparrales16@gmail.com&gt;
+sig 3        0A3D7E065504F64B 2021-11-15  Daniel Parrales Garcia (Para ASIR) &lt;daniparrales16@gmail.com&gt;
+sig          51D0DEC846173F6A 2021-11-15  Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+sig          CA261D60644AC899 2021-11-15  omar elhani &lt;omar.elhani1@gmail.com&gt;
+sig          EEDED9FCCE3CFC9A 2021-11-15  [ID de usuario no encontrado]
+sub   rsa3072 2021-11-15 [E]
+sig          0A3D7E065504F64B 2021-11-15  Daniel Parrales Garcia (Para ASIR) &lt;daniparrales16@gmail.com&gt;
+</code></pre></div><p>Podemos ver que tenemos tres firmas en nuestra clave pública que corresponden a los tres compañeros con los que intercambié claves (en la que pone ID de usuario no encontrado corresponde a Miguel Córdoba). Tras esto la volvemos a subir al servidor de claves:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --keyserver pgp.rediris.es --send-keys C97939130FACC475D435CF070A3D7E065504F64B
+</code></pre></div><p>Podemos ver que se ha actualizado la información en la web del servidor:</p>
+<p><img src="/images/integridad_firmas_autentificacion/rediris_actualizado.png" alt="rediris_actualizado.png"></p>
+<h3 id="comprueba-que-ya-puedes-verificar-sin-problemas-una-firma-recibida-por-una-persona-en-la-que-confías">
+  Comprueba que ya puedes verificar sin “problemas” una firma recibida por una persona en la que confías.
+  <a class="heading-link" href="#comprueba-que-ya-puedes-verificar-sin-problemas-una-firma-recibida-por-una-persona-en-la-que-conf%c3%adas">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Vamos a volver a verificar el fichero que nos mandó antes lara, para ver si ahora no aparece el mensaje de advertencia:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --verify lara_planB.txt.sig lara_planB.txt
+
+gpg: Firmado el lun 15 nov 2021 09:06:06 CET
+gpg:                usando RSA clave 44589663DC53593052B6616F51D0DEC846173F6A
+gpg: Firma correcta de &#34;Lara Pruna Ternero &lt;larapruter@gmail.com&gt;&#34; [total]
+</code></pre></div><p>Como podemos observar, ahora nos indica que se ha podido verificar sin problemas que el archivo está firmado por Lara.</p>
+<h3 id="comprueba-que-puedes-verificar-con-confianza-una-firma-de-una-persona-en-las-que-no-confías-pero-sin-embargo-si-confía-otra-persona-en-la-que-tu-tienes-confianza-total">
+  Comprueba que puedes verificar con confianza una firma de una persona en las que no confías, pero sin embargo si confía otra persona en la que tu tienes confianza total.
+  <a class="heading-link" href="#comprueba-que-puedes-verificar-con-confianza-una-firma-de-una-persona-en-las-que-no-conf%c3%adas-pero-sin-embargo-si-conf%c3%ada-otra-persona-en-la-que-tu-tienes-confianza-total">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para ello he recibido un archivo cifrado y una clave pública de mi compañera Lara, la cual se creo una máquina virtual para generar una nueva clave. Firmo dicha clave con su clave principal y me la pasó. Tras esto, importé dicha clave a mi sistema. Una vez hecho todo esto, tenemos en nuestro sistema una clave que no hemos firmado nosotros (por lo que no confiamos en ella), pero que se encuentra firmada por Lara, una persona en la que confío. Si intento verificar entonces la firma de ese nuevo ocurre lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --verify firmado.txt.sig 
+gpg: asumiendo que los datos firmados están en &#39;firmado.txt&#39;
+gpg: Firmado el jue 18 nov 2021 13:43:58 CET
+gpg:                usando RSA clave 2023DF17B145770C56ACCDF37D7B1AA8213EEB7B
+gpg: Firma correcta de &#34;Lari Pruna Ternero &lt;correofalso12@gmail.com&gt;&#34; [no definido]
+gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza!
+gpg:          No hay indicios de que la firma pertenezca al propietario.
+Huellas dactilares de la clave primaria: 2023 DF17 B145 770C 56AC  CDF3 7D7B 1AA8 213E EB7B
+</code></pre></div><p>Como vemos, nos indica que no es una firma de confianza. Esto se debe a que aunque hemos firmado la clave pública de Lara y ella ha firmado la nuestra, la confianza que el sistema deposita en ella por defecto no es suficiente para que nuestro sistema confíe en las personas en las que Lara confía. Por ello tenemos que cambiar la confianza que tenemos en ella a &ldquo;Total&rdquo;. Así pues, empecemos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --edit-key 44589663DC53593052B6616F51D0DEC846173F6A
+gpg (GnuPG) 2.2.27; Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+
+pub  rsa3072/51D0DEC846173F6A
+     creado: 2021-11-13  caduca: 2023-11-13  uso: SC  
+     confianza: desconocido   validez: total
+sub  rsa3072/99912020704046AB
+     creado: 2021-11-13  caduca: 2023-11-13  uso: E   
+[   total   ] (1). Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+
+gpg&gt;
+</code></pre></div><p>Una vez en este menú ejecutamos lo siguiente para cambiar el nivel de confianza:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg&gt; trust
+pub  rsa3072/51D0DEC846173F6A
+     creado: 2021-11-13  caduca: 2023-11-13  uso: SC  
+     confianza: desconocido   validez: total
+sub  rsa3072/99912020704046AB
+     creado: 2021-11-13  caduca: 2023-11-13  uso: E   
+[   total   ] (1). Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+
+Por favor, decida su nivel de confianza en que este usuario
+verifique correctamente las claves de otros usuarios (mirando
+pasaportes, comprobando huellas dactilares en diferentes fuentes...)
+
+
+  1 = No lo sé o prefiero no decirlo
+  2 = NO tengo confianza
+  3 = Confío un poco
+  4 = Confío totalmente
+  5 = confío absolutamente
+  m = volver al menú principal
+
+¿Su decisión? 4
+
+pub  rsa3072/51D0DEC846173F6A
+     creado: 2021-11-13  caduca: 2023-11-13  uso: SC  
+     confianza: absoluta      validez: total
+sub  rsa3072/99912020704046AB
+     creado: 2021-11-13  caduca: 2023-11-13  uso: E   
+[   total   ] (1). Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+Ten en cuenta que la validez de clave mostrada no es necesariamente
+correcta a menos de que reinicies el programa.
+
+gpg&gt; quit
+</code></pre></div><p>Hemos asignado confianza total a Lara, por lo que nos fiaremos de cualquier cosa que haya firmado ella. Así pues, antes de verificar la firma otra vez, aseguremonos de que la clave pública del falso usuario que me pasó Lara está firmada por ella:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">pub   rsa3072 2021-11-18 [SC] [caduca: 2023-11-18]
+      2023DF17B145770C56ACCDF37D7B1AA8213EEB7B
+uid        [   total   ] Lari Pruna Ternero &lt;correofalso12@gmail.com&gt;
+sig 3        7D7B1AA8213EEB7B 2021-11-18  Lari Pruna Ternero &lt;correofalso12@gmail.com&gt;
+sig          51D0DEC846173F6A 2021-11-18  Lara Pruna Ternero &lt;larapruter@gmail.com&gt;
+sub   rsa3072 2021-11-18 [E] [caduca: 2023-11-18]
+sig          7D7B1AA8213EEB7B 2021-11-18  Lari Pruna Ternero &lt;correofalso12@gmail.com&gt;
+</code></pre></div><p>Una vez que nos hemos asegurados de que está firmada por ella, comprobemos lo que ocurre al verificar la firma del documento anterior:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --verify firmado.txt.sig 
+gpg: asumiendo que los datos firmados están en &#39;firmado.txt&#39;
+gpg: Firmado el jue 18 nov 2021 13:43:58 CET
+gpg:                usando RSA clave 2023DF17B145770C56ACCDF37D7B1AA8213EEB7B
+gpg: comprobando base de datos de confianza
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: nivel: 0  validez:   1  firmada:   3  confianza: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: nivel: 1  validez:   3  firmada:   1  confianza: 2-, 0q, 0n, 0m, 1f, 0u
+gpg: nivel: 2  validez:   1  firmada:   0  confianza: 1-, 0q, 0n, 0m, 0f, 0u
+gpg: siguiente comprobación de base de datos de confianza el: 2021-12-11
+gpg: Firma correcta de &#34;Lari Pruna Ternero &lt;correofalso12@gmail.com&gt;&#34; [total]
+</code></pre></div><p>Como vemos, al estar firmada la clave pública por Lara, en quien confiamos plenamente, nos verifica correctamente la firma del fichero.</p>
+<h2 id="tarea-2-correo-seguro-con-evolutionthunderbird">
+  Tarea 2: Correo seguro con evolution/thunderbird
+  <a class="heading-link" href="#tarea-2-correo-seguro-con-evolutionthunderbird">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Ahora vamos a configurar nuestro cliente de correo electrónico para poder mandar correos cifrados, para ello:</p>
+<h3 id="configura-el-cliente-de-correo-evolution-con-tu-cuenta-de-correo-habitual">
+  Configura el cliente de correo evolution con tu cuenta de correo habitual
+  <a class="heading-link" href="#configura-el-cliente-de-correo-evolution-con-tu-cuenta-de-correo-habitual">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para ello simplemente inciamos el cliente de correo y añadimos nuestro correo tal y como nos indica el asistente. Una vez acabado, debería salirnos lo siguiente:</p>
+<p><img src="/images/integridad_firmas_autentificacion/evolution.png" alt="evolution.png"></p>
+<h3 id="añade-a-la-cuenta-las-opciones-de-seguridad-para-poder-enviar-correos-firmados-con-tu-clave-privada-o-cifrar-los-mensajes-para-otros-destinatarios">
+  Añade a la cuenta las opciones de seguridad para poder enviar correos firmados con tu clave privada o cifrar los mensajes para otros destinatarios
+  <a class="heading-link" href="#a%c3%b1ade-a-la-cuenta-las-opciones-de-seguridad-para-poder-enviar-correos-firmados-con-tu-clave-privada-o-cifrar-los-mensajes-para-otros-destinatarios">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para ello, modificamos las opciones de seguridad de nuestra cuenta de correo en Evolution, cambiando la siguiente configuración:</p>
+<p><img src="/images/integridad_firmas_autentificacion/evolution_cifrado.png" alt="evolution_cifrado.png"></p>
+<h3 id="envía-y-recibe-varios-mensajes-con-tus-compañeros-y-comprueba-el-funcionamiento-adecuado-de-gpg">
+  Envía y recibe varios mensajes con tus compañeros y comprueba el funcionamiento adecuado de GPG
+  <a class="heading-link" href="#env%c3%ada-y-recibe-varios-mensajes-con-tus-compa%c3%b1eros-y-comprueba-el-funcionamiento-adecuado-de-gpg">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Ahora al enviar correos, seleccionamos lo siguiente:</p>
+<p><img src="/images/integridad_firmas_autentificacion/evolution_cifrar.png" alt="evolution_cifrar.png"></p>
+<p>Con esos dos botones marcados, al enviar el correo nos preguntará por nuestra clave de paso para cifrarlo y firmalo. Si el destinatario dispone de nuestra clave pública podrá verificarlo y descifrarlo. Cuando recibimos un correo firmado y cifrado por nuestro compañero, nos preguntará por la clave de paso de nuestra clave gpg, y si la introducimos correctamente nos indica esto en el correo:</p>
+<p><img src="/images/integridad_firmas_autentificacion/lara_evolution.png" alt="lara_evolution.png"></p>
+<p>Esto nos indica que era un mensaje cifrado y firmado por ella, y que lo hemos verificado y descifrado con éxito.</p>
+<h2 id="tarea-3-integridad-de-ficheros">
+  Tarea 3: Integridad de ficheros
+  <a class="heading-link" href="#tarea-3-integridad-de-ficheros">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Vamos a descargarnos la ISO de debian, y posteriormente vamos a comprobar su integridad. Puedes encontrar la ISO en la dirección: <code>https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/</code>.</p>
+<h3 id="para-validar-el-contenido-de-la-imagen-cd-solo-asegúrese-de-usar-la-herramienta-apropiada-para-sumas-de-verificación-para-cada-versión-publicada-existen-archivos-de-suma-de-comprobación-con-algoritmos-fuertes-sha256-y-sha512-debería-usar-las-herramientas-sha256sum-o-sha512sum-para-trabajar-con-ellos">
+  Para validar el contenido de la imagen CD, solo asegúrese de usar la herramienta apropiada para sumas de verificación. Para cada versión publicada existen archivos de suma de comprobación con algoritmos fuertes (SHA256 y SHA512); debería usar las herramientas sha256sum o sha512sum para trabajar con ellos.
+  <a class="heading-link" href="#para-validar-el-contenido-de-la-imagen-cd-solo-aseg%c3%barese-de-usar-la-herramienta-apropiada-para-sumas-de-verificaci%c3%b3n-para-cada-versi%c3%b3n-publicada-existen-archivos-de-suma-de-comprobaci%c3%b3n-con-algoritmos-fuertes-sha256-y-sha512-deber%c3%ada-usar-las-herramientas-sha256sum-o-sha512sum-para-trabajar-con-ellos">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>En primer lugar, tenemos que descargarnos los ficheros que vamos a usar del enlace anterior:</p>
+<ul>
+<li>debian-10.6.0-amd64-netinst.iso: La imagen ISO cuya integridad comprobaremos.</li>
+<li>SHA256SUMS: El fichero con el hash de la imagen, tras aplicar el algoritmo SHA256.</li>
+<li>SHA256SUMS.sign: La firma haciendo uso de la clave privada de Debian sobre el hash del fichero SHA256SUMS.</li>
+<li>SHA512SUMS: El fichero con el hash de la imagen, tras aplicar el algoritmo SHA512.</li>
+<li>SHA512SUMS.sign: La firma haciendo uso de la clave privada de Debian sobre el hash del fichero SHA512SUMS.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS
+wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA256SUMS.sign
+wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA512SUMS
+wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/SHA512SUMS.sign
+wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.1.0-amd64-netinst.iso
+</code></pre></div><p>Tras esto hemos de importar las claves públicas de debian, para que podamos verificar los ficheros firmados. Podemos encontrar las claves en el siguiente <a href="https://www.debian.org/CD/verify">enlace</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --keyserver keyring.debian.org --recv-keys 6294BE9B
+gpg: clave DA87E80D6294BE9B: clave pública &#34;Debian CD signing key &lt;debian-cd@lists.debian.org&gt;&#34; importada
+gpg: Cantidad total procesada: 1
+gpg:               importadas: 1
+</code></pre></div><p>Una vez importada la clave pública de debian, podemos comprobar la integridad de los ficheros. Dicha integridad la comprobaremos empleando los archivos &lsquo;SHA256SUMS&rsquo; y &lsquo;SHA512SUMS&rsquo; junto con los comandos apropiados, que nos indicará si la integridad del fichero se ha visto vulnerada desde que se creó el fichero, ya que compararemos el hash que calculamos nosotros con el hash que nos proporciona debian en esos ficheros. Si coinciden, es que la integridad del fichero se ha mantenido, pero si falla, nos indicará que la integridad se ha visto vulnerada. Así pues, usaremos los comandos <code>sha256sum</code> y <code>sha512sum</code> para los respectivos ficheros:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sha256sum -c SHA256SUMS
+
+debian-11.1.0-amd64-netinst.iso: La suma coincide
+sha256sum: debian-edu-11.1.0-amd64-netinst.iso: No existe el fichero o el directorio
+debian-edu-11.1.0-amd64-netinst.iso: FAILED open or read
+sha256sum: debian-mac-11.1.0-amd64-netinst.iso: No existe el fichero o el directorio
+debian-mac-11.1.0-amd64-netinst.iso: FAILED open or read
+sha256sum: ATENCIÓN: no se pudieron leer 2 ficheros listados
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sha512sum -c SHA512SUMS
+debian-11.1.0-amd64-netinst.iso: La suma coincide
+sha512sum: debian-edu-11.1.0-amd64-netinst.iso: No existe el fichero o el directorio
+debian-edu-11.1.0-amd64-netinst.iso: FAILED open or read
+sha512sum: debian-mac-11.1.0-amd64-netinst.iso: No existe el fichero o el directorio
+debian-mac-11.1.0-amd64-netinst.iso: FAILED open or read
+sha512sum: ATENCIÓN: no se pudieron leer 2 ficheros listados
+</code></pre></div><p>Como vemos, nos aparecen algunos errores, pero dichos errores son porque no he descargado los otros 3 ficheros que había en la página. Si nos fijamos en la primera línea, nos indica que la suma coincide para el fichero que hemos descargado, por lo que podemos estar seguros de su integridad.</p>
+<h3 id="verifica-que-el-contenido-del-hash-que-has-utilizado-no-ha-sido-manipulado-usando-la-firma-digital-que-encontrarás-en-el-repositorio-puedes-encontrar-una-guía-para-realizarlo-en-este-artículo-how-to-verify-an-authenticity-of-downloaded-debian-iso-imageshttpslinuxconfigorghow-to-verify-an-authenticity-of-downloaded-debian-iso-images">
+  Verifica que el contenido del hash que has utilizado no ha sido manipulado, usando la firma digital que encontrarás en el repositorio. Puedes encontrar una guía para realizarlo en este artículo: <a href="https://linuxconfig.org/how-to-verify-an-authenticity-of-downloaded-debian-iso-images">How to verify an authenticity of downloaded Debian ISO images</a>
+  <a class="heading-link" href="#verifica-que-el-contenido-del-hash-que-has-utilizado-no-ha-sido-manipulado-usando-la-firma-digital-que-encontrar%c3%a1s-en-el-repositorio-puedes-encontrar-una-gu%c3%ada-para-realizarlo-en-este-art%c3%adculo-how-to-verify-an-authenticity-of-downloaded-debian-iso-imageshttpslinuxconfigorghow-to-verify-an-authenticity-of-downloaded-debian-iso-images">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Para verificar que el contenido del hash que hemos utilizado no ha sido manipulado, tendremos que verificar la firma existente usando la clave pública de debian que nos descargamos anteriormente. Para ello utlizamos un comando que ya hemos utilizado anteriormente: <code>gpg --verify</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --verify SHA256SUMS.sign SHA256SUMS
+gpg: Firmado el sáb 09 oct 2021 22:53:47 CEST
+gpg:                usando RSA clave DF9B9C49EAA9298432589D76DA87E80D6294BE9B
+gpg: Firma correcta de &#34;Debian CD signing key &lt;debian-cd@lists.debian.org&gt;&#34; [desconocido]
+gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza!
+gpg:          No hay indicios de que la firma pertenezca al propietario.
+Huellas dactilares de la clave primaria: DF9B 9C49 EAA9 2984 3258  9D76 DA87 E80D 6294 BE9B
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gpg --verify SHA512SUMS.sign SHA512SUMS
+gpg: Firmado el sáb 09 oct 2021 22:53:48 CEST
+gpg:                usando RSA clave DF9B9C49EAA9298432589D76DA87E80D6294BE9B
+gpg: Firma correcta de &#34;Debian CD signing key &lt;debian-cd@lists.debian.org&gt;&#34; [desconocido]
+gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza!
+gpg:          No hay indicios de que la firma pertenezca al propietario.
+Huellas dactilares de la clave primaria: DF9B 9C49 EAA9 2984 3258  9D76 DA87 E80D 6294 BE9B
+</code></pre></div><p>Tal y como se nos indica en la salida del comando, hemos verificado con éxito la firma, por lo que podemos concluir que no ha habido ninguna manipulación en la imagen que hemos descargado.</p>
+<h2 id="tarea-4-integridad-y-autenticidad-apt-secure">
+  Tarea 4: Integridad y autenticidad (apt secure)
+  <a class="heading-link" href="#tarea-4-integridad-y-autenticidad-apt-secure">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Cuando nos instalamos un paquete en nuestra distribución linux tenemos que asegurarnos que ese paquete es legítimo. Para conseguir este objetivo se utiliza criptografía asimétrica, y en el caso de Debian a este sistema se llama apt secure. Esto lo debemos tener en cuenta al utilizar los repositorios oficiales. Cuando añadamos nuevos repositorios tendremos que añadir las firmas necesarias para confiar en que los paquetes son legítimos y no han sido modificados.</p>
+<p>Busca información sobre apt secure y responde las siguientes preguntas:</p>
+<h3 id="qué-software-utiliza-apt-secure-para-realizar-la-criptografía-asimétrica">
+  ¿Qué software utiliza apt secure para realizar la criptografía asimétrica?
+  <a class="heading-link" href="#qu%c3%a9-software-utiliza-apt-secure-para-realizar-la-criptograf%c3%ada-asim%c3%a9trica">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>El software que utiliza apt secure para realizar la criptografía asimétrica es GPG (GNU Privacy Guard).</p>
+<h3 id="para-que-sirve-el-comando-apt-key-qué-muestra-el-comando-apt-key-list">
+  ¿Para que sirve el comando apt-key? ¿Qué muestra el comando apt-key list?
+  <a class="heading-link" href="#para-que-sirve-el-comando-apt-key-qu%c3%a9-muestra-el-comando-apt-key-list">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>El comando apt-key se utiliza para gestionar la lista de claves que usa apt para autentificar los paquetes. Los paquetes que hayan sido autentificados usando estas claves son considerados de fiar. El comando <code>apt-key list</code> muestra una lista de las claves que nuestro sistema tiene almacenado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt-key list
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+/etc/apt/trusted.gpg
+--------------------
+pub   rsa4096 2017-05-08 [SCEA]
+      1EDD E2CD FC02 5D17 F6DA  9EC0 ADAE 6AD2 8A8F 901A
+uid        [desconocida] Sublime HQ Pty Ltd &lt;support@sublimetext.com&gt;
+sub   rsa4096 2017-05-08 [S]
+
+/etc/apt/trusted.gpg.d/debian-archive-bullseye-automatic.gpg
+------------------------------------------------------------
+pub   rsa4096 2021-01-17 [SC] [caduca: 2029-01-15]
+      1F89 983E 0081 FDE0 18F3  CC96 73A4 F27B 8DD4 7936
+uid        [desconocida] Debian Archive Automatic Signing Key (11/bullseye) &lt;ftpmaster@debian.org&gt;
+sub   rsa4096 2021-01-17 [S] [caduca: 2029-01-15]
+
+/etc/apt/trusted.gpg.d/debian-archive-bullseye-security-automatic.gpg
+---------------------------------------------------------------------
+pub   rsa4096 2021-01-17 [SC] [caduca: 2029-01-15]
+      AC53 0D52 0F2F 3269 F5E9  8313 A484 4904 4AAD 5C5D
+uid        [desconocida] Debian Security Archive Automatic Signing Key (11/bullseye) &lt;ftpmaster@debian.org&gt;
+sub   rsa4096 2021-01-17 [S] [caduca: 2029-01-15]
+
+/etc/apt/trusted.gpg.d/debian-archive-bullseye-stable.gpg
+---------------------------------------------------------
+pub   rsa4096 2021-02-13 [SC] [caduca: 2029-02-11]
+      A428 5295 FC7B 1A81 6000  62A9 605C 66F0 0D6C 9793
+uid        [desconocida] Debian Stable Release Key (11/bullseye) &lt;debian-release@lists.debian.org&gt;
+
+/etc/apt/trusted.gpg.d/debian-archive-buster-automatic.gpg
+----------------------------------------------------------
+pub   rsa4096 2019-04-14 [SC] [caduca: 2027-04-12]
+      80D1 5823 B7FD 1561 F9F7  BCDD DC30 D7C2 3CBB ABEE
+uid        [desconocida] Debian Archive Automatic Signing Key (10/buster) &lt;ftpmaster@debian.org&gt;
+sub   rsa4096 2019-04-14 [S] [caduca: 2027-04-12]
+
+/etc/apt/trusted.gpg.d/debian-archive-buster-security-automatic.gpg
+-------------------------------------------------------------------
+pub   rsa4096 2019-04-14 [SC] [caduca: 2027-04-12]
+      5E61 B217 265D A980 7A23  C5FF 4DFA B270 CAA9 6DFA
+uid        [desconocida] Debian Security Archive Automatic Signing Key (10/buster) &lt;ftpmaster@debian.org&gt;
+sub   rsa4096 2019-04-14 [S] [caduca: 2027-04-12]
+
+/etc/apt/trusted.gpg.d/debian-archive-buster-stable.gpg
+-------------------------------------------------------
+pub   rsa4096 2019-02-05 [SC] [caduca: 2027-02-03]
+      6D33 866E DD8F FA41 C014  3AED DCC9 EFBF 77E1 1517
+uid        [desconocida] Debian Stable Release Key (10/buster) &lt;debian-release@lists.debian.org&gt;
+
+/etc/apt/trusted.gpg.d/debian-archive-stretch-automatic.gpg
+-----------------------------------------------------------
+pub   rsa4096 2017-05-22 [SC] [caduca: 2025-05-20]
+      E1CF 20DD FFE4 B89E 8026  58F1 E0B1 1894 F66A EC98
+uid        [desconocida] Debian Archive Automatic Signing Key (9/stretch) &lt;ftpmaster@debian.org&gt;
+sub   rsa4096 2017-05-22 [S] [caduca: 2025-05-20]
+
+/etc/apt/trusted.gpg.d/debian-archive-stretch-security-automatic.gpg
+--------------------------------------------------------------------
+pub   rsa4096 2017-05-22 [SC] [caduca: 2025-05-20]
+      6ED6 F5CB 5FA6 FB2F 460A  E88E EDA0 D238 8AE2 2BA9
+uid        [desconocida] Debian Security Archive Automatic Signing Key (9/stretch) &lt;ftpmaster@debian.org&gt;
+sub   rsa4096 2017-05-22 [S] [caduca: 2025-05-20]
+
+/etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg
+--------------------------------------------------------
+pub   rsa4096 2017-05-20 [SC] [caduca: 2025-05-18]
+      067E 3C45 6BAE 240A CEE8  8F6F EF0F 382A 1A7B 6500
+uid        [desconocida] Debian Stable Release Key (9/stretch) &lt;debian-release@lists.debian.org&gt;
+</code></pre></div><h3 id="en-que-fichero-se-guarda-el-anillo-de-claves-que-guarda-la-herramienta-apt-key">
+  En que fichero se guarda el anillo de claves que guarda la herramienta apt-key?
+  <a class="heading-link" href="#en-que-fichero-se-guarda-el-anillo-de-claves-que-guarda-la-herramienta-apt-key">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>El anillo de claves se encuentra en el fichero <code>/etc/apt/trusted.gpg</code>. También hay más claves de confianza en el directorio <code>/etc/apt/trusted.gpg.d/</code>.</p>
+<h3 id="qué-contiene-el-archivo-release-de-un-repositorio-de-paquetes-y-el-archivo-releasegpg-puedes-ver-estos-archivos-en-el-repositorio-httpftpdebianorgdebiandistsdebian111-estos-archivos-se-descargan-cuando-hacemos-un-apt-update">
+  ¿Qué contiene el archivo Release de un repositorio de paquetes?. ¿Y el archivo Release.gpg?. Puedes ver estos archivos en el repositorio <code>http://ftp.debian.org/debian/dists/Debian11.1/</code>. Estos archivos se descargan cuando hacemos un apt update.
+  <a class="heading-link" href="#qu%c3%a9-contiene-el-archivo-release-de-un-repositorio-de-paquetes-y-el-archivo-releasegpg-puedes-ver-estos-archivos-en-el-repositorio-httpftpdebianorgdebiandistsdebian111-estos-archivos-se-descargan-cuando-hacemos-un-apt-update">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>El archivo Release contiene una lista de los paquetes junto con sus hashes MD5 y SHA256. Esto los usa el sistema para verificar que los paquetes que descargamos con apt no han sido manipulados, tal como hicimos nosotros en el ejercicio anterior, comparando los hashes del fichero Release y los hashes que calcula el sistema.</p>
+<p>Por otro lado el fichero Release.gpg contiene las firmas correspondientes al fichero Release, por lo que al comprobar dichas firmas con las claves públicas de <code>/etc/apt/trusted.gpg</code>, el sistema puede comprobar que el remitente de esos paquetes es de confianza.</p>
+<h3 id="explica-el-proceso-por-el-cual-el-sistema-nos-asegura-que-los-ficheros-que-estamos-descargando-son-legítimos">
+  Explica el proceso por el cual el sistema nos asegura que los ficheros que estamos descargando son legítimos.
+  <a class="heading-link" href="#explica-el-proceso-por-el-cual-el-sistema-nos-asegura-que-los-ficheros-que-estamos-descargando-son-leg%c3%adtimos">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Cuando se ejecuta un <code>apt update</code>, se descargan los ficheros <code>Release</code> y <code>Release.gpg</code>, junto con el fichero <code>Packages.gz</code>. De esta forma, primero se comprueba que el hash del paquete <code>.deb</code> coincide con los hashes que aparecen en los ficheros <code>Packages.gz</code> y <code>Release</code>, comprobando en último lugar que la firma del fichero <code>Release</code> a través del fichero <code>Release.gpg</code>.</p>
+<h3 id="añade-de-forma-correcta-el-repositorio-de-virtualbox-añadiendo-la-clave-pública-de-virtualbox-como-se-indica-en-la-documentación">
+  Añade de forma correcta el repositorio de virtualbox añadiendo la clave pública de virtualbox como se indica en la documentación.
+  <a class="heading-link" href="#a%c3%b1ade-de-forma-correcta-el-repositorio-de-virtualbox-a%c3%b1adiendo-la-clave-p%c3%bablica-de-virtualbox-como-se-indica-en-la-documentaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Tal y como se nos indica en la documentación proporcionada por VirtualBox, lo primero es añadir el repositorio de virtualbox:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">echo &#34;deb https://download.virtualbox.org/virtualbox/debian bullseye contrib&#34; &gt;&gt; /etc/apt/sources.list
+</code></pre></div><p>Ahora añadimos las claves públicas de virtualbox:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+
+wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+</code></pre></div><p>Ahora que están añadidas, podemos ejecutar un <code>apt update</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">apt</span> <span style="color:#a6e22e">update</span>
+<span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">1</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//security.debian.org/debian-security bullseye-security InRelease [44.1 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Hit</span>:<span style="color:#ae81ff">2</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye InRelease                          
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">3</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye-updates InRelease [39.4 kB]        
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">4</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye-backports InRelease [43.7 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">5</span> <span style="color:#a6e22e">https</span>:<span style="color:#75715e">//download.virtualbox.org/virtualbox/debian bullseye InRelease [7735 B]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">6</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//security.debian.org/debian-security bullseye-security/main Sources [67.8 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">7</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//security.debian.org/debian-security bullseye-security/main amd64 Packages [94.0 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">8</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//security.debian.org/debian-security bullseye-security/main Translation-en [59.6 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">9</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye-backports/main Sources.diff/Index [63.3 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">10</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye-backports/main amd64 Packages.diff/Index [63.3 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">11</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye-backports/main Translation-en.diff/Index [26.3 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">12</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye-backports/main Sources T-2021-11-18-2005.23-F-2021-11-13-2001.35.pdiff [13.9 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">12</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye-backports/main Sources T-2021-11-18-2005.23-F-2021-11-13-2001.35.pdiff [13.9 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">13</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye-backports/main amd64 Packages T-2021-11-18-2005.23-F-2021-11-13-2001.35.pdiff [16.6 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">13</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye-backports/main amd64 Packages T-2021-11-18-2005.23-F-2021-11-13-2001.35.pdiff [16.6 kB]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">14</span> <span style="color:#a6e22e">https</span>:<span style="color:#75715e">//download.virtualbox.org/virtualbox/debian bullseye/contrib amd64 Packages [1088 B]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">15</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye-backports/main Translation-en T-2021-11-14-0803.33-F-2021-11-13-2001.35.pdiff [9932 B]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Get</span>:<span style="color:#ae81ff">15</span> <span style="color:#a6e22e">http</span>:<span style="color:#75715e">//deb.debian.org/debian bullseye-backports/main Translation-en T-2021-11-14-0803.33-F-2021-11-13-2001.35.pdiff [9932 B]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Fetched</span> <span style="color:#ae81ff">551</span> <span style="color:#a6e22e">kB</span> <span style="color:#a6e22e">in</span> <span style="color:#ae81ff">2</span><span style="color:#a6e22e">s</span> (<span style="color:#ae81ff">301</span> <span style="color:#a6e22e">kB</span><span style="color:#f92672">/</span><span style="color:#a6e22e">s</span>)     
+<span style="color:#a6e22e">Reading</span> <span style="color:#f92672">package</span> <span style="color:#a6e22e">lists</span><span style="color:#f92672">...</span> <span style="color:#a6e22e">Done</span>
+<span style="color:#a6e22e">Building</span> <span style="color:#a6e22e">dependency</span> <span style="color:#a6e22e">tree</span><span style="color:#f92672">...</span> <span style="color:#a6e22e">Done</span>
+<span style="color:#a6e22e">Reading</span> <span style="color:#a6e22e">state</span> <span style="color:#a6e22e">information</span><span style="color:#f92672">...</span> <span style="color:#a6e22e">Done</span>
+<span style="color:#ae81ff">5</span> <span style="color:#a6e22e">packages</span> <span style="color:#a6e22e">can</span> <span style="color:#a6e22e">be</span> <span style="color:#a6e22e">upgraded</span>. <span style="color:#a6e22e">Run</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">apt</span> <span style="color:#a6e22e">list</span> <span style="color:#f92672">--</span><span style="color:#a6e22e">upgradable</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">see</span> <span style="color:#a6e22e">them</span>.
+</code></pre></div><p>Con esto ya podríamos instalar virtualbox de forma normal.</p>
+<h2 id="tarea-5-autentificación-ejemplo-ssh">
+  Tarea 5: Autentificación: ejemplo SSH
+  <a class="heading-link" href="#tarea-5-autentificaci%c3%b3n-ejemplo-ssh">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Vamos a estudiar como la criptografía nos ayuda a cifrar las comunicaciones que hacemos utilizando el protocolo ssh, y cómo nos puede servir también para conseguir que un cliente se autentifique contra el servidor. Responde las siguientes cuestiones:</p>
+<h3 id="explica-los-pasos-que-se-producen-entre-el-cliente-y-el-servidor-para-que-el-protocolo-cifre-la-información-que-se-transmite-para-qué-se-utiliza-la-criptografía-simétrica-y-la-asimétrica">
+  Explica los pasos que se producen entre el cliente y el servidor para que el protocolo cifre la información que se transmite? ¿Para qué se utiliza la criptografía simétrica? ¿Y la asimétrica?
+  <a class="heading-link" href="#explica-los-pasos-que-se-producen-entre-el-cliente-y-el-servidor-para-que-el-protocolo-cifre-la-informaci%c3%b3n-que-se-transmite-para-qu%c3%a9-se-utiliza-la-criptograf%c3%ada-sim%c3%a9trica-y-la-asim%c3%a9trica">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Cuando un cliente intenta conectarse al servidor ssh a través de TCP , el servidor le indica los protocolos de cifrado de que dispone y las versiones que soporta. Si el cliente cumple con estas dos condiciones (protocolo y versión), se inicia la conexión con el protocolo que hayan elegido. En este momento, servidor y cliente crean claves públicas temporales y se las intercambian, haciendo uso en este momento de la criptografía asimétrica.</p>
+<p>Una vez establecida la conexión, ambas partes usan el Algoritmo de Intercambio de Claves Diffie-Hellman para generar una clave simétrica. Será esta clave simétrca la que utilizará en adelante durante la conexión.</p>
+<p>En último lugar, una vez establecido todo lo anterior, el cliente debe autentificarse.</p>
+<h3 id="explica-los-dos-métodos-principales-de-autentificación-por-contraseña-y-utilizando-un-par-de-claves-públicas-y-privadas">
+  Explica los dos métodos principales de autentificación: por contraseña y utilizando un par de claves públicas y privadas.
+  <a class="heading-link" href="#explica-los-dos-m%c3%a9todos-principales-de-autentificaci%c3%b3n-por-contrase%c3%b1a-y-utilizando-un-par-de-claves-p%c3%bablicas-y-privadas">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<ul>
+<li>
+<p>Contraseña: El usuario usa la contraseña del usuario con el que está tratando de acceder a la máquina. Debido a que está cifrado de forma simétrica, es muy difícil que un atacante se haga con la misma.</p>
+</li>
+<li>
+<p>Par de claves: El servidor tiene almacenada la clave pública del cliente, por lo que cuando el cliente intenta conectarse, el servidor le pide que cifre algo usando la clave privada. Si el servidor es capaz de descifrarlo, se confirma la identidad del cliente y se le permite el acceso.</p>
+</li>
+</ul>
+<h3 id="en-el-cliente-para-qué-sirve-el-contenido-que-se-guarda-en-el-fichero-sshknown_hosts">
+  En el cliente, ¿para qué sirve el contenido que se guarda en el fichero <code>~/.ssh/known_hosts</code>?
+  <a class="heading-link" href="#en-el-cliente-para-qu%c3%a9-sirve-el-contenido-que-se-guarda-en-el-fichero-sshknown_hosts">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>El contenido de dicho fichero lo usa el cliente para almacenar los equipos con los que ha realizado una conexión en el pasado.</p>
+<h3 id="qué-significa-este-mensaje-que-aparece-la-primera-vez-que-nos-conectamos-a-un-servidor">
+  ¿Qué significa este mensaje que aparece la primera vez que nos conectamos a un servidor?
+  <a class="heading-link" href="#qu%c3%a9-significa-este-mensaje-que-aparece-la-primera-vez-que-nos-conectamos-a-un-servidor">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">            $ ssh debian@172.22.200.74
+            The authenticity of host &#39;172.22.200.74 (172.22.200.74)&#39; can&#39;t be established.
+            ECDSA key fingerprint is SHA256:7ZoNZPCbQTnDso1meVSNoKszn38ZwUI4i6saebbfL4M.
+            Are you sure you want to continue connecting (yes/no)? 
+</code></pre></div><p>Significa que el cliente no puede garantizar que el servidor es quien dice ser (ya que no ha habido conexión anterior y la máquina no se encuentra en el fichero <code>~/.ssh/known_hosts</code>. En este momento el usuario puede decidir si seguir adelante con la comunicación o rechazarla.</p>
+<h3 id="en-ocasiones-cuando-estamos-trabajando-en-el-cloud-y-reutilizamos-una-ip-flotante-nos-aparece-este-mensaje">
+  En ocasiones cuando estamos trabajando en el cloud, y reutilizamos una ip flotante nos aparece este mensaje:
+  <a class="heading-link" href="#en-ocasiones-cuando-estamos-trabajando-en-el-cloud-y-reutilizamos-una-ip-flotante-nos-aparece-este-mensaje">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback"> $ ssh debian@172.22.200.74
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+ Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+ It is also possible that a host key has just been changed.
+ The fingerprint for the ECDSA key sent by the remote host is
+ SHA256:W05RrybmcnJxD3fbwJOgSNNWATkVftsQl7EzfeKJgNc.
+ Please contact your system administrator.
+ Add correct host key in /home/jose/.ssh/known_hosts to get rid of this message.
+ Offending ECDSA key in /home/jose/.ssh/known_hosts:103
+   remove with:
+   ssh-keygen -f &#34;/home/jose/.ssh/known_hosts&#34; -R &#34;172.22.200.74&#34;
+ ECDSA host key for 172.22.200.74 has changed and you have requested strict checking.
+</code></pre></div><p>Este mensaje significa que el cliente tiene su fichero <code>~/.ssh/known_hosts</code> que se ha conectado antes con dicho servidor, pero que por alguna razón, el servidor a cambiado. Normalmente, en el escenario de las ip flotantes de openstack, esto se debe a que hemos reutilizado una ip flotante, por lo que el cliente recuerda haberse conectado con esa ip antes, pero como la máquina ha cambiado, nos avisa de ello.</p>
+<p>Sin embargo, otra razón por la que pueda pasar esto, es porque alguien este suplantando la identidad del servidor (man-in-the-middle), por lo que si no estamos seguros de lo que está pasando, es mejor no arriesgarse.</p>
+<h3 id="qué-guardamos-y-para-qué-sirve-el-fichero-en-el-servidor-sshauthorized_keys">
+  ¿Qué guardamos y para qué sirve el fichero en el servidor <code>~/.ssh/authorized_keys</code>?
+  <a class="heading-link" href="#qu%c3%a9-guardamos-y-para-qu%c3%a9-sirve-el-fichero-en-el-servidor-sshauthorized_keys">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>En el fichero <code>~/.ssh/authorized_keys</code> se guardan las claves públicas de los usuarios que se han conectado por ssh con el servidor. De esta forma, el servidor puede asegurarse de que el cliente es quien dice ser, sin necesidad de preguntar por contraseñas.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
