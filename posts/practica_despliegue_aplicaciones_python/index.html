@@ -272,7 +272,8 @@ python3 manage.py createsuperuser
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">pip install gunicorn
 </code></pre></div><p>Una vez hecho esto, podríamos ejecutar la aplicación simplemente con el siguiente comando (si nos encontramos en el directorio principal de la aplicación):</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">gunicorn django_tutorial.wsgi
-</code></pre></div><p>Sin embargo, como queremos que la aplicación se este ejecutando continuamente para poder acceder a ella desde un virtualhost en nginx, vamos a crear una unidad systemd para poder controlar ese proceso de forma más sencilla:</p>
+</code></pre></div><p><strong>Nota:</strong> El comando anterior hace referencia al fichero <code>.wsgi</code> que está dentro del directorio <code>django_tutorial</code>. Gunicorn no entiende las rutas si usamos las barras <code>/</code>, por lo que usamos el punto para indicar la ruta <code>.</code>.</p>
+<p>Sin embargo, como queremos que la aplicación se este ejecutando continuamente para poder acceder a ella desde un virtualhost en nginx, vamos a crear una unidad systemd para poder controlar ese proceso de forma más sencilla:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/systemd/system/gunicorn-djangopolls.service
 
 [Unit]
