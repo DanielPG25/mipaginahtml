@@ -180,7 +180,7 @@ source mezzanine_venv/bin/activate
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ALLOWED_HOSTS = [&#34;192.168.121.161&#34;]
 </code></pre></div><p>Una vez hecho esto, vamos a intentar acceder a través de un navegador a la paǵina web. Para ello antes tenemos que activar el servidor con el siguiente comando:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">python manage.py runserver 0.0.0.0:8000
-</code></pre></div><p><a href="/images/practica_instalacion_cms_python/paginainicial_mezzanine.png">paginainicial_mezzanine.png</a></p>
+</code></pre></div><p><img src="/images/practica_instalacion_cms_python/paginainicial_mezzanine.png" alt="paginainicial_mezzanine.png"></p>
 <p>Con esto hemos finalizado la instalación en el entorno de desarrollo.</p>
 <h2 id="personaliza-la-página-cambia-el-nombre-al-blog-y-pon-tu-nombre-y-añade-contenido-algún-artículo">
   Personaliza la página (cambia el nombre al blog y pon tu nombre) y añade contenido (algún artículo).
@@ -191,13 +191,13 @@ source mezzanine_venv/bin/activate
 <p>Para realizar esta parte de la tarea, primero debemos crearnos un usuario administrador de la aplicación:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">python3 manage.py createsuperuser
 </code></pre></div><p>Una vez que lo hemos creado, podemos acceder a la zona de administración de nuestra aplicación:</p>
-<p><a href="/images/practica_instalacion_cms_python/administracion_mezzanine.png">administracion_mezzanine.png</a></p>
+<p><img src="/images/practica_instalacion_cms_python/administracion_mezzanine.png" alt="administracion_mezzanine.png"></p>
 <p>En esta página entramos con las credenciales que acabamos de crear:</p>
-<p><a href="/images/practica_instalacion_cms_python/admin_mezzanine.png">admin_mezzanine.png</a></p>
+<p><img src="/images/practica_instalacion_cms_python/admin_mezzanine.png" alt="admin_mezzanine.png"></p>
 <p>Una vez en la zona de administración, ya podemos cambiar la página a nuestro gusto. En mi caso, he creado la siguiente entrada de blog:</p>
-<p><a href="/images/practica_instalacion_cms_python/blog_mezzanine.png">blog_mezzanine.png</a></p>
+<p><img src="/images/practica_instalacion_cms_python/blog_mezzanine.png" alt="blog_mezzanine.png"></p>
 <p>Y he cambiado el título a la página:</p>
-<p><a href="/images/practica_instalacion_cms_python/nombre_mezzanine.png">nombre_mezzanine.png</a></p>
+<p><img src="/images/practica_instalacion_cms_python/nombre_mezzanine.png" alt="nombre_mezzanine.png"></p>
 <p>Con esto ya hemos personalizado lo suficiente la página en este apartado.</p>
 <h2 id="guarda-los-ficheros-generados-durante-la-instalación-en-un-repositorio-github-guarda-también-en-ese-repositorio-la-copia-de-seguridad-de-la-bese-de-datos-ten-en-cuenta-que-en-el-entorno-de-desarrolla-vas-a-tener-una-base-de-datos-sqlite-y-en-el-entorno-de-producción-una-mariadb-por-lo-tanto-es-recomendable-para-hacer-la-copia-de-seguridad-y-recuperarla-los-comandos-python-managepy-dumpdata-y-python-managepy-loaddata-para-más-informaciónhttpscoderwallcompmvsoygdjango-dumpdata-and-loaddata">
   Guarda los ficheros generados durante la instalación en un repositorio github. Guarda también en ese repositorio la copia de seguridad de la bese de datos. Ten en cuenta que en el entorno de desarrolla vas a tener una base de datos sqlite, y en el entorno de producción una mariadb, por lo tanto es recomendable para hacer la copia de seguridad y recuperarla los comandos: <code>python manage.py dumpdata</code> y <code>python manage.py loaddata</code>, para <a href="https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata">más información</a>.
@@ -214,7 +214,7 @@ grant all on mezzanine.* to &#39;mezzanine&#39;@&#39;%&#39; identified by &#39;*
 </code></pre></div><p>Una vez hecha la copia, ya podemos subir nuestro proyecto a github para descargarlo en nuestro servidor en producción.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">git clone https://github.com/DanielPG25/mezzaparr.git
 </code></pre></div><p>Ahora tenemos que modificar el fichero <code>settings.py</code> para adaptarlo al nuevo entorno:</p>
-<p><a href="/images/practica_instalacion_cms_python/settings_mezzanine.png">settings_mezzanine.png</a></p>
+<p><img src="/images/practica_instalacion_cms_python/settings_mezzanine.png" alt="settings_mezzanine.png"></p>
 <p>Una vez modificado el fichero, vamos a instalar todos los paquetes que vamos a necesitar en el entorno de producción:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">pip install --upgrade pip
 pip install wheel 
@@ -312,9 +312,9 @@ sudo systemctl start uwsgi-mezza.service
 </code></pre></div><p>Una vez explicado lo anterior pasamos a reiniciar el servicio httpd:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl reload httpd
 </code></pre></div><p>Ahora ya podemos acceder a nuestra página a través del navegador (tras añadir el correspondiente registro CNAME en nuestro servidor dns):</p>
-<p><a href="/images/practica_instalacion_cms_python/acceso_hera.png">acceso_hera.png</a></p>
+<p><img src="/images/practica_instalacion_cms_python/acceso_hera.png" alt="acceso_hera.png"></p>
 <p>Como vemos se nos sirve el contenido estático. Veamos ahora si el artículo que creamos anteriormente sigue ahí (lo que querría decir que la migración de los datos de la base datos fue correcta):</p>
-<p><a href="/images/practica_instalacion_cms_python/contenido_blog.png">contenido_blog.png</a></p>
+<p><img src="/images/practica_instalacion_cms_python/contenido_blog.png" alt="contenido_blog.png"></p>
 <p>Con esto podemos decir que la migración ha sido un éxito.</p>
 
       </div>
