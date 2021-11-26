@@ -6,7 +6,17 @@
     <description>Recent content on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 20 Nov 2021 15:35:40 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 26 Nov 2021 19:12:33 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación de un CMS python (Mezzanine)</title>
+      <link>https://sysadblog.onrender.com/posts/practica_instalacion_cms_python/</link>
+      <pubDate>Fri, 26 Nov 2021 19:12:33 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_instalacion_cms_python/</guid>
+      <description>Instalación de un CMS python    En esta tarea vamos a desplegar un CMS python. Tienes que realizar la instalación de un CMS python basado en django (puedes encontrar varios en el siguiente enlace.
+Instala el CMS en el entorno de desarrollo. Debes utilizar un entorno virtual.    En mi caso, he elegido instalar &amp;ldquo;Mezzanine&amp;rdquo;. Así pues, lo primer es crear y activar el entorno virtual en el que trabajaremos en desarrollo:</description>
+    </item>
+    
     <item>
       <title>Integridad, firmas y autenticación</title>
       <link>https://sysadblog.onrender.com/posts/practica_integridad_firmas_autentificacion/</link>
