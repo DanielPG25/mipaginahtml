@@ -213,15 +213,11 @@
 </li>
 <li>
 <p>Si usas Debian 11 (como en mi caso), debemos exportar el par de claves con la contraseña, y después usar la herramienta <code>openssl</code> para extraer la pública:</p>
-<ul>
-<li>Primero extraemos el par de claves del certificado:</li>
-</ul>
 </li>
 </ul>
+<p>-Primero extraemos el par de claves del certificado:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">openssl pkcs12 -in DanielParralesCert.pfx -nocerts -nodes -out DanielParralesCert.key
-</code></pre></div><p>**
-* Ahora ya podemos extraer la clave pública:
-**</p>
+</code></pre></div><p>-Ahora ya podemos extraer la clave pública:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">openssl rsa -in DanielParralesCert.key -pubout -out DanielParralesPub.key
 </code></pre></div><h3 id="tarea-2-validación-del-certificado">
   Tarea 2: Validación del certificado
