@@ -216,15 +216,14 @@
 <ul>
 <li>Primero extraemos el par de claves del certificado:</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">openssl pkcs12 -in DanielParralesCert.pfx -nocerts -nodes -out DanielParralesCert.key
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">
- * Ahora ya podemos extraer la clave pública:
-
-</code></pre></div><p>openssl rsa -in DanielParralesCert.key -pubout -out DanielParralesPub.key</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">
-</code></pre></div></li>
+</li>
 </ul>
-<h3 id="tarea-2-validación-del-certificado">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">openssl pkcs12 -in DanielParralesCert.pfx -nocerts -nodes -out DanielParralesCert.key
+</code></pre></div><p>**
+* Ahora ya podemos extraer la clave pública:
+**</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">openssl rsa -in DanielParralesCert.key -pubout -out DanielParralesPub.key
+</code></pre></div><h3 id="tarea-2-validación-del-certificado">
   Tarea 2: Validación del certificado
   <a class="heading-link" href="#tarea-2-validaci%c3%b3n-del-certificado">
     <i class="fa fa-link" aria-hidden="true"></i>
