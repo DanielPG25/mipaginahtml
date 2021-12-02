@@ -6,7 +6,17 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 01 Dec 2021 08:18:05 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 02 Dec 2021 13:38:28 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Configuración de HTTPS en el VPS</title>
+      <link>https://sysadblog.onrender.com/posts/practica_https_vps/</link>
+      <pubDate>Thu, 02 Dec 2021 13:38:28 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_https_vps/</guid>
+      <description>Configuración de HTTPS en el VPS    Vamos a configurar el protocolo HTTPS para el acceso a nuestras aplicaciones, para ello, hay que tener en cuenta lo siguiente:
+ Vamos a utilizar el servicio https://letsencrypt.org para solicitar los certificados de nuestras páginas. Comprueba que el navegador tiene el certificado de Let’s Encrypt. Explica detenidamente cómo se solicita un certificado en Let’s Encrypt. Tienes dos opciones:  Solicitar un certificado para los nombres que tienes.</description>
+    </item>
+    
     <item>
       <title>Certificados Digitales y HTTPS</title>
       <link>https://sysadblog.onrender.com/posts/practica_certificadosdigitales_https/</link>

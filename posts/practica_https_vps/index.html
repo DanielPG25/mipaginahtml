@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Configuración de HTTPS en el VPS">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Configuración de HTTPS en el VPS"/>
+<meta name="twitter:description" content="Configuración de HTTPS en el VPS"/>
+
+    <meta property="og:title" content="Configuración de HTTPS en el VPS" />
+<meta property="og:description" content="Configuración de HTTPS en el VPS" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/practica_https_vps/" />
+<meta property="article:published_time" content="2021-12-02T13:38:28+01:00" />
+<meta property="article:modified_time" content="2021-12-02T13:38:28+01:00" />
+
+
+    <title>
+  Configuración de HTTPS en el VPS · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/practica_https_vps/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/practica_https_vps/">
+              Configuración de HTTPS en el VPS
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-12-02T13:38:28&#43;01:00'>
+                December 2, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              12-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/servicios-de-red/">Servicios de Red</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="configuración-de-https-en-el-vps">
+  Configuración de HTTPS en el VPS
+  <a class="heading-link" href="#configuraci%c3%b3n-de-https-en-el-vps">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Vamos a configurar el protocolo HTTPS para el acceso a nuestras aplicaciones, para ello, hay que tener en cuenta lo siguiente:</p>
+<ul>
+<li>Vamos a utilizar el servicio <a href="https://letsencrypt.org">https://letsencrypt.org</a> para solicitar los certificados de nuestras páginas.</li>
+<li>Comprueba que el navegador tiene el certificado de Let’s Encrypt.</li>
+<li>Explica detenidamente cómo se solicita un certificado en Let’s Encrypt. Tienes dos opciones:
+<ul>
+<li>Solicitar un certificado para los nombres que tienes.</li>
+<li>Solicitar un certificado wildcard <code>*.tunombre.gonzalonazareno.org</code> que te sirve para todos tus nombres.</li>
+</ul>
+</li>
+<li>En la explicación deberás responder a estas preguntas:
+<ul>
+<li>¿Qué función tiene el cliente ACME?</li>
+<li>¿Qué configuración se realiza en el servidor web?</li>
+<li>¿Qué pruebas realiza Let’s Encrypt para asegurar que somos los administrados del sitio web?</li>
+<li>¿Se puede usar el DNS para verificar que somos administradores del sitio?</li>
+</ul>
+</li>
+<li>Utiliza dos ficheros de configuración de nginx: uno para la configuración del virtualhost HTTP y otro para la configuración del virtualhost HTTPS.</li>
+<li>Realiza una redirección o una reescritura para que cuando accedas a HTTP te redirija al sitio HTTPS.</li>
+<li>Comprueba que se ha creado una tarea cron que renueva el certificado cada 3 meses.</li>
+<li>Comprueba que las páginas son accesible por HTTPS y visualiza los detalles del certificado que has creado.</li>
+<li>Modifica la configuración del cliente de Nextcloud para comprobar que sigue en funcionamiento con HTTPS.</li>
+</ul>
+<hr>
+<p>Para poder empezar a usar el servicio que ofrece &ldquo;Let&rsquo;s Encrypt&rdquo; debemos instalarnos primero el agente que nos permitirá automatizar el proceso: &ldquo;Certbot&rdquo;.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install certbot
+</code></pre></div><p>Certbot es el agente que realiza las tareas necesarias para generar el certificado haciendo uso del protocolo ACME. La primera vez que hacemos uso de certbot para comunicarnos con &ldquo;Let&rsquo;s Encrypt&rdquo;, este genera un par de claves. Tras esto, tendremos que probar a la autoridad certificadora que somos los administradores del dominio indicado, para lo cuál, en nuestro caso, nos pondrá un desafio llamado &ldquo;HTTP-01 challenger&rdquo;. Este desafío consiste básicamente en que certbot coloque un &lsquo;token&rsquo; que le envía &ldquo;Let&rsquo;s Encrypt&rdquo; en un fichero accesible por el servidor web y lo firme con su clave privada. Si &ldquo;Let&rsquo;s Encrypt&rdquo; es capaz de acceder al fichero y verificar la firma. podrá validar que somos los administradores del dominio.</p>
+<p>También podríamos haber hecho uso del desafío &ldquo;DNS-01 challenger&rdquo; para confirmar a &ldquo;Let&rsquo;s Encrypt&rdquo; que somos los administradores del servidor dns del dominio (lo que proporcionaría certificados wildcard para todas las páginas del dominio). Este desafio consistiría en crear un registro en la zona DNS con una determinada información.</p>
+<p>Tras esta breve explicación, hay que recordar que el objetivo es que los dominios que tengo registrados en mi vps (son tres en este momento) puedan y sean accedidos usando https.</p>
+<p>Así pues, haremos uso del plugin &lsquo;standalone&rsquo; el cual nos permite tener un cierto nivel de control sobre la configuración de nuestros virtualhosts. Este plugin utiliza el puerto 80, que es el mismo que utiliza nginx, por lo  que habrá que parar el servicio durante un tiempo. Podrían usarse otros plugins que no necesitan de esto, pero como mis páginas apenas tienen tráfico, no tengo ningún inconveniente en parar el servicio. Con esto dicho, procedamos a parar el servicio de nginx:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl stop nginx
+</code></pre></div><p>Ahora que el servicio se ha detenido, podemos hacer uso de certbot para solicitar los certificados correspondientes para todas los virtualhosts de que disponemos. Usaremos las siguientes opciones con el comando:</p>
+<ul>
+<li>&ldquo;certonly&rdquo;: indicamos con esta opción que únicamente queremos generar el certificado.</li>
+<li>&ldquo;–standalone&rdquo;: indicamos el plugin que queremos usar (standalone en nuestro caso).</li>
+<li>&ldquo;-d&rdquo;: indicamos el nombre del dominio del que queremos el certificado. Como tiene que conectarse con el dominio, es necesario que previamente esté registrado en un servidor DNS y que sea accesible desde el exterior.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">certbot certonly --standalone -d portal.sysadblog.com
+
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator standalone, Installer None
+Enter email address (used for urgent renewal and security notices)
+ (Enter &#39;c&#39; to cancel): daniparrales16@gmail.com
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Please read the Terms of Service at
+https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf. You must
+agree in order to register with the ACME server. Do you agree?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: Y
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Would you be willing, once your first certificate is successfully issued, to
+share your email address with the Electronic Frontier Foundation, a founding
+partner of the Let&#39;s Encrypt project and the non-profit organization that
+develops Certbot? We&#39;d like to send you email about our work encrypting the web,
+EFF news, campaigns, and ways to support digital freedom.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: N
+Account registered.
+Requesting a certificate for portal.sysadblog.com
+Performing the following challenges:
+http-01 challenge for portal.sysadblog.com
+Waiting for verification...
+Cleaning up challenges
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/portal.sysadblog.com/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/portal.sysadblog.com/privkey.pem
+   Your certificate will expire on 2022-03-01. To obtain a new or
+   tweaked version of this certificate in the future, simply run
+   certbot again. To non-interactively renew *all* of your
+   certificates, run &#34;certbot renew&#34;
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let&#39;s Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+</code></pre></div><p>Tras responder a las preguntas ya nos ha generado el certificado correspondiente en el directorio <code>/etc/letsencrypt/live/portal.sysadblog.com</code>. Ahora haremos lo mismo para el resto de virtualhosts (las preguntas solo nos las hará la primera vez):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">certbot certonly --standalone -d djangopolls.sysadblog.com
+
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator standalone, Installer None
+Requesting a certificate for djangopolls.sysadblog.com
+Performing the following challenges:
+http-01 challenge for djangopolls.sysadblog.com
+Waiting for verification...
+Cleaning up challenges
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/djangopolls.sysadblog.com/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/djangopolls.sysadblog.com/privkey.pem
+   Your certificate will expire on 2022-03-01. To obtain a new or
+   tweaked version of this certificate in the future, simply run
+   certbot again. To non-interactively renew *all* of your
+   certificates, run &#34;certbot renew&#34;
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let&#39;s Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">certbot certonly --standalone -d djangopolls.sysadblog.com
+
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator standalone, Installer None
+Requesting a certificate for djangopolls.sysadblog.com
+Performing the following challenges:
+http-01 challenge for djangopolls.sysadblog.com
+Waiting for verification...
+Cleaning up challenges
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/djangopolls.sysadblog.com/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/djangopolls.sysadblog.com/privkey.pem
+   Your certificate will expire on 2022-03-01. To obtain a new or
+   tweaked version of this certificate in the future, simply run
+   certbot again. To non-interactively renew *all* of your
+   certificates, run &#34;certbot renew&#34;
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let&#39;s Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+
+root@blackstar:~# nano /etc/nginx/sites-available/sysadblog 
+root@blackstar:~# certbot certonly --standalone -d www.sysadblog.com
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator standalone, Installer None
+Requesting a certificate for www.sysadblog.com
+Performing the following challenges:
+http-01 challenge for www.sysadblog.com
+Waiting for verification...
+Cleaning up challenges
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/www.sysadblog.com/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/www.sysadblog.com/privkey.pem
+   Your certificate will expire on 2022-03-01. To obtain a new or
+   tweaked version of this certificate in the future, simply run
+   certbot again. To non-interactively renew *all* of your
+   certificates, run &#34;certbot renew&#34;
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let&#39;s Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+</code></pre></div><p>Con esto hemos generado los tres certificados necesarios, así que ya podemos volver a iniciar el servicio de nginx:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl start nginx
+</code></pre></div><p>Podemos ver los ficheros que ha generado si ejecutamos un <code>tree</code> sobre el directorio:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">tree /etc/letsencrypt/live/
+/etc/letsencrypt/live/
+├── djangopolls.sysadblog.com
+│             ├── cert.pem -&gt; ../../archive/djangopolls.sysadblog.com/cert1.pem
+│             ├── chain.pem -&gt; ../../archive/djangopolls.sysadblog.com/chain1.pem
+│             ├── fullchain.pem -&gt; ../../archive/djangopolls.sysadblog.com/fullchain1.pem
+│             ├── privkey.pem -&gt; ../../archive/djangopolls.sysadblog.com/privkey1.pem
+│             └── README
+├── portal.sysadblog.com
+│             ├── cert.pem -&gt; ../../archive/portal.sysadblog.com/cert1.pem
+│             ├── chain.pem -&gt; ../../archive/portal.sysadblog.com/chain1.pem
+│             ├── fullchain.pem -&gt; ../../archive/portal.sysadblog.com/fullchain1.pem
+│             ├── privkey.pem -&gt; ../../archive/portal.sysadblog.com/privkey1.pem
+│             └── README
+├── README
+└── www.sysadblog.com
+    ├── cert.pem -&gt; ../../archive/www.sysadblog.com/cert1.pem
+    ├── chain.pem -&gt; ../../archive/www.sysadblog.com/chain1.pem
+    ├── fullchain.pem -&gt; ../../archive/www.sysadblog.com/fullchain1.pem
+    ├── privkey.pem -&gt; ../../archive/www.sysadblog.com/privkey1.pem
+    └── README
+</code></pre></div><p>Como vemos ha generado varios ficheros:</p>
+<ul>
+<li>&ldquo;cart.pem&rdquo;: Es el certificado en sí (contiene nuestra clave pública).</li>
+<li>&ldquo;chain.pem&rdquo;: Es el certificado de Let&rsquo;s Encrypt asociado a la clave privada con la que han firmado nuestro certificado. Es el certificado necesario para que los clientes puedan comprobar la firma de nuestros certificados.</li>
+<li>&ldquo;fullchain.pem&rdquo;: Es la unión de los ficheros &ldquo;cart.pem&rdquo; y &ldquo;chain.pem&rdquo;. Suele ser el certificado al que nos referiremos, ya que de esta forma solo mandaremos un fichero.</li>
+<li>&ldquo;privkey.pem&rdquo;: Es nuestra clave privada.</li>
+</ul>
+<p>Podemos utilizar el siguiente comando para ver información sobre los certificados que tenemos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">certbot certificates
+
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Found the following certs:
+  Certificate Name: djangopolls.sysadblog.com
+    Serial Number: 321e1f22e78947f276df4b6248bc3e2bc02
+    Key Type: RSA
+    Domains: djangopolls.sysadblog.com
+    Expiry Date: 2022-03-01 15:30:37+00:00 (VALID: 89 days)
+    Certificate Path: /etc/letsencrypt/live/djangopolls.sysadblog.com/fullchain.pem
+    Private Key Path: /etc/letsencrypt/live/djangopolls.sysadblog.com/privkey.pem
+  Certificate Name: portal.sysadblog.com
+    Serial Number: 3c0608c748ba11484cb1055ec72ca402472
+    Key Type: RSA
+    Domains: portal.sysadblog.com
+    Expiry Date: 2022-03-01 15:20:49+00:00 (VALID: 89 days)
+    Certificate Path: /etc/letsencrypt/live/portal.sysadblog.com/fullchain.pem
+    Private Key Path: /etc/letsencrypt/live/portal.sysadblog.com/privkey.pem
+  Certificate Name: www.sysadblog.com
+    Serial Number: 3b7a37fd1921c578f137277c0df96f38963
+    Key Type: RSA
+    Domains: www.sysadblog.com
+    Expiry Date: 2022-03-01 15:32:43+00:00 (VALID: 89 days)
+    Certificate Path: /etc/letsencrypt/live/www.sysadblog.com/fullchain.pem
+    Private Key Path: /etc/letsencrypt/live/www.sysadblog.com/privkey.pem
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+</code></pre></div><p>Como podemos ver, los certificados que hemos obtenido son válidos durante tres meses (90 días). Para renovarlos tenemos dos opciones, o los renovamos manualmente, o dejamos que actúe el trabajo &ldquo;cron&rdquo; que ha creado certbot. Podemos visualizar dicho trabajo cron en el directorio <code>/etc/cron.d/</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat /etc/cron.d/certbot 
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+0 */12 * * * root test -x /usr/bin/certbot -a \! -d /run/systemd/system &amp;&amp; perl -e &#39;sleep int(rand(43200))&#39; &amp;&amp; certbot -q renew
+</code></pre></div><p>Este trabajo cron se activa cada 12 horas y comprueba si al certificado le quedan menos de 30 días de validez, y si es así, lo renueva.</p>
+<p>Ahora ya podemos empezar a configurar los seis virtualhosts que nos han pedido (tres para http y tres para https):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/nginx/sites-available/sysadblog_https
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 http2;
+
+    ssl on;
+    ssl_certificate /etc/letsencrypt/live/www.sysadblog.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/www.sysadblog.com/privkey.pem;
+
+    root /var/www/sysadblog;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name www.sysadblog.com;
+
+    rewrite ^/$ http://www.sysadblog.com/principal permanent;
+    location /principal {
+        autoindex off;
+        disable_symlinks on;
+    }
+
+    location /principal/documentos {
+        alias /srv/doc;
+        autoindex on;
+        disable_symlinks off;       
+    }
+
+    location /secreto {
+        auth_basic &#34;Area secreta&#34;;
+        auth_basic_user_file /etc/apache2/.htpasswd; 
+    }
+
+    location ~ \.php$ {
+               include snippets/fastcgi-php.conf;
+               fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+        }
+
+
+    error_page 404 /error/404.html;
+    error_page 403 /error/403.html;
+
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+
+    location = /robots.txt {
+            allow all;
+            log_not_found off;
+            access_log off;
+        }
+
+        location /.well-known {
+#            rewrite ^/.well-known/host-meta.json  /cloud/public.php?service=host-meta-json    last;
+#            rewrite ^/.well-known/host-meta        /cloud/public.php?service=host-meta         last;
+#            rewrite ^/.well-known/webfinger        /cloud/public.php?service=webfinger         last;
+#            rewrite ^/.well-known/nodeinfo         /cloud/public.php?service=nodeinfo          last;
+
+            location = /.well-known/carddav   { return 301 /cloud/remote.php/dav/; }
+            location = /.well-known/caldav    { return 301 /cloud/remote.php/dav/; }
+
+        location /.well-known/acme-challenge    { try_files $uri $uri/ =404; }
+            location /.well-known/pki-validation    { try_files $uri $uri/ =404; }
+
+            try_files $uri $uri/ =404;
+        }
+
+        location ^~ /cloud {
+            client_max_body_size 512M;
+            fastcgi_buffers 64 4K;
+
+            gzip on;
+            gzip_vary on;
+            gzip_comp_level 4;
+            gzip_min_length 256;
+            gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
+            gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
+
+            add_header Referrer-Policy                      &#34;no-referrer&#34;   always;
+            add_header X-Content-Type-Options               &#34;nosniff&#34;       always;
+            add_header X-Download-Options                   &#34;noopen&#34;        always;
+            add_header X-Frame-Options                      &#34;SAMEORIGIN&#34;    always;
+            add_header X-Permitted-Cross-Domain-Policies    &#34;none&#34;          always;
+            add_header X-Robots-Tag                         &#34;none&#34;          always;
+            add_header X-XSS-Protection                     &#34;1; mode=block&#34; always;
+
+            fastcgi_hide_header X-Powered-By;
+
+            index index.php index.html /cloud/index.php$request_uri;
+
+            expires 1m;
+
+            location = /cloud {
+                if ( $http_user_agent ~ ^DavClnt ) {
+                    return 302 /cloud/remote.php/webdav/$is_args$args;
+                }
+            }
+
+            location ~ ^/cloud/(?:build|tests|config|lib|3rdparty|templates|data)(?:$|/)    { return 404; }
+            location ~ ^/cloud/(?:\.|autotest|occ|issue|indie|db_|console)                { return 404; }
+
+            location ~ \.php(?:$|/) {
+                fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+                set $path_info $fastcgi_path_info;
+
+                try_files $fastcgi_script_name =404;
+
+                include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_param PATH_INFO $path_info;
+
+                fastcgi_param modHeadersAvailable true;
+                fastcgi_param front_controller_active true;
+                fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+
+                fastcgi_intercept_errors on;
+                fastcgi_request_buffering off;
+            }
+
+            location ~ \.(?:css|js|svg|gif)$ {
+                try_files $uri /cloud/index.php$request_uri;
+                expires 6M;
+                access_log off;
+            }
+
+            location ~ \.woff2?$ {
+                try_files $uri /cloud/index.php$request_uri;
+                expires 7d;
+                access_log off;
+            }
+
+            location /cloud {
+                try_files $uri $uri/ /cloud/index.php$request_uri;
+            }
+        }
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/nginx/sites-available/sysadblog
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name www.sysadblog.com;
+
+    return 301 https://$host$request_uri;
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/nginx/sites-available/dparrales-mediawiki_https 
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    ssl    on;
+    ssl_certificate /etc/letsencrypt/live/portal.sysadblog.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/portal.sysadblog.com/privkey.pem;
+
+    root /var/www/www.dparrales-mediawiki.com/mediawiki-1.36.2;
+
+    index index.php index.html index.htm index.nginx-debian.html;
+
+    server_name portal.sysadblog.com;
+
+    location ~ \.php$ {
+               include snippets/fastcgi-php.conf;
+               fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+        }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/nginx/sites-available/dparrales-mediawiki
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name portal.sysadblog.com;
+
+    return 301 https://$host$request_uri;
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/nginx/sites-available/django_polls_https 
+
+server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2;
+
+    ssl    on;
+    ssl_certificate /etc/letsencrypt/live/djangopolls.sysadblog.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/djangopolls.sysadblog.com/privkey.pem;
+
+        root /home/dparrales/django_tutorial;
+
+        index index.html index.php index.htm index.nginx-debian.html;
+
+        server_name djangopolls.sysadblog.com;
+
+        location / {
+                proxy_pass http://localhost:8000;
+                include proxy_params;
+        }
+
+    location /static {
+        alias /home/dparrales/venv/django/lib/python3.9/site-packages/django/contrib/admin/static;
+    }
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/nginx/sites-available/django_polls
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name djangopolls.sysadblog.com;
+    
+    return 301 https://$host$request_uri;
+}
+</code></pre></div><p>Ahora tenemos que crear los nuevos enlaces simbólicos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ln -s /etc/nginx/sites-available/sysadblog_https /etc/nginx/sites-enabled/sysadblog_https
+
+ln -s /etc/nginx/sites-available/dparrales-mediawiki_https /etc/nginx/sites-enabled/dparrales-mediawiki_https
+
+ln -s /etc/nginx/sites-available/django_polls_https /etc/nginx/sites-enabled/django_polls_https
+</code></pre></div><p>Con esto, ya podemos reiniciar el servicio de nginx:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl reload nginx
+</code></pre></div><p>Veamos ahora si funcionan la redirecciones y podemos ver la información del certificado:</p>
+<ul>
+<li><code>portal.sysadblog.com</code>:</li>
+</ul>
+<p><img src="/images/practica_HTTPS_VPS/redireccion_portal.png" alt="redireccion_portal.png"></p>
+<p><img src="/images/practica_HTTPS_VPS/certificado_portal.png" alt="certificado_portal.png"></p>
+<ul>
+<li><code>djangopolls.sysadblog.com</code>:</li>
+</ul>
+<p><img src="/images/practica_HTTPS_VPS/redireccion_django.png" alt="redireccion_django.png"></p>
+<p><img src="/images/practica_HTTPS_VPS/certificado_django.png" alt="certificado_django.png"></p>
+<ul>
+<li><code>www.sysadblog.com</code>:</li>
+</ul>
+<p><img src="/images/practica_HTTPS_VPS/redireccion_www.png" alt="redireccion_django.png"></p>
+<p><img src="/images/practica_HTTPS_VPS/certificado_www.png" alt="certificado_django.png"></p>
+<p>Para finalizar, vamos a comprobar que el cliente de nextcloud en nuestro escritorio puede conectarse por https:</p>
+<p><img src="/images/practica_HTTPS_VPS/nextcloud.png" alt="nextcloud.png"></p>
+<p>Como vemos, el cliente de nextcloud ha sido capaz de adaptarse por sí mismo a la nueva configuración, así que con esto damos por finalizada la tarea.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
