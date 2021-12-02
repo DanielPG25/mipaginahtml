@@ -184,7 +184,7 @@
 </ul>
 <p><img src="/images/practica_certificadosdigitales_https/instalar_certificado1.png" alt="instalar_certificado1.png"></p>
 <ul>
-<li>Seleccionamos el ceritificado, en mi caso en formato <code>.pfx</code>, e introducimos la contraseña para importarlo:</li>
+<li>Seleccionamos el certificado, en mi caso en formato <code>.pfx</code>, e introducimos la contraseña para importarlo:</li>
 </ul>
 <p><img src="/images/practica_certificadosdigitales_https/cerificado_importado.png" alt="cerificado_importado.png"></p>
 <p>Con esto ya lo tenemos importado en nuestro navegador y podemos hacer uso del mismo.</p>
@@ -274,7 +274,7 @@ nano firmar_valideDP.txt
 <p><img src="/images/practica_certificadosdigitales_https/autofirma_firmar2.png" alt="autofirma_firmar2.png"></p>
 <p>Con esto, ya hemos firmado ambos documentos, por lo que lo único que resta es mandárselo a un compañero y recibir los suyos firmados. En mi caso, mi compañera es Lara Pruna Ternero.</p>
 <h4 id="tu-debes-recibir-otro-documento-firmado-por-un-compañero-y-utilizando-las-herramientas-anteriores-debes-visualizar-la-firma-visualizar-firma-y-verificar-firma-puedes-verificar-la-firma-aunque-no-tengas-la-clave-pública-de-tu-compañero-es-necesario-estar-conectado-a-internet-para-hacer-la-validación-de-la-firma-razona-tus-respuestas">
-  Tu debes recibir otro documento firmado por un compañero y utilizando las herramientas anteriores debes visualizar la firma (Visualizar Firma) y (Verificar Firma). ¿Puedes verificar la firma aunque no tengas la clave pública de tu compañero?, ¿Es necesario estar conectado a internet para hacer la validación de la firma?. Razona tus respuestas.
+  Tu debes recibir otro documento firmado por un compañero y utilizando las herramientas anteriores debes visualizar la firma (Visualizar Firma) y (Verificar Firma). ¿Puedes verificar la firma aunque no tengas la clave pública de tu compañero?, ¿Es necesario estar conectado a Internet para hacer la validación de la firma?. Razona tus respuestas.
   <a class="heading-link" href="#tu-debes-recibir-otro-documento-firmado-por-un-compa%c3%b1ero-y-utilizando-las-herramientas-anteriores-debes-visualizar-la-firma-visualizar-firma-y-verificar-firma-puedes-verificar-la-firma-aunque-no-tengas-la-clave-p%c3%bablica-de-tu-compa%c3%b1ero-es-necesario-estar-conectado-a-internet-para-hacer-la-validaci%c3%b3n-de-la-firma-razona-tus-respuestas">
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
@@ -327,7 +327,7 @@ nano firmar_valideDP.txt
 </h4>
 <p>Para esta tarea vamos a consultar nuestros puntos del carnet a través de la página de la DGT usando nuestro certificado. Así pues, nos dirigimos a la página y le damos al siguiente botón:</p>
 <p><img src="/images/practica_certificadosdigitales_https/dgt1.png" alt="dgt1.png"></p>
-<p>Una vez haya cargado la página, seleccionamos entrar con certificado eléctronico:</p>
+<p>Una vez haya cargado la página, seleccionamos entrar con certificado electrónico:</p>
 <p><img src="/images/practica_certificadosdigitales_https/dgt2.png" alt="dgt2.png"></p>
 <p>Nos abrirá un menú en el que nos pedirá que le indiquemos el certificado con el que queremos entrar:</p>
 <p><img src="/images/practica_certificadosdigitales_https/dgt3.png" alt="dgt3.png"></p>
@@ -347,7 +347,7 @@ nano firmar_valideDP.txt
   </a>
 </h3>
 <p>Esta práctica la vamos a realizar con un compañero. En un primer momento un alumno creará una Autoridad Certficadora y firmará un certificado para la página del otro alumno. Posteriormente se volverá a realizar la práctica con los roles cambiados.</p>
-<p>Para hacer esta práctica puedes buscar información en internet, algunos enlaces interesantes:</p>
+<p>Para hacer esta práctica puedes buscar información en Internet, algunos enlaces interesantes:</p>
 <ul>
 <li><a href="https://www.phildev.net/ssl/">Phil’s X509/SSL Guide</a></li>
 <li><a href="https://gist.github.com/Soarez/9688998">How to setup your own CA with OpenSSL</a></li>
@@ -360,7 +360,7 @@ nano firmar_valideDP.txt
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h4>
-<p>El primer paso para crear la autoridad certificadora será crear un directorio en el cual almacenaremos lo refente a la autoridad, para de esta forma tenerlo todo lo más organizado posible. Así pues, he creado el directorio padre (llamado CA) con los siguientes subdirectorios:</p>
+<p>El primer paso para crear la autoridad certificadora será crear un directorio en el cual almacenaremos lo referente a la autoridad, para de esta forma tenerlo todo lo más organizado posible. Así pues, he creado el directorio padre (llamado CA) con los siguientes subdirectorios:</p>
 <ul>
 <li>certsdb: donde se almacenarán los certificados firmados.</li>
 <li>certreqs: donde se almacenarán los ficheros de solicitud de firma (CSR).</li>
@@ -509,7 +509,7 @@ V   221130194608Z       29805FB435BC4C00AA808B6E604B2D76BFC74C2D    unknown /C=E
 </h4>
 <p>En primer lugar debemos instalar un servidor apache. He instalado el servidor en una máquina de openstack:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">sudo apt install apache2
-</code></pre></div><p>A continuación modificaremos el virtualhost para usar el nombre de la página web que nos han idicado, en mi caso, <code>dparrales.iesgn.org</code>:</p>
+</code></pre></div><p>A continuación modificaremos el virtualhost para usar el nombre de la página web que nos han indicado, en mi caso, <code>dparrales.iesgn.org</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/apache2/sites-available/000-default.conf
 
 &lt;VirtualHost *:80&gt;
@@ -522,13 +522,13 @@ V   221130194608Z       29805FB435BC4C00AA808B6E604B2D76BFC74C2D    unknown /C=E
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
 &lt;/VirtualHost&gt;
-</code></pre></div><p>Tras esto, reinciamos el servicio para cargar la configuración:</p>
+</code></pre></div><p>Tras esto, reiniciamos el servicio para cargar la configuración:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl reload apache2
 </code></pre></div><p>Ahora ya podemos pasar el contenido que vamos a mostrar al directorio <code>/var/www/html</code> (en mi caso usé unas plantillas que tenía de un escenario anterior). Una vez que hemos hecho esto, ya solo tenemos que añadir la siguiente línea al fichero <code>/etc/hosts</code> de nuestro anfitrión, para poder acceder a la página:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">172.22.200.86 dparrales.iesgn.org
 </code></pre></div><p>Si intentamos entrar ahora, nos muestra lo siguiente:</p>
 <p><img src="/images/practica_certificadosdigitales_https/pagina_estatica_http.png" alt="pagina_estatica_http.png"></p>
-<p>Con esto hemos terminado de configurar incialmente apache. Sin embargo, el acceso que tenemos ahora es por http, no por https, por lo que tendremos que corregirlo durante de realización de la tarea.</p>
+<p>Con esto hemos terminado de configurar inicialmente apache. Sin embargo, el acceso que tenemos ahora es por http, no por https, por lo que tendremos que corregirlo durante de realización de la tarea.</p>
 <p>Así pues, en primer lugar, vamos a crear una clave privada de 4096 bits que usaremos posteriormente para generar una firma de solicitud de certificado (CSR) y que ahora sirve para identificar al servidor. Para ello vamos a usar el comando &lsquo;openssl&rsquo;:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">openssl genrsa 4096 &gt; /etc/ssl/private/dparrales.key
 Generating RSA private key, 4096 bit long modulus (2 primes)
@@ -641,7 +641,7 @@ To activate the new configuration, you need to run:
 &lt;/VirtualHost&gt;
 </code></pre></div><p>Ahora que hemos terminado de tocar la configuración de apache, podemos reiniciar el servicio para aplicar los cambios:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl reload apache2
-</code></pre></div><p>Si ententamos entrar en la página ahora, obtenemos lo siguiente:</p>
+</code></pre></div><p>Si intentamos entrar en la página ahora, obtenemos lo siguiente:</p>
 <p><img src="/images/practica_certificadosdigitales_https/pagina_https.png" alt="pagina_https.png"></p>
 <p>Esta advertencia nos sale porque el navegador no es capaz de comprobar la firma de la CA. Para solucionarlo, vamos a importar a nuestro navegador el certificado de la CA que ha creado lara.</p>
 <p><img src="/images/practica_certificadosdigitales_https/certificado_lara.png" alt="certificado_lara.png"></p>
