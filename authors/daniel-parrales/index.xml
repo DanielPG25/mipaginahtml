@@ -6,7 +6,17 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 02 Dec 2021 13:38:28 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 05 Dec 2021 16:58:06 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sistemas de Ficheros Avanzados (BTRFS)</title>
+      <link>https://sysadblog.onrender.com/posts/practica_sistemas_ficheros_avanzados/</link>
+      <pubDate>Sun, 05 Dec 2021 16:58:06 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_sistemas_ficheros_avanzados/</guid>
+      <description>Sistemas de ficheros “avanzados” ZFS/Btrfs    Elige uno de los dos sistemas de ficheros “avanzados”.
+Crea un escenario que incluya una máquina y varios discos asociados a ella.    Instala si es necesario el software de ZFS/Btrfs    Gestiona los discos adicionales con ZFS/Btrfs    Configura los discos en RAID, haciendo pruebas de fallo de algún disco y sustitución, restauración del RAID. Comenta ventajas e inconvenientes respecto al uso de RAID software con mdadm.</description>
+    </item>
+    
     <item>
       <title>Configuración de HTTPS en el VPS</title>
       <link>https://sysadblog.onrender.com/posts/practica_https_vps/</link>

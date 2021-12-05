@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Sistemas de Ficheros Avanzados (BTRFS)">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Sistemas de Ficheros Avanzados (BTRFS)"/>
+<meta name="twitter:description" content="Sistemas de Ficheros Avanzados (BTRFS)"/>
+
+    <meta property="og:title" content="Sistemas de Ficheros Avanzados (BTRFS)" />
+<meta property="og:description" content="Sistemas de Ficheros Avanzados (BTRFS)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/practica_sistemas_ficheros_avanzados/" />
+<meta property="article:published_time" content="2021-12-05T16:58:06+01:00" />
+<meta property="article:modified_time" content="2021-12-05T16:58:06+01:00" />
+
+
+    <title>
+  Sistemas de Ficheros Avanzados (BTRFS) · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/practica_sistemas_ficheros_avanzados/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/practica_sistemas_ficheros_avanzados/">
+              Sistemas de Ficheros Avanzados (BTRFS)
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-12-05T16:58:06&#43;01:00'>
+                December 5, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              13-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cloud-computing/">Cloud Computing</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="sistemas-de-ficheros-avanzados-zfsbtrfs">
+  Sistemas de ficheros “avanzados” ZFS/Btrfs
+  <a class="heading-link" href="#sistemas-de-ficheros-avanzados-zfsbtrfs">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Elige uno de los dos sistemas de ficheros “avanzados”.</p>
+<h2 id="crea-un-escenario-que-incluya-una-máquina-y-varios-discos-asociados-a-ella">
+  Crea un escenario que incluya una máquina y varios discos asociados a ella.
+  <a class="heading-link" href="#crea-un-escenario-que-incluya-una-m%c3%a1quina-y-varios-discos-asociados-a-ella">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h2 id="instala-si-es-necesario-el-software-de-zfsbtrfs">
+  Instala si es necesario el software de ZFS/Btrfs
+  <a class="heading-link" href="#instala-si-es-necesario-el-software-de-zfsbtrfs">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h2 id="gestiona-los-discos-adicionales-con-zfsbtrfs">
+  Gestiona los discos adicionales con ZFS/Btrfs
+  <a class="heading-link" href="#gestiona-los-discos-adicionales-con-zfsbtrfs">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h2 id="configura-los-discos-en-raid-haciendo-pruebas-de-fallo-de-algún-disco-y-sustitución-restauración-del-raid-comenta-ventajas-e-inconvenientes-respecto-al-uso-de-raid-software-con-mdadm">
+  Configura los discos en RAID, haciendo pruebas de fallo de algún disco y sustitución, restauración del RAID. Comenta ventajas e inconvenientes respecto al uso de RAID software con mdadm.
+  <a class="heading-link" href="#configura-los-discos-en-raid-haciendo-pruebas-de-fallo-de-alg%c3%ban-disco-y-sustituci%c3%b3n-restauraci%c3%b3n-del-raid-comenta-ventajas-e-inconvenientes-respecto-al-uso-de-raid-software-con-mdadm">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h2 id="realiza-ejercicios-con-pruebas-de-funcionamiento-de-las-principales-funcionalidades-compresión-cow-deduplicación-cifrado-etc">
+  Realiza ejercicios con pruebas de funcionamiento de las principales funcionalidades: compresión, cow, deduplicación, cifrado, etc.
+  <a class="heading-link" href="#realiza-ejercicios-con-pruebas-de-funcionamiento-de-las-principales-funcionalidades-compresi%c3%b3n-cow-deduplicaci%c3%b3n-cifrado-etc">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<hr>
+<p>He elegido trabajar con Btrfs.</p>
+<p>Para empezar, he creado una instancia en openstack a la cual he asignado cinco volúmenes de 1GB cada uno. Con este escenario inicial, vamos a empezar por instalar btrfs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install btrfs-progs
+</code></pre></div><p>Una vez instalado, pasamos a formatear los discos usando este sistema de ficheros:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mkfs.btrfs /dev/sdb 
+mkfs.btrfs /dev/sdc
+mkfs.btrfs /dev/sdd
+mkfs.btrfs /dev/sde
+mkfs.btrfs /dev/sdf
+</code></pre></div><p>Podemos ver que tienen el formato correcto usando el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">lsblk -f
+NAME FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINT
+sda                                                                         
+├─sda1
+│    ext4   1.0         cbab3c3f-b0e7-407b-b255-8486e1894520    7.9G    14% /
+├─sda14
+│                                                                           
+└─sda15
+     vfat   FAT16       8716-3A9F                             117.8M     5% /boot/efi
+sdb  btrfs              2ef5add2-d8d8-4194-857e-5e4e79474c7a                
+sdc  btrfs              827be1bc-effa-485b-8160-35339aebba9e                
+sdd  btrfs              c82f833a-bf6d-4f29-ad84-0ab18a1dabf0                
+sde  btrfs              56418c24-befd-4395-ae97-3e82bda3cddb                
+sdf  btrfs              78702368-88aa-48a4-b2b9-23ad84b23799 
+</code></pre></div><p>Una vez que los hemos formateado, podemos empezar a trabajar con ellos. Para empezar, vamos a montar el primer disco en el directorio /mnt:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mount /dev/sdb /mnt
+</code></pre></div><p>Una vez hecho esto, podemos usar una de las características de btrfs: añadir volúmenes al sistema de ficheros montado. Para ello, usamos el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs device add -f /dev/sdc /mnt
+btrfs device add -f /dev/sdd /mnt
+</code></pre></div><p>Como vemos, hemos añadido dos volúmenes al sistema de fichero que habíamos montado en /mnt. Podemos ver las características de dicho sistema usando el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs fi usage /mnt
+
+Overall:
+    Device size:           3.00GiB
+    Device allocated:        896.00MiB
+    Device unallocated:        2.12GiB
+    Device missing:          0.00B
+    Used:            384.00KiB
+    Free (estimated):          2.44GiB  (min: 1.37GiB)
+    Free (statfs, df):         2.43GiB
+    Data ratio:               1.00
+    Metadata ratio:           2.00
+    Global reserve:        3.25MiB  (used: 0.00B)
+    Multiple profiles:              no
+
+Data,single: Size:320.00MiB, Used:128.00KiB (0.04%)
+   /dev/sdb  320.00MiB
+
+Metadata,DUP: Size:256.00MiB, Used:112.00KiB (0.04%)
+   /dev/sdc  512.00MiB
+
+System,DUP: Size:32.00MiB, Used:16.00KiB (0.05%)
+   /dev/sdb   64.00MiB
+
+Unallocated:
+   /dev/sdb  640.00MiB
+   /dev/sdc  512.00MiB
+   /dev/sdd    1.00GiB
+</code></pre></div><p>Nos muestra información sobre el sistema de ficheros, incluyendo el espacio total, el disponible, volúmenes que lo forman, etc. Tras añadir nuevos dispositivos al sistema de ficheros, es conveniente equilibrar el almacenamiento, para lo que usaríamos el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs balance start /mnt
+</code></pre></div><p>Con esto se han repartido los ficheros entre los discos que acabamos de introducir. Otra características de btrfs es que es capaz de crear dispositivos RAID sin necesidad de hacer uso de mdadm. Para ello volveremos a hacer uso de &ldquo;balance&rdquo;, pero esta indicando que queremos que lo convierta en raid 1:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs balance start -dconvert=raid1 -mconvert=raid1 /mnt
+</code></pre></div><p>Si volvemos a ver la información del sistema de ficheros, vemos que nos indica que es un RAID 1:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs fi usage /mnt
+
+Overall:
+    Device size:           5.00GiB
+    Device allocated:          2.62GiB
+    Device unallocated:        2.38GiB
+    Device missing:          0.00B
+    Used:            640.00KiB
+    Free (estimated):          2.19GiB  (min: 2.19GiB)
+    Free (statfs, df):         1.72GiB
+    Data ratio:               2.00
+    Metadata ratio:           2.00
+    Global reserve:        3.25MiB  (used: 0.00B)
+    Multiple profiles:              no
+
+Data,RAID1: Size:1.00GiB, Used:192.00KiB (0.02%)
+   /dev/sdb  512.00MiB
+   /dev/sdc  512.00MiB
+   /dev/sdd  512.00MiB
+   /dev/sde  512.00MiB
+
+Metadata,RAID1: Size:256.00MiB, Used:112.00KiB (0.04%)
+   /dev/sdc  256.00MiB
+   /dev/sdd  256.00MiB
+
+System,RAID1: Size:64.00MiB, Used:16.00KiB (0.02%)
+   /dev/sdb   32.00MiB
+   /dev/sdd   64.00MiB
+   /dev/sde   32.00MiB
+
+Unallocated:
+   /dev/sdb  480.00MiB
+   /dev/sdc  256.00MiB
+   /dev/sdd  192.00MiB
+   /dev/sde  480.00MiB
+   /dev/sdf    1.00GiB
+
+</code></pre></div><p>Si en algún momento algún disco falla y tenemos que reemplazarlo, haremos lo siguiente (supongamos que el disco que falla es /dev/sdc):</p>
+<ul>
+<li>En primer lugar, montamos el sistema de ficheros en modo degradado:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mount -o degraded /dev/sdb /mnt
+</code></pre></div><ul>
+<li>Buscamos el &ldquo;devid&rdquo; del disco que falla (en este caso el 2, ya que hemos dicho que es el dispositivo /dev/sdc):</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs filesystem show /mnt       
+Label: none  uuid: 2ef5add2-d8d8-4194-857e-5e4e79474c7a
+    Total devices 5 FS bytes used 352.00KiB
+    devid    1 size 1.00GiB used 0.00B path /dev/sdb
+    devid    2 size 1.00GiB used 768.00MiB path /dev/sdc
+    devid    3 size 1.00GiB used 288.00MiB path /dev/sdd
+    devid    4 size 1.00GiB used 544.00MiB path /dev/sde
+    devid    5 size 1.00GiB used 0.00B path /dev/sdf
+</code></pre></div><ul>
+<li>Reemplazamos el disco dañado por el nuevo:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs replace start -B 2 /dev/sdf /mnt
+</code></pre></div><ul>
+<li>Podemos ver el proceso de reemplazo:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs replace status /mnt
+</code></pre></div><p>Con esto hemos reemplazado el disco que falla con el disco nuevo.</p>
+<p>Como vemos hemos montado un RAID 1 de forma rápida y sin complicaciones. Tampoco hemos tenido que instalar ningún software como mdadm para generar el raid y podemos ampliarlo de manera más rápida y cómoda que con mdadm. También hay que tener en cuenta que brtfs comprueba si hay datos corruptos y los intenta arreglar, mientras que si usáramos mdadm, tendríamos que localizar e intentar corregir los datos por nuestra cuenta. Otro punto a tener en cuenta en cuanto a brtfs, es que podemos crear RAIDs con discos de diferentes tamaños, cosa que no nos permite mdadm. Sin embargo, mdadm tiene un mejor rendimiento y ofrece estabilidad.</p>
+<p>Una vez explicado lo anterior, vamos a seguir probando las funcionalidades de btrfs:</p>
+<h2 id="compresión">
+  Compresión:
+  <a class="heading-link" href="#compresi%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Por defecto. btrfs no usa ningún método de compresión ya que tenemos que indicarle cual usar (se indica durante el montaje). Así pues probemos con diferentes métodos, entre otros:</p>
+<ul>
+<li>ZLIB:</li>
+</ul>
+<p>Este método es capaz de comprimir un gran fichero en poco tamaño. Para hacer la prueba, vamos a usar el siguiente comando para generar un fichero de gran tamaño:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mount -o compress=zlib /dev/sdb /mnt
+
+dd if=/dev/zero of=/mnt/prueba count=3072 bs=1048576
+</code></pre></div><p>Pasado un tiempo, comprobamos el tamaño del fichero creado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -lh /mnt/
+total 3.0G
+-rw-r--r-- 1 root root 3.0G Dec  4 12:29 prueba
+</code></pre></div><p>Como vemos, se ha creado un fichero de 30GB. Ahora veamos cuanto ocupa dicho fichero según btrfs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs fi usage /mnt
+Overall:
+    Device size:           5.00GiB
+    Device allocated:        630.38MiB
+    Device unallocated:        4.38GiB
+    Device missing:          0.00B
+    Used:            104.14MiB
+    Free (estimated):          4.79GiB  (min: 2.60GiB)
+    Free (statfs, df):         4.79GiB
+    Data ratio:               1.00
+    Metadata ratio:           2.00
+    Global reserve:        3.25MiB  (used: 0.00B)
+    Multiple profiles:              no
+
+Data,single: Size:512.00MiB, Used:96.14MiB (18.78%)
+   /dev/sdf  512.00MiB
+
+Metadata,DUP: Size:51.19MiB, Used:3.98MiB (7.78%)
+   /dev/sdb  102.38MiB
+
+System,DUP: Size:8.00MiB, Used:16.00KiB (0.20%)
+   /dev/sdb   16.00MiB
+
+Unallocated:
+   /dev/sdb  905.62MiB
+   /dev/sdc    1.00GiB
+   /dev/sdd    1.00GiB
+   /dev/sde    1.00GiB
+   /dev/sdf  512.00MiB
+</code></pre></div><p>De esta forma, podemos observar que usando zlib, btrfs es capaz de comprimir un fichero de 3GB en 104MB, lo que es bastante impresionante.</p>
+<ul>
+<li>LZO:</li>
+</ul>
+<p>Al igual que con zlib, debemos especificar el modo de compresión al montar el dispositivo:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mount -o compress=lzo /dev/sdb /mnt
+</code></pre></div><p>Ahora volveremos a crear un fichero de 30GB:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dd if=/dev/zero of=/mnt/prueba.txt count=3072 bs=1048576
+</code></pre></div><p>Y volvemos a comprobar el tamaño usado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs fi usage /mnt
+Overall:
+    Device size:           5.00GiB
+    Device allocated:        630.38MiB
+    Device unallocated:        4.38GiB
+    Device missing:          0.00B
+    Used:            104.24MiB
+    Free (estimated):          4.79GiB  (min: 2.60GiB)
+    Free (statfs, df):         4.79GiB
+    Data ratio:               1.00
+    Metadata ratio:           2.00
+    Global reserve:        3.25MiB  (used: 0.00B)
+    Multiple profiles:              no
+
+Data,single: Size:512.00MiB, Used:96.15MiB (18.78%)
+   /dev/sdf  512.00MiB
+
+Metadata,DUP: Size:51.19MiB, Used:4.03MiB (7.88%)
+   /dev/sdb  102.38MiB
+
+System,DUP: Size:8.00MiB, Used:16.00KiB (0.20%)
+   /dev/sdb   16.00MiB
+
+Unallocated:
+   /dev/sdb  905.62MiB
+   /dev/sdc    1.00GiB
+   /dev/sdd    1.00GiB
+   /dev/sde    1.00GiB
+   /dev/sdf  512.00MiB
+</code></pre></div><p>En esta ocasión, el tamaño usado es algo mayor, pero no es una diferencia apreciable.</p>
+<h2 id="copy-on-write-cow">
+  Copy on Write (COW)
+  <a class="heading-link" href="#copy-on-write-cow">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>La técnica &ldquo;copy on write&rdquo; sirve para que al copiar un fichero, este realmente no se copia, sino que se crean punteros que apuntan al fichero original. Solo cuando se producen cambios sobre ese fichero, se crea realmente la copia. Para probar esto, vamos a crear un fichero y comprobar el tamaño que ocupa en el disco:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dd if=/dev/zero of=/mnt/prueba bs=2048 count=200k
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -lh /mnt/
+total 400M
+-rw-r--r-- 1 root root 400M Dec  4 15:14 prueba
+</code></pre></div><p>Este fichero ocupa lo siguiente en el sistema de ficheros:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs fi usage /mnt
+Overall:
+    Device size:           5.00GiB
+    Device allocated:          1.06GiB
+    Device unallocated:        3.94GiB
+    Device missing:          0.00B
+    Used:             14.26MiB
+    Free (estimated):          4.42GiB  (min: 2.46GiB)
+    Free (statfs, df):         4.42GiB
+    Data ratio:               1.00
+    Metadata ratio:           2.00
+    Global reserve:        3.25MiB  (used: 0.00B)
+    Multiple profiles:              no
+
+Data,single: Size:512.00MiB, Used:12.70MiB (2.48%)
+   /dev/sdc  512.00MiB
+
+Metadata,DUP: Size:256.00MiB, Used:784.00KiB (0.30%)
+   /dev/sde  512.00MiB
+
+System,DUP: Size:32.00MiB, Used:16.00KiB (0.05%)
+   /dev/sdf   64.00MiB
+
+Unallocated:
+   /dev/sdb    1.00GiB
+   /dev/sdc  512.00MiB
+   /dev/sdd    1.00GiB
+   /dev/sde  512.00MiB
+   /dev/sdf  960.00MiB
+</code></pre></div><p>Unos 14.26MiB. Ahora realizaremos una copia, y como tiene activado el CoW, no debería aumentar el tamaño, ya que no hemos realizado ningún cambio. Para realizar una copia con estas características usamos el parámetro &lsquo;&ndash;reflink=always&rsquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cp --reflink=always /mnt/prueba /mnt/prueba2
+</code></pre></div><p>Ahora comprobemos que el espacio usado no es el doble, ya que realmente no se ha copiado el fichero:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs fi usage /mnt
+Overall:
+    Device size:           5.00GiB
+    Device allocated:          1.06GiB
+    Device unallocated:        3.94GiB
+    Device missing:          0.00B
+    Used:             14.73MiB
+    Free (estimated):          4.42GiB  (min: 2.46GiB)
+    Free (statfs, df):         4.42GiB
+    Data ratio:               1.00
+    Metadata ratio:           2.00
+    Global reserve:        3.25MiB  (used: 0.00B)
+    Multiple profiles:              no
+
+Data,single: Size:512.00MiB, Used:12.70MiB (2.48%)
+   /dev/sdc  512.00MiB
+
+Metadata,DUP: Size:256.00MiB, Used:1.00MiB (0.39%)
+   /dev/sde  512.00MiB
+
+System,DUP: Size:32.00MiB, Used:16.00KiB (0.05%)
+   /dev/sdf   64.00MiB
+
+Unallocated:
+   /dev/sdb    1.00GiB
+   /dev/sdc  512.00MiB
+   /dev/sdd    1.00GiB
+   /dev/sde  512.00MiB
+   /dev/sdf  960.00MiB
+</code></pre></div><p>Como vemos, ha funcionado como es debido.</p>
+<h2 id="deduplicación">
+  Deduplicación
+  <a class="heading-link" href="#deduplicaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>La deduplicación consiste en buscar ficheros que se han escrito dos o más veces en el disco (como al copiar un fichero) y combinarlos en un solo fichero, creado punteros en los diferentes directorios que apunten hacia ese único fichero. De esta forma, se intenta maximizar el espacio de disco disponible, al no tener la misma información escrita más de una vez.</p>
+<p>Para poder hacer uso de esta funcionalidad, es necesario instalar un paquete adicional:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install duperemove
+</code></pre></div><p>Ahora volvemos a crear un fichero:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dd if=/dev/zero of=/mnt/prueba2 bs=2048 count=50k
+</code></pre></div><p>Vemos cuanto ocupa el fichero que hemos creado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs fi usage /mnt
+Overall:
+    Device size:           5.00GiB
+    Device allocated:        638.38MiB
+    Device unallocated:        4.38GiB
+    Device missing:          0.00B
+    Used:            100.20MiB
+    Free (estimated):          4.69GiB  (min: 2.50GiB)
+    Free (statfs, df):         4.68GiB
+    Data ratio:               1.00
+    Metadata ratio:           2.00
+    Global reserve:        3.25MiB  (used: 0.00B)
+    Multiple profiles:              no
+
+Data,single: Size:520.00MiB, Used:199.75MiB (38.41%)
+   /dev/sdg    8.00MiB
+   /dev/sdh  512.00MiB
+
+Metadata,DUP: Size:51.19MiB, Used:368.00KiB (0.70%)
+   /dev/sdg  102.38MiB
+
+System,DUP: Size:8.00MiB, Used:16.00KiB (0.20%)
+   /dev/sdg   16.00MiB
+
+Unallocated:
+   /dev/sdg  897.62MiB
+   /dev/sdh  512.00MiB
+   /dev/sdi    1.00GiB
+   /dev/sdj    1.00GiB
+   /dev/sdk    1.00GiB
+</code></pre></div><p>Unos 100 MiB. Ahora vamos a copiarlo:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cp /mnt/prueba2 /mnt/prueba_copia
+
+btrfs fi usage /mnt
+Overall:
+    Device size:           5.00GiB
+    Device allocated:        638.38MiB
+    Device unallocated:        4.38GiB
+    Device missing:          0.00B
+    Used:            200.50MiB
+    Free (estimated):          4.69GiB  (min: 2.50GiB)
+    Free (statfs, df):         4.68GiB
+    Data ratio:               1.00
+    Metadata ratio:           2.00
+    Global reserve:        3.25MiB  (used: 0.00B)
+    Multiple profiles:              no
+
+Data,single: Size:520.00MiB, Used:199.75MiB (38.41%)
+   /dev/sdg    8.00MiB
+   /dev/sdh  512.00MiB
+
+Metadata,DUP: Size:51.19MiB, Used:368.00KiB (0.70%)
+   /dev/sdg  102.38MiB
+
+System,DUP: Size:8.00MiB, Used:16.00KiB (0.20%)
+   /dev/sdg   16.00MiB
+
+Unallocated:
+   /dev/sdg  897.62MiB
+   /dev/sdh  512.00MiB
+   /dev/sdi    1.00GiB
+   /dev/sdj    1.00GiB
+   /dev/sdk    1.00GiB
+</code></pre></div><p>Como vemos, el espacio usado se ha duplicado. Ahora usaremos el paquete que hemos descargado antes para hacer la deduplicación:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">duperemove -d /mnt
+Gathering file list...
+Using 2 threads for file hashing phase
+[1/2] (50.00%) csum: /mnt/prueba_copia
+[2/2] (100.00%) csum: /mnt/prueba2
+Total files:  2
+Total extent hashes: 2
+Loading only duplicated hashes from hashfile.
+Found 2 identical extents.
+Simple read and compare of file data found 1 instances of extents that might benefit from deduplication.
+Showing 2 identical extents of length 104857600 with id 19b81479
+Start       Filename
+0   &#34;/mnt/prueba_copia&#34;
+0   &#34;/mnt/prueba2&#34;
+Using 2 threads for dedupe phase
+[0x55d1c3d260c0] (1/1) Try to dedupe extents with id 19b81479
+[0x55d1c3d260c0] Skipping - extents are already deduped.
+Comparison of extent info shows a net change in shared extents of: 0
+</code></pre></div><p>Como vemos ha encontrado los ficheros iguales (hice otra copia para más pruebas). Ahora veamos si vuelve a ocupar lo mismo que antes (unos 100MiB):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs fi usage /mnt
+Overall:
+    Device size:           5.00GiB
+    Device allocated:        638.38MiB
+    Device unallocated:        4.38GiB
+    Device missing:          0.00B
+    Used:            100.62MiB
+    Free (estimated):          4.79GiB  (min: 2.60GiB)
+    Free (statfs, df):         4.78GiB
+    Data ratio:               1.00
+    Metadata ratio:           2.00
+    Global reserve:        3.25MiB  (used: 0.00B)
+    Multiple profiles:              no
+
+Data,single: Size:520.00MiB, Used:100.12MiB (19.25%)
+   /dev/sdg    8.00MiB
+   /dev/sdh  512.00MiB
+
+Metadata,DUP: Size:51.19MiB, Used:240.00KiB (0.46%)
+   /dev/sdg  102.38MiB
+
+System,DUP: Size:8.00MiB, Used:16.00KiB (0.20%)
+   /dev/sdg   16.00MiB
+
+Unallocated:
+   /dev/sdg  897.62MiB
+   /dev/sdh  512.00MiB
+   /dev/sdi    1.00GiB
+   /dev/sdj    1.00GiB
+   /dev/sdk    1.00GiB
+</code></pre></div><p>Como vemos, ha funcionado, volviendo a ocupar el mismo espacio, ya que ambos ficheros eran idénticos. También podemos comprobar que los dos ficheros siguen ahí, convirtiéndose en un proceso transparente para el usuario:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l /mnt/
+total 204800
+-rw-r--r-- 1 root root 104857600 Dec  4 16:48 prueba2
+-rw-r--r-- 1 root root 104857600 Dec  4 16:35 prueba_copia
+</code></pre></div><h2 id="redimensión">
+  Redimensión
+  <a class="heading-link" href="#redimensi%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Btrfs también puede redimensionarse en caliente. Veamos como:</p>
+<ul>
+<li>En primer lugar comprobamos es espacio de que dispone el sistema de ficheros:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs filesystem show /mnt/
+Label: none  uuid: 8cc177de-d784-4761-9f94-a9f962516417
+    Total devices 5 FS bytes used 100.38MiB
+    devid    1 size 1.00GiB used 126.38MiB path /dev/sdg
+    devid    2 size 1.00GiB used 512.00MiB path /dev/sdh
+    devid    3 size 1.00GiB used 0.00B path /dev/sdi
+    devid    4 size 1.00GiB used 0.00B path /dev/sdj
+    devid    5 size 1.00GiB used 0.00B path /dev/sdk
+</code></pre></div><p>Como vemos hay cinco discos anexados de 1GiB cada uno.</p>
+<ul>
+<li>Reducimos el tamaño del sistema de ficheros:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs filesystem resize -500M /mnt/
+Resize &#39;/mnt/&#39; of &#39;-500M&#39;
+</code></pre></div><p>Comprobamos si ha funcionado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs filesystem show /mnt/
+Label: none  uuid: 8cc177de-d784-4761-9f94-a9f962516417
+    Total devices 5 FS bytes used 288.00KiB
+    devid    1 size 524.00MiB used 126.38MiB path /dev/sdg
+    devid    2 size 1.00GiB used 0.00B path /dev/sdh
+    devid    3 size 1.00GiB used 0.00B path /dev/sdi
+    devid    4 size 1.00GiB used 0.00B path /dev/sdj
+    devid    5 size 1.00GiB used 0.00B path /dev/sdk
+</code></pre></div><p>Se ha reducido de forma correcta.</p>
+<ul>
+<li>Aumentamos el tamaño:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs filesystem resize +500M /mnt/
+Resize &#39;/mnt/&#39; of &#39;+500M&#39;
+
+btrfs filesystem show /mnt/
+Label: none  uuid: 8cc177de-d784-4761-9f94-a9f962516417
+    Total devices 5 FS bytes used 128.00KiB
+    devid    1 size 1.00GiB used 126.38MiB path /dev/sdg
+    devid    2 size 1.00GiB used 0.00B path /dev/sdh
+    devid    3 size 1.00GiB used 0.00B path /dev/sdi
+    devid    4 size 1.00GiB used 0.00B path /dev/sdj
+    devid    5 size 1.00GiB used 0.00B path /dev/sdk
+</code></pre></div><p>Como vemos, ha vuelto a tener el tamaño anterior.</p>
+<h2 id="desfragmentación">
+  Desfragmentación
+  <a class="heading-link" href="#desfragmentaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Debido a singularidad del sistema de ficheros, Btrfs sufre de una fragmentación elevada. Es por ello, que es necesario desfragmentar el disco frecuentemente. Para ello vamos a usar la herramienta que viene incluida con btrfs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs filesystem defrag -r /mnt
+</code></pre></div><p>Usamos la opción &lsquo;-r&rsquo; para indicar que sea recursivo.</p>
+<h2 id="subvolumen">
+  Subvolumen
+  <a class="heading-link" href="#subvolumen">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Btrfs nos permite crear subvolúmenes. Esto es como crear otro sistema de ficheros (puede considerarse también como un directorio con más funcionalidades) dentro del sistema de ficheros. Para poder crear los subvolúmenes debemos ejecutar los siguientes comandos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs subvolume create /mnt/subvolumenprueba
+</code></pre></div><p>Podemos ver el subvolumen que hemos creado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l /mnt
+total 0
+drwxr-xr-x 1 root root 0 Dec  5 14:22 subvolumenprueba
+</code></pre></div><p>Este subvolumen puede montarse en otros lugares del disco, aunque para ello primero debemos obtener su identificador. Para obtener dicho identificador ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs subvolume list /mnt
+ID 259 gen 30 top level 5 path subvolumenprueba
+</code></pre></div><p>Como vemos, tenemos el identificador 259. Ahora para montar el subvolumen en otro lado, usamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mount -o subvolid=259 /dev/sdg /mnt2
+</code></pre></div><p>Con esto ya lo hemos montado en el nuevo directorio. Para borrar un subvolumen, ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs subvolume delete /mnt/subvolumenprueba/
+</code></pre></div><h2 id="snapshots">
+  Snapshots
+  <a class="heading-link" href="#snapshots">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Antes dijimos que los subvolúmenes eran directorios con más funcionalidades. Pues bien, esta es una de ellas: podemos hacer snapshots del subvolumen. Para ello vamos a crear otro subvolumen como hicimos en el apartado anterior. También crearemos un fichero dentro del subvolumen para posteriores pruebas:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs subvolume create /mnt/subvolumenprueba2
+Create subvolume &#39;/mnt/subvolumenprueba2&#39;
+
+dd if=/dev/zero of=/mnt/subvolumenprueba2/prueba.txt count=3072 bs=1048576
+</code></pre></div><p>Ahora crearemos un snapshot de dicho subvolumen:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs subvolume snapshot /mnt/subvolumenprueba2/ /mnt/snapshotprueba
+Create a snapshot of &#39;/mnt/subvolumenprueba2/&#39; in &#39;/mnt/snapshotprueba&#39;
+</code></pre></div><p>Hemos creado un snapshot en el directorio /mnt:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">tree /mnt/
+/mnt/
+├── snapshotprueba
+│        └── prueba.txt
+└── subvolumenprueba2
+    └── prueba.txt
+
+2 directories, 2 files
+</code></pre></div><p>Este snapshot ya funciona como un subvolumen, por lo que podemos montarlo o desmontarlo a nuestro gusto. También podemos recuperar información concreta del snapshot:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">rm -r /mnt/subvolumenprueba2/prueba.txt
+
+cp /mnt/snapshotprueba2/prueba.txt /mnt/subvolumenprueba2/prueba.txt
+</code></pre></div><p>Con esto hemos recuperado el fichero que hemos borrado. También podemos seleccionar un subvolumen o snapshot para que se monte automáticamente al montar el sistema de ficheros. Para ello, al igual que antes, debemos obtener el identificador del subvolumen o snapshot:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs subvolume list /mnt
+ID 266 gen 44 top level 5 path subvolumenprueba2
+ID 274 gen 41 top level 5 path snapshotprueba
+</code></pre></div><p>En este caso configuraremos el snapshot para que se monte automáticamente en /mnt al montar el sistema de ficheros:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">btrfs subvolume set-default 274 /mnt
+</code></pre></div><p>Ahora, si desmontamos el sistema de ficheros y lo volvemos a montar, debería haberse montado el snapshot en /mnt:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l /mnt
+total 3145728
+-rw-r--r-- 1 root root 3221225472 Dec  5 14:47 prueba.txt
+</code></pre></div>
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
