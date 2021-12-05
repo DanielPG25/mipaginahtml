@@ -14,7 +14,10 @@
       
       <guid>https://sysadblog.onrender.com/posts/practica_sistemas_ficheros_avanzados/</guid>
       <description>Sistemas de ficheros “avanzados” ZFS/Btrfs    Elige uno de los dos sistemas de ficheros “avanzados”.
-Crea un escenario que incluya una máquina y varios discos asociados a ella.    Instala si es necesario el software de ZFS/Btrfs    Gestiona los discos adicionales con ZFS/Btrfs    Configura los discos en RAID, haciendo pruebas de fallo de algún disco y sustitución, restauración del RAID. Comenta ventajas e inconvenientes respecto al uso de RAID software con mdadm.</description>
+  Crea un escenario que incluya una máquina y varios discos asociados a ella.
+  Instala si es necesario el software de ZFS/Btrfs
+  Gestiona los discos adicionales con ZFS/Btrfs
+  Configura los discos en RAID, haciendo pruebas de fallo de algún disco y sustitución, restauración del RAID. Comenta ventajas e inconvenientes respecto al uso de RAID software con mdadm.</description>
     </item>
     
     <item>
