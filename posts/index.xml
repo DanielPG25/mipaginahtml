@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 06 Dec 2021 17:13:07 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Dec 2021 16:40:54 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Despliegue de CMS Java (Guacamole)</title>
+      <link>https://sysadblog.onrender.com/posts/practica_desplieguecms_java_guacamole/</link>
+      <pubDate>Sat, 11 Dec 2021 16:40:54 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_desplieguecms_java_guacamole/</guid>
+      <description>Despliegue de CMS Java    En esta práctica vamos a desplegar un CMS escrito en java. ¿Qué debemos tener en cuenta?
+ Debes desplegar la aplicación desde un fichero war. No usar instalaciones “bundler”. Estas instalaciones instalan la aplicación y tomcat al mismo tiempo. La aplicación se debe desplegar en el tomcat que tienes instalado. Utiliza una máquina virtual que tenga suficiente memoria, al menos 2Gb, algunos CMS requieren mucha memoria RAM.</description>
+    </item>
+    
     <item>
       <title>Trabajar con iSCSI</title>
       <link>https://sysadblog.onrender.com/posts/practica_trabajar_iscsi/</link>

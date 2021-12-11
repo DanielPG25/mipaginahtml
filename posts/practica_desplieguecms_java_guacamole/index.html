@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Despliegue de CMS Java (Guacamole)">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Despliegue de CMS Java (Guacamole)"/>
+<meta name="twitter:description" content="Despliegue de CMS Java (Guacamole)"/>
+
+    <meta property="og:title" content="Despliegue de CMS Java (Guacamole)" />
+<meta property="og:description" content="Despliegue de CMS Java (Guacamole)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/practica_desplieguecms_java_guacamole/" />
+<meta property="article:published_time" content="2021-12-11T16:40:54+01:00" />
+<meta property="article:modified_time" content="2021-12-11T16:40:54+01:00" />
+
+
+    <title>
+  Despliegue de CMS Java (Guacamole) · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/practica_desplieguecms_java_guacamole/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/practica_desplieguecms_java_guacamole/">
+              Despliegue de CMS Java (Guacamole)
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-12-11T16:40:54&#43;01:00'>
+                December 11, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/aplicaciones-web/">Aplicaciones Web</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="despliegue-de-cms-java">
+  Despliegue de CMS Java
+  <a class="heading-link" href="#despliegue-de-cms-java">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>En esta práctica vamos a desplegar un CMS escrito en java. ¿Qué debemos tener en cuenta?</p>
+<ul>
+<li>Debes desplegar la aplicación desde un fichero war.</li>
+<li>No usar instalaciones “bundler”. Estas instalaciones instalan la aplicación y tomcat al mismo tiempo. La aplicación se debe desplegar en el tomcat que tienes instalado.</li>
+<li>Utiliza una máquina virtual que tenga suficiente memoria, al menos 2Gb, algunos CMS requieren mucha memoria RAM.</li>
+<li>La aplicación debe guardar los datos en una base de datos</li>
+</ul>
+<hr>
+<p>En esta práctica vamos a instalar un CMS escrito en Java, Apache Guacamole, que facilitará la administración remota de sistemas, unificando en una sola interfaz web los protocolos más usados en la administración remota (SSH, VNC, RDP). De esta forma podremos hacer uso de todos estos servicios simplemente accediendo a la interfaz web que nos ofrece.</p>
+<p>Así pues, en primer lugar hay que instalar las dependencias de guacamole. Hay pocas obligatorias, pero yo he optado por instalar una gran cantidad de las opcionales (cada persona deberá decidir cuales quiere instalar y cuales no, dependiendo de sus necesidades). Podemos encontrar las dependencias en la página oficial de <a href="https://guacamole.apache.org/doc/gug/installing-guacamole.html">guacamole</a>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev libavcodec-dev libavformat-dev libswscale-dev freerdp2-dev libpango1.0-dev libssh2-1-dev libtelnet-dev libvncserver-dev libwebsockets-dev libpulse-dev libvorbis-dev libwebp-dev
+</code></pre></div><p>Ahora debemos descargarnos las fuentes de guacamole-server, para compilar el programa nosotros (es un requisito que nos indica en la página, aunque posteriormente descarguemos el fichero <code>.war</code> para instalar el cliente). Así pues, descargaremos la última versión que hay en la página oficial:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wget https://apache.org/dyn/closer.lua/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz
+</code></pre></div><p>Y lo extraemos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">tar -zxf guacamole-server-1.3.0.tar.gz
+</code></pre></div><p>Si accedemos al directorio que acabamos de extraer, nos encontramos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l guacamole-server-1.3.0
+total 744
+-rw-r--r--  1 1001 users  55738 dic 29  2020 aclocal.m4
+drwxr-xr-x  2 1001 users   4096 dic 29  2020 bin
+drwxr-xr-x  2 1001 users   4096 dic 29  2020 build-aux
+-rw-r--r--  1 1001 users   6341 dic 29  2020 config.h.in
+-rwxr-xr-x  1 1001 users 555917 dic 29  2020 configure
+-rw-r--r--  1 1001 users  37030 dic 29  2020 configure.ac
+-rw-r--r--  1 1001 users   1984 jun 30  2020 CONTRIBUTING
+drwxr-xr-x  2 1001 users   4096 dic 29  2020 doc
+-rw-r--r--  1 1001 users   6084 dic 29  2020 Dockerfile
+-rw-r--r--  1 1001 users  11358 ene 26  2020 LICENSE
+drwxr-xr-x  2 1001 users   4096 dic 29  2020 m4
+-rw-r--r--  1 1001 users   2612 dic 22  2020 Makefile.am
+-rw-r--r--  1 1001 users  30946 dic 29  2020 Makefile.in
+-rw-r--r--  1 1001 users    165 dic 11  2020 NOTICE
+-rw-r--r--  1 1001 users   6108 jul 10  2020 README
+drwxr-xr-x 12 1001 users   4096 dic 29  2020 src
+drwxr-xr-x  2 1001 users   4096 dic 29  2020 util
+</code></pre></div><p>Aquí nos encontramos con un fichero <code>configure</code>, que es típico de las compilaciones (se usa normalmente para verificar que las dependencias de la compilación están cubiertas, antes de empezar con la misma). Así pues, ejecutamos de la siguiente forma ese fichero (usamos <code>--with-init-dir=/etc/init.d</code> para que genere un script de inicio en <code>/etc/init.d</code> para que más tarde podamos configurar el inicio automático de forma más sencilla):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">./configure --with-init-dir=/etc/init.d
+
+
+------------------------------------------------
+guacamole-server version 1.3.0
+------------------------------------------------
+
+   Library status:
+
+     freerdp2 ............ yes
+     pango ............... yes
+     libavcodec .......... yes
+     libavformat.......... yes
+     libavutil ........... yes
+     libssh2 ............. yes
+     libssl .............. yes
+     libswscale .......... yes
+     libtelnet ........... yes
+     libVNCServer ........ yes
+     libvorbis ........... yes
+     libpulse ............ yes
+     libwebsockets ....... yes
+     libwebp ............. yes
+     wsock32 ............. no
+
+   Protocol support:
+
+      Kubernetes .... yes
+      RDP ........... yes
+      SSH ........... yes
+      Telnet ........ yes
+      VNC ........... yes
+
+   Services / tools:
+
+      guacd ...... yes
+      guacenc .... yes
+      guaclog .... yes
+
+   FreeRDP plugins: /usr/lib/x86_64-linux-gnu/freerdp2
+   Init scripts: /etc/init.d
+   Systemd units: no
+
+Type &#34;make&#34; to compile guacamole-server.
+</code></pre></div><p>Había más salida en ese comando, pero he dejado lo más importante. Como vemos, tenemos cubiertas las dependencias. Así pues, hacemos lo que nos indica la salida del comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">make
+
+make install
+</code></pre></div><p>Ahora tendremos que actualizar la caché de librerías instaladas del sistema y volver a cargar todas las unidades de systemd para hacer uso del nuevo servicio instalado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldconfig
+
+systemctl daemon-reload
+</code></pre></div><p>Ahora ya podemos habilitar el nuevo servicio creado usando <code>systemctl</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl enable guacd.service
+
+systemctl start guacd.service
+</code></pre></div><p>Podemos ver el estado del servicio que acabamos de activar:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl status guacd.service
+
+● guacd.service - LSB: Guacamole proxy daemon
+     Loaded: loaded (/etc/init.d/guacd; generated)
+     Active: active (running) since Fri 2021-12-10 19:11:38 CET; 4s ago
+       Docs: man:systemd-sysv-generator(8)
+    Process: 22443 ExecStart=/etc/init.d/guacd start (code=exited, status=0/SUCCESS)
+      Tasks: 1 (limit: 2340)
+     Memory: 9.9M
+        CPU: 12ms
+     CGroup: /system.slice/guacd.service
+             └─22446 /usr/local/sbin/guacd -p /var/run/guacd.pid
+
+dic 10 19:11:38 guaca systemd[1]: Starting LSB: Guacamole proxy daemon...
+dic 10 19:11:38 guaca guacd[22444]: Guacamole proxy daemon (guacd) version 1.3.0 started
+dic 10 19:11:38 guaca guacd[22443]: Starting guacd:
+dic 10 19:11:38 guaca guacd[22444]: guacd[22444]: INFO:        Guacamole proxy daemon (guacd) version 1.3.0 started
+dic 10 19:11:38 guaca guacd[22443]: SUCCESS
+dic 10 19:11:38 guaca systemd[1]: Started LSB: Guacamole proxy daemon.
+dic 10 19:11:38 guaca guacd[22446]: Listening on host 127.0.0.1, port 4822
+</code></pre></div><p>Con esto hemos terminado de instalar la parte del servidor de guacamole. Ahora seguiremos con el servidor de aplicaciones java: Tomcat</p>
+<p>En primer lugar, debemos instalar tomcat. Para ello ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install tomcat9
+</code></pre></div><p>Una vez que ha finalizado la instalación, comprobamos que se puede acceder desde el navegador:</p>
+<p><img src="/images/practica_despliegueCMS_Java/tomcat_inicial.png" alt="tomcat_inicial.png"></p>
+<p>Ahora descargaremos el fichero <code>.war</code> de la página oficial y lo movemos al directorio <code>/var/lib/tomcat9/webapps/</code>, en el cual se extraerá automáticamente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wget -O &#39;guacamole.war&#39; &#39;http://archive.apache.org/dist/guacamole/1.2.0/binary/guacamole-1.2.0.war&#39;
+
+mv guacamole.war /var/lib/tomcat9/webapps/
+</code></pre></div><p>Con esto habríamos terminado de instalar el cliente de guacamole, y podríamos acceder a él a través del puerto 8080, pero en lugar de esto, instalaremos un servidor web (Apache en este caso), el cual configuraremos como proxy para acceder al servicio de guacamole:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install apache2
+</code></pre></div><p>Una vez instalado, configuramos el virtualhost de forma que actúe como proxy:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/apache2/sites-available/000-default.conf
+
+&lt;VirtualHost *:80&gt;
+
+        ServerName www.dparrales.guacamole.org
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/lib/tomcat9/webapps/guacamole
+        Redirect 301 / /guacamole/
+
+        &lt;Location /guacamole/&gt;
+            Order allow,deny
+            Allow from all
+            ProxyPass http://localhost:8080/guacamole/ flushpackets=on
+            ProxyPassReverse http://localhost:8080/guacamole/
+        &lt;/Location&gt;
+
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+&lt;/VirtualHost&gt;
+</code></pre></div><p>Ahora habilitamos en módulo proxy y reniciamos el servicio de apache para que tengan lugar los cambios:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">a2enmod proxy_http
+
+systemctl restart apache2
+</code></pre></div><p>Una vez que hemos terminado de configurar el servidor web, pasemos a configurar guacamole en sí, ya que hasta ahora, lo único que hemos hecho ha sido instalarlo. Para empezar hemos de crear el &ldquo;GUACAMOLE_HOME&rdquo;, que es el nombre del directorio donde guardaremos toda la configuración de guacamole y está ubicado en <code>/etc/guacamole</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mkdir /etc/guacamole
+</code></pre></div><p>Dentro de este directorio tendremos que crear varios ficheros y directorios:</p>
+<p>-<code>guacamole.properties</code>: En él definiremos como se va a comunicar con el demonio que habilitamos anteriormente (guacd), además de como vamos a autentificar a los usuarios (primero usaremos la autentificación básica, y más adelante crearemos una base de datos y restringiremos el acceso a solo aquellos usuario que estén en esa base datos):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano guacamole.properties
+
+guacd-hostname: localhost
+guacd-port:     4822
+
+auth-provider: net.sourceforge.guacamole.net.basic.BasicFileAuthenticationProvider
+basic-user-mapping: /etc/guacamole/user-mapping.xml
+</code></pre></div><p>-<code>user-mapping.xml</code>: En él definiremos la lista de usuarios que tendrán acceso al servicio y la lista de conexiones que podrá realizar dicho usuario:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano user-mapping.xml
+
+&lt;user-mapping&gt;
+    &lt;authorize
+         username=&#34;admin&#34;
+         password=&#34;admin&#34;&gt;
+
+       &lt;connection name=&#34;Prueba1&#34;&gt;
+         &lt;protocol&gt;ssh&lt;/protocol&gt;
+         &lt;param name=&#34;hostname&#34;&gt;192.168.122.179&lt;/param&gt;
+         &lt;param name=&#34;port&#34;&gt;22&lt;/param&gt;
+         &lt;param name=&#34;username&#34;&gt;debian&lt;/param&gt;
+         &lt;param name=&#34;password&#34;&gt;debian&lt;/param&gt;
+       &lt;/connection&gt;
+
+       &lt;connection name=&#34;Servidor&#34;&gt;
+         &lt;protocol&gt;ssh&lt;/protocol&gt;
+         &lt;param name=&#34;hostname&#34;&gt;192.168.122.63&lt;/param&gt;
+         &lt;param name=&#34;port&#34;&gt;22&lt;/param&gt;
+         &lt;param name=&#34;username&#34;&gt;debian&lt;/param&gt;
+         &lt;param name=&#34;password&#34;&gt;debian&lt;/param&gt;
+       &lt;/connection&gt;
+    &lt;/authorize&gt;
+&lt;/user-mapping&gt;
+</code></pre></div><p>Podemos encriptar las contraseñas, pero no lo he visto necesario para esta instalación. Ahora debemos reiniciar los servicios de tomcat y guacamole:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart tomcat9 guacd
+</code></pre></div><p>Ahora podemos probar el funcionamiento de guacamole de dos formas:</p>
+<ul>
+<li>Accediendo desde Tomcat:</li>
+</ul>
+<p><img src="/images/practica_despliegueCMS_Java/desde_tomcat.png" alt="desde_tomcat.png"></p>
+<ul>
+<li>Desde el proxy que hemos configurado:</li>
+</ul>
+<p><img src="/images/practica_despliegueCMS_Java/desde_proxy.png" alt="desde_proxy.png"></p>
+<p>Con esto guacamole ya estaría funcionando correctamente, pero vamos a ir un paso más alla, y vamos a hacer que solo puedan acceder los usuario que registremos en nuestra base de datos. Así pues, lo primero es instalar un servidor de base de datos, en mi caso he elegido mariadb, pero guacamole también admite PostgreSQL y SQL Server.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install mariadb-server
+
+mysql_secure_installation
+</code></pre></div><p>Ahora crearemos la base de datos y un usuario con permisos sobre dicha base de datos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u root -p
+
+CREATE DATABASE guacamole_db;
+
+CREATE USER &#39;guacamole_user&#39;@&#39;%&#39; IDENTIFIED BY &#39;guacamole_user&#39;;
+
+GRANT SELECT,INSERT,UPDATE,DELETE ON guacamole_db.* TO &#39;guacamole_user&#39;@&#39;%&#39;;
+
+FLUSH PRIVILEGES;
+</code></pre></div><p>Ahora debemos descargarnos la extensión de guacamole para permitir la autentificación mediante una base de datos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wget https://archive.apache.org/dist/guacamole/1.2.0/binary/guacamole-auth-jdbc-1.2.0.tar.gz
+
+tar -zxf guacamole-auth-jdbc-1.2.0.tar.gz
+</code></pre></div><p>Dentro de ese nuevo directorio nos encontramos lo siguiente para mariadb:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ls -l guacamole-auth-jdbc-1.2.0/mysql/
+
+total 5588
+-rw-r--r-- 1 1001 users 5716097 jun 26  2020 guacamole-auth-jdbc-mysql-1.2.0.jar
+drwxr-xr-x 3 1001 users    4096 feb  1  2020 schema
+</code></pre></div><p>Tenemos que descargarnos también el conector para nuestra base de datos y situarlo en el directorio <code>/etc/guacamole/lib</code> (hay que crearlo si no lo está ya):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mkdir /etc/guacamole/lib
+
+wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.27.tar.gz
+
+tar -zxf mysql-connector-java-8.0.27.tar.gz
+
+cp mysql-connector-java-8.0.27/mysql-connector-java-8.0.27.jar /etc/guacamole/lib/
+</code></pre></div><p>Ahora debemos mover el fichero <code>guacamole-auth-jdbc-mysql-1.2.0.jar</code> que venía con la extensión al directorio <code>/etc/guacamole/extensions</code> (hay que crearlo si no lo está ya):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mkdir /etc/guacamole/extensions
+
+cp guacamole-auth-jdbc-1.2.0/mysql/guacamole-auth-jdbc-mysql-1.2.0.jar /etc/guacamole/extensions/
+</code></pre></div><p>Ahora debemos introducir los esquemas que venían con la extensión en la base de datos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat *.sql | mysql -u root -p guacamole_db
+</code></pre></div><p>Con esto se nos ha creado un esquema básico dentro de nuestra base de datos. Ahora tenemos que añadir al fichero <code>guacamole.properties</code> las líneas adecuadas para que use el servidor de base datos que acabamos de crear:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback"># MySQL properties
+mysql-hostname: localhost
+mysql-port: 3306
+mysql-database: guacamole_db
+mysql-username: guacamole_user
+mysql-password: guacamole_user
+</code></pre></div><p>Si además añadimos la siguiente línea, indicaremos que no queremos permitir el acceso a ningún usuario que no se encuentre registrado en la base de datos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql-user-required: true
+</code></pre></div><p>Como hemos añadido esa directiva, ya no podemos acceder con el usuario que indicamos antes en <code>user-mapping.xml</code>:</p>
+<p><img src="/images/practica_despliegueCMS_Java/acceso_denegado.png" alt="acceso_denegado.png"></p>
+<p>Para acceder, tenemos que usar el usuario que se crea por defecto en el esquema: &ldquo;guacadmin&rdquo; con contraseña &ldquo;guacadmin&rdquo;:</p>
+<p><img src="/images/practica_despliegueCMS_Java/acceso_guacadmin.png" alt="acceso_guacadmin.png"></p>
+<p>Desde dentro del perfil ya podríamos hacer lo que quisiéramos: crear conexiones, cambiar la contraseña, modificar los parátros de las conexiones existentes, etc. También, al ser administradores, podríamos crear usuarios, grupos, etc.</p>
+<p>Para finalizar con la instalación y configuración de guacamole, intentaremos acceder a una de las máquinas que hemos definido en las conexiones:</p>
+<p><img src="/images/practica_despliegueCMS_Java/acceso_conexion.png" alt="acceso_conexion.png"></p>
+<p><img src="/images/practica_despliegueCMS_Java/acceso_conexion2.png" alt="acceso_conexion2.png"></p>
+<p>Podemos ejecutar comandos de forma normal:</p>
+<p><img src="/images/practica_despliegueCMS_Java/acceso_conexion3.png" alt="acceso_conexion3.png"></p>
+<p>Con esto hemos terminado de instalar y configurar Apache Guacamole.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
