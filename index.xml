@@ -6,7 +6,17 @@
     <description>Recent content on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Dec 2021 08:33:02 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 14 Dec 2021 20:01:34 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Aumento de rendimiento en servidores web</title>
+      <link>https://sysadblog.onrender.com/posts/practica_aumento_rendimiento_servidores_web/</link>
+      <pubDate>Tue, 14 Dec 2021 20:01:34 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_aumento_rendimiento_servidores_web/</guid>
+      <description>Aumento de rendimiento en servidores web    HAProxy: Balanceador de carga    Crea y configura el escenario usando el repositorio vagrant_ansible_haproxy.    Para ello simplemente clonamos el repositorio en nuestra máquina y levantamos el escenario con vagrant:
+git clone https://github.com/josedom24/vagrant_ansible_haproxy.git cd vagrant_ansible_haproxy vagrant up Una vez que hemos levantado el escenario, comprobamos las direcciones ip que se han asignado a nuestras máquinas y modificamos el ansible para añadir dichas direcciones:</description>
+    </item>
+    
     <item>
       <title>Instalación de OpenLDAP</title>
       <link>https://sysadblog.onrender.com/posts/instalarldap/</link>
