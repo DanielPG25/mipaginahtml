@@ -6,7 +6,16 @@
     <description>Recent content on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 11 Dec 2021 16:40:54 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 14 Dec 2021 08:33:02 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación de OpenLDAP</title>
+      <link>https://sysadblog.onrender.com/posts/instalarldap/</link>
+      <pubDate>Tue, 14 Dec 2021 08:33:02 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/instalarldap/</guid>
+      <description>Instalación de OpenLDAP    Antes de comenzar realmente con la instalación, debemos asegurarnos de que tenemos configurado el FQDN de la máquina en la que lo vamos a instalar, ya que va a hacer uso del mismo para generar la entrada base (esta entrada se puede modificar más adelante, pero es conveniente tenerla bien desde el principio para facilitar las cosas). Para saber si está bien configurado ejecutamos el siguiente comando:</description>
+    </item>
+    
     <item>
       <title>Despliegue de CMS Java (Guacamole)</title>
       <link>https://sysadblog.onrender.com/posts/practica_desplieguecms_java_guacamole/</link>
