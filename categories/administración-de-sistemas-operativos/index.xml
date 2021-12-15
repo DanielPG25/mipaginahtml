@@ -6,7 +6,17 @@
     <description>Recent content in Administración de Sistemas Operativos on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Dec 2021 08:33:02 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 15 Dec 2021 10:14:28 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Configuración de LDAPs en OpenLDAP</title>
+      <link>https://sysadblog.onrender.com/posts/ldaps/</link>
+      <pubDate>Wed, 15 Dec 2021 10:14:28 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/ldaps/</guid>
+      <description>Configuración de LDAPs en OpenLDAP    Configura el servidor LDAP de apolo para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de https o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en el cliente ldap de apolo para que todas las consultas se realicen por defecto utilizando ldaps://:
+ En esta práctica vamos a hacer que el servidor LDAP que tenemos instalado en apolo haga uso de SSL/TLS para cifrar las conversaciones con los clientes.</description>
+    </item>
+    
     <item>
       <title>Instalación de OpenLDAP</title>
       <link>https://sysadblog.onrender.com/posts/instalarldap/</link>
