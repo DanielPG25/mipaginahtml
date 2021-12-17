@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Configuración de LDAP en alta disponibilidad">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Configuración de LDAP en alta disponibilidad"/>
+<meta name="twitter:description" content="Configuración de LDAP en alta disponibilidad"/>
+
+    <meta property="og:title" content="Configuración de LDAP en alta disponibilidad" />
+<meta property="og:description" content="Configuración de LDAP en alta disponibilidad" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/ldap_altadisponibilidad/" />
+<meta property="article:published_time" content="2021-12-17T09:07:39+01:00" />
+<meta property="article:modified_time" content="2021-12-17T09:07:39+01:00" />
+
+
+    <title>
+  Configuración de LDAP en alta disponibilidad · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/ldap_altadisponibilidad/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/ldap_altadisponibilidad/">
+              Configuración de LDAP en alta disponibilidad
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-12-17T09:07:39&#43;01:00'>
+                December 17, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/administraci%C3%B3n-de-sistemas-operativos/">Administración de Sistemas Operativos</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="configuración-de-ldap-en-alta-disponibilidad">
+  Configuración de LDAP en alta disponibilidad
+  <a class="heading-link" href="#configuraci%c3%b3n-de-ldap-en-alta-disponibilidad">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Vamos a instalar un servidor LDAP en ares que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en apolo, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro.</p>
+<ul>
+<li>Selecciona el método más adecuado para configurar un servidor LDAP secundario, viendo y/o probando las opciones posibles.</li>
+<li>Explica claramente las características, ventajas y limitaciones del método seleccionado</li>
+<li>Realiza las configuraciones adecuadas en el directorio cn=config</li>
+<li>Como prueba de funcionamiento, prepara un pequeño fichero ldif, que se insertará en el directorio en la corrección y se verificará que se ha sincronizado.</li>
+</ul>
+<hr>
+<p>En esta práctica vamos a instalar y configurar un servidor LDAP secundario en &ldquo;Ares&rdquo; que ofrecerá redundancia y alta disponibilidad al servidor LDAP principal instalado en &ldquo;Apolo&rdquo;. La alta disponibilidad es fundamental a la hora de ofrecer cualquier tipo de servicio, pero en el caso de LDAP, lo es más aún, ya que de ello dependen multitud de otros servicios, por lo que nos podemos permitir una caída total del servicio de LDAP.</p>
+<p>Para ello haremos uso de <em>LDAP Syncy Replication</em>, también conocido como <em>syncrepl</em>. OpenLDAP es muy flexible, y admite varios modos de funcionamiento para <em>syncrepl</em> para adaptarse a distintos escenarios:</p>
+<ul>
+<li>
+<p><strong>LDAP Content Synchronization Protocol:</strong> Es el método de funcionamiento más básico,lo que comúnmente llamaríamos maestro-esclavo si fuera otro tipo de sistema, que en LDAP es conocido como &ldquo;provider-consumer&rdquo;. Consiste básicamente en copiar una porción del árbol de información de directorio (también llamado DIT) en el servidor secundario que actúa de &ldquo;consumer&rdquo; a través de una lectura del servidor principal (&ldquo;provider&rdquo;). Tras esta lectura inicial, el &ldquo;consumer&rdquo; tratará de mantener actualizada la información haciendo uso de uno de los siguientes métodos:</p>
+<ul>
+<li>
+<p><strong>pull-based:</strong> El &ldquo;consumer&rdquo; hace preguntas de forma periódica al &ldquo;provider&rdquo; en busca de actualizaciones.</p>
+</li>
+<li>
+<p><strong>push-based:</strong> Es el &ldquo;provider&rdquo; el que manda la información sobre actualizaciones al &ldquo;consumer&rdquo;, que se dedica a estar a la escucha de dichas actualizaciones.</p>
+</li>
+<li>
+<p>Ventajas:</p>
+<ul>
+<li>Si se producen varios cambios en un solo objeto, no es necesario guardar la secuencia de dichos cambios, ya que lo que se traslada al &ldquo;consumer&rdquo; es el objeto final al completo.</li>
+<li>Solo debe configurarse el lado del &ldquo;consumer&rdquo;.</li>
+</ul>
+</li>
+<li>
+<p>Desventajas:</p>
+<ul>
+<li>Deriva de la primera ventaja, ya que al procesarse los objetos al completo, se usan más recursos de los necesarios.</li>
+<li>Solo permite escrituras en el lado del &ldquo;provider&rdquo;, ya que los &ldquo;consumers&rdquo; sacan su información del mismo.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Delta-syncrepl:</strong> Es una variante del método anterior creada para solventar el problema de uso excesivo de recursos. Para ello el provider guardará un registro de los cambios en una base de datos aparte. El consumer entonces, consultará dicha base de datos, y si hay diferencias las aplicará. Si se encuentra muy diferenciado del provider, hará uso del primer método para ponerse al día, y a partir de ahí hara uso de la base de datos (método Delta).</p>
+<ul>
+<li>Ventajas:
+<ul>
+<li>Al modificarse un objeto, el consumer procesará únicamente los cambios efectuados, ahorrando así recursos que de la anterior forma se habrían gastado ineficientemente.</li>
+</ul>
+</li>
+<li>Desventajas:
+<ul>
+<li>Ya que el estado de la base de datos se guarda en el lado del provider tanto en el registro de cambios como en la base de datos en sí, es necesario restaurar ambas partes en caso de corrupción o migración.</li>
+<li>Al igual que pasaba en el método anterior, únicamente se permiten escrituras en el lado del provider.</li>
+<li>La configuración debe realizarse en ambos lados (provider y consumer).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>N-Way Multi-Provider:</strong> Es una técnica de replicado que usa Syncrepl para replicar los datos entre múltiples providers (multi-master):</p>
+<ul>
+<li>Ventajas:
+<ul>
+<li>Si un provider falla, los otros podrán seguir respondiendo peticiones.</li>
+<li>Los providers pueden estar situados en diferentes localizaciones geográficas, evitando así problemas por la localización (incendios, terremotos, robos, etc).</li>
+<li>Facilita la Alta Disponibilidad (no confundir con balanceo de carga).</li>
+</ul>
+</li>
+<li>Desventajas:
+<ul>
+<li>Se puede llegar a romper la consistencia de datos si hay problemas de red.</li>
+<li>Es difícil distinguir si una máquina ha perdido la conexión con el provider debido a problemas de red o porque el provider ha caído.</li>
+<li>Si falla la red y varios clientes empiezan a escribir a los providers, la unificación de esos datos puede ser difícil.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>MirrorMode:</strong> Es un híbrido que intenta aportar todas las garantias de consistencia de los datos de un único provider y las ventajas de la alta disponibilidad del multi provider. Consiste en hacer que dos providers se repliquen entre ellos, haciendo que una interfaz externa (frontend) redirija todas las escrituras hacia uno de ellos, haciendo que el otro solo funcione si el primero falla. Cuando se corrija el fallo, se sincronizarán entre ellos para no perder la información que haya cambiado en ese tiempo.</p>
+<ul>
+<li>Ventajas:
+<ul>
+<li>Proporciona alta disponibilidad.</li>
+<li>Mientras uno de los providers siga funcionando, seguirá aceptando escrituras.</li>
+<li>Los providers se mantienen siempre actualizados entre ellos, por lo que están listos para cualquier eventualidad.</li>
+<li>Se re-sincronizan los providers tras una caída de uno de ellos.</li>
+</ul>
+</li>
+<li>Desventajas:
+<ul>
+<li>Las escrituras se realizan solo en uno de los providers (aunque son replicadas posteriormente).</li>
+<li>Se necesita un servidor externo (slapd en modo proxy) o un dispositivo (balanceador de carga) para gestionar que provider se encuentra activo.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Habiendo visto todos los modos disponibles, considero que la mejor opción para mi situación es el MirrorMode, ya que trata de unificar todas las ventajas de los anteriores, ofreciendo pocas desventajas.</p>
+<p>Una vez decidido esto, hemos de preparar el escenario para su configuración, por lo que he instalado OpenLDAP en Ares y lo he configurado de tal forma que se encuentra en el mismo estado que Apolo (con ldaps activado, pero sin los objetos creados). De esta forma partimos en los dos servidores desde el mismo punto.</p>
+<p>Así pues, vamos a configurar en primer lugar Apolo, creando un nuevo usuario con permisos para leer en todo el directorio, para que de esta forma podamos replicarlas en Ares sin necesidad de usar el usuario &ldquo;admin&rdquo;, a la vez que pueda mantener las replicas sincronizadas. Para ello crearemos un fichero <code>.ldif</code> con la siguiente información:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano usuarioprivilegios.ldif
+
+dn: uid=mirroradmin,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: account
+objectClass: simpleSecurityObject
+uid: mirroradmin
+description: Usuario que se encargara del MirrorMode
+userPassword: {SSHA}1bnyrFzrXXSqPOAKTvSPgKttaYW+DG4C
+</code></pre></div><p>Para obtener la contraseña encriptada usamos el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">slappasswd
+
+New password: 
+Re-enter new password: 
+{SSHA}1bnyrFzrXXSqPOAKTvSPgKttaYW+DG4C
+</code></pre></div><p>Ahora añadimos el fichero a nuestro directorio usando un comando que ya hemos utilizado anteriormente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapadd -x -D &#34;cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org&#34; -f usuarioprivilegios.ldif -W
+
+Enter LDAP Password: 
+adding new entry &#34;uid=mirroradmin,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+</code></pre></div><p>Una vez creado el nuevo usuario, tenemos que darle los permisos adecuados, para lo cual usaremos las ACL de LDAP, que como pasaba con el usuario, tendremos que crear en un fichero <code>.ldif</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano privilegios.ldif
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcAccess
+olcAccess: to attrs=userPassword
+  by self =xw
+  by dn.exact=&#34;cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org&#34; =xw
+  by dn.exact=&#34;uid=mirroradmin,dc=dparrales,dc=gonzalonazareno,dc=org&#34; read
+  by anonymous auth
+  by * none
+olcAccess: to *
+  by anonymous auth
+  by self write
+  by dn.exact=&#34;uid=mirroradmin,dc=dparrales,dc=gonzalonazareno,dc=org&#34; read
+  by users read
+  by * none
+</code></pre></div><p>Una vez creado el fichero, lo añadimos con el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapmodify -Y EXTERNAL -H ldapi:/// -f privilegios.ldif 
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &#34;olcDatabase={1}mdb,cn=config&#34;
+</code></pre></div><p>Ahora tendremos que cargar en memoria el módulo que se encargará de realizar la sincronización de los dos servidores (syncprov), para lo cual tendremos que crear otro fichero <code>.ldif</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano syncprov.ldif
+
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov
+</code></pre></div><p>Lo añadimos igual que antes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapmodify -Y EXTERNAL -H ldapi:/// -f syncprov.ldif
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &#34;cn=module{0},cn=config&#34;
+</code></pre></div><p>En este momento ya tenemos cargado el módulo, pero no tiene ninguna configuración, así que tendremos que creársela. Para ello crearemos otro fichero <code>.ldif</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano syncprov_conf.ldif
+
+dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
+changetype: add
+objectClass: olcSyncProvConfig
+olcOverlay: syncprov
+olcSpCheckpoint: 3 3
+</code></pre></div><p>El último parámetro indica cada cuantas operaciones o minutos se va a llevar a cabo un &ldquo;checkpoint&rdquo;, pensado para minimizar la actividad de sincronización requerida en caso de que un proveedor caiga (he elegido 3 para ambos casos). Ahora lo importamos como hemos hecho antes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapmodify -Y EXTERNAL -H ldapi:/// -f syncprov_conf.ldif 
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry &#34;olcOverlay=syncprov,olcDatabase={1}mdb,cn=config&#34;
+</code></pre></div><p>Ahora añadiremos un número identificativo al servidor, para lo cual crearemos otro fichero <code>.ldif</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano num_iden.ldif
+
+dn: cn=config
+changetype: modify
+add: olcServerId
+olcServerId: 1
+</code></pre></div><p>Al igual que antes, volvemos a importar el fichero:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapmodify -Y EXTERNAL -H ldapi:/// -f num_iden.ldif  
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &#34;cn=config&#34;
+</code></pre></div><p>Ahora hemos de crear el último fichero <code>.ldif</code> que usaremos en el servidor principal, el cual contendrá algunos parámetros de la sincronización y la habilitación de la misma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano habilitar_mirror.ldif
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcSyncrepl
+olcsyncrepl: rid=000
+  provider=ldaps://ares.dparrales.gonzalonazareno.org 
+  type=refreshAndPersist
+  retry=&#34;3 3 300 +&#34; 
+  searchbase=&#34;dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+  attrs=&#34;*,+&#34; 
+  bindmethod=simple
+  binddn=&#34;uid=mirroradmin,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+  credentials=******* (la contraseña en claro)
+-
+add: olcDbIndex
+olcDbIndex: entryUUID eq
+olcDbIndex: entryCSN eq
+-
+replace: olcMirrorMode
+olcMirrorMode: TRUE
+</code></pre></div><p>Ahora lo importamos tal y como hemos hecho anteriormente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapmodify -Y EXTERNAL -H ldapi:/// -f habilitar_mirror.ldif 
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &#34;olcDatabase={1}mdb,cn=config&#34;
+</code></pre></div><p>Ya hemos terminado en el lado de Apolo. En Ares, tendremos que hacer las mismas configuraciones (desde la creación del usuario mirroradmin) cambiando los siguientes ficheros:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano num_iden.ldif
+
+dn: cn=config
+changetype: modify
+add: olcServerId
+olcServerId: 2
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano habilitar_mirror.ldif
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcSyncrepl
+olcsyncrepl: rid=000
+  provider=ldaps://apolo.dparrales.gonzalonazareno.org 
+  type=refreshAndPersist
+  retry=&#34;3 3 300 +&#34; 
+  searchbase=&#34;dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+  attrs=&#34;*,+&#34; 
+  bindmethod=simple
+  binddn=&#34;uid=mirroradmin,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+  credentials=******* (la contraseña en claro)
+-
+add: olcDbIndex
+olcDbIndex: entryUUID eq
+olcDbIndex: entryCSN eq
+-
+replace: olcMirrorMode
+olcMirrorMode: TRUE
+</code></pre></div><p>Antes de hacer las pruebas, tenemos que asegurarnos de que en ares hemos permitido que el firewall (ufw) abra los puertos 636 y 389. Ahora podemos hacer la prueba de buscar el ares los elementos de nuestra estructura. Si lo hemos hecho bien, deberían aparecernos las unidades organizativas que creamos en apolo (pero no en ares) &ldquo;Personas&rdquo; y &ldquo;Grupos&rdquo;, ya que debería replicar toda la información que haya en apolo:</p>
+<p><img src="/images/ldap_altadisponibilidad/sincronizacion.png" alt="sincronizacion.png"></p>
+<p>Como podemos observar, nos ha aparecido toda la información que contiene el directorio de apolo, por lo que podemos concluir que la sincronización ha sido un éxito.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

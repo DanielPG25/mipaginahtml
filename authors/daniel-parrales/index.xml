@@ -6,7 +6,17 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 15 Dec 2021 10:14:28 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 17 Dec 2021 09:07:39 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Configuración de LDAP en alta disponibilidad</title>
+      <link>https://sysadblog.onrender.com/posts/ldap_altadisponibilidad/</link>
+      <pubDate>Fri, 17 Dec 2021 09:07:39 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/ldap_altadisponibilidad/</guid>
+      <description>Configuración de LDAP en alta disponibilidad    Vamos a instalar un servidor LDAP en ares que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en apolo, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro.
+ Selecciona el método más adecuado para configurar un servidor LDAP secundario, viendo y/o probando las opciones posibles.</description>
+    </item>
+    
     <item>
       <title>Configuración de LDAPs en OpenLDAP</title>
       <link>https://sysadblog.onrender.com/posts/ldaps/</link>
