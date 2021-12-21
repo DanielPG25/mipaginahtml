@@ -3,37 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://sysadblog.onrender.com/authors/</loc>
+    <lastmod>2021-12-21T13:18:10+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/</loc>
+    <lastmod>2021-12-21T13:18:10+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/practica_vpn/</loc>
+    <lastmod>2021-12-21T13:18:10+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
+    <lastmod>2021-12-21T13:18:10+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/</loc>
+    <lastmod>2021-12-21T13:18:10+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</loc>
+    <lastmod>2021-12-21T13:18:10+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/</loc>
+    <lastmod>2021-12-21T13:18:10+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/</loc>
     <lastmod>2021-12-17T09:07:39+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://sysadblog.onrender.com/authors/</loc>
-    <lastmod>2021-12-17T09:07:39+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/</loc>
-    <lastmod>2021-12-17T09:07:39+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://sysadblog.onrender.com/posts/ldap_altadisponibilidad/</loc>
-    <lastmod>2021-12-17T09:07:39+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
-    <lastmod>2021-12-17T09:07:39+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/posts/</loc>
-    <lastmod>2021-12-17T09:07:39+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/</loc>
     <lastmod>2021-12-17T09:07:39+01:00</lastmod>
   </url>
   
@@ -89,11 +99,6 @@
   
   <url>
     <loc>https://sysadblog.onrender.com/posts/practica_certificadosdigitales_https/</loc>
-    <lastmod>2021-12-01T08:18:05+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</loc>
     <lastmod>2021-12-01T08:18:05+01:00</lastmod>
   </url>
   

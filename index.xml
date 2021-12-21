@@ -6,7 +6,17 @@
     <description>Recent content on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 17 Dec 2021 09:07:39 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 21 Dec 2021 13:18:10 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Configuración de VPN en OpenVPN y Wireguard</title>
+      <link>https://sysadblog.onrender.com/posts/practica_vpn/</link>
+      <pubDate>Tue, 21 Dec 2021 13:18:10 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_vpn/</guid>
+      <description>Redes Privadas Virtuales (VPN)    VPN de acceso remoto con OpenVPN y certificados x509    Configura una conexión VPN de acceso remoto entre dos equipos del cloud:
+ Uno de los dos equipos (el que actuará como servidor) estará conectado a dos redes Para la autenticación de los extremos se usarán obligatoriamente certificados digitales, que se generarán utilizando openssl y se almacenarán en el directorio /etc/openvpn, junto con los parámetros Diffie-Hellman y el certificado de la propia Autoridad de Certificación.</description>
+    </item>
+    
     <item>
       <title>Configuración de LDAP en alta disponibilidad</title>
       <link>https://sysadblog.onrender.com/posts/ldap_altadisponibilidad/</link>
