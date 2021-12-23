@@ -6,7 +6,16 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 21 Dec 2021 13:18:10 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 23 Dec 2021 15:25:07 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Usuarios, grupos y ACLs en OpenLDAP</title>
+      <link>https://sysadblog.onrender.com/posts/usuarios_grupos_acl_ldap/</link>
+      <pubDate>Thu, 23 Dec 2021 15:25:07 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/usuarios_grupos_acl_ldap/</guid>
+      <description>Usuarios, Grupos y ACLs en LDAP     Crea 10 usuarios con los nombres que prefieras en LDAP, esos usuarios deben ser objetos de los tipos posixAccount e inetOrgPerson. Estos usuarios tendrán un atributo userPassword. Crea 3 grupos en LDAP dentro de una unidad organizativa diferente que sean objetos del tipo groupOfNames. Estos grupos serán: comercial, almacen y admin Añade usuarios que pertenezcan a:  Solo al grupo comercial Solo al grupo almacén Al grupo comercial y almacén Al grupo admin y comercial Solo al grupo admin Modifica OpenLDAP apropiadamente para que se pueda obtener los grupos a los que pertenece cada usuario a través del atributo &amp;ldquo;memberOf&amp;rdquo;.</description>
+    </item>
+    
     <item>
       <title>Configuración de VPN en OpenVPN y Wireguard</title>
       <link>https://sysadblog.onrender.com/posts/practica_vpn/</link>

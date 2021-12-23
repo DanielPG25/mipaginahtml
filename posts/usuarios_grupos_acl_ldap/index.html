@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Usuarios, grupos y ACLs en OpenLDAP">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Usuarios, grupos y ACLs en OpenLDAP"/>
+<meta name="twitter:description" content="Usuarios, grupos y ACLs en OpenLDAP"/>
+
+    <meta property="og:title" content="Usuarios, grupos y ACLs en OpenLDAP" />
+<meta property="og:description" content="Usuarios, grupos y ACLs en OpenLDAP" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/usuarios_grupos_acl_ldap/" />
+<meta property="article:published_time" content="2021-12-23T15:25:07+01:00" />
+<meta property="article:modified_time" content="2021-12-23T15:25:07+01:00" />
+
+
+    <title>
+  Usuarios, grupos y ACLs en OpenLDAP · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/usuarios_grupos_acl_ldap/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/usuarios_grupos_acl_ldap/">
+              Usuarios, grupos y ACLs en OpenLDAP
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-12-23T15:25:07&#43;01:00'>
+                December 23, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              9-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/administraci%C3%B3n-de-sistemas-operativos/">Administración de Sistemas Operativos</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="usuarios-grupos-y-acls-en-ldap">
+  Usuarios, Grupos y ACLs en LDAP
+  <a class="heading-link" href="#usuarios-grupos-y-acls-en-ldap">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<ul>
+<li>Crea 10 usuarios con los nombres que prefieras en LDAP, esos usuarios deben ser objetos de los tipos posixAccount e inetOrgPerson. Estos usuarios tendrán un atributo userPassword.</li>
+<li>Crea 3 grupos en LDAP dentro de una unidad organizativa diferente que sean objetos del tipo groupOfNames. Estos grupos serán: comercial, almacen y admin</li>
+<li>Añade usuarios que pertenezcan a:
+<ul>
+<li>Solo al grupo comercial</li>
+<li>Solo al grupo almacén</li>
+<li>Al grupo comercial y almacén</li>
+<li>Al grupo admin y comercial</li>
+<li>Solo al grupo admin</li>
+<li>Modifica OpenLDAP apropiadamente para que se pueda obtener los grupos a los que pertenece cada usuario a través del atributo &ldquo;memberOf&rdquo;.</li>
+</ul>
+</li>
+<li>Crea las ACLs necesarias para que los usuarios del grupo almacén puedan ver todos los atributos de todos los usuarios pero solo puedan modificar las suyas.</li>
+<li>Crea las ACLs necesarias para que los usuarios del grupo admin puedan ver y modificar cualquier atributo de cualquier objeto.</li>
+</ul>
+<hr>
+<p>En primer lugar crearemos los usuarios con los tipos que nos han indicado: posixAccount e inetOrgPerson. Estos objetos tienen los atributos obligatorios de &ldquo;cn, uid, uidNumber, gidNumber, homeDirectory&rdquo; por parte de posixAccount y &ldquo;sn&rdquo; indirectamente por parte de inetOrgPerson. Dicho esto, creamos el siguiente fichero con los siguientes usuarios:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano usuarios.ldif
+
+dn: uid=impmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: impmon
+gidNumber: 2001
+homeDirectory: /home/impmon
+loginShell: /bin/bash
+sn: impmon
+uid: impmon
+uidNumber: 2001
+userPassword: {SSHA}n5FNyVJzksz90xjiO9HVxsanJsLoNw/y
+
+dn: uid=veemon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: veemon
+gidNumber: 2002
+homeDirectory: /home/veemon
+loginShell: /bin/bash
+sn: veemon
+uid: veemon
+uidNumber: 2002
+userPassword: {SSHA}purfQbJm6twhhcdLuzC0cVekY4J9UVgk
+
+dn: uid=guilmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: guilmon
+gidNumber: 2003
+homeDirectory: /home/guilmon
+loginShell: /bin/bash
+sn: guilmon
+uid: guilmon
+uidNumber: 2003
+userPassword: {SSHA}B5b7Wk2vKbDUSj2HwmEw09q9MMJowVt1
+
+dn: uid=agumon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: agumon
+gidNumber: 2004
+homeDirectory: /home/agumon
+loginShell: /bin/bash
+sn: agumon
+uid: agumon
+uidNumber: 2004
+userPassword: {SSHA}MrWv03mj1JfvUyy3PdU7I7LU+Taat8t2
+
+dn: uid=gabumon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: gabumon
+gidNumber: 2005
+homeDirectory: /home/gabumon
+loginShell: /bin/bash
+sn: gabumon
+uid: gabumon
+uidNumber: 2005
+userPassword: {SSHA}soFvqY3wASuGKouQ+JKL/8q5xdt1j62u
+
+dn: uid=gatomon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: gatomon
+gidNumber: 2006
+homeDirectory: /home/gatomon
+loginShell: /bin/bash
+sn: gatomon
+uid: gatomon
+uidNumber: 2006
+userPassword: {SSHA}aoWUqerJcYfmQaAOQHXICynMjNoIpspg
+
+dn: uid=betamon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: betamon
+gidNumber: 2007
+homeDirectory: /home/betamon
+loginShell: /bin/bash
+sn: betamon
+uid: betamon
+uidNumber: 2007
+userPassword: {SSHA}4VmUNXcBQwD6cwvQnsjBfH8f8UL3r0OZ
+
+dn: uid=gaomon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: gaomon
+gidNumber: 2008
+homeDirectory: /home/gaomon
+loginShell: /bin/bash
+sn: gaomon
+uid: gaomon
+uidNumber: 2008
+userPassword: {SSHA}vhk5qOzVRUtbih3AxVKxfURJ5VTZ09S6
+
+dn: uid=infermon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: infermon
+gidNumber: 2009
+homeDirectory: /home/infermon
+loginShell: /bin/bash
+sn: infermon
+uid: infermon
+uidNumber: 2009
+userPassword: {SSHA}Lv2jC01YLCjPAtherAHBSqq5bK6yLWSH
+
+dn: uid=alphamon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: top
+cn: alphamon
+gidNumber: 2010
+homeDirectory: /home/alphamon
+loginShell: /bin/bash
+sn: alphamon
+uid: alphamon
+uidNumber: 2010
+userPassword: {SSHA}QBZ9ruturPJSZR2d6l/WmC68pXAQfwoz
+</code></pre></div><p>Para las obtener las contraseñas anteriores hemos usado el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">slappasswd -h {SSHA}
+</code></pre></div><p>Una vez que ya tenemos ese fichero listo, podemos incluirlo a nuestro directorio con el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapadd -x -D cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org -W -f usuarios.ldif
+Enter LDAP Password: 
+adding new entry &#34;uid=impmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+adding new entry &#34;uid=veemon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+adding new entry &#34;uid=guilmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+adding new entry &#34;uid=agumon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+adding new entry &#34;uid=gabumon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+adding new entry &#34;uid=gatomon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+adding new entry &#34;uid=betamon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+adding new entry &#34;uid=gaomon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+adding new entry &#34;uid=infermon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+adding new entry &#34;uid=alphamon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+</code></pre></div><p>Ahora crearemos los grupos que nos han indicado la misma forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano grupos.ldif
+
+dn: cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: comercial
+member:
+
+dn: cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: almacen
+member:
+
+dn: cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: admin
+member:
+</code></pre></div><p>Y lo añadimos igual que hicimos antes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapadd -x -D cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org -W -f grupos.ldif
+Enter LDAP Password: 
+adding new entry &#34;cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+adding new entry &#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+adding new entry &#34;cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+</code></pre></div><p>En este momento tendremos que modificar los grupos que acabamos de crear para añadir los usuarios a los mismos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano modificargrupos.ldif
+
+# Solo al grupo comercial
+dn: cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=agumon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+dn: cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=gabumon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+# Solo al grupo almacen 
+dn: cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=betamon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+dn: cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=gatomon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+# Al grupo comercial y almacen
+dn: cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=gaomon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+dn: cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=gaomon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+dn: cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=veemon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+dn: cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=veemon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+# Al grupo admin y al comercial
+
+dn: cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=infermon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+dn: cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=infermon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+dn: cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=guilmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+dn: cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=guilmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+# Solo al grupo admin 
+
+dn: cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=impmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+dn: cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+changetype:modify
+add: member
+member: uid=alphamon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+</code></pre></div><p>Esta vez, tenemos que modificar un registro, no añadirlo, por lo que usaremos el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapmodify -x -D cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org -W -f modificargrupos.ldif
+Enter LDAP Password: 
+modifying entry &#34;cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+
+modifying entry &#34;cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+</code></pre></div><p>Podemos comprobar que, efectivamente, se han producido los cambios:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapsearch -x -b ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+# extended LDIF
+#
+# LDAPv3
+# base &lt;ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# Grupos, dparrales.gonzalonazareno.org
+dn: ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: organizationalUnit
+ou: Grupos
+
+# admin, Grupos, dparrales.gonzalonazareno.org
+dn: cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: admin
+member:
+member: uid=infermon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+member: uid=guilmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+member: uid=impmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+member: uid=alphamon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+# almacen, Grupos, dparrales.gonzalonazareno.org
+dn: cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: almacen
+member:
+member: uid=betamon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+member: uid=gatomon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+member: uid=gaomon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+member: uid=veemon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+# comercial, Grupos, dparrales.gonzalonazareno.org
+dn: cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: comercial
+member:
+member: uid=agumon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+member: uid=gabumon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+member: uid=gaomon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+member: uid=veemon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+member: uid=infermon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+member: uid=guilmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 5
+# numEntries: 4
+</code></pre></div><p>En este momento tenemos que modificar OpenLDAP para poder obtener los grupos a los que pertenece cada usuario a través del atributo &ldquo;memberOF&rdquo;, por lo que tendremos que crear una serie de fichero cuyo objetivo es la modificación de la configuración de OpenLDAP:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano memberof_config.ldif
+
+dn: cn=module,cn=config
+cn: module
+objectClass: olcModuleList
+objectclass: top
+olcModuleLoad: memberof.la
+olcModulePath: /usr/lib/ldap
+
+dn: olcOverlay={0}memberof,olcDatabase={1}mdb,cn=config
+objectClass: olcConfig
+objectClass: olcMemberOf
+objectClass: olcOverlayConfig
+objectClass: top
+olcOverlay: memberof
+olcMemberOfDangling: ignore
+olcMemberOfRefInt: TRUE
+olcMemberOfGroupOC: groupOfNames
+olcMemberOfMemberAD: member
+olcMemberOfMemberOfAD: memberOf
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano memberof_config2.ldif
+
+dn: cn=module,cn=config
+cn: module
+objectclass: olcModuleList
+objectclass: top
+olcmoduleload: refint.la
+olcmodulepath: /usr/lib/ldap
+
+dn: olcOverlay={1}refint,olcDatabase={1}mdb,cn=config
+objectClass: olcConfig
+objectClass: olcOverlayConfig
+objectClass: olcRefintConfig
+objectClass: top
+olcOverlay: {1}refint
+olcRefintAttribute: memberof member manager owner
+</code></pre></div><p>Lo añadimos de la siguiente forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapadd -Y EXTERNAL -H ldapi:/// -f memberof_config.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry &#34;cn=module,cn=config&#34;
+
+adding new entry &#34;olcOverlay={0}memberof,olcDatabase={1}mdb,cn=config&#34;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapadd -Y EXTERNAL -H ldapi:/// -f memberof_config2.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry &#34;cn=module,cn=config&#34;
+
+adding new entry &#34;olcOverlay={1}refint,olcDatabase={1}mdb,cn=config&#34;
+</code></pre></div><p>Sin embargo, estos cambios que hemos hecho solo se aplican a los nuevos grupos que creemos a partir de ahora, por lo que para que afecten a los que creamos antes debemos borrarlos y volverlos a crear:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapdelete -x -D &#34;cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org&#34; &#39;cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#39; -W
+
+ldapdelete -x -D &#34;cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org&#34; &#39;cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#39; -W
+
+ldapdelete -x -D &#34;cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org&#34; &#39;cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#39; -W
+</code></pre></div><p>Volvemos a crear los grupos y a asignar los usuarios a dichos grupos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapadd -x -D cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org -W -f grupos.ldif
+
+ldapmodify -x -D cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org -W -f modificargrupos.ldif
+</code></pre></div><p>Y comprobamos si podemos averiguar los grupos a los que pertenece cada usuario con el parámetro &ldquo;memberOf&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapsearch -LL -Y EXTERNAL -H ldapi:/// &#34;(uid=impmon)&#34; -b dc=dparrales,dc=gonzalonazareno,dc=org memberOf
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+version: 1
+
+dn: uid=impmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+memberOf: cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapsearch -LL -Y EXTERNAL -H ldapi:/// &#34;(uid=guilmon)&#34; -b dc=dparrales,dc=gonzalonazareno,dc=org memberOf
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+version: 1
+
+dn: uid=guilmon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+memberOf: cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+memberOf: cn=comercial,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapsearch -LL -Y EXTERNAL -H ldapi:/// &#34;(uid=gatomon)&#34; -b dc=dparrales,dc=gonzalonazareno,dc=org memberOf
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+version: 1
+
+dn: uid=gatomon,ou=Personas,dc=dparrales,dc=gonzalonazareno,dc=org
+memberOf: cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org
+</code></pre></div><p>Como vemos, hemos sido capaces de hacer uso de &ldquo;memberOf&rdquo; para averiguar a que grupo pertenecen los usuarios. Así pues, lo único que nos quedaría para finalizar esta práctica es crear dos bloques de ACLs:</p>
+<ul>
+<li>Los usuarios del grupo almacén pueden ver todos los atributos de todos los usuarios pero solo pueden modificar los suyos.</li>
+<li>Los usuarios del grupo admin pueden ver y modificar cualquier atributo de cualquier objeto.</li>
+</ul>
+<p>Empecemos por la primera de ellas. Para empezar echemos un vistazo a las acls que tenemos activas:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapsearch -LLLQ -Y EXTERNAL -H ldapi:/// -b cn=config -s one olcAccess
+dn: cn=module{0},cn=config
+
+dn: cn=module{1},cn=config
+
+dn: cn=module{2},cn=config
+
+dn: cn=schema,cn=config
+
+dn: olcDatabase={-1}frontend,cn=config
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+olcAccess: {1}to dn.exact=&#34;&#34; by * read
+olcAccess: {2}to dn.base=&#34;cn=Subschema&#34; by * read
+
+dn: olcDatabase={0}config,cn=config
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+
+dn: olcDatabase={1}mdb,cn=config
+olcAccess: {0}to attrs=userPassword by self write by anonymous auth by * none
+olcAccess: {1}to attrs=shadowLastChange by self write by * read
+olcAccess: {2}to * by * read
+olcAccess: {3}to attrs=userPassword by self =xw by dn.exact=&#34;cn=admin,dc=dparr
+ ales,dc=gonzalonazareno,dc=org&#34; =xw by dn.exact=&#34;uid=mirroradmin,dc=dparrales
+ ,dc=gonzalonazareno,dc=org&#34; read by anonymous auth by * none
+olcAccess: {4}to * by anonymous auth by self write by dn.exact=&#34;uid=mirroradmi
+ n,dc=dparrales,dc=gonzalonazareno,dc=org&#34; read by users read by * none
+</code></pre></div><p>Ahora crearemos el fichero con la acl definida:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano acl_almacen.ldif
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcAccess
+olcAccess: to dn.base=&#34;&#34; by group=&#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34; by self write
+olcAccess: to dn.base=&#34;&#34; by group=&#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34; read
+olcAccess: to dn.base=&#34;&#34; by group=&#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34; search
+</code></pre></div><p>Y lo subimos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapmodify -Y EXTERNAL -H ldapi:/// -f acl_almacen.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &#34;olcDatabase={1}mdb,cn=config&#34;
+</code></pre></div><p>Y vamos que se nos ha añadido correctamente a la  lista de acls:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapsearch -LLLQ -Y EXTERNAL -H ldapi:/// -b cn=config -s one olcAccess
+dn: cn=module{0},cn=config
+
+dn: cn=module{1},cn=config
+
+dn: cn=module{2},cn=config
+
+dn: cn=schema,cn=config
+
+dn: olcDatabase={-1}frontend,cn=config
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+olcAccess: {1}to dn.exact=&#34;&#34; by * read
+olcAccess: {2}to dn.base=&#34;cn=Subschema&#34; by * read
+
+dn: olcDatabase={0}config,cn=config
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+
+dn: olcDatabase={1}mdb,cn=config
+olcAccess: {0}to attrs=userPassword by self write by anonymous auth by * none
+olcAccess: {1}to attrs=shadowLastChange by self write by * read
+olcAccess: {2}to * by * read
+olcAccess: {3}to attrs=userPassword by self =xw by dn.exact=&#34;cn=admin,dc=dparr
+ ales,dc=gonzalonazareno,dc=org&#34; =xw by dn.exact=&#34;uid=mirroradmin,dc=dparrales
+ ,dc=gonzalonazareno,dc=org&#34; read by anonymous auth by * none
+olcAccess: {4}to * by anonymous auth by self write by dn.exact=&#34;uid=mirroradmi
+ n,dc=dparrales,dc=gonzalonazareno,dc=org&#34; read by users read by * none
+olcAccess: {5}to dn.base=&#34;&#34; by group=&#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gon
+ zalonazareno,dc=org&#34; by self write
+olcAccess: {6}to dn.base=&#34;&#34; by group=&#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gon
+ zalonazareno,dc=org&#34; read
+olcAccess: {7}to dn.base=&#34;&#34; by group=&#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gon
+ zalonazareno,dc=org&#34; search
+</code></pre></div><p>Ahora crearemos la segunda acl:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano acl_admin.ldif
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcAccess
+olcAccess: {1}to * by dn=&#34;cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org&#34; write by group.exact=&#34;cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34; write
+</code></pre></div><p>Y la añadimos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapmodify -Y EXTERNAL -H ldapi:/// -f acl_admin.ldif 
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry &#34;olcDatabase={1}mdb,cn=config&#34;
+</code></pre></div><p>Volvemos a mirar si se ha añadido correctamente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ldapsearch -LLLQ -Y EXTERNAL -H ldapi:/// -b cn=config -s one olcAccess
+dn: cn=module{0},cn=config
+
+dn: cn=module{1},cn=config
+
+dn: cn=module{2},cn=config
+
+dn: cn=schema,cn=config
+
+dn: olcDatabase={-1}frontend,cn=config
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+olcAccess: {1}to dn.exact=&#34;&#34; by * read
+olcAccess: {2}to dn.base=&#34;cn=Subschema&#34; by * read
+
+dn: olcDatabase={0}config,cn=config
+olcAccess: {0}to * by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external
+ ,cn=auth manage by * break
+
+dn: olcDatabase={1}mdb,cn=config
+olcAccess: {0}to attrs=userPassword by self write by anonymous auth by * none
+olcAccess: {1}to * by dn=&#34;cn=admin,dc=dparrales,dc=gonzalonazareno,dc=org&#34; wri
+ te by group.exact=&#34;cn=admin,ou=Grupos,dc=dparrales,dc=gonzalonazareno,dc=org&#34;
+  write
+olcAccess: {2}to attrs=shadowLastChange by self write by * read
+olcAccess: {3}to * by * read
+olcAccess: {4}to attrs=userPassword by self =xw by dn.exact=&#34;cn=admin,dc=dparr
+ ales,dc=gonzalonazareno,dc=org&#34; =xw by dn.exact=&#34;uid=mirroradmin,dc=dparrales
+ ,dc=gonzalonazareno,dc=org&#34; read by anonymous auth by * none
+olcAccess: {5}to * by anonymous auth by self write by dn.exact=&#34;uid=mirroradmi
+ n,dc=dparrales,dc=gonzalonazareno,dc=org&#34; read by users read by * none
+olcAccess: {6}to dn.base=&#34;&#34; by group=&#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gon
+ zalonazareno,dc=org&#34; by self write
+olcAccess: {7}to dn.base=&#34;&#34; by group=&#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gon
+ zalonazareno,dc=org&#34; read
+olcAccess: {8}to dn.base=&#34;&#34; by group=&#34;cn=almacen,ou=Grupos,dc=dparrales,dc=gon
+ zalonazareno,dc=org&#34; search
+</code></pre></div><p>Tal y como podemos ver, las dos acls se encuentran perfectamente añadidas y funcionando.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+        2021
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
