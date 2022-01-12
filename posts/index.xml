@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Dec 2021 15:25:07 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 12 Jan 2022 14:19:31 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DRBD y OCFS2</title>
+      <link>https://sysadblog.onrender.com/posts/drbd_ocfs2/</link>
+      <pubDate>Wed, 12 Jan 2022 14:19:31 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/drbd_ocfs2/</guid>
+      <description>DRBD y OCFS2    Configura un escenario con dos máquinas. Cada una tiene que tener dos discos adicionales (tamaño 1Gb para que la sincronización sea rápida).
+ Crea dos recursos RDBD: wwwdata y dbdata. Cada uno utilizaran uno de los discos de cada máquina. Configura en modo Single-primary el recurso wwwdata.  Una vez creado y sincronizado el recurso, formatéalo con XFS. Monta el recurso en el nodo primario y crea un fichero.</description>
+    </item>
+    
     <item>
       <title>Usuarios, grupos y ACLs en OpenLDAP</title>
       <link>https://sysadblog.onrender.com/posts/usuarios_grupos_acl_ldap/</link>
