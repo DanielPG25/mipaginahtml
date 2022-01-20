@@ -137,7 +137,7 @@
             </span>
             <span class="reading-time">
               <i class="fa fa-clock-o" aria-hidden="true"></i>
-              6-minute read
+              7-minute read
             </span>
           </div>
           <div class="authors">
@@ -362,6 +362,36 @@ docker run -d --name c3 -p 8081:80 -v volumen_web:/var/www/html php:7.4-apache
 <p>Ahora veamos si el <code>index.html</code> que muestra es el mismo que creamos en el otro contenedor:</p>
 <p><img src="/images/introduccion_docker/img_20.png" alt="img_20.png"></p>
 <p>Como vemos, a pesar de haber borrado el contenedor, la información se ha guardado al haberla guardado en el volumen.</p>
+<h2 id="ejercicio-4-redes">
+  Ejercicio 4: Redes
+  <a class="heading-link" href="#ejercicio-4-redes">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="despliegue-de-nextcloud--mariadbpostgresql">
+  Despliegue de Nextcloud + Mariadb/PostgreSQL
+  <a class="heading-link" href="#despliegue-de-nextcloud--mariadbpostgresql">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Vamos a desplegar la aplicación nextcloud con una base de datos (puedes elegir mariadb o PostgreSQL) (<em>NOTA: Para que no te de errores utiiliza la imagen <code>mariadb:10.5</code></em>). Te puede servir el ejercicio que hemos realizado para desplegar <a href="https://iesgn.github.io/curso_docker_2021/sesion4/wordpress.html">Wordpress</a>. Para ello sigue los siguientes pasos:</p>
+<ul>
+<li>Crea una red de tipo bridge.</li>
+<li>Crea el contenedor de la base de datos conectado a la red que has creado. La base de datos se debe configurar para crear una base de dato y un usuario. Además el contenedor debe utilizar almacenamiento (volúmenes o bind mount) para guardar la información. Puedes seguir la documentación de <a href="https://hub.docker.com/_/mariadb">Mariadb</a> o la de <a href="https://hub.docker.com/_/postgres">PostgreSQL</a>.</li>
+<li>A continuación, siguiendo la documentación de la imagen <a href="https://hub.docker.com/_/nextcloud">nextcloud</a>, crea un contenedor conectado a la misma red, e indica las variables adecuadas para que se configure de forma adecuada y realice la conexión a la base de datos. El contenedor también debe ser persistente usando almacenamiento.</li>
+<li>Accede a la aplicación usando un navegador web.</li>
+</ul>
+<hr>
+<p>Empecemos creando la red:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker network create red_nextcloud
+</code></pre></div><p>Ahora crearemos el contenedor de la base de datos (usaremos mariadb y &ldquo;bind mount&rdquo; para guardar la información):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker run -d --name bdmaria --network red_nextcloud -v /opt/mariadb_nextcloud:/var/lib/mysql -e MARIADB_ROOT_PASSWORD=root -e MARIADB_DATABASE=nextcloud -e MARIADB_USER=nextcloud -e MARIADB_PASSWORD=nextcloud mariadb:10.5
+</code></pre></div><p><img src="/images/introduccion_docker/img_22.png" alt="img_22.png"></p>
+<p>A continuación crearemos el contenedor con la aplicación nextcloud, al cual le indicaremos mediante variables de entorno, que la base de datos que debe usar es la que hemos creado en el otro contenedor:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker run -d --name nextcloud --network red_nextcloud -v /opt/nextcloud:/var/www/html -p 8081:80 -e MYSQL_DATABASE=nextcloud -e MYSQL_USER=nextcloud -e MYSQL_PASSWORD=nextcloud -e MYSQL_HOST=bdmaria nextcloud
+</code></pre></div><p><img src="/images/introduccion_docker/img_23.png" alt="img_23.png"></p>
+<p>Con esto, si entramos en el navegador y nos vamos al puerto 8081 nos debería aparecer la página de inicio de nextcloud:</p>
+<p><img src="/images/introduccion_docker/img_24.png" alt="img_24.png"></p>
 
       </div>
 
