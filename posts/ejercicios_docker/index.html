@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Ejercicios con docker">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ejercicios con docker"/>
+<meta name="twitter:description" content="Ejercicios con docker"/>
+
+    <meta property="og:title" content="Ejercicios con docker" />
+<meta property="og:description" content="Ejercicios con docker" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/ejercicios_docker/" />
+<meta property="article:published_time" content="2022-01-20T09:04:35+01:00" />
+<meta property="article:modified_time" content="2022-01-20T09:04:35+01:00" />
+
+
+    <title>
+  Ejercicios con docker · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/ejercicios_docker/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/ejercicios_docker/">
+              Ejercicios con docker
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2022-01-20T09:04:35&#43;01:00'>
+                January 20, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/aplicaciones-web/">Aplicaciones Web</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="ejercicios-con-docker">
+  Ejercicios con docker
+  <a class="heading-link" href="#ejercicios-con-docker">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Vamos a realizar los ejercicios que aparecen en el siguiente <a href="https://iesgn.github.io/curso_docker_2021/">curso de docker</a>.</p>
+<h2 id="ejercicio-1-introducción">
+  Ejercicio 1: Introducción
+  <a class="heading-link" href="#ejercicio-1-introducci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Vamos a entregar el ejercicio 4 con algunas modificaciones. Crearemos un contenedor demonio a partir de la imagen nginx, el contenedor se debe llamar servidor_web y se debe acceder a él utilizando el puerto 8181 del ordenador donde tengas instalado docker.</p>
+<p>Entrega lo siguiente:</p>
+<ul>
+<li>Pantallazo donde se vea la creación del contenedor y podamos comprobar que el contenedor está funcionando.</li>
+<li>Pantallazo donde se vea el acceso al servidor web utilizando un navegador web (recuerda que tienes que acceder a la ip del ordenador donde tengas instalado docker)</li>
+<li>Pantallazo donde se vean las imágenes que tienes en tu registro local.</li>
+<li>Pantallazo donde se vea como se elimina el contenedor (recuerda que antes debe estar parado el contenedor).</li>
+</ul>
+<hr>
+<p>Para crear el contenedor usamos el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker run -d --name servidor_web -p 8181:80 nginx
+</code></pre></div><p><img src="/images/introduccion_docker/img_1.png" alt="img_1.png"></p>
+<p>Una vez creado podemos ver que está funcionando usando el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker ps
+</code></pre></div><p><img src="/images/introduccion_docker/img_2.png" alt="img_2.png"></p>
+<p>Ahora probamos a entrar en el navegador y ver si se muestra la página de inicio de nginx al entrar en el puerto indicado (8181):</p>
+<p><img src="/images/introduccion_docker/img_3.png" alt="img_3.png"></p>
+<p>Como vemos, podemos acceder a la página de inicio de nginx. Ahora veamos las imágenes de docker que tenemos descargadas:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker images
+</code></pre></div><p><img src="/images/introduccion_docker/img_4.png" alt="img_4.png"></p>
+<p>Probemos ahora a eliminar el contenedor que acabamos de crear:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker stop servidor_web
+
+docker rm servidor_web
+</code></pre></div><p><img src="/images/introduccion_docker/img_5.png" alt="img_5.png"></p>
+<h2 id="ejercicio-2-trabajando-con-imágenes-existentes">
+  Ejercicio 2: Trabajando con imágenes existentes
+  <a class="heading-link" href="#ejercicio-2-trabajando-con-im%c3%a1genes-existentes">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="servidor-web">
+  Servidor Web
+  <a class="heading-link" href="#servidor-web">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<ul>
+<li>Arranca un contenedor que ejecute una instancia de la imagen php:7.4-apache, que se llame web y que sea accesible desde tu equipo en el puerto 8000.</li>
+<li>Colocar en el directorio raíz del servicio web (/var/www/html) de dicho contenedor un fichero llamado index.html con el siguiente contenido:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;h1&gt;HOLA SOY XXXXXXXXXXXXXXX&lt;/h1&gt;
+</code></pre></div><p>Deberás sustituir XXXXXXXXXXX por tu nombre y tus apellidos.</p>
+<ul>
+<li>Colocar en ese mismo directorio raíz un archivo llamado <code>index.php</code> con el siguiente contenido:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;?php echo phpinfo(); ?&gt;
+</code></pre></div><ul>
+<li>Para crear los ficheros tienes tres alternativas:
+<ul>
+<li>Ejecutando bash de forma interactiva en el contenedor y creando los ficheros.</li>
+<li>Ejecutando un comando echo en el contenedor con docker exec.</li>
+<li>Usando docker cp como hemos visto en el ejercicio 5.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>Empecemos por crear el servidor con la imagen que nos han indicado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker run -d --name web -p 8000:80 php:7.4-apache
+</code></pre></div><p>Ahora tenemos que introducir los ficheros <code>index.html</code> e <code>index.php</code> a la ruta <code>/var/www/hmtl</code>. Para ellos podemos hacerlo de las siguientes tres formas:</p>
+<ul>
+<li>Ejecutando bash de forma interactiva en el contenedor y creando los ficheros:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dparrales@debian:~$ docker exec -ti web bash
+root@9b07090ac10d:/var/www/html# echo &#34;&lt;?php echo phpinfo(); ?&gt;&#34; &gt; /var/www/html/index.php
+root@9b07090ac10d:/var/www/html# echo &#34;&lt;h1&gt;HOLA SOY DANIEL PARRALES&lt;/h1&gt;&#34; &gt; /var/www/html/index.html
+root@9b07090ac10d:/var/www/html# cat /var/www/html/index.html 
+&lt;h1&gt;HOLA SOY DANIEL PARRALES&lt;/h1&gt;
+root@9b07090ac10d:/var/www/html# cat /var/www/html/index.php  
+&lt;?php echo phpinfo(); ?&gt;
+root@9b07090ac10d:/var/www/html# 
+</code></pre></div><ul>
+<li>Ejecutando un comando echo en el contenedor con docker exec:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dparrales@debian:~$ docker exec web bash -c &#39;echo &#34;&lt;h1&gt;HOLA SOY DANIEL PARRALES&lt;/h1&gt;&#34; &gt; /var/www/html/index.html&#39;
+dparrales@debian:~$ docker exec web bash -c &#39;echo &#34;&lt;?php echo phpinfo(); ?&gt;&#34; &gt; /var/www/html/index.php&#39;
+</code></pre></div><ul>
+<li>Usando docker cp (tenemos que crear antes los fichero en nuestro anfitrión):</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">dparrales@debian:~$ docker cp Descargas/index.php web:/var/www/html/
+dparrales@debian:~$ docker cp Descargas/index.html web:/var/www/html/
+</code></pre></div><p>Con cualquiera de ellas, podemos ver ambos archivos si entramos en el puerto 8000 de nuestra máquina:</p>
+<p><img src="/images/introduccion_docker/img_6.png" alt="img_6.png"></p>
+<p><img src="/images/introduccion_docker/img_7.png" alt="img_7.png"></p>
+<p>Con ambos ficheros añadidos, podemos ver que el contenedor ha aumentado un poco su tamaño:</p>
+<p><img src="/images/introduccion_docker/img_8.png" alt="img_8.png"></p>
+<h3 id="servidor-de-base-de-datos">
+  Servidor de base de datos
+  <a class="heading-link" href="#servidor-de-base-de-datos">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<ul>
+<li>Arrancar un contenedor que se llame <code>bbdd</code> y que ejecute una instancia de la imagen mariadb para que sea accesible desde el puerto 3336.</li>
+<li>Antes de arrancarlo visitar la página del contenedor en <a href="https://hub.docker.com/_/mariadb">Docker Hub</a> y establecer las variables de entorno necesarias para que:
+<ul>
+<li>La contraseña de root sea root.</li>
+<li>Crear una base de datos automáticamente al arrancar que se llame prueba.</li>
+<li>Crear el usuario invitado con las contraseña invitado.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>Para crear el contenedor con esas características, usamos el comando <code>docker run</code> con las siguientes opciones:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker run -d --name bbdd -p 3336:3306 -e MARIADB_ROOT_PASSWORD=root -e MARIADB_DATABASE=prueba -e MARIADB_USER=invitado -e MARIADB_PASSWORD=invitado mariadb
+</code></pre></div><p>Para acceder a dicha base de datos desde nuestro anfitrión, debemos usar la opción &ldquo;-P&rdquo; para indicar el puerto al que nos queremos conectar (3336):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mysql -u invitado -p -h 192.168.1.118 -P 3336
+</code></pre></div><p><img src="/images/introduccion_docker/img_9.png" alt="img_9.png"></p>
+<p>Hay que mencionar que docker no deja que borremos una imagen si está siendo usada por un contenedor:</p>
+<p><img src="/images/introduccion_docker/img_10.png" alt="img_10.png"></p>
+<h2 id="ejercicio-3-almacenamiento">
+  Ejercicio 3: Almacenamiento
+  <a class="heading-link" href="#ejercicio-3-almacenamiento">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="bind-mount-para-compartir-datos">
+  Bind mount para compartir datos
+  <a class="heading-link" href="#bind-mount-para-compartir-datos">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<ul>
+<li>Crea una carpeta llamada saludo y dentro de ella crea un fichero llamado index.html con el siguiente contenido (Deberás sustituir ese XXXXXx por tu nombre.):</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;h1&gt;HOLA SOY XXXXXX&lt;/h1&gt;
+</code></pre></div><ul>
+<li>Una vez hecho esto arrancar dos contenedores basados en la imagen php:7.4-apache que hagan un bind mount de la carpeta saludo en la carpeta /var/www/html del contenedor. Uno de ellos vamos a acceder con el puerto 8181 y el otro con el 8282. Y su nombres serán c1 y c2.</li>
+<li>Modifica el contenido del fichero <code>~/saludo/index.html</code>.</li>
+<li>Comprueba que puedes seguir accediendo a los contenedores, sin necesidad de reiniciarlos.</li>
+</ul>
+<hr>
+<p>Empezamos creando la carpeta y el fichero <code>index.html</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mkdir /opt/saludo &amp;&amp; echo &#34;&lt;h1&gt;HOLA SOY DANIEL PARRALES&lt;/h1&gt;&#34; &gt; /opt/saludo/index.html
+</code></pre></div><p>Ahora crearemos los dos contenedores con la directorio anexado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker run -d --name c1 -p 8181:80 -v /opt/saludo:/var/www/html php:7.4-apache
+
+docker run -d --name c2 -p 8282:80 -v /opt/saludo:/var/www/html php:7.4-apache
+</code></pre></div><p><img src="/images/introduccion_docker/img_21.png" alt="img_21.png"></p>
+<p>Si entramos en el navegador web y entramos en el puerto de ambos contenedores, podremos ver el contenido del fichero &ldquo;index.html&rdquo; que creamos antes:</p>
+<p><img src="/images/introduccion_docker/img_11.png" alt="img_11.png"></p>
+<p><img src="/images/introduccion_docker/img_12.png" alt="img_12.png"></p>
+<p>Si ahora modificamos ese fichero y recargamos la página, en ambos contenedores cambia la información:</p>
+<p><img src="/images/introduccion_docker/img_13.png" alt="img_13.png"></p>
+<p><img src="/images/introduccion_docker/img_14.png" alt="img_14.png"></p>
+<h3 id="creación-y-uso-de-volúmenes">
+  Creación y uso de volúmenes
+  <a class="heading-link" href="#creaci%c3%b3n-y-uso-de-vol%c3%bamenes">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<ul>
+<li>Crear los siguientes volúmenes con la orden docker volume: <code>volumen_datos</code> y <code>volumen_web</code>.</li>
+<li>Una vez creados estos contenedores:
+<ul>
+<li>Arrancar un contenedor llamado <code>c1</code> sobre la imagen <code>php:7.4-apache</code> que monte el <code>volumen_web</code> en la ruta <code>/var/www/html</code> y que sea accesible en el puerto 8080.</li>
+<li>Arrancar un contenedor llamado <code>c2</code> sobre la imagen <code>mariadb</code> que monte el <code>volumen_datos</code> en la ruta <code>/var/lib/mysql</code> y cuya contraseña de root sea admin.</li>
+</ul>
+</li>
+<li>Intenta borrar el volumen <code>volumen_datos</code>, para ello tendrás que parar y borrar el contenedor <code>c2</code> y tras ello borrar el volumen.</li>
+<li>Copia o crea un fichero <code>index.html</code> al contenedor <code>c1</code>, accede al contenedor y comprueba que se está visualizando.</li>
+<li>Borra el contenedor <code>c1</code> y crea un contenedor <code>c3</code> con las mismas características que c1 pero sirviendo en el puerto 8081.</li>
+</ul>
+<hr>
+<p>Creamos los volúmenes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker volume create volumen_datos
+
+docker volume create volumen_web
+</code></pre></div><p>Podemos verlos de la siguiente forma:</p>
+<p><img src="/images/introduccion_docker/img_15.png" alt="img_15.png"></p>
+<p>Ahora creamos los contenedores usando los volúmenes que acabamos de crear:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker run -d --name c1 -p 8080:80 -v volumen_web:/var/www/html php:7.4-apache
+
+docker run -d --name c2 -v volumen_datos:/var/lib/mysql -e MARIADB_ROOT_PASSWORD=admin mariadb
+</code></pre></div><p><img src="/images/introduccion_docker/img_16.png" alt="img_16.png"></p>
+<p>Para borrar el volumen_datos, primero tendremos que parar y borrar el contenedor que está haciendo uso de él. Así pues, seguiremos los siguientes pasos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker stop c2
+
+docker rm c2
+
+docker volume rm volumen_datos
+</code></pre></div><p><img src="/images/introduccion_docker/img_17.png" alt="img_17.png"></p>
+<p>Ahora crearemos un fichero <code>index.html</code> en el contenedor <code>c1</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker cp Descargas/index.html c1:/var/www/html/
+</code></pre></div><p>Podemos ver el contenido del mismo en el navegador web:</p>
+<p><img src="/images/introduccion_docker/img_18.png" alt="img_18.png"></p>
+<p>Ahora borraremos el contenedor y crearemos otro que hará uso del mismo volumen pero que será accesible a través del puerto 8081:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker stop c1
+
+docker rm c1
+
+docker run -d --name c3 -p 8081:80 -v volumen_web:/var/www/html php:7.4-apache
+</code></pre></div><p><img src="/images/introduccion_docker/img_19.png" alt="img_19.png"></p>
+<p>Ahora veamos si el <code>index.html</code> que muestra es el mismo que creamos en el otro contenedor:</p>
+<p><img src="/images/introduccion_docker/img_20.png" alt="img_20.png"></p>
+<p>Como vemos, a pesar de haber borrado el contenedor, la información se ha guardado al haberla guardado en el volumen.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

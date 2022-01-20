@@ -6,7 +6,19 @@
     <description>Recent content on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 19 Jan 2022 08:50:08 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 20 Jan 2022 09:04:35 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicios con docker</title>
+      <link>https://sysadblog.onrender.com/posts/ejercicios_docker/</link>
+      <pubDate>Thu, 20 Jan 2022 09:04:35 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/ejercicios_docker/</guid>
+      <description>Ejercicios con docker    Vamos a realizar los ejercicios que aparecen en el siguiente curso de docker.
+Ejercicio 1: Introducción    Vamos a entregar el ejercicio 4 con algunas modificaciones. Crearemos un contenedor demonio a partir de la imagen nginx, el contenedor se debe llamar servidor_web y se debe acceder a él utilizando el puerto 8181 del ordenador donde tengas instalado docker.
+Entrega lo siguiente:
+ Pantallazo donde se vea la creación del contenedor y podamos comprobar que el contenedor está funcionando.</description>
+    </item>
+    
     <item>
       <title>Ejercicios con Postfix</title>
       <link>https://sysadblog.onrender.com/posts/ejercicios_con_postfix/</link>
