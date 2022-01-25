@@ -6,7 +6,18 @@
     <description>Recent content on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Jan 2022 09:04:35 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 25 Jan 2022 18:25:31 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicio 1: Implementación de un cortafuegos personal (iptables)</title>
+      <link>https://sysadblog.onrender.com/posts/ejercicio1_cortafuegos_personal_iptables/</link>
+      <pubDate>Tue, 25 Jan 2022 18:25:31 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/ejercicio1_cortafuegos_personal_iptables/</guid>
+      <description>Ejercicio 1: Implementación de un cortafuegos personal (iptables)    Vamos a realizar los primeros pasos para implementar un cortafuegos en un nodo de una red, aquel que se ejecuta en el propio equipo que trata de proteger, lo que a veces se denomina un cortafuegos personal. He usado contenedores virtuales LXC.
+Para empezar vamos a tener que eliminar las reglas anteriores que hubiera en el cortafuegos:
+iptables -F iptables -t nat -F iptables -Z iptables -t nat -Z Y añadimos las reglas necesarias para asegurar que podemos seguir trabajando mediante ssh:</description>
+    </item>
+    
     <item>
       <title>Ejercicios con docker</title>
       <link>https://sysadblog.onrender.com/posts/ejercicios_docker/</link>

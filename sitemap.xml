@@ -3,37 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://sysadblog.onrender.com/authors/</loc>
+    <lastmod>2022-01-25T18:25:31+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/</loc>
+    <lastmod>2022-01-25T18:25:31+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
+    <lastmod>2022-01-25T18:25:31+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/ejercicio1_cortafuegos_personal_iptables/</loc>
+    <lastmod>2022-01-25T18:25:31+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/</loc>
+    <lastmod>2022-01-25T18:25:31+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</loc>
+    <lastmod>2022-01-25T18:25:31+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/</loc>
+    <lastmod>2022-01-25T18:25:31+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://sysadblog.onrender.com/categories/aplicaciones-web/</loc>
     <lastmod>2022-01-20T09:04:35+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://sysadblog.onrender.com/authors/</loc>
-    <lastmod>2022-01-20T09:04:35+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/</loc>
-    <lastmod>2022-01-20T09:04:35+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
-    <lastmod>2022-01-20T09:04:35+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://sysadblog.onrender.com/posts/ejercicios_docker/</loc>
-    <lastmod>2022-01-20T09:04:35+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/posts/</loc>
-    <lastmod>2022-01-20T09:04:35+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/</loc>
     <lastmod>2022-01-20T09:04:35+01:00</lastmod>
   </url>
   
@@ -69,11 +79,6 @@
   
   <url>
     <loc>https://sysadblog.onrender.com/posts/practica_vpn/</loc>
-    <lastmod>2021-12-21T13:18:10+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</loc>
     <lastmod>2021-12-21T13:18:10+01:00</lastmod>
   </url>
   
