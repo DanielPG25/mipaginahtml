@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Contenedores LXC">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Contenedores LXC"/>
+<meta name="twitter:description" content="Contenedores LXC"/>
+
+    <meta property="og:title" content="Contenedores LXC" />
+<meta property="og:description" content="Contenedores LXC" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/practica_contenedores_lxc/" />
+<meta property="article:published_time" content="2022-01-26T10:19:43+01:00" />
+<meta property="article:modified_time" content="2022-01-26T10:19:43+01:00" />
+
+
+    <title>
+  Contenedores LXC · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/practica_contenedores_lxc/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/practica_contenedores_lxc/">
+              Contenedores LXC
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2022-01-26T10:19:43&#43;01:00'>
+                January 26, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              5-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/cloud-computing/">Cloud Computing</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="práctica-contenedores-lxc">
+  Práctica: Contenedores LXC
+  <a class="heading-link" href="#pr%c3%a1ctica-contenedores-lxc">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Crea la siguiente infraestructura con contenedores LXC:</p>
+<ul>
+<li>Un contenedor LXC llamado <code>router</code>. Este contenedor se creará a partir de la plantilla Debian Bullseye. Este contenedor tendrá dos interfaces de red: la primera conectada a una red pública (bridge br0). Por esta interfaz el contenedor tendrá acceso a internet. Además estará conectada la bridge de un red muy aislada que crearás con virsh y tendrá como dirección IP la 10.0.0.1.</li>
+<li>Un contenedor LXC llamado <code>servidor_web</code>. Este contenedor se creará a partir de la plantilla Ubuntu Focal Fossa. Este contenedor estará conectado a la red muy aislada con la dirección IP 10.0.0.2.</li>
+</ul>
+<p>Los dos contenedores deben tener las siguientes características:</p>
+<ul>
+<li>Se deben auto arrancar cuando se encienda el host.</li>
+<li>Deben tener una limitación de memoria RAM de 512M. El contenedor <code>router</code> debe usar dos CPU y el contenedor <code>servidor_web</code> una CPU.</li>
+</ul>
+<p>Servicios que debemos instalar en los contenedores (si quieres lo puedes hacer con ansible):</p>
+<ul>
+<li>Los dos contenedores deben estar configurados para acceder por SSH con el usuario root con tu clave privada. El usuario root no tiene contraseña.</li>
+<li>El contenedor router debe hacer SNAT para que el contenedor servidor_web tenga acceso a internet.</li>
+<li>El contenedor servidor_web tiene un servidor web (apache2 o nginx). El servidor web sirve los ficheros del directorio <code>/var/www/pagina</code>. En este directorio se monta el directorio <code>/opt/pagina del host</code> y es donde tendrá los ficheros de la página web.</li>
+<li>El contenedor router debe hacer DNAT para que podamos acceder a la página web alojada en el contenedor servidor_web.</li>
+</ul>
+<hr>
+<p>Para empezar vamos a crear los dos contenedores:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">lxc-create -n router -t debian -- -r bullseye
+
+lxc-create -n servidor_web -t ubuntu -- -r focal
+</code></pre></div><p>Ahora modificaremos la plantilla de ambos contenedores para que se adapte a lo que nos piden:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /var/lib/lxc/router/config
+
+# Template used to create this container: /usr/share/lxc/templates/lxc-debian
+# Parameters passed to the template: -r bullseye
+# For additional config options, please look at lxc.container.conf(5)
+
+# Uncomment the following line to support nesting containers:
+#lxc.include = /usr/share/lxc/config/nesting.conf
+# (Be aware this has security implications)
+
+# Arranque automático
+lxc.start.auto = 1
+
+# Conectado al puente
+lxc.net.0.type = veth
+lxc.net.0.hwaddr = 00:16:3e:b6:f8:c0
+lxc.net.0.link = br0
+lxc.net.0.flags = up
+
+# Conectado a la una red muy aislada
+lxc.net.1.type = veth
+lxc.net.1.hwaddr = 00:16:3e:b6:f7:c0
+lxc.net.1.link = virbr4
+lxc.net.1.flags = up
+
+lxc.apparmor.profile = generated
+lxc.apparmor.allow_nesting = 1
+lxc.rootfs.path = dir:/var/lib/lxc/router/rootfs
+
+# Limitamos la memoria y el número de CPUs
+lxc.cgroup2.memory.max = 512M
+lxc.cgroup2.cpuset.cpus = 0 1
+
+# Common configuration
+lxc.include = /usr/share/lxc/config/debian.common.conf
+
+# Container specific configuration
+lxc.tty.max = 4
+lxc.uts.name = router
+lxc.arch = amd64
+lxc.pty.max = 1024
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /var/lib/lxc/servidor_web/config
+
+# Template used to create this container: /usr/share/lxc/templates/lxc-ubuntu
+# Parameters passed to the template: -r focal
+# For additional config options, please look at lxc.container.conf(5)
+
+# Uncomment the following line to support nesting containers:
+#lxc.include = /usr/share/lxc/config/nesting.conf
+# (Be aware this has security implications)
+
+# Arranque automático
+lxc.start.auto = 1
+
+# Limitamos la memoria y el número de CPUs
+lxc.cgroup2.memory.max = 512M
+lxc.cgroup2.cpuset.cpus = 0
+
+# Common configuration
+lxc.include = /usr/share/lxc/config/ubuntu.common.conf
+
+# Container specific configuration
+lxc.apparmor.profile = generated
+lxc.apparmor.allow_nesting = 1
+lxc.rootfs.path = dir:/var/lib/lxc/servidor_web/rootfs
+lxc.uts.name = servidor_web
+lxc.arch = amd64
+
+# Network configuration
+lxc.net.0.type = veth
+lxc.net.0.hwaddr = 00:16:3e:08:42:cf
+lxc.net.0.link = virbr4
+lxc.net.0.flags = up
+</code></pre></div><p>Con esto hemos terminado de configurar el servidor externamente. Ahora podemos arrancar los contenedores y entrar en ellos para seguir configurándolos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">lxc-start router
+
+lxc-start servidor_web
+</code></pre></div><p>Empecemos por la máquina router:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">lxc-attach router
+</code></pre></div><p>Modificamos el fichero <code>/etc/network/interfaces</code> para añadir la ip que nos han indicado y añadimos también aquí las reglas DNAT y SNAT que necesitaremos más adelante (también activaremos el ip de forward):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">root@router:/# apt install nano
+root@router:/# apt install iptables
+root@router:~# echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">root@router:~# nano /etc/sysctl.conf 
+net.ipv4.ip_forward=1
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">root@router:/# nano /etc/network/interfaces
+
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet static
+        address 10.0.0.1
+        netmask 255.255.255.0
+        post-up iptables -t nat -A PREROUTING -p tcp -i eth0 --dport 80 -j DNAT --to 10.0.0.2    
+        post-up iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE
+</code></pre></div><p>Ahora crearemos la carpeta <code>.ssh</code> en el directorio <code>/root</code> y le incorporaremos nuestra clave pública:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">root@router:~# mkdir .ssh
+
+root@router:~# nano .ssh/authorized_keys
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBkhwPlBiJghsCe5xE4AQBQQIpq7lUrWgFeZATGkIQ0cmQWI55Qy5T3GSLiDjA0+lvw0eWpIYvKigtlBtQNxxFAON4rzL5vSpsm7IAiCRhpGBEXYbuCCVURmcapwd0ifRHt3ocxTfbqtebvA0CfT7GFBkryjS9B26uSJ43/BECxIB3boxkHUAXIHtVpQNXCavoZjm6S6EKGt/8bSWfPtgdFdCu62doN739Nk5RzdrTIw5CdqdUEGuwCMj8fWuePLZkLfmXx1ckwilf0n6U6gG2FV21/wS8BWqVeMcYpmOn6ZxlkDMnVJX+fl7kOLQoyZewrRwJy9P9MuyzXihtmJP89ERcC+kWFrP0/1YbXJ1XZQD1pRXjLJjDHj1th33DBDx77W5DoBAoJlAE7wqf50wCVSyiVEK91IhevSMmFbxOmhGPAh6BiYXx8QNo1sDLsvfQOEoCE5XRWJ+sn8coEULnY7igEbbaiQcVA8YpqM3PrxaBTAb4Gez+48nAP4sf3N8= dparrales@debian
+</code></pre></div><p>Si salimos de la máquina ya podemos entrar por ssh:</p>
+<p><img src="/images/practica_contenedores_LXC/img_1.png" alt="img_1.png"></p>
+<p>Comprobemos si se han limitado de forma correcta los recursos:</p>
+<p><img src="/images/practica_contenedores_LXC/img_2.png" alt="img_2.png"></p>
+<p>Ahora entremos en el contenedor <code>servidor_web</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">lxc-attach servidor_web
+</code></pre></div><p>Aquí configuraremos también en primer lugar el fichero <code>/etc/netplan/10-lxc.yaml</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">root@servidorweb:/# vim /etc/netplan/10-lxc.yaml
+
+network:
+  ethernets:
+    eth0:  
+      addresses:
+        - 10.0.0.2/24
+      gateway4: 10.0.0.1
+  version: 2
+</code></pre></div><p>Y añadimos la clave pública ssh al igual que hicimos con el contendedor &ldquo;router&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">root@servidorweb:/# apt install nano
+root@servidorweb:/# mkdir ~/.ssh
+
+root@servidorweb:/# nano ~/.ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBkhwPlBiJghsCe5xE4AQBQQIpq7lUrWgFeZATGkIQ0cmQWI55Qy5T3GSLiDjA0+lvw0eWpIYvKigtlBtQNxxFAON4rzL5vSpsm7IAiCRhpGBEXYbuCCVURmcapwd0ifRHt3ocxTfbqtebvA0CfT7GFBkryjS9B26uSJ43/BECxIB3boxkHUAXIHtVpQNXCavoZjm6S6EKGt/8bSWfPtgdFdCu62doN739Nk5RzdrTIw5CdqdUEGuwCMj8fWuePLZkLfmXx1ckwilf0n6U6gG2FV21/wS8BWqVeMcYpmOn6ZxlkDMnVJX+fl7kOLQoyZewrRwJy9P9MuyzXihtmJP89ERcC+kWFrP0/1YbXJ1XZQD1pRXjLJjDHj1th33DBDx77W5DoBAoJlAE7wqf50wCVSyiVEK91IhevSMmFbxOmhGPAh6BiYXx8QNo1sDLsvfQOEoCE5XRWJ+sn8coEULnY7igEbbaiQcVA8YpqM3PrxaBTAb4Gez+48nAP4sf3N8= dparrales@debian
+</code></pre></div><p>Ahora comprobemos si se puede entrar por ssh (a través de la máquina router):</p>
+<p><img src="/images/practica_contenedores_LXC/img_3.png" alt="img_3.png"></p>
+<p>Una vez que ya tenemos añadida la clave ssh, cambiamos la configuración de ssh (en las dos máquinas) para hacer que el usuario root puede entrar con la clave ssh pero no por contraseña:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">root@servidorweb:~# nano /etc/ssh/sshd_config
+PermitRootLogin prohibit-password
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">root@router:~# nano /etc/ssh/sshd_config
+PermitRootLogin prohibit-password
+</code></pre></div><p>Veamos también si la limitación de resursos se ha aplicado:</p>
+<p><img src="/images/practica_contenedores_LXC/img_4.png" alt="img_4.png"></p>
+<p>La regla SNAT funciona también:</p>
+<p><img src="/images/practica_contenedores_LXC/img_5.png" alt="img_5.png"></p>
+<p>Ahora instalamos nginx:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">root@servidorweb:~# apt install nginx
+</code></pre></div><p>Creamos el directorio <code>/var/www/pagina</code> y lo configuramos nginx para que use ese directorio:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">root@servidorweb:~# mkdir /var/www/pagina
+root@servidorweb:~# nano /etc/nginx/sites-available/default
+
+root /var/www/pagina;
+</code></pre></div><p>Ahora salimos del contenedor para modificar su fichero de configuración y hacer que monte el directorio <code>/opt/pagina</code> de mi anfitrión en el directorio <code>/var/www/pagina</code> de mi máquina contenedor:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /var/lib/lxc/servidor_web/config
+
+# Montamos el directorio en el contenedor
+lxc.mount.entry=/opt/pagina var/www/pagina none bind 0 0
+</code></pre></div><p>Antes de reiniciar la máquina para aplicar los cambios, veamos que contiene dicho directorio en el anfitrión:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">cat /opt/pagina/index.html 
+&lt;h1&gt;HOLA, ESTO ES UNA PRUEBA DE LXC&lt;/h1&gt;
+</code></pre></div><p>Ahora reiniciamos el contenedor e intentamos entrar desde el navegador web (así veremos también si funciona la regla DNAT):</p>
+<p><img src="/images/practica_contenedores_LXC/img_6.png" alt="img_6.png"></p>
+<p>Con esto hemos demostrado que funciona correctamente y hemos finalizado en ejercicio.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

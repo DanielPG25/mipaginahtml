@@ -6,7 +6,17 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 25 Jan 2022 18:25:31 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 26 Jan 2022 10:19:43 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Contenedores LXC</title>
+      <link>https://sysadblog.onrender.com/posts/practica_contenedores_lxc/</link>
+      <pubDate>Wed, 26 Jan 2022 10:19:43 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_contenedores_lxc/</guid>
+      <description>Práctica: Contenedores LXC    Crea la siguiente infraestructura con contenedores LXC:
+ Un contenedor LXC llamado router. Este contenedor se creará a partir de la plantilla Debian Bullseye. Este contenedor tendrá dos interfaces de red: la primera conectada a una red pública (bridge br0). Por esta interfaz el contenedor tendrá acceso a internet. Además estará conectada la bridge de un red muy aislada que crearás con virsh y tendrá como dirección IP la 10.</description>
+    </item>
+    
     <item>
       <title>Ejercicio 1: Implementación de un cortafuegos personal (iptables)</title>
       <link>https://sysadblog.onrender.com/posts/ejercicio1_cortafuegos_personal_iptables/</link>
