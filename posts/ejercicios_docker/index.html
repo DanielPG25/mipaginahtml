@@ -137,7 +137,7 @@
             </span>
             <span class="reading-time">
               <i class="fa fa-clock-o" aria-hidden="true"></i>
-              9-minute read
+              11-minute read
             </span>
           </div>
           <div class="authors">
@@ -448,6 +448,50 @@ PRESTASHOP_DATABASE_PASSWORD=pepe
 <p>Nos indica que están funcionando, por lo que podemos acceder a nuestro navegador y ver si realmente se muestra la página principal de prestashop:</p>
 <p><img src="/images/introduccion_docker/img_27.png" alt="img_27.png"></p>
 <p>Como se nos muestra la página principal, podemos decir que el ejercicio ha sido un éxito.</p>
+<h2 id="ejercicio-6-creación-de-imágenes">
+  Ejercicio 6: Creación de Imágenes
+  <a class="heading-link" href="#ejercicio-6-creaci%c3%b3n-de-im%c3%a1genes">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="creación-de-una-imagen-a-partir-de-un-dockerfile">
+  Creación de una imagen a partir de un Dockerfile
+  <a class="heading-link" href="#creaci%c3%b3n-de-una-imagen-a-partir-de-un-dockerfile">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<ul>
+<li>Crea una página web estática (por ejemplo busca una plantilla HTML5). O simplemente crea un <code>index.html</code>.</li>
+<li>Crea un fichero <code>Dockerfile</code> que permita crear una imagen con un servidor web sirviendo la página. Puedes usar una imagen base debian o ubuntu, o una imagen que tenga ya un servicio web, como hemos visto en el apartado <a href="https://iesgn.github.io/curso_docker_2021/sesion6/ejemplo1.html">Ejemplo 1: Construcción de imágenes con una página estática</a>.</li>
+<li>Ejecuta el comando docker que crea la nueva imagen. La imagen se debe llamar <code>&lt;tu_usuario_docker_hub&gt;/mi_servidor_web</code>.</li>
+<li>Conéctate a Docker Hub y sube la imagen que acabas de crear.</li>
+<li>Descarga la imagen en otro ordenador donde tengas docker instalado, y crea un contenedor a partir de ella. (Si no tienes otro ordenador con docker instalado, borra la imagen en tu ordenador y bájala de Docker Hub).</li>
+</ul>
+<hr>
+<p>Para realizar este ejercicio, vamos a utilizar como base la imagen de apache2, la cual tiene ya el servidor web instalado. El <code>Dockerfile</code> quedaría de la siguiente forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano Dockerfile
+
+FROM httpd:2.4
+MAINTAINER Daniel Parrales García &#34;daniparrales16@gmail.com&#34;
+ADD html /usr/local/apache2/htdocs/
+EXPOSE 80
+</code></pre></div><p><img src="/images/introduccion_docker/img_28.png" alt="img_28.png"></p>
+<p>Como la imagen de apache tiene ya el proceso de apache ejecutándose, no es necesario añadirlo al fichero. Para crear la imagen ejecutamos el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker build -t dparrales/mi_servidor_web .
+</code></pre></div><p><img src="/images/introduccion_docker/img_29.png" alt="img_29.png"></p>
+<p>Una vez que ya tenemos creada la imagen, vamos a subirla a Docker Hub. Para ello ejecutamos <code>docker login</code> e introducimos nuestras credenciales:</p>
+<p><img src="/images/introduccion_docker/img_30.png" alt="img_30.png"></p>
+<p>Ahora la subimos a Docker Hub usando el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker push dparrales/mi_servidor_web
+</code></pre></div><p><img src="/images/introduccion_docker/img_31.png" alt="img_31.png"></p>
+<p>Podemos ver que se ha subido en nuestra página de Docker Hub:</p>
+<p><img src="/images/introduccion_docker/img_32.png" alt="img_32.png"></p>
+<p>Para ver como se descarga, podemos borrar la imagen que tenemos y crear un contenedor a partir de la que tenemos en Docker Hub:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker image rm dparrales/mi_servidor_web:latest
+</code></pre></div><p><img src="/images/introduccion_docker/img_33.png" alt="img_33.png"></p>
+<p>Como vemos ha descargado la imagen de dockerhub. Veamos si podemos ver las plantillas que añadimos al contenedor:</p>
+<p><img src="/images/introduccion_docker/img_34.png" alt="img_34.png"></p>
+<p>Con esto podemos dar por acabado el ejercicio.</p>
 
       </div>
 
