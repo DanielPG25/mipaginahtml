@@ -6,7 +6,18 @@
     <description>Recent content in Cloud Computing on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 26 Jan 2022 10:19:43 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/cloud-computing/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Jan 2022 18:59:42 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/cloud-computing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicios con Kubernetes</title>
+      <link>https://sysadblog.onrender.com/posts/ejercicios_kubernetes/</link>
+      <pubDate>Thu, 27 Jan 2022 18:59:42 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/ejercicios_kubernetes/</guid>
+      <description>Ejercicios con Kubernetes    Vamos a realizar los ejercicios que se encuentran en este curso de Kubernetes.
+Contenedores en Kubernetes: Pods    Actividad: Trabajando con Pods    Vamos a crear nuestro primer Pod, y para ellos vamos a desplegar una imagen que nos ofrece un servidor web con una página estática. Para ello realiza los siguientes pasos:
+ Crea un fichero yaml con la descripción del recurso Pod, teniendo en cuenta los siguientes aspectos:  Indica nombres distintos para el Pod y para el contenedor.</description>
+    </item>
+    
     <item>
       <title>Contenedores LXC</title>
       <link>https://sysadblog.onrender.com/posts/practica_contenedores_lxc/</link>
