@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Instalación y configuración de un Servidor de Correos en la VPS">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Instalación y configuración de un Servidor de Correos en la VPS"/>
+<meta name="twitter:description" content="Instalación y configuración de un Servidor de Correos en la VPS"/>
+
+    <meta property="og:title" content="Instalación y configuración de un Servidor de Correos en la VPS" />
+<meta property="og:description" content="Instalación y configuración de un Servidor de Correos en la VPS" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/practica_servidor_correos/" />
+<meta property="article:published_time" content="2022-01-28T13:46:58+01:00" />
+<meta property="article:modified_time" content="2022-01-28T13:46:58+01:00" />
+
+
+    <title>
+  Instalación y configuración de un Servidor de Correos en la VPS · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/practica_servidor_correos/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/practica_servidor_correos/">
+              Instalación y configuración de un Servidor de Correos en la VPS
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2022-01-28T13:46:58&#43;01:00'>
+                January 28, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              18-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/servicios-de-red/">Servicios de Red</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="práctica-servidor-de-correos-en-la-vps">
+  Práctica: Servidor de correos en la VPS
+  <a class="heading-link" href="#pr%c3%a1ctica-servidor-de-correos-en-la-vps">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Instala y configura de manera adecuada el servidor de correos en tu VPS. El nombre del servidor de correo será <code>mail.tudominio.es</code> (Este es el nombre que deberá aparecer en el registro MX).</p>
+<h2 id="gestión-de-correos-desde-el-servidor">
+  Gestión de correos desde el servidor
+  <a class="heading-link" href="#gesti%c3%b3n-de-correos-desde-el-servidor">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>El envío y recepción se hará desde el servidor usando la herramienta <code>mail</code>.</p>
+<h3 id="tarea-1">
+  Tarea 1
+  <a class="heading-link" href="#tarea-1">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Documenta una prueba de funcionamiento, donde envíes desde tu servidor local al exterior. Muestra el log donde se vea el envío. Muestra el correo que has recibido. Muestra el registro SPF.</p>
+<hr>
+<p>Para empezar he entrado en la zona DNS de mi hosting para crear el registro MX, que debe estar asociado a un registro de clase A. También he aprovechado para crear el registro SPF:</p>
+<p><img src="/images/practica_servidor_correo/img_1.png" alt="img_1.png"></p>
+<p>A continuación hemos instalado postfix en la vps y en la instalación le hemos indicado el dominio (<code>sysadblog.com</code>). También aprovechamos e instalamos los paquetes los paquetes necesarios para poder mandar correos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install postfix bsd-mailx
+</code></pre></div><p>Como tenemos una ip pública en la VPS, no necesitamos añadir el relay a la configuración de postfix, por lo que podemos pasar directamente a mandar el correo a mi cuenta de gmail:</p>
+<p><img src="/images/practica_servidor_correo/img_2.png" alt="img_2.png"></p>
+<p>Ahora veamos los logs para ver si se ha enviado:</p>
+<p><img src="/images/practica_servidor_correo/img_3.png" alt="img_3.png"></p>
+<p>Como vemos, según el log se ha enviado correctamente. Veamos si ha recibido en mi cliente de correo:</p>
+<p><img src="/images/practica_servidor_correo/img_4.png" alt="img_4.png"></p>
+<p>Como vemos, he recibido correctamente el correo, por lo que podemos decir que esta primera tarea ha sido un éxito.</p>
+<h3 id="tarea-2">
+  Tarea 2
+  <a class="heading-link" href="#tarea-2">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Documenta una prueba de funcionamiento, donde envíes un correo desde el exterior (gmail, hotmail,…) a tu servidor local. Muestra el log donde se vea el envío. Muestra cómo has leído el correo. Muestra el registro MX de tu dominio.</p>
+<hr>
+<p>Vamos a mandar un correo desde mi cliente de correos gmail hacia mi vps:</p>
+<p><img src="/images/practica_servidor_correo/img_5.png" alt="img_5.png"></p>
+<p>Como mostramos en la tarea anterior, en el registro dns de mi vps tengo un registro de clase MX que apunta hacia mi máquina, por lo que tendría que poder recibir el correo sin ningún tipo de problema. Veamos los logs de la vps para ver si ha llegado el correo:</p>
+<p><img src="/images/practica_servidor_correo/img_6.png" alt="img_6.png"></p>
+<p>En los logs aparece la recepción del correo. Para visualizarlo usaremos la herramienta <code>mail</code>:</p>
+<p><img src="/images/practica_servidor_correo/img_7.png" alt="img_7.png"></p>
+<p><img src="/images/practica_servidor_correo/img_8.png" alt="img_8.png"></p>
+<p>Con esto hemos acabado la segunda tarea de forma satisfactoria.</p>
+<h2 id="uso-de-alias-y-redirecciones">
+  Uso de alias y redirecciones
+  <a class="heading-link" href="#uso-de-alias-y-redirecciones">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="tarea-3">
+  Tarea 3
+  <a class="heading-link" href="#tarea-3">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Vamos a comprobar como los procesos del servidor pueden mandar correos para informar sobre su estado. Por ejemplo cada vez que se ejecuta una tarea cron podemos enviar un correo informando del resultado. Normalmente estos correos se mandan al usuario root del servidor, para ello:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ crontab -e
+</code></pre></div><p>E indico donde se envía el correo:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">MAILTO = root
+</code></pre></div><p>Puedes poner alguna tarea en el cron para ver como se mandan correo.</p>
+<p>Posteriormente usando alias y redirecciones podemos hacer llegar esos correos a nuestro correo personal.</p>
+<p>Configura el cron para enviar correo al usuario root. Comprueba que están llegando esos correos al root. Crea un nuevo alias para que se manden a un usuario sin privilegios. Comprueban que llegan a ese usuario. Por último crea una redirección para enviar esos correo a tu correo personal (gmail,hotmail,…).</p>
+<hr>
+<p>Para empezar he creado una tarea cron que se ejecuta cada 3 minutos y he hecho que mande el mail al usuario &ldquo;root&rdquo;:</p>
+<p><img src="/images/practica_servidor_correo/img_9.png" alt="img_9.png"></p>
+<p>El script que ejecuta es el siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#! /bin/sh
+</span><span style="color:#75715e"></span>
+echo <span style="color:#e6db74">&#34;Hola amigo mio, que tengas un buen día&#34;</span>
+</code></pre></div><p>Es un script muy simple que servirá para realizar las pruebas que necesitemos. Ahora crearemos un alias en el fichero <code>/etc/aliases</code> para que el correo que le llegue a root sea reenviado a mi usuario &ldquo;dparrales&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/aliases
+
+postmaster:    root
+root: dparrales
+</code></pre></div><p>Para que se apliquen los cambios realizados en este fichero debemos ejecutar el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">newaliases
+</code></pre></div><p>Ahora los correos que le lleguen al usuario &ldquo;root&rdquo;, deberían llegarle también al usuario &ldquo;dparrales&rdquo;:</p>
+<p><img src="/images/practica_servidor_correo/img_10.png" alt="img_10.png"></p>
+<p><img src="/images/practica_servidor_correo/img_11.png" alt="img_11.png"></p>
+<p>Ahora para hacer que estos correos lleguen a nuestra cuenta principal de correo, debemos crear un fichero llamado <code>.forward</code> en el directorio <code>~</code> del usuario, en el que añadiremos las cuentas a las que queremos reenviar los mensajes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano ~/.forward
+
+daniparrales16@gmail.com
+</code></pre></div><p>Veamos si llegan a mi correo:</p>
+<p><img src="/images/practica_servidor_correo/img_12.png" alt="img_12.png"></p>
+<p>Como vemos, se han reenviado los correos de forma correcta, por lo que podemos dar por finalizada esta tarea.</p>
+<h2 id="para-asegurar-el-envío">
+  Para asegurar el envío
+  <a class="heading-link" href="#para-asegurar-el-env%c3%ado">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="tarea-4">
+  Tarea 4
+  <a class="heading-link" href="#tarea-4">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Configura de manera adecuada DKIM es tu sistema de correos. Comprueba el registro DKIM en la página <code>https://mxtoolbox.com/dkim.aspx</code>. Configura postfix para que firme los correos que envía. Manda un correo y comprueba la verificación de las firmas en ellos.</p>
+<hr>
+<p>En esta tarea vamos a configurar en nuestra vps &ldquo;DKIM&rdquo; (DomainKeys Identified Mail) como método de autenticación del correo que enviamos. Sirve para asegurar que el mensaje no ha sido modificado desde que se envió y consiste básicamente en que publicamos en un registro TXT del DNS la clave pública del servidor de correos. De esta forma, el servidor firmará los mensajes con su clave pública y los clientes podrán usar la clave pública que está en el DNS para comprobar la firma.</p>
+<p>Explicado esto, vamos a instalar los paquetes necesarios para configurar DKIM en nuestra vps:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install opendkim opendkim-tools
+</code></pre></div><p>Ahora modificaremos el fichero de configuración de DKIM (<code>/etc/opendkim.conf</code>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/opendkim.conf
+
+Syslog                  yes
+SyslogSuccess           yes
+Canonicalization        relaxed/simple
+OversignHeaders         From
+Domain                  sysadblog.com
+Selector                dkim
+KeyFile         		/etc/dkimkeys/dkim.private
+UserID                  opendkim
+UMask                   007
+Socket                  inet:8891@localhost
+PidFile                 /run/opendkim/opendkim.pid
+TrustAnchorFile         /usr/share/dns/root.key
+</code></pre></div><p>De los parámetros anteriores he dejado por defecto la mayoría. Los que he cambiado son los siguientes:</p>
+<ul>
+<li><strong>Domain:</strong> Indicamos nuestro dominio.</li>
+<li><strong>Selector:</strong> Nombre único, el cual utilizaremos más tarde para subir la clave pública al servidor dns y para que el destinatario pueda identificarla fácilmente.</li>
+<li><strong>KeyFile:</strong> Localización de la clave privada, la cual usaremos para firmar los mensajes.</li>
+<li><strong>Socket:</strong> Cambiamos el socker UNIX que viene por defecto por uno TCP/IP (comentamos el que venía por defecto y descomentamos este).</li>
+</ul>
+<p>Como hemos cambiado el socket, debemos modificar el fichero <code>/etc/default/opendkim</code> para indicarlo:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/default/opendkim
+
+SOCKET=inet:8891@localhost
+</code></pre></div><p>Ahora vamos a tener que modificar el fichero de configuración de Postfix (<code>/etc/postfix/main.cf</code>) para indicarle que use este mecanismo para firmar los mensajes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/postfix/main.cf
+
+milter_default_action = accept
+milter_protocol = 2
+smtpd_milters = inet:localhost:8891
+non_smtpd_milters = $smtpd_milters
+</code></pre></div><p>Con esto hemos terminado con los ficheros de configuración, por lo que pasaremos a generar el par de claves a las que hemos hecho referencia en los mismos. Para ello nos situamos en el directorio que hemos indicado anteriormente (<code>/etc/dkimkeys</code>) y ejecutamos el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">opendkim-genkey -s dkim -d sysadblog.com -b 1024
+</code></pre></div><p>Donde:</p>
+<ul>
+<li>&ldquo;-s:&rdquo; Indicamos el &ldquo;Selector&rdquo; al cual nombramos en la configuración de DKIM.</li>
+<li>&ldquo;-d:&rdquo; Indicamos el dominio.</li>
+<li>&ldquo;-b:&rdquo; Indicamos el tamaño de la clave.</li>
+</ul>
+<p>Al par de claves que se han generado debemos cambiarle el propietario:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">chown opendkim: dkim.private dkim.txt
+</code></pre></div><p>Ahora ya solo tendríamos que añadir el registro TXT al dns en el cual indicaremos la clave pública. El registro debe comenzar por lo siguiente: <code>[selector]._domainkey</code>. Así pues, mi registro quedaría de la siguiente forma:</p>
+<p><img src="/images/practica_servidor_correo/img_13.png" alt="img_13.png"></p>
+<p>Si usamos la herramienta que se menciona en el enunciado, podemos comprobar que el registro se ha añadido correctamente:</p>
+<p><img src="/images/practica_servidor_correo/img_14.png" alt="img_14.png"></p>
+<p>Sin embargo, esto solo nos indica que el registro se ha añadido de forma correcta, no que nuestro servidor sea capaz de firmar los mensajes con nuestra clave privada. Para comprobar esto último, vamos a tener que mandar un correo y verificar si se ha firmado. Para ello, en primer lugar debemos reiniciar los servicios de postfix y opendkim:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart opendkim postfix
+</code></pre></div><p>Comprobemos si nuestra vps está escuchando en el puerto que le hemos indicado (8891):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">netstat -tlnp | egrep opendkim
+</code></pre></div><p><img src="/images/practica_servidor_correo/img_15.png" alt="img_15.png"></p>
+<p>Ahora mandaremos un mensaje a mi cuenta de gmail y veremos si nos indica que está verificado por dkim:</p>
+<p><img src="/images/practica_servidor_correo/img_16.png" alt="img_16.png"></p>
+<p>Veamos el mensaje:</p>
+<p><img src="/images/practica_servidor_correo/img_17.png" alt="img_17.png"></p>
+<p>Y el contenido original del mensaje:</p>
+<p><img src="/images/practica_servidor_correo/img_18.png" alt="img_18.png"></p>
+<p>Como vemos, nos indica que está verificado con DKIM, por lo que podemos decir que esta tarea ha sido un éxito.</p>
+<h2 id="para-luchar-contra-el-spam">
+  Para luchar contra el SPAM
+  <a class="heading-link" href="#para-luchar-contra-el-spam">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="tarea-5">
+  Tarea 5
+  <a class="heading-link" href="#tarea-5">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Configura de manera adecuada Postfix para que tenga en cuenta el registro SPF de los correos que recibe. Muestra el log del correo para comprobar que se está haciendo el testeo del registro SPF.</p>
+<hr>
+<p>Para que postfix pueda comprobar los registros SPF de los correo que le llegan, debemos instalar otro paquete que le agregue esa funcionalidad, ya que no la tiene por defecto:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install postfix-policyd-spf-python
+</code></pre></div><p>Ahora tendremos que modificar la configuración de postfix, de manera que haga uso de las nuevas funcionalidades instaladas para comprobar el correo entrante. Para ello vamos a cambiar la configuración que aparece en el fichero <code>/etc/postfix/master.cf</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/postfix/master.cf
+
+policyd-spf  unix  -    n       n       -       0       spawn
+  user=policyd-spf argv=/usr/bin/policyd-spf
+</code></pre></div><p>Con esto hemos hecho que nuestro servidor ejecute un proceso en un socket UNIX que analizará el registro SPF de los mensajes que le lleguen. Sin embargo, aún tenemos que decirle a postfix que debe hacer con los mensajes que pasen dicho filtro. Para ello modificamos lo siguiente en la configuración de postfix (<code>/etc/postfix/main.cf</code>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">policyd-spf_time_limit = 3600
+smtpd_recipient_restrictions = check_policy_service unix:private/policyd-spf
+</code></pre></div><p>Gracias a esto que hemos añadido, cualquier correo que sea recibido pero no pase el filtro SPF será descartado. Para aplicar estos cambios, es necesario reiniciar el servicio de postfix:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart postfix
+</code></pre></div><p>Ahora comprobemos que lo que hemos hecho funciona. Para ello mandaremos un correo a nuestra vps y veremos lo que aparece en el log:</p>
+<p><img src="/images/practica_servidor_correo/img_19.png" alt="img_19.png"></p>
+<p>Como vemos, el correo ha pasado filtro SPF, por lo que hemos podido recibirlo de forma correcta.</p>
+<h3 id="tarea-6">
+  Tarea 6
+  <a class="heading-link" href="#tarea-6">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Configura un sistema antispam. Realiza comprobaciones para comprobarlo.</p>
+<hr>
+<p>Para luchar contra el problema del spam, vamos a utilizar una herramienta llamada &ldquo;SpamAssassin&rdquo;, la cual actuará como filtro en Postfix y nos avisará de cuales de los correos que recibimos son considerados spam. Dicho esto, vamos a proceder a instalar los paquetes necesarios para que funcione SpamAssassin.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install spamassassin spamc
+</code></pre></div><p>Ahora iniciaremos y habilitaremos el servicio de SpamAssassin:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl start spamassassin
+systemctl enable spamassassin
+</code></pre></div><p>Para determinar si un correo es spam o no, modificaremos la configuración de SpamAssassin, indicándole que actualice una vez al día la base de datos que usa. Para ello cambiaremos la línea &ldquo;CRON&rdquo; del fichero <code>/etc/default/spamassassin</code> y cambiaremos su valor a &ldquo;1&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/default/spamassassin
+
+CRON=1
+</code></pre></div><p>Ahora tendremos que modificar la configuración de Postfix para indicarle que use SpamAssassin para flitrar los correos. Para ello añadimos a su configuración lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/postfix/master.cf
+
+smtp      inet  n       -       y       -       -       smtpd
+  -o content_filter=spamassassin
+submission inet n       -       y       -       -       smtpd
+  -o content_filter=spamassassin
+spamassassin unix -     n       n       -       -       pipe
+  user=debian-spamd argv=/usr/bin/spamc -f -e /usr/sbin/sendmail -oi -f ${sender} ${recipient}
+</code></pre></div><p>Solo nos queda configurar como se identificarán los correos que sean considerados como spam. Para ello modificamos el fichero <code>/etc/spamassassin/local.cf</code> y descomentamos la siguiente línea:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/spamassassin/local.cf
+
+rewrite_header Subject *****SPAM*****
+</code></pre></div><p>Para aplicar todos los cambios que hemos realizado en la configuración, hemos de reiniciar los servicios:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart postfix spamassassin
+</code></pre></div><p>Comprobemos si funciona el filtro anti-spam. Para ello nos mandaremos un correo de prueba que contendrá la siguiente línea:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X
+</code></pre></div><p>Cualquier correo que contenga la anterior cadena es inmediatamente considerado como spam, por lo que es perfecta para realizar las pruebas que necesitamos. De esta forma, mandamos el siguiente correo:</p>
+<p><img src="/images/practica_servidor_correo/img_20.png" alt="img_20.png"></p>
+<p>Ahora comprobemos si el mensaje aparece en los logs como si fuera spam:</p>
+<p><img src="/images/practica_servidor_correo/img_21.png" alt="img_21.png"></p>
+<p>En los logs aparece como spam. Veamos si lo marca como spam en nuestro buzón:</p>
+<p><img src="/images/practica_servidor_correo/img_22.png" alt="img_22.png"></p>
+<p>Como vemos, lo ha marcado como spam y ha añadido la cabecera que le indicamos, por lo que podemos identificar los correos spam de forma mucho más sencilla.</p>
+<h3 id="tarea-7">
+  Tarea 7
+  <a class="heading-link" href="#tarea-7">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Configura un sistema antivirus. Realiza comprobaciones para comprobarlo.</p>
+<hr>
+<p>Para ello, vamos a hacer uso de la herramienta &ldquo;ClamAV&rdquo;, la cual añadirá un nuevo filtro al correo que recibamos a través de postfix, y nos avisará de que correos son considerados virus. Para poder trabajar con &ldquo;ClamAV&rdquo; debemos instalar los siguientes paquetes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install clamsmtp clamav-daemon arc arj bzip2 cabextract lzop nomarch p7zip pax tnef unrar-free unzip
+</code></pre></div><p>Al instalarlo, se ha creado un proceso que escucha en la interfaz de loopback:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">netstat -tlnp | egrep clamsmtp
+tcp        0      0 127.0.0.1:10026         0.0.0.0:*               LISTEN      135708/clamsmtpd 
+</code></pre></div><p>A continuación debemos arrancar y habilitar el demonio de ClamAV:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl start clamav-daemon
+systemctl enable clamav-daemon
+</code></pre></div><p>Ahora modificaremos la configuración de postfix para añadir las directivas necesarias para que se escaneen los correos en busca de virus:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/postfix/master.cf
+
+scan unix -       -       n       -       16       smtp
+  -o smtp_data_done_timeout=1200
+  -o smtp_send_xforward_command=yes
+  -o disable_dns_lookups=yes
+127.0.0.1:10025 inet n       -       n       -       16       smtpd
+  -o content_filter=
+  -o local_recipient_maps=
+  -o relay_recipient_maps=
+  -o smtpd_restriction_classes=
+  -o smtpd_client_restrictions=
+  -o smtpd_helo_restrictions=
+  -o smtpd_sender_restrictions=
+  -o smtpd_recipient_restrictions=permit_mynetworks,reject
+  -o mynetworks_style=host
+  -o smtpd_authorized_xforward_hosts=127.0.0.0/8
+</code></pre></div><p>También debemos añadir al fichero de configuración principal de postfix el socket por el que debe comunicarse con ClamAV:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/postfix/main.cf
+
+content_filter = scan:127.0.0.1:10026
+</code></pre></div><p>Con esto ya estaría listo. Solo tendríamos que reiniciar el servicio de postfix para aplicar los cambios que hemos hecho:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart postfix
+</code></pre></div><p>Para probar el antivirus, nos mandaremos un correo desde nuestro cliente que contenga la siguiente cadena:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*
+</code></pre></div><p>La cadena anterior está hecha para pruebas, y debería hacer que el mensaje sea identificado como un virus de forma inmediata. Veámoslo:</p>
+<p><img src="/images/practica_servidor_correo/img_23.png" alt="img_23.png"></p>
+<p>Como vemos en el log, ha identificado correctamente el mensaje como un virus, por lo que se ha desecho de él. Con esto podemos dar por finalizada esta tarea.</p>
+<h2 id="gestión-de-correos-desde-un-cliente">
+  Gestión de correos desde un cliente
+  <a class="heading-link" href="#gesti%c3%b3n-de-correos-desde-un-cliente">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="tarea-8">
+  Tarea 8
+  <a class="heading-link" href="#tarea-8">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Configura el buzón de los usuarios de tipo <code>Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code>Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code>mail</code>.</p>
+<hr>
+<p>Para ello, debemos modificar la configuración principal de postfix, indicándole que en lugar de <code>mbox</code>, utilice un buzón de tipo <code>Maildir</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/postfix/main.cf
+
+home_mailbox = Maildir/
+</code></pre></div><p>Ahora debemos reiniciar el servicio de postfix para aplicar los cambios:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart postfix
+</code></pre></div><p>Sin embargo, una vez que hemos hecho esto, ya no podemos utilizar la herramienta <code>mail</code> para visualizar los correos que nos lleguen. Por ello, en su lugar usaremos otra herramienta que sí nos permite esto último: <code>mutt</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install mutt
+</code></pre></div><p>Para que esta herramienta funcione, debemos crear el siguiente fichero con esta configuración:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano ~/.muttrc
+
+set mbox_type=Maildir
+set folder=&#34;~/Maildir&#34;
+set mask=&#34;!^\\.[^.]&#34;
+set mbox=&#34;~/Maildir&#34;
+set record=&#34;+.Sent&#34;
+set postponed=&#34;+.Drafts&#34;
+set spoolfile=&#34;~/Maildir&#34;
+</code></pre></div><p>Con esto ya podríamos hacer uso de dicha herramienta para visualizar los correos. Así pues, vamos a ver si efectivamente, los correos se almacenan en el directorio <code>Maildir</code>:</p>
+<p><img src="/images/practica_servidor_correo/img_24.png" alt="img_24.png"></p>
+<p><img src="/images/practica_servidor_correo/img_25.png" alt="img_25.png"></p>
+<p>Como vemos lo ha guardado en el directorio Maildir. Para visualizarlo, usaremos la herramienta <code>mutt</code>:</p>
+<p><img src="/images/practica_servidor_correo/img_26.png" alt="img_26.png"></p>
+<p><img src="/images/practica_servidor_correo/img_27.png" alt="img_27.png"></p>
+<p>De esta forma hemos comprobado que los correos se están guardando en el directorio <code>Maildir</code> y también hemos comprobado que podemos visualizarlos con la herramienta <code>mutt</code>.</p>
+<h3 id="tarea-9">
+  Tarea 9
+  <a class="heading-link" href="#tarea-9">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Instala configura dovecot para ofrecer el protocolo IMAP. Configura dovecot de manera adecuada para ofrecer autentificación y cifrado.</p>
+<p>Para realizar el cifrado de la comunicación crea un certificado en LetsEncrypt para el dominio <code>mail.dominio.com</code>. Recuerda que para el ofrecer el cifrado tiene varias soluciones:</p>
+<ul>
+<li>IMAP con STARTTLS: STARTTLS transforma una conexión insegura en una segura mediante el uso de SSL/TLS. Por lo tanto usando el mismo puerto 143/tcp tenemos cifrada la comunicación.</li>
+<li>IMAPS: Versión segura del protocolo IMAP que usa el puerto 993/tcp.</li>
+<li>Ofrecer las dos posibilidades.</li>
+</ul>
+<p>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes leer los correos enviado a tu usuario.</p>
+<hr>
+<p>Para empezar vamos a instalar dovecot en la VPS:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install dovecot-imapd
+</code></pre></div><p>Al instalarlo, habrá creado un proceso que estará escuchando en dos sockets TCP/IP diferentes: en el puerto 143 y en el puerto 993:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">netstat -tlnp | egrep dovecot
+tcp        0      0 0.0.0.0:993             0.0.0.0:*               LISTEN      167312/dovecot      
+tcp        0      0 0.0.0.0:143             0.0.0.0:*               LISTEN      167312/dovecot      
+tcp6       0      0 :::993                  :::*                    LISTEN      167312/dovecot      
+tcp6       0      0 :::143                  :::*                    LISTEN      167312/dovecot    
+</code></pre></div><p>A continuación, vamos a generar un certificado en LetsEncrypt para el dominio <code>mail.sysadblog.com</code>, el cual usaremos para cifrar la comunicación:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">certbot certonly --standalone -d mail.sysadblog.com
+
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator standalone, Installer None
+Requesting a certificate for mail.sysadblog.com
+Performing the following challenges:
+http-01 challenge for mail.sysadblog.com
+Waiting for verification...
+Cleaning up challenges
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/mail.sysadblog.com/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/mail.sysadblog.com/privkey.pem
+   Your certificate will expire on 2022-04-27. To obtain a new or
+   tweaked version of this certificate in the future, simply run
+   certbot again. To non-interactively renew *all* of your
+   certificates, run &#34;certbot renew&#34;
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let&#39;s Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+</code></pre></div><p>Con el certificado generado, tendremos que modificar la configuración de dovecot para que haga uso de los mismos para cifrar la configuración:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/dovecot/conf.d/10-ssl.conf
+
+ssl_cert = &lt;/etc/letsencrypt/live/mail.sysadblog.com/fullchain.pem
+ssl_key = &lt;/etc/letsencrypt/live/mail.sysadblog.com/privkey.pem
+</code></pre></div><p>Ahora tenemos que indicar a dovecot donde se encuentran los correos que debe cifrar y sincronizar con el cliente. Actualmente, dichos correos se encuentran en el directorio <code>~/Maildir</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/dovecot/conf.d/10-mail.conf
+
+mail_location = maildir:~/Maildir
+</code></pre></div><p>Ahora reiniciaremos el servicio de dovecot para aplicar los cambios:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart dovecot
+</code></pre></div><p>Las comprobaciones de la recepción del correo desde el cliente las haremos en el siguiente apartado, junto al envío de correos desde el cliente, ya que al configurar Evolution nos pide que configuremos también el envío.</p>
+<h2 id="tarea-11">
+  Tarea 11
+  <a class="heading-link" href="#tarea-11">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Configura de manera adecuada postfix para que podamos mandar un correo desde un cliente remoto. La conexión entre cliente y servidor debe estar autentificada con SASL usando dovecot y además debe estar cifrada. Para cifrar esta comunicación puedes usar dos opciones:</p>
+<ul>
+<li>ESMTP + STARTTLS: Usando el puerto 567/tcp enviamos de forma segura el correo al servidor.</li>
+<li>SMTPS: Utiliza un puerto no estándar (465) para SMTPS (Simple Mail Transfer Protocol Secure). No es una extensión de smtp. Es muy parecido a HTTPS.</li>
+</ul>
+<p>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes enviar los correos.</p>
+<hr>
+<p>Siguiendo con el apartado anterior, vamos a utilizar los mismos certificados para cifrar el envío de correos. Así pues, modificaremos la configuración de postfix para que use dichos certificados y para usar autentificación por parte de dovecot:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/postfix/main.cf
+
+smtpd_tls_cert_file=/etc/letsencrypt/live/mail.sysadblog.com/fullchain.pem
+smtpd_tls_key_file=/etc/letsencrypt/live/mail.sysadblog.com/privkey.pem
+
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_authenticated_header = yes
+broken_sasl_auth_clients = yes
+</code></pre></div><p>Ahora tendremos que indicarle a postfix que use los puertos 587/TCP y 465/TCP. Para ello modificamos el siguiente fichero de configuración de postfix y descomentamos estas directivas:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/postfix/master.cf
+
+submission inet n       -       y       -       -       smtpd
+  -o content_filter=spamassassin
+  -o syslog_name=postfix/submission
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_tls_auth_only=yes
+  -o smtpd_reject_unlisted_recipient=no
+  -o smtpd_client_restrictions=$mua_client_restrictions
+  -o smtpd_helo_restrictions=$mua_helo_restrictions
+  -o smtpd_sender_restrictions=$mua_sender_restrictions
+  -o smtpd_recipient_restrictions=
+  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+  -o milter_macro_daemon_name=ORIGINATING
+smtps     inet  n       -       y       -       -       smtpd
+  -o syslog_name=postfix/smtps
+  -o smtpd_tls_wrappermode=yes
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_reject_unlisted_recipient=no
+  -o smtpd_client_restrictions=$mua_client_restrictions
+  -o smtpd_helo_restrictions=$mua_helo_restrictions
+  -o smtpd_sender_restrictions=$mua_sender_restrictions
+  -o smtpd_recipient_restrictions=
+  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+  -o milter_macro_daemon_name=ORIGINATING
+</code></pre></div><p>A continuación debemos indicar a dovecot como tiene que realizar la autentificación. Para ello modificamos el siguiente fichero:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/dovecot/conf.d/10-master.conf
+
+unix_listener /var/spool/postfix/private/auth {
+  mode = 0666
+}
+</code></pre></div><p>Con esto ya podemos reiniciar los servicios de postfix y dovecot para aplicar los cambios:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart postfix dovecot
+</code></pre></div><p>Ahora ya podemos configurar el cliente de correos en nuestro anfitrión. En mi caso he elegido el cliente de correos &ldquo;Evolution&rdquo;</p>
+<p><img src="/images/practica_servidor_correo/img_28.png" alt="img_28.png"></p>
+<p><img src="/images/practica_servidor_correo/img_29.png" alt="img_29.png"></p>
+<p><img src="/images/practica_servidor_correo/img_30.png" alt="img_30.png"></p>
+<p><img src="/images/practica_servidor_correo/img_31.png" alt="img_31.png"></p>
+<p><img src="/images/practica_servidor_correo/img_32.png" alt="img_32.png"></p>
+<p>Una vez que hemos terminado, podemos ver que se han sincronizado las carpetas <code>~/Maildir</code> de nuestra VPS con el cliente de correos Evolution (nos pedirá la contraseña de nuestro usuario en la VPS):</p>
+<p><img src="/images/practica_servidor_correo/img_33.png" alt="img_33.png"></p>
+<p>Vamos a probar si al mandar un correo desde gmail hasta nuestra vps se sincronizan las carpetas:</p>
+<p><img src="/images/practica_servidor_correo/img_34.png" alt="img_34.png"></p>
+<p><img src="/images/practica_servidor_correo/img_35.png" alt="img_35.png"></p>
+<p>Como vemos, lo hemos recibido en el cliente Evolution, por lo que podemos decir que ambos directorios se sincronizan perfectamente.</p>
+<p>Ahora comprobemos si somos capaces de enviar correos desde Evolution usando nuestra cuenta de la VPS a nuestro gmail:</p>
+<p><img src="/images/practica_servidor_correo/img_36.png" alt="img_36.png"></p>
+<p><img src="/images/practica_servidor_correo/img_37.png" alt="img_37.png"></p>
+<p>Como podemos ver, el mensaje ha llegado correctamente, por lo que podemos confirmar que tanto el apartado anterior como este ha sido un éxito.</p>
+<h2 id="tarea-10">
+  Tarea 10
+  <a class="heading-link" href="#tarea-10">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Instala un webmail (roundcube, horde, rainloop) para gestionar el correo del equipo mediante una interfaz web. Muestra la configuración necesaria y cómo eres capaz de leer los correos que recibe tu usuario.</p>
+<hr>
+<p>He elegido como webmail &ldquo;roundcube&rdquo;. Para la instalación de &ldquo;roundcube&rdquo; en la VPS, he decidido hacerlo con contenedores Docker, ya que dispone de una imagen oficial en Docker Hub. Así pues, lo primero será instalarnos Docker en la VPS:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install docker.io
+</code></pre></div><p>También crearemos un nuevo registro CNAME en el DNS para el nuevo servicio web:</p>
+<p><img src="/images/practica_servidor_correo/img_38.png" alt="img_38.png"></p>
+<p>Con esto ya podemos crear el contenedor con la imagen de &ldquo;roundcube&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker run -e ROUNDCUBEMAIL_DEFAULT_HOST=ssl://mail.sysadblog.com -e ROUNDCUBEMAIL_SMTP_SERVER=ssl://mail.sysadblog.com -e ROUNDCUBEMAIL_SMTP_PORT=465 -e ROUNDCUBEMAIL_DEFAULT_PORT=993 -p 8001:80 -d roundcube/roundcubemail
+</code></pre></div><p>Una vez que se haya descargado y se haya creado el contenedor, debemos obtener un certificado de &ldquo;Let&rsquo;s Encrypt&rdquo; para configurar el HTTPS:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">certbot certonly --standalone -d roundcube.sysadblog.com
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator standalone, Installer None
+Requesting a certificate for roundcube.sysadblog.com
+Performing the following challenges:
+http-01 challenge for roundcube.sysadblog.com
+Waiting for verification...
+Cleaning up challenges
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/roundcube.sysadblog.com/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/roundcube.sysadblog.com/privkey.pem
+   Your certificate will expire on 2022-04-28. To obtain a new or
+   tweaked version of this certificate in the future, simply run
+   certbot again. To non-interactively renew *all* of your
+   certificates, run &#34;certbot renew&#34;
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let&#39;s Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+</code></pre></div><p>Obtenido el fichero, ya podemos crear el VirtualHost que actuará como ProxyInverso para acceder a Round Cube:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/nginx/sites-available/roundcube
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name roundcube.sysadblog.com;
+
+        return 301 https://$host$request_uri;
+}
+
+server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2;
+
+        ssl    on;
+        ssl_certificate /etc/letsencrypt/live/roundcube.sysadblog.com/fullchain.pem;
+        ssl_certificate_key     /etc/letsencrypt/live/roundcube.sysadblog.com/privkey.pem;
+
+        index index.html index.php index.htm index.nginx-debian.html;
+
+        server_name roundcube.sysadblog.com;
+
+        location / {
+                proxy_pass http://localhost:8001;
+                include proxy_params;
+        }
+}
+</code></pre></div><p>A continuación creamos el enlace simbólico y reiniciamos nginx:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ln -s /etc/nginx/sites-available/roundcube /etc/nginx/sites-enabled/roundcube
+
+systemctl restart nginx
+</code></pre></div><p>Una vez que hemos terminado, ya podemos acceder a Round Cube desde nuestro navegador web:</p>
+<p><img src="/images/practica_servidor_correo/img_39.png" alt="img_39.png"></p>
+<p>Ingresamos con nuestras credenciales:</p>
+<p><img src="/images/practica_servidor_correo/img_40.png" alt="img_40.png"></p>
+<p>Como vemos, nos aparece el buzón de correos, por lo que podríamos decir que la recepción de correos desde nuestro webmail funciona, pero para asegurarnos mandaremos otro correo desde gmail, y veremos si aparece en nuestro buzón:</p>
+<p><img src="/images/practica_servidor_correo/img_41.png" alt="img_41.png"></p>
+<p><img src="/images/practica_servidor_correo/img_42.png" alt="img_42.png"></p>
+<p>Con esto hemos comprobado que la recepción de correos funciona. Probemos ahora el envío:</p>
+<p><img src="/images/practica_servidor_correo/img_43.png" alt="img_43.png"></p>
+<p><img src="/images/practica_servidor_correo/img_44.png" alt="img_44.png"></p>
+<p>Como vemos, he recibido el correo en mi cuenta de gmail, por lo que podemos decir que tanto la recepción de correos como el envío de los mismos en el webmail ha sido un éxito.</p>
+<h2 id="tarea-13">
+  Tarea 13
+  <a class="heading-link" href="#tarea-13">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Prueba de envío de correo. En esta <a href="https://www.mail-tester.com/">página</a> tenemos una herramienta completa y fácil de usar a la que podemos enviar un correo para que verifique y puntúe el correo que enviamos. Captura la pantalla y muestra la puntuación que has sacado.</p>
+<hr>
+<p>Así pues, vamos a mandar el correo a la página que nos han dicho y vamos a ver la puntuación que obtenemos:</p>
+<p><img src="/images/practica_servidor_correo/img_45.png" alt="img_45.png"></p>
+<p>Obtenemos lo siguiente:</p>
+<p><img src="/images/practica_servidor_correo/img_46.png" alt="img_46.png"></p>
+<p>Aunque la puntuación parece algo baja, realmente es por motivos que no estaban contemplados en la práctica, por lo que podemos dar por finalizada la práctica.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

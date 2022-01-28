@@ -6,7 +6,18 @@
     <description>Recent content in Servicios de Red on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 19 Jan 2022 08:50:08 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/servicios-de-red/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Jan 2022 13:46:58 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/servicios-de-red/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalación y configuración de un Servidor de Correos en la VPS</title>
+      <link>https://sysadblog.onrender.com/posts/practica_servidor_correos/</link>
+      <pubDate>Fri, 28 Jan 2022 13:46:58 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_servidor_correos/</guid>
+      <description>Práctica: Servidor de correos en la VPS    Instala y configura de manera adecuada el servidor de correos en tu VPS. El nombre del servidor de correo será mail.tudominio.es (Este es el nombre que deberá aparecer en el registro MX).
+Gestión de correos desde el servidor    El envío y recepción se hará desde el servidor usando la herramienta mail.
+Tarea 1    Documenta una prueba de funcionamiento, donde envíes desde tu servidor local al exterior.</description>
+    </item>
+    
     <item>
       <title>Ejercicios con Postfix</title>
       <link>https://sysadblog.onrender.com/posts/ejercicios_con_postfix/</link>
