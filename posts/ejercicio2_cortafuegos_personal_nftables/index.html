@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Ejercicio 2: Implementación de un cortafuegos personal (nftables)">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ejercicio 2: Implementación de un cortafuegos personal (nftables)"/>
+<meta name="twitter:description" content="Ejercicio 2: Implementación de un cortafuegos personal (nftables)"/>
+
+    <meta property="og:title" content="Ejercicio 2: Implementación de un cortafuegos personal (nftables)" />
+<meta property="og:description" content="Ejercicio 2: Implementación de un cortafuegos personal (nftables)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/ejercicio2_cortafuegos_personal_nftables/" />
+<meta property="article:published_time" content="2022-01-31T09:09:39+01:00" />
+<meta property="article:modified_time" content="2022-01-31T09:09:39+01:00" />
+
+
+    <title>
+  Ejercicio 2: Implementación de un cortafuegos personal (nftables) · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/ejercicio2_cortafuegos_personal_nftables/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/ejercicio2_cortafuegos_personal_nftables/">
+              Ejercicio 2: Implementación de un cortafuegos personal (nftables)
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2022-01-31T09:09:39&#43;01:00'>
+                January 31, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/seguridad-y-alta-disponibilidad/">Seguridad y Alta Disponibilidad</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <p>Vamos a realizar los primeros pasos para implementar un cortafuegos en un nodo de una red, aquel que se ejecuta en el propio equipo que trata de proteger, lo que a veces se denomina un cortafuegos personal. He usado contenedores virtuales LXC.</p>
+<p>Una de las diferencias de usar nftables es que las tablas y cadenas son totalmente configurables. En nftables lo primero que tenemos que hacer es crear las tablas (son las zonas en las que crearemos las distintas reglas del cortafuegos clasificadas en cadenas). A continuación crearemos las distintas cadenas en las tablas (que nos permite clasificar las reglas).</p>
+<p>Vamos a crear una tabla para filtrar los paquetes que llamaremos filter:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft add table inet filter
+</code></pre></div><p>Hemos elegido la familia &ldquo;inet&rdquo; ya que de esta forma las reglas que añadamos afectarán tanto a IPv4 como a IPv6. Lo primero que vamos a hacer es crear las cadenas que usaremos durante este ejercicio. Por defecto, haremos que las cadenas acepten los paquetes, para la que no nos echen de la conexión ssh:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft add chain inet filter input { type filter hook input priority 0 \; counter \; policy accept \; }
+nft add chain inet filter output { type filter hook output priority 0 \; counter \; policy accept \; }
+</code></pre></div><p>Ahora ya podemos añadir la regla que permita conexiones ssh a nuestra máquina:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft add rule inet filter input iifname &#34;eth0&#34; tcp dport 22 ct state new,established counter accept
+nft add rule inet filter output oifname &#34;eth0&#34; tcp sport 22 ct state established counter accept
+</code></pre></div><p>Una vez añadida esta regla, ya podemos cambiar la política por defecto a DROP:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft chain inet filter input { policy drop \; }
+nft chain inet filter output { policy drop \; }
+</code></pre></div><p>Así pues tenemos las siguientes cadenas en este momento:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft list chains
+
+table inet filter {
+	chain input {
+		type filter hook input priority filter; policy drop;
+	}
+	chain output {
+		type filter hook output priority filter; policy drop;
+	}
+}
+</code></pre></div><p>Podemos probar que nos deja entrar por ssh:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_1.png" alt="img_1.png"></p>
+<p>Ahora añadiremos las reglas que permita que hagamos ping a otras máquinas:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft add rule inet filter output oifname &#34;eth0&#34; icmp type echo-request counter accept
+nft add rule inet filter input iifname &#34;eth0&#34; icmp type echo-reply counter accept
+</code></pre></div><p>Vemos que funciona:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_2.png" alt="img_2.png"></p>
+<p>A continuación añadimos las reglas que permita hacer peticiones dns:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft add rule inet filter output oifname &#34;eth0&#34; udp dport 53 ct state new,established  counter accept
+nft add rule inet filter input iifname &#34;eth0&#34; udp sport 53 ct state established  counter accept
+</code></pre></div><p>Y comprobamos que funciona:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_3.png" alt="img_3.png"></p>
+<p>Después añadimos las reglas que permitan el tráfico HTTP/HTTPS desde nuestra máquina:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft add rule inet filter output oifname &#34;eth0&#34; ip protocol tcp tcp dport { 80,443 } ct state new,established  counter accept
+nft add rule inet filter input iifname &#34;eth0&#34; ip protocol tcp tcp sport { 80,443 } ct state established  counter accept
+</code></pre></div><p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_4.png" alt="img_4.png"></p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_5.png" alt="img_5.png"></p>
+<p>También debemos crear la regla que haga que se pueda acceder a nuestro servidor web mediante http:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft add rule inet filter output oifname &#34;eth0&#34; tcp sport 80 ct state established counter accept
+nft add rule inet filter input iifname &#34;eth0&#34; tcp dport 80 ct state new,established counter accept
+</code></pre></div><p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_6.png" alt="img_6.png"></p>
+<p>Con esto hemos terminado con la reglas iniciales. Ahora crearemos las reglas que nos indican en los ejercicios (eliminando las reglas antiguas que causen conflicto):</p>
+<h2 id="permitir-conexiones-ssh-al-exterior">
+  Permitir conexiones ssh al exterior
+  <a class="heading-link" href="#permitir-conexiones-ssh-al-exterior">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft add rule inet filter output oifname &#34;eth0&#34; tcp dport 22 ct state new,established  counter accept
+nft add rule inet filter input iifname &#34;eth0&#34; tcp sport 22 ct state established  counter accept
+</code></pre></div><p>Veamos si funciona:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_7.png" alt="img_7.png"></p>
+<h2 id="denegar-el-acceso-a-mi-servidor-web-desde-una-ip-concreta">
+  Denegar el acceso a mi servidor web desde una ip concreta
+  <a class="heading-link" href="#denegar-el-acceso-a-mi-servidor-web-desde-una-ip-concreta">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft insert rule inet filter output position 10 oifname &#34;eth0&#34; ip daddr 10.0.3.157/32 tcp sport 80 ct state established counter drop
+nft insert rule inet filter input position 11 ip saddr 10.0.3.157/32 tcp dport 80 ct state new,established counter drop
+</code></pre></div><p>Esto inserta las reglas antes de la regla que creamos antes que permite el acceso a cualquier máquina a nuestro servidor web:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">table inet filter { # handle 10
+	chain input { # handle 1
+		type filter hook input priority filter; policy drop;
+		iifname &#34;eth0&#34; tcp dport 22 ct state established,new counter packets 0 bytes 0 accept # handle 5
+		iifname &#34;eth0&#34; tcp sport 22 ct state established counter packets 55 bytes 9008 accept # handle 7
+		ip saddr 10.0.3.157 tcp dport 80 ct state established,new counter packets 0 bytes 0 drop # handle 13
+		iifname &#34;eth0&#34; tcp dport 80 ct state established,new counter packets 0 bytes 0 accept # handle 11
+	}
+
+	chain output { # handle 2
+		type filter hook output priority filter; policy drop;
+		oifname &#34;eth0&#34; tcp sport 22 ct state established counter packets 0 bytes 0 accept # handle 6
+		oifname &#34;eth0&#34; tcp dport 22 ct state established,new counter packets 65 bytes 8284 accept # handle 8
+		oifname &#34;eth0&#34; ip daddr 10.0.3.157 tcp sport 80 ct state established counter packets 0 bytes 0 drop # handle 12
+		oifname &#34;eth0&#34; tcp sport 80 ct state established counter packets 0 bytes 0 accept # handle 10
+	}
+}
+</code></pre></div><p>La probamos:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_8.png" alt="img_8.png"></p>
+<p>Como vemos no deja acceder a la ip que hemos bloqueado. Sin embargo, si lo intentamos desde otra máquina si nos deja:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_9.png" alt="img_9.png"></p>
+<h2 id="permite-hacer-consultas-dns-sólo-al-servidor-1921682022-comprueba-que-no-puedes-hacer-un-dig-1111">
+  Permite hacer consultas DNS sólo al servidor <code>192.168.202.2</code>. Comprueba que no puedes hacer un <code>dig @1.1.1.1.</code>.
+  <a class="heading-link" href="#permite-hacer-consultas-dns-s%c3%b3lo-al-servidor-1921682022-comprueba-que-no-puedes-hacer-un-dig-1111">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft add rule inet filter output oifname &#34;eth0&#34; ip daddr 192.168.202.2/32 udp dport 53 ct state new,established  counter accept
+nft add rule inet filter input iifname &#34;eth0&#34; ip saddr 192.168.202.2/32 udp sport 53 ct state established  counter accept
+</code></pre></div><p>Probamos:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_14.png" alt="img_14.png"></p>
+<p>Sin embargo no nos deja hacer lo siguiente:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_15.png" alt="img_15.png"></p>
+<h2 id="no-permitir-el-acceso-al-servidor-web-de-wwwjosedomingoorg">
+  No permitir el acceso al servidor web de <code>www.josedomingo.org</code>
+  <a class="heading-link" href="#no-permitir-el-acceso-al-servidor-web-de-wwwjosedomingoorg">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Tal y como paso en la práctica anterior con <code>iptables</code>, al bloquear la ip de <code>www.josedomingo.org</code> también estaremos bloqueando todas los servicios web que estén asociados a esa ip, como <code>fp.josedomingo.org</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft insert rule inet filter output position 18 oifname &#34;eth0&#34; ip daddr 37.187.119.60/32 tcp dport 80 ct state new,established counter drop
+nft insert rule inet filter input position 20 iifname &#34;eth0&#34; ip saddr 37.187.119.60/32 tcp sport 80 ct state established counter drop
+</code></pre></div><p>Lo probamos:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_10.png" alt="img_10.png"></p>
+<p>Como vemos nos bloquea ambas webs. Probemos si podemos acceder a otra web diferente:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_11.png" alt="img_11.png"></p>
+<h2 id="permite-mandar-un-correo-usando-nuestro-servidor-de-correo-babuino-smtp">
+  Permite mandar un correo usando nuestro servidor de correo: <code>babuino-smtp</code>.
+  <a class="heading-link" href="#permite-mandar-un-correo-usando-nuestro-servidor-de-correo-babuino-smtp">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft add rule inet filter output oifname &#34;eth0&#34; ip daddr 192.168.203.3/32 tcp dport 25 ct state new,established counter accept
+nft add rule inet filter input iifname &#34;eth0&#34; ip saddr 192.168.203.3/32 tcp sport 25 ct state established counter accept
+</code></pre></div><p>Probemos la regla con <code>telnet</code>:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_16.png" alt="img_16.png"></p>
+<h2 id="permite-el-acceso-al-servidor-mariadb-desde-una-ip-en-concreto">
+  Permite el acceso al servidor MariaDB desde una ip en concreto.
+  <a class="heading-link" href="#permite-el-acceso-al-servidor-mariadb-desde-una-ip-en-concreto">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nft add rule inet filter output oifname &#34;eth0&#34; ip daddr 10.0.3.157/32 tcp sport 3306 ct state established counter accept
+nft add rule inet filter input iifname &#34;eth0&#34; ip saddr 10.0.3.157/32 tcp dport 3306 ct state new,established counter accept
+</code></pre></div><p>Probamos si dicho cliente puede acceder:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_12.png" alt="img_12.png"></p>
+<p>Y vemos como si accedemos desde otro cliente nos lo impide:</p>
+<p><img src="/images/ejercicio2_cortafuegos_personal_nftables/img_13.png" alt="img_13.png"></p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

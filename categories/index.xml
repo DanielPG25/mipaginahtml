@@ -6,7 +6,16 @@
     <description>Recent content in Categories on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 28 Jan 2022 13:46:58 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 31 Jan 2022 09:09:39 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Seguridad y Alta Disponibilidad</title>
+      <link>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</link>
+      <pubDate>Mon, 31 Jan 2022 09:09:39 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Servicios de Red</title>
       <link>https://sysadblog.onrender.com/categories/servicios-de-red/</link>
@@ -22,15 +31,6 @@
       <pubDate>Thu, 27 Jan 2022 18:59:42 +0100</pubDate>
       
       <guid>https://sysadblog.onrender.com/categories/cloud-computing/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Seguridad y Alta Disponibilidad</title>
-      <link>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</link>
-      <pubDate>Tue, 25 Jan 2022 18:25:31 +0100</pubDate>
-      
-      <guid>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</guid>
       <description></description>
     </item>
     

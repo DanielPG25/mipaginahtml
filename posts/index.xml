@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 28 Jan 2022 13:46:58 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 31 Jan 2022 09:09:39 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicio 2: Implementación de un cortafuegos personal (nftables)</title>
+      <link>https://sysadblog.onrender.com/posts/ejercicio2_cortafuegos_personal_nftables/</link>
+      <pubDate>Mon, 31 Jan 2022 09:09:39 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/ejercicio2_cortafuegos_personal_nftables/</guid>
+      <description>Vamos a realizar los primeros pasos para implementar un cortafuegos en un nodo de una red, aquel que se ejecuta en el propio equipo que trata de proteger, lo que a veces se denomina un cortafuegos personal. He usado contenedores virtuales LXC.
+Una de las diferencias de usar nftables es que las tablas y cadenas son totalmente configurables. En nftables lo primero que tenemos que hacer es crear las tablas (son las zonas en las que crearemos las distintas reglas del cortafuegos clasificadas en cadenas).</description>
+    </item>
+    
     <item>
       <title>Instalación y configuración de un Servidor de Correos en la VPS</title>
       <link>https://sysadblog.onrender.com/posts/practica_servidor_correos/</link>
