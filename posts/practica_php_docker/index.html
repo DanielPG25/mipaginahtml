@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Implantación de aplicaciones web PHP en Docker">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Implantación de aplicaciones web PHP en Docker"/>
+<meta name="twitter:description" content="Implantación de aplicaciones web PHP en Docker"/>
+
+    <meta property="og:title" content="Implantación de aplicaciones web PHP en Docker" />
+<meta property="og:description" content="Implantación de aplicaciones web PHP en Docker" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/practica_php_docker/" />
+<meta property="article:published_time" content="2022-02-02T21:28:35+01:00" />
+<meta property="article:modified_time" content="2022-02-02T21:28:35+01:00" />
+
+
+    <title>
+  Implantación de aplicaciones web PHP en Docker · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/practica_php_docker/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/practica_php_docker/">
+              Implantación de aplicaciones web PHP en Docker
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2022-02-02T21:28:35&#43;01:00'>
+                February 2, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              10-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/aplicaciones-web/">Aplicaciones Web</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="práctica-implantación-de-aplicaciones-web-php-en-docker">
+  Práctica: Implantación de aplicaciones web PHP en Docker
+  <a class="heading-link" href="#pr%c3%a1ctica-implantaci%c3%b3n-de-aplicaciones-web-php-en-docker">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Imaginemos que el equipo de desarrollo de nuestra empresa ha desarrollado una aplicación PHP que se llama <a href="https://github.com/evilnapsis/bookmedik">BookMedik</a>.</p>
+<p>Queremos crear una imagen Docker para implantar dicha aplicación.</p>
+<p>Tenemos que tener en cuenta los siguientes aspectos:</p>
+<ul>
+<li>
+<p>Contenedor mariadb</p>
+<ul>
+<li>Es necesario que nuestra aplicación guarde su información en un contenedor docker mariadb.</li>
+<li>El script para generar la base de datos y los registros lo encuentras en el repositorio y se llama <code>schema.sql</code>. Debes crear un usuario con su contraseña en la base de datos. La base de datos se llama <code>bookmedik</code>.</li>
+<li>El contenedor mariadb debe tener un volumen para guardar la base de datos.</li>
+</ul>
+</li>
+<li>
+<p>Contenedor bookmedik</p>
+<ul>
+<li>Vamos a crear tres versiones de la imagen que nos permite implantar la aplicación PHP.</li>
+<li>La imagen debe crear las variables de entorno necesarias con datos de conexión por defecto.</li>
+<li>Al crear un contenedor a partir de estas imágenes se ejecutará un script bash que realizará las siguientes tareas:
+<ul>
+<li>Modifique el fichero <code>core\controller\Database.php</code> para que lea las variables de entorno. Para obtener las variables de entorno en PHP usar la función getenv. <a href="http://php.net/manual/es/function.getenv.php">Para más información</a>.</li>
+<li>Inicialice la base de datos con el fichero <code>schema.sql</code>.</li>
+<li>Ejecute el servidor web.</li>
+</ul>
+</li>
+<li>El contenedor que creas debe tener un volumen para guardar los logs del servidor web.</li>
+<li>La imagen la tienes que crear en tu entorno de desarrollo con el comando <code>docker build</code>.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="creación-del-contenedor-mariadb">
+  Creación del contenedor MariaDB
+  <a class="heading-link" href="#creaci%c3%b3n-del-contenedor-mariadb">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Primero creamos un contenedor con la imagen <code>mariadb</code> y que tenga las variables de entorno que nos han indicado. También crearemos una nueva red para la aplicación web.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker network create red_bookmedik
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker run -d --name bd_mariadb -v bookmedik_vol:/var/lib/mysql --network red_bookmedik -e MARIADB_ROOT_PASSWORD=root -e MARIADB_DATABASE=bookmedik -e MARIADB_USER=bookmedik -e MARIADB_PASSWORD=bookmedik mariadb
+</code></pre></div><p>Estto será para realizar las pruebas necesarias y comprobar que la imagen de la aplicación funcione como es debido.</p>
+<h2 id="tarea-1-creación-de-una-imagen-docker-con-una-aplicación-web-desde-una-imagen-base">
+  Tarea 1: Creación de una imagen docker con una aplicación web desde una imagen base
+  <a class="heading-link" href="#tarea-1-creaci%c3%b3n-de-una-imagen-docker-con-una-aplicaci%c3%b3n-web-desde-una-imagen-base">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<ul>
+<li>Vamos a crear una imagen que se llame usuario/bookmedik:v1.</li>
+<li>Crea una imagen docker con la aplicación desde una imagen base de debian o ubuntu.</li>
+</ul>
+<hr>
+<p>En primer lugar hemos hecho un fork del repositorio de bookmedik y lo hemos clonado en nuestro entorno de desarrollo. Una vez hecho esto, vamos a modificar el fichero <code>schema.sql</code> para que podamos ejecutarlo en un contenedor que ya tendrá una base de datos creada. Así pues, eliminamos las siguientes líneas de ese fichero:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">create database bookmedik;
+use bookmedik; 
+</code></pre></div><p>A continuación modificamos el fichero <code>core/controller/Database.php</code> para que se configure a través de las variables de entorno que introduzcamos al crear el contenedor:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;?php
+class Database {
+        public static $db;
+        public static $con;
+        function Database(){
+                $this-&gt;user=getenv(&#39;USUARIO_BOOKMEDIK&#39;);$this-&gt;pass=getenv(&#39;CONTRA_BOOKMEDIK&#39;);$this-&gt;host=getenv(&#39;DATABASE_HOST&#39;);$this-&gt;ddbb=getenv(&#39;NOMBRE_DB&#39;);
+        }
+
+        function connect(){
+                $con = new mysqli($this-&gt;host,$this-&gt;user,$this-&gt;pass,$this-&gt;ddbb);
+                $con-&gt;query(&#34;set sql_mode=&#39;&#39;&#34;);
+                return $con;
+        }
+
+        public static function getCon(){
+                if(self::$con==null &amp;&amp; self::$db==null){
+                        self::$db = new Database();
+                        self::$con = self::$db-&gt;connect();
+                }
+                return self::$con;
+        }
+}
+?&gt;
+</code></pre></div><p>Con esto ya podemos crear el Dockerfile que usaremos para crear la imagen:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano Dockerfile
+
+FROM debian:bullseye
+MAINTAINER Daniel Parrales García &#34;daniparrales16@gmail.com&#34;
+RUN apt update &amp;&amp; apt upgrade -y &amp;&amp; apt install apache2 libapache2-mod-php php php-mysql mariadb-client -y &amp;&amp; apt clean &amp;&amp; rm -rf /var/lib/apt/lists/*
+ADD bookmedik /var/www/html/
+ADD script.sh /opt/
+RUN chmod +x /opt/script.sh &amp;&amp; rm /var/www/html/index.html
+ENTRYPOINT [&#34;/opt/script.sh&#34;]
+</code></pre></div><p>Como vemos, al final le indicamos que ejecute un script. Dicho script lo hemos creado nosotros, y en él hacemos que introduzca la información del fichero <code>schema.sql</code> en la base de datos y hacemos que ejecute apache en modo demonio. El contenido del script es el siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nano script.sh
+
+<span style="color:#75715e">#! /bin/sh</span>
+
+mysql -u $USUARIO_BOOKMEDIK --password<span style="color:#f92672">=</span>$CONTRA_BOOKMEDIK -h $DATABASE_HOST $NOMBRE_DB &lt; /var/www/html/schema.sql
+
+/usr/sbin/apache2ctl -D FOREGROUND
+</code></pre></div><p>Este script lo hemos introducido en el directorio <code>bookmedik</code> (el que hemos obtenido de la clonación de github) para que se añada al contenedor junto con el contenido de dicho directorio. Con esto ya podemos crear la imagen con el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker build -t dparrales/bookmedik:v1 .
+</code></pre></div><p>Una vez creada, ya la podemos ver en nuestro registro local:</p>
+<p><img src="/images/practica_php_docker/img_1.png" alt="img_1.png"></p>
+<p>Los ficheros que han sido creados se encuentran en mi repositorio de <a href="https://github.com/DanielPG25/Practica_Docker">Github</a>.</p>
+<h2 id="tarea-2-despliegue-en-el-entorno-de-desarrollo">
+  Tarea 2: Despliegue en el entorno de desarrollo
+  <a class="heading-link" href="#tarea-2-despliegue-en-el-entorno-de-desarrollo">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<ul>
+<li>Crea un script con docker-compose que levante el escenario con los dos contenedores.</li>
+<li>Recuerda que para acceder a la aplicación: Usuario: admin, contraseña: admin.</li>
+</ul>
+<hr>
+<p>Así pues, crearemos un fichero <code>docker-compose.yaml</code> con la configuración necesaria para levantar los dos contenedores:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano docker-compose.yaml
+
+version: &#39;3.1&#39;
+services:
+  bookmedik:
+    container_name: bookmedik-app
+    image: dparrales/bookmedik:v1
+    restart: always
+    environment:
+      USUARIO_BOOKMEDIK: bookmedik
+      CONTRA_BOOKMEDIK: bookmedik
+      DATABASE_HOST: bd_mariadb
+      NOMBRE_DB: bookmedik
+    ports:
+      - 8081:80
+    depends_on:
+      - db
+  db:
+    container_name: bd_mariadb
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: bookmedik
+      MARIADB_USER: bookmedik
+      MARIADB_PASSWORD: bookmedik
+    volumes:
+      - mariadb_data:/var/lib/mysql
+volumes:
+    mariadb_data:
+</code></pre></div><p>Ahora levantamos los contenedores:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker-compose up -d
+</code></pre></div><p>Podemos verlos funcionando con el siguiente comando:</p>
+<p><img src="/images/practica_php_docker/img_2.png" alt="img_2.png"></p>
+<p>Y si entramos desde el navegador web, debería funcionar correctamente:</p>
+<p><img src="/images/practica_php_docker/img_3.png" alt="img_3.png"></p>
+<h2 id="tarea-3-creación-de-una-imagen-docker-con-una-aplicación-web-desde-una-imagen-php">
+  Tarea 3: Creación de una imagen docker con una aplicación web desde una imagen PHP
+  <a class="heading-link" href="#tarea-3-creaci%c3%b3n-de-una-imagen-docker-con-una-aplicaci%c3%b3n-web-desde-una-imagen-php">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<ul>
+<li>Vamos a crear una imagen que se llame <code>usuario/bookmedik:v2</code>.</li>
+<li>Realiza la imagen docker de la aplicación a partir de la imagen oficial PHP que encuentras en docker hub. Lee la documentación de la imagen para configurar una imagen con apache2 y php, además seguramente tengas que instalar alguna extensión de php.</li>
+<li>Modifica el fichero <code>docker-compose.yml</code> para probar esta imagen.</li>
+</ul>
+<hr>
+<p>Primero creamos el Dockerfile:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano Dockerfile
+
+FROM php:7.4-apache-bullseye
+MAINTAINER Daniel Parrales García &#34;daniparrales16@gmail.com&#34;
+RUN apt update &amp;&amp; apt upgrade -y &amp;&amp; docker-php-ext-install mysqli pdo pdo_mysql &amp;&amp; apt install mariadb-client -y &amp;&amp; apt clean &amp;&amp; rm -rf /var/lib/apt/lists/*
+ADD bookmedik /var/www/html/
+ADD script.sh /opt/
+RUN chmod +x /opt/script.sh
+ENTRYPOINT [&#34;/opt/script.sh&#34;]
+</code></pre></div><p>Ahora creamos la nueva imagen:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker build -t dparrales/bookmedik:v2 .
+</code></pre></div><p>En el fichero <code>docker-compose.yaml</code> solo debemos cambiar la versión:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano docker-compose.yaml
+
+version: &#39;3.1&#39;
+services:
+  bookmedik:
+    container_name: bookmedik-app
+    image: dparrales/bookmedik:v2
+    restart: always
+    environment:
+      USUARIO_BOOKMEDIK: bookmedik
+      CONTRA_BOOKMEDIK: bookmedik
+      DATABASE_HOST: bd_mariadb
+      NOMBRE_DB: bookmedik
+    ports:
+      - 8081:80
+    depends_on:
+      - db
+  db:
+    container_name: bd_mariadb
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: bookmedik
+      MARIADB_USER: bookmedik
+      MARIADB_PASSWORD: bookmedik
+    volumes:
+      - mariadb_data:/var/lib/mysql
+volumes:
+    mariadb_data:
+</code></pre></div><p>Ahora levantamos los contenedores:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker-compose up -d
+</code></pre></div><p>Vemos como se están ejecutando los contenedores:</p>
+<p><img src="/images/practica_php_docker/img_4.png" alt="img_4.png"></p>
+<p>Y vemos también la imagen que se ha creado:</p>
+<p><img src="/images/practica_php_docker/img_5.png" alt="img_5.png"></p>
+<p>Por último, accedemos a la aplicación web desde el navegador:</p>
+<p><img src="/images/practica_php_docker/img_6.png" alt="img_6.png"></p>
+<h2 id="tarea-4-ejecución-de-una-aplicación-php-en-docker-con-nginx">
+  Tarea 4: Ejecución de una aplicación PHP en docker con nginx
+  <a class="heading-link" href="#tarea-4-ejecuci%c3%b3n-de-una-aplicaci%c3%b3n-php-en-docker-con-nginx">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<ul>
+<li>Vamos a crear una imagen que se llame usuario/bookmedik:v3.</li>
+<li>En este caso queremos usar un contenedor que utilice nginx para servir la aplicación PHP. Puedes crear la imagen desde una imagen base debian o ubuntu o desde la imagen oficial de nginx.</li>
+<li>Vamos a crear otro contenedor que sirva php-fpm.</li>
+<li>Para que funcione de forma adecuada el php-fpm tiene que tener acceso al directorio donde se encuentra la aplicación.</li>
+<li>Y finalmente nuestro contenedor con la aplicación.</li>
+<li>Crea un script con docker compose que levante el escenario con los tres contenedores.</li>
+</ul>
+<hr>
+<p>Para empezar, tenemos que crear dos imágenes: una que va a tener la aplicación y la va a servir a través de nginx, y otra que a tener php-fpm con los módulos necesarios instalados. Así pues, creamos los dos Dockerfile:</p>
+<ul>
+<li>El Dockerfile con php-fpm y los módulos:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">FROM php:7.3-fpm-bullseye
+MAINTAINER Daniel Parrales García &#34;daniparrales16@gmail.com&#34;
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+</code></pre></div><p>Y construimos la imagen:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker build -t dparrales/php-fpm-mysql:v1 .
+</code></pre></div><ul>
+<li>El Dockerfile con la aplicación y nginx:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">FROM nginx
+MAINTAINER Daniel Parrales García &#34;daniparrales16@gmail.com&#34;
+RUN apt update &amp;&amp; apt upgrade -y &amp;&amp; apt install mariadb-client -y &amp;&amp; apt clean &amp;&amp; rm -rf /var/lib/apt/lists/*
+ADD default.conf /etc/nginx/conf.d/
+ADD bookmedik /usr/share/nginx/html
+ADD script.sh /opt/
+RUN chmod +x /opt/script.sh &amp;&amp; rm /usr/share/nginx/html/index.html
+ENTRYPOINT [&#34;/opt/script.sh&#34;]
+</code></pre></div><p>Y construimos la imagen:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker build -t dparrales/bookmedik:v3 .
+</code></pre></div><p>Como vemos, en el anterior fichero hacemos referencia al fichero <code>default.conf</code>. Este fichero lo hemos añadido y sustituirá al que hay por defecto, añadiendo la configuración de php-fpm al virtualhost:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano default.conf
+
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  localhost;
+    error_log  /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+    root   /usr/share/nginx/html;
+    index  index.php index.html;
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass book_php:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+}
+</code></pre></div><p>El fichero <code>script.sh</code> ha sido modificado para adaptarse a nginx:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nano script.sh
+
+<span style="color:#75715e">#! /bin/sh</span>
+
+sleep <span style="color:#ae81ff">10</span>
+
+mysql -u $USUARIO_BOOKMEDIK --password<span style="color:#f92672">=</span>$CONTRA_BOOKMEDIK -h $DATABASE_HOST $NOMBRE_DB &lt; /usr/share/nginx/html/schema.sql
+
+nginx -g <span style="color:#e6db74">&#34;daemon off;&#34;</span>
+</code></pre></div><p>Una vez explicado esto, podemos pasar a crear el fichero <code>docker-compose.yaml</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano docker-compose.yaml
+
+version: &#39;3.1&#39;
+services:
+  bookmedik:
+    container_name: bookmedik-app
+    image: dparrales/bookmedik:v3
+    restart: always
+    environment:
+      USUARIO_BOOKMEDIK: bookmedik
+      CONTRA_BOOKMEDIK: bookmedik
+      DATABASE_HOST: bd_mariadb
+      NOMBRE_DB: bookmedik
+    ports:
+      - 8082:80
+    depends_on:
+      - db
+      - php
+    volumes:
+      - phpdocs:/usr/share/nginx/html/
+  db:
+    container_name: bd_mariadb
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: bookmedik
+      MARIADB_USER: bookmedik
+      MARIADB_PASSWORD: bookmedik
+    volumes:
+      - mariadb_data:/var/lib/mysql
+  php:
+    container_name: book_php
+    image: php:7.3-fpm-bullseye
+    restart: always
+    environment:
+      USUARIO_BOOKMEDIK: bookmedik
+      CONTRA_BOOKMEDIK: bookmedik
+      DATABASE_HOST: bd_mariadb
+      NOMBRE_DB: bookmedik
+    volumes:
+      - phpdocs:/usr/share/nginx/html/
+
+volumes:
+    mariadb_data:
+    phpdocs:
+</code></pre></div><p>En el fichero anterior hay que destacar dos cosas:</p>
+<ul>
+<li>El volumen que comparten el contenedor nginx y el contenedor php-fpm <strong>deben</strong> tener la misma ruta. No importa que dicha ruta no exista en el contenedor php-fpm.</li>
+<li>Las variables de entorno deben estar también en el contenedor php-fpm.</li>
+</ul>
+<p>Dicho todo lo anterior, podemos comprobar que las imágenes se han creado correctamente:</p>
+<p><img src="/images/practica_php_docker/img_8.png" alt="img_8.png"></p>
+<p>Ahora creamos los contenedores con el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker-compose up -d
+</code></pre></div><p>Vemos que están funcionando:</p>
+<p><img src="/images/practica_php_docker/img_7.png" alt="img_7.png"></p>
+<p>Ahora ya podemos acceder a través del navegador web:</p>
+<p><img src="/images/practica_php_docker/img_9.png" alt="img_9.png"></p>
+<p>Con esto hemos terminado esta tarea.</p>
+<h2 id="tarea-5-puesta-en-producción-de-nuestra-aplicación">
+  Tarea 5: Puesta en producción de nuestra aplicación
+  <a class="heading-link" href="#tarea-5-puesta-en-producci%c3%b3n-de-nuestra-aplicaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<ul>
+<li>Elige una de las tres imágenes y súbela a Docker Hub.</li>
+<li>En tu VPS instala Docker y utilizando el docker-compose.yml correspondiente, crea un contenedor en ella de la aplicación.</li>
+<li>Configura el nginx de tu VPS para que haga de proxy inverso y nos permita acceder a la aplicación con <code>https://bookmedik.tudominio.xxx</code>.</li>
+</ul>
+<hr>
+<p>En primero lugar, tenemos que crear el registro CNAME correspondiente en nuestra zona DNS:</p>
+<p><img src="/images/practica_php_docker/img_10.png" alt="img_10.png"></p>
+<p>A continuación, en la VPS, debemos obtener el certificado de &ldquo;Let&rsquo;s Encrypt&rdquo; para ese registro:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">certbot certonly --standalone -d bookmedik.sysadblog.com
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator standalone, Installer None
+Requesting a certificate for bookmedik.sysadblog.com
+Performing the following challenges:
+http-01 challenge for bookmedik.sysadblog.com
+Cleaning up challenges
+Problem binding to port 80: Could not bind to IPv4 or IPv6.
+root@blackstar:~# systemctl stop nginx
+root@blackstar:~# certbot certonly --standalone -d bookmedik.sysadblog.com
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator standalone, Installer None
+Requesting a certificate for bookmedik.sysadblog.com
+Performing the following challenges:
+http-01 challenge for bookmedik.sysadblog.com
+Waiting for verification...
+Cleaning up challenges
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/bookmedik.sysadblog.com/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/bookmedik.sysadblog.com/privkey.pem
+   Your certificate will expire on 2022-05-03. To obtain a new or
+   tweaked version of this certificate in the future, simply run
+   certbot again. To non-interactively renew *all* of your
+   certificates, run &#34;certbot renew&#34;
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let&#39;s Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+</code></pre></div><p>Ahora debemos instalar <code>docker</code> y <code>docker-compose</code> si no lo está ya:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">apt install docker.io docker-compose
+</code></pre></div><p>Podemos comprobar que las imágenes de encuentran subidas a mi cuenta en &ldquo;Docker Hub&rdquo;:</p>
+<p><img src="/images/practica_php_docker/img_11.png" alt="img_11.png"></p>
+<p>Ahora hay que elegir una de las imágenes anteriores para desplegarla en la VPS. Tras pensarlo, me he decidido por la versión dos. Así pues, nos llevamos el fichero <code>docker-compose.yaml</code> con la versión dos a la VPS y levantamos los contenedores (he modificado el puerto, ya que ese estaba ocupado):</p>
+<p><img src="/images/practica_php_docker/img_12.png" alt="img_12.png"></p>
+<p>Ya solo queda crear el virtualhost en nginx que actuará como proxy inverso:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/nginx/sites-available/bookmedik
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name bookmedik.sysadblog.com;
+
+        return 301 https://$host$request_uri;
+}
+
+server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2;
+
+        ssl    on;
+        ssl_certificate /etc/letsencrypt/live/bookmedik.sysadblog.com/fullchain.pem;
+        ssl_certificate_key     /etc/letsencrypt/live/bookmedik.sysadblog.com/privkey.pem;
+
+        index index.html index.php index.htm index.nginx-debian.html;
+
+        server_name bookmedik.sysadblog.com;
+
+        location / {
+                proxy_pass http://localhost:8083;
+                include proxy_params;
+        }
+
+}
+</code></pre></div><p>Ahora creamos el enlace simbólico:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ln -s /etc/nginx/sites-available/bookmedik /etc/nginx/sites-enabled/bookmedik
+</code></pre></div><p>Y reiniciamos el servicio de nginx:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart nginx
+</code></pre></div><p>Ya podemos acceder desde el navegador web:</p>
+<p><img src="/images/practica_php_docker/img_13.png" alt="img_13.png"></p>
+<p>Con esto hemos terminado esta tarea.</p>
+<h2 id="tarea-6-modificación-de-la-aplicación">
+  Tarea 6: Modificación de la aplicación
+  <a class="heading-link" href="#tarea-6-modificaci%c3%b3n-de-la-aplicaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<ul>
+<li>En el entorno de desarrollo vamos a hacer una modificación de la aplicación. Por ejemplo modifica el fichero <code>core/app/view/login-view.php</code> y pon tu nombre en la línea <code>&lt;h4 class=&quot;title&quot;&gt;Acceder a BookMedik&lt;/h4&gt;</code>.</li>
+<li>Vamos a trabajar con la primera imagen que construimos. Vuelve a crear la imagen con la etiqueta <code>v1_2</code>.</li>
+<li>Cambia el docker-compose para probar el cambio.</li>
+<li>Modifica la aplicación en producción.</li>
+</ul>
+<hr>
+<p>Como nos han indicado, modificaremos el fichero <code>core/app/view/login-view.php</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;h4 class=&#34;title&#34;&gt;Acceder a BookMedik Daniel Parrales&lt;/h4&gt;
+</code></pre></div><p>Y creamos la imagen nueva:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker build -t dparrales/bookmedik:v1_2 .
+</code></pre></div><p>Esta imagen la subimos también a &ldquo;Docker Hub&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker login
+
+docker push dparrales/bookmedik:v1_2
+</code></pre></div><p>Podemos verla en dicha página:</p>
+<p><img src="/images/practica_php_docker/img_14.png" alt="img_14.png"></p>
+<p>Ahora, en la vps tenemos que eliminar los contenedores que hemos creado y volverlos a crear tras actualizar el fichero <code>docker-compose.yaml</code> a la nueva versión. Una vez hecho esto, podemos acceder a la web y ver si se han producido los cambios:</p>
+<p><img src="/images/practica_php_docker/img_15.png" alt="img_15.png"></p>
+<p><img src="/images/practica_php_docker/img_16.png" alt="img_16.png"></p>
+<p>Como vemos, se han producido los cambios, por lo que podemos decir que la práctica ha sido un éxito.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

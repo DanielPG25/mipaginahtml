@@ -6,7 +6,20 @@
     <description>Recent content in Aplicaciones Web on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Jan 2022 09:04:35 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/aplicaciones-web/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 02 Feb 2022 21:28:35 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/aplicaciones-web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Implantación de aplicaciones web PHP en Docker</title>
+      <link>https://sysadblog.onrender.com/posts/practica_php_docker/</link>
+      <pubDate>Wed, 02 Feb 2022 21:28:35 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_php_docker/</guid>
+      <description>Práctica: Implantación de aplicaciones web PHP en Docker    Imaginemos que el equipo de desarrollo de nuestra empresa ha desarrollado una aplicación PHP que se llama BookMedik.
+Queremos crear una imagen Docker para implantar dicha aplicación.
+Tenemos que tener en cuenta los siguientes aspectos:
+  Contenedor mariadb
+ Es necesario que nuestra aplicación guarde su información en un contenedor docker mariadb. El script para generar la base de datos y los registros lo encuentras en el repositorio y se llama schema.</description>
+    </item>
+    
     <item>
       <title>Ejercicios con docker</title>
       <link>https://sysadblog.onrender.com/posts/ejercicios_docker/</link>
