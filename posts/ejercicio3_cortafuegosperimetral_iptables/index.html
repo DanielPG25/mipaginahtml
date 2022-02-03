@@ -244,7 +244,9 @@ iptables -A OUTPUT -d 192.168.202.2/32 -p udp --dport 53 -m state --state NEW,ES
 iptables -A OUTPUT -o eth0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A INPUT -i eth0 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
 iptables -A OUTPUT -o eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
-</code></pre></div><h2 id="los-equipos-de-la-red-local-deben-poder-tener-conexión-al-exterior">
+</code></pre></div><p>Probamos:</p>
+<p><img src="/images/ejercicio3_cortafuegosperimetral_iptables/img_20.png" alt="img_20.png"></p>
+<h2 id="los-equipos-de-la-red-local-deben-poder-tener-conexión-al-exterior">
   Los equipos de la red local deben poder tener conexión al exterior
   <a class="heading-link" href="#los-equipos-de-la-red-local-deben-poder-tener-conexi%c3%b3n-al-exterior">
     <i class="fa fa-link" aria-hidden="true"></i>
