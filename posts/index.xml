@@ -6,7 +6,18 @@
     <description>Recent content in Posts on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 02 Feb 2022 21:28:35 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 03 Feb 2022 12:53:12 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicio 3: Implementación de un cortafuegos perimetral (iptables)</title>
+      <link>https://sysadblog.onrender.com/posts/ejercicio3_cortafuegosperimetral_iptables/</link>
+      <pubDate>Thu, 03 Feb 2022 12:53:12 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/ejercicio3_cortafuegosperimetral_iptables/</guid>
+      <description>Ejercicio 3: Implementación de un cortafuegos perimetral (iptables)    Configura un cortafuegos perimetral en una máquina con dos interfaces de red (externa e interna). Debes controlar el tráfico a la máquina cortafuego y el trafico a los equipos de la LAN.
+Realiza la configuración necesaria para que el cortafuegos sea consistente.
+Antes de implementar dicho cortafuegos, vamos a partir de la posición inicial de que las máquinas de la LAN pueden navegar libremente por Internet, por lo que la máquina que actúa como cortafuegos y como router tiene activado el bit de forwarding y la regla de SNAT necesaria:</description>
+    </item>
+    
     <item>
       <title>Implantación de aplicaciones web PHP en Docker</title>
       <link>https://sysadblog.onrender.com/posts/practica_php_docker/</link>
