@@ -164,8 +164,8 @@
 <p>Antes de implementar dicho cortafuegos, vamos a partir de la posición inicial de que las máquinas de la LAN pueden navegar libremente por Internet, por lo que la máquina que actúa como cortafuegos y como router tiene activado el bit de forwarding y la regla de SNAT necesaria:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -t nat -A POSTROUTING -s 10.1.0.0/24 -o eth0 -j MASQUERADE
 </code></pre></div><p>Ahora añadimos las reglas que permitan conectarnos por ssh a la máquina, para que no nos eche de la misma cuando añadamos la política por defecto:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A INPUT -s 10.1.0.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
-iptables -A OUTPUT -d 10.1.0.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A INPUT -s 10.0.3.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -d 10.0.3.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
 </code></pre></div><p>Ya podemos añadir la política por defecto:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -P INPUT DROP
 iptables -P OUTPUT DROP
