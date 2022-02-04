@@ -6,7 +6,20 @@
     <description>Recent content in Posts on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Feb 2022 12:53:12 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Feb 2022 08:37:32 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ejercicio 4: Implementación de un cortafuegos perimetral (nftables)</title>
+      <link>https://sysadblog.onrender.com/posts/ejercicio4_cortafuegosperimetral_nftables/</link>
+      <pubDate>Fri, 04 Feb 2022 08:37:32 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/ejercicio4_cortafuegosperimetral_nftables/</guid>
+      <description>Configura un cortafuegos perimetral en una máquina con dos interfaces de red (externa e interna). Debes controlar el tráfico a la máquina cortafuego y el trafico a los equipos de la LAN.
+Realiza la configuración necesaria para que el cortafuegos sea consistente.
+Todas las configuraciones se harán sobre la familia inet, por lo que serán aplicables también a IPv6.
+Así pues, creamos las tablas y cadenas necesarias:
+nft add table inet filter nft add table inet nat nft add chain inet filter input { type filter hook input priority 0 \; counter \; policy drop \; } nft add chain inet filter output { type filter hook output priority 0 \; counter \; policy drop \; } nft add chain inet filter forward { type filter hook forward priority 0 \; counter \; policy drop \; } nft add chain inet nat prerouting { type nat hook prerouting priority 0 \; } nft add chain inet nat postrouting { type nat hook postrouting priority 100 \; } Antes de implementar dicho cortafuegos, vamos a partir de la posición inicial de que las máquinas de la LAN pueden navegar libremente por Internet, por lo que la máquina que actúa como cortafuegos y como router tiene activado el bit de forwarding y la regla de SNAT necesaria:</description>
+    </item>
+    
     <item>
       <title>Ejercicio 3: Implementación de un cortafuegos perimetral (iptables)</title>
       <link>https://sysadblog.onrender.com/posts/ejercicio3_cortafuegosperimetral_iptables/</link>
