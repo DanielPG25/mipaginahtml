@@ -6,7 +6,22 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 04 Feb 2022 08:37:32 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Feb 2022 09:02:14 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Poblar un directorio LDAP desde un fichero CSV</title>
+      <link>https://sysadblog.onrender.com/posts/poblar_directorio_fichero_csv/</link>
+      <pubDate>Fri, 04 Feb 2022 09:02:14 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/poblar_directorio_fichero_csv/</guid>
+      <description>Poblar un directorio LDAP desde un fichero CSV      Crear entre todos los alumnos de la clase que vayan a hacer esta tarea un fichero CSV que incluya información personal de cada uno incluyendo los siguientes datos:
+  Nombre
+  Apellidos
+  Dirección de correo electrónico
+  Nombre de usuario
+  Clave pública ssh
+    Añadir el esquema openssh-lpk al directorio para poder incluir claves públicas ssh en un directorio LDAP.</description>
+    </item>
+    
     <item>
       <title>Ejercicio 4: Implementación de un cortafuegos perimetral (nftables)</title>
       <link>https://sysadblog.onrender.com/posts/ejercicio4_cortafuegosperimetral_nftables/</link>
