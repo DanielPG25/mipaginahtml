@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Práctica Cortafuegos Perimetral sobre el Escenario de Trabajo">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Práctica Cortafuegos Perimetral sobre el Escenario de Trabajo"/>
+<meta name="twitter:description" content="Práctica Cortafuegos Perimetral sobre el Escenario de Trabajo"/>
+
+    <meta property="og:title" content="Práctica Cortafuegos Perimetral sobre el Escenario de Trabajo" />
+<meta property="og:description" content="Práctica Cortafuegos Perimetral sobre el Escenario de Trabajo" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/practica_cortafuegosperimetral_iptables/" />
+<meta property="article:published_time" content="2022-02-09T11:52:11+01:00" />
+<meta property="article:modified_time" content="2022-02-09T11:52:11+01:00" />
+
+
+    <title>
+  Práctica Cortafuegos Perimetral sobre el Escenario de Trabajo · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/practica_cortafuegosperimetral_iptables/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/practica_cortafuegosperimetral_iptables/">
+              Práctica Cortafuegos Perimetral sobre el Escenario de Trabajo
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2022-02-09T11:52:11&#43;01:00'>
+                February 9, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              21-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/seguridad-y-alta-disponibilidad/">Seguridad y Alta Disponibilidad</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="práctica-cortafuegos-perimetral-sobre-el-escenario-de-trabajo">
+  Práctica Cortafuegos Perimetral sobre el Escenario de Trabajo
+  <a class="heading-link" href="#pr%c3%a1ctica-cortafuegos-perimetral-sobre-el-escenario-de-trabajo">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>Sobre el escenario creado en el módulo de servicios con las máquinas Zeus (Router), Hera (DMZ), Ares y Apolo (LAN) y empleando iptables o nftables, configura un cortafuegos perimetral en la máquina Zeus de forma que el escenario siga funcionando completamente teniendo en cuenta los siguientes puntos:</p>
+<ul>
+<li>Política por defecto DROP para las cadenas INPUT, FORWARD y OUTPUT.</li>
+<li>Se pueden usar las extensiones que creamos adecuadas, pero al menos debe implementarse seguimiento de la conexión.</li>
+<li>Debemos implementar que el cortafuegos funcione después de un reinicio de la máquina.</li>
+<li>Debes indicar pruebas de funcionamiento de todas las reglas.</li>
+<li>El cortafuego debe cumplir al menos estas reglas:
+<ul>
+<li>La máquina Zeus tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</li>
+<li>Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la máquina Zeus.</li>
+<li>La máquina Zeus debe tener permitido el tráfico para la interfaz loopback.</li>
+<li>A la máquina Zeus se le puede hacer ping desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT) y desde el exterior se rechazará de manera silenciosa.</li>
+<li>La máquina Zeus puede hacer ping a la LAN, la DMZ y al exterior.</li>
+<li>Desde la máquina Hera se puede hacer ping y conexión ssh a las máquinas de la LAN.</li>
+<li>Desde cualquier máquina de la LAN se puede conectar por ssh a la máquina Hera.</li>
+<li>Configura la máquina Zeus para que las máquinas de LAN y DMZ puedan acceder al exterior.</li>
+<li>Las máquinas de la LAN pueden hacer ping al exterior y navegar.</li>
+<li>La máquina Hera puede navegar. Instala un servidor web, un servidor ftp y un servidor de correos si no los tienes aún.</li>
+<li>Configura la máquina Zeus para que los servicios web y ftp sean accesibles desde el exterior.</li>
+<li>El servidor web y el servidor ftp deben ser accesibles desde la LAN y desde el exterior.</li>
+<li>El servidor de correos sólo debe ser accesible desde la LAN.</li>
+<li>En la máquina Ares instala un servidor mysql si no lo tiene aún. A este servidor se puede acceder desde la DMZ, pero no desde el exterior.</li>
+<li>Evita ataques DoS por ICMP Flood, limitando el número de peticiones por segundo desde una misma IP.</li>
+<li>Evita ataques DoS por SYN Flood.</li>
+<li>Evita que realicen escaneos de puertos a Zeus.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>El escenario es el siguiente:</p>
+<ul>
+<li>Zeus: Es una máquina Debian Bullseye que se encarga de router, y tras finalizar la práctica, actuará de cortafuegos del escenario.</li>
+<li>Hera: Es una máquina Rocky 8 que actúa como servidor web.</li>
+<li>Apolo: Es una máquina Debian Bullseye que actúa de servidor DNS, servidor LDAP y servidor de correos.</li>
+<li>Ares: Es una máquina Ubuntu Server 20 que actúa de servidor de base de datos (MariaDB), servidor LDAP de respaldo y director de las copias de seguridad Bácula.</li>
+</ul>
+<p>Para empezar, tenemos que hacer que las reglas que hagamos sean permanentes, es decir, que se vuelvan a crear automáticamente después de un reinicio. Para ello, guardaremos todas las reglas en un script, y dicho script será ejecutado en cada reinicio gracias a una unidad systemd que crearemos. Así pues, la unidad systemd es la siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano /etc/systemd/system/iptables.service
+
+[Unit]
+Description=Reglas de iptables
+After=systemd-sysctl.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/iptables.sh
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></div><p>Tras crear esta unidad, la habilitamos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl enable iptables.service
+</code></pre></div><p>En dicha unidad, aparece referenciado el siguiente fichero, el cual contendrá todas las reglas. Además de dicho fichero, en esta práctica, crearé un apartado para cada bloque de reglas y demostrar su funcionamiento. Así pues, el fichero final sería el siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nano /usr/local/bin/iptables.sh
+
+<span style="color:#75715e">#! /bin/sh</span>
+
+<span style="color:#75715e">### Limpieza de reglas antiguas</span>
+iptables -F
+iptables -t nat -F
+iptables -Z
+iptables -t nat -Z
+
+<span style="color:#75715e">### Política por defecto</span>
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+iptables -P FORWARD DROP
+
+<span style="color:#75715e">### Permitimos trafico para la interfaz loopback</span>
+iptables -A INPUT -i lo -p icmp -j ACCEPT
+iptables -A OUTPUT -o lo -p icmp -j ACCEPT
+
+<span style="color:#75715e">### Permitimos conectarnos por ssh al cortafuegos, creando una regla DNAT para que acceda a traves del puerto 2222</span>
+iptables -t nat -A PREROUTING -p tcp --dport <span style="color:#ae81ff">2222</span> -i enp0s8 -j DNAT --to 172.22.9.170:22
+iptables -A INPUT -i enp0s8 -p tcp --dport <span style="color:#ae81ff">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o enp0s8 -p tcp --sport <span style="color:#ae81ff">22</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### Permitimos la conexion ssh desde Zeus a cualquier maquina de la LAN y la DMZ (para poder seguir usando el escenario)</span>
+iptables -A OUTPUT -d 10.0.1.0/24 -p tcp --dport <span style="color:#ae81ff">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 10.0.1.0/24 -p tcp --sport <span style="color:#ae81ff">22</span> -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -d 172.16.0.0/16 -p tcp --dport <span style="color:#ae81ff">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 172.16.0.0/16 -p tcp --sport <span style="color:#ae81ff">22</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### Desde Apolo y Hera se debe permitir la conexion ssh por el puerto 22 a la maquina Zeus</span>
+iptables -A OUTPUT -d 10.0.1.102/32 -p tcp --sport <span style="color:#ae81ff">22</span> -m state --state ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 10.0.1.102/32 -p tcp --dport <span style="color:#ae81ff">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -d 172.16.0.200/32 -p tcp --sport <span style="color:#ae81ff">22</span> -m state --state ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 172.16.0.200/32 -p tcp --dport <span style="color:#ae81ff">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### A la maquina Zeus se le puede hacer ping desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT) y desde el exterior se rechazara de manera silenciosa</span>
+<span style="color:#75715e">#iptables -A INPUT -s 172.16.0.200/16 -p icmp -m icmp --icmp-type echo-request -j ACCEPT</span>
+iptables -A OUTPUT -d 172.16.0.200/16 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+iptables -A INPUT -s 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-request -j REJECT
+iptables -A OUTPUT -d 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-reply -j REJECT
+
+<span style="color:#75715e">### La maquina Zeus puede hacer ping a la LAN, la DMZ y al exterior</span>
+iptables -A OUTPUT -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A INPUT -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+<span style="color:#75715e">### Desde la maquina Hera se puede hacer ping y conexion ssh a las maquinas de la LAN</span>
+iptables -A FORWARD -s 172.16.0.200/32 -d 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A FORWARD -d 172.16.0.200/32 -s 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+iptables -A FORWARD -s 172.16.0.200/32 -d 10.0.1.0/24 -p tcp --dport <span style="color:#ae81ff">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -d 172.16.0.200/32 -s 10.0.1.0/24 -p tcp --sport <span style="color:#ae81ff">22</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### Desde cualquier maquina de la LAN se puede conectar por ssh a la maquina Hera.</span>
+iptables -A FORWARD -s 10.0.1.0/24 -d 172.16.0.200/32 -p tcp --dport <span style="color:#ae81ff">22</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -s 172.16.0.200/32 -d 10.0.1.0/24 -p tcp --sport <span style="color:#ae81ff">22</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### Configura la maquina Zeus para que las maquinas de LAN y DMZ puedan acceder al exterior</span>
+iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -o enp0s8 -j MASQUERADE
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+iptables -t nat -A POSTROUTING -s 10.0.1.0/24 -o enp0s8 -j MASQUERADE
+iptables -A FORWARD -i enp0s7 -o enp0s8 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s7 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+<span style="color:#75715e">### Las maquinas de la LAN pueden navegar</span>
+iptables -A FORWARD -i enp0s7 -o enp0s8 -p tcp --dport <span style="color:#ae81ff">80</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s7 -p tcp --sport <span style="color:#ae81ff">80</span> -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -i enp0s7 -o enp0s8 -p tcp --dport <span style="color:#ae81ff">443</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s7 -p tcp --sport <span style="color:#ae81ff">443</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### La maquina Hera puede navegar</span>
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --dport <span style="color:#ae81ff">80</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --sport <span style="color:#ae81ff">80</span> -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --dport <span style="color:#ae81ff">443</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --sport <span style="color:#ae81ff">443</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### Permitimos las consultas DNS en el escenario, incluyendo las consultas a apolo desde el exterior</span>
+iptables -A OUTPUT -p udp --dport <span style="color:#ae81ff">53</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p udp --sport <span style="color:#ae81ff">53</span> -m state --state ESTABLISHED -j ACCEPT
+
+iptables -t nat -A PREROUTING -p udp -i enp0s8 --dport <span style="color:#ae81ff">53</span> -j DNAT --to 10.0.1.102
+iptables -A FORWARD -p udp --dport <span style="color:#ae81ff">53</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p udp --sport <span style="color:#ae81ff">53</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### Al servidor MariaDb en Ares se puede acceder desde la DMZ, pero no desde el exterior</span>
+iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --dport <span style="color:#ae81ff">3306</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --sport <span style="color:#ae81ff">3306</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### Configura la maquina Zeus para que los servicios web y ftp sean accesibles desde el exterior</span>
+iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport <span style="color:#ae81ff">80</span> -j DNAT --to 172.16.0.200
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --dport <span style="color:#ae81ff">80</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --sport <span style="color:#ae81ff">80</span> -m state --state ESTABLISHED -j ACCEPT
+
+iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport <span style="color:#ae81ff">21</span> -j DNAT --to 172.16.0.200
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --dport <span style="color:#ae81ff">21</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --sport <span style="color:#ae81ff">21</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### El servidor web y el servidor ftp deben ser accesibles desde la LAN</span>
+iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --dport <span style="color:#ae81ff">80</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --sport <span style="color:#ae81ff">80</span> -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --dport <span style="color:#ae81ff">21</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --sport <span style="color:#ae81ff">21</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### El servidor de correos solo debe ser accesible desde la LAN</span>
+iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --dport <span style="color:#ae81ff">25</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --sport <span style="color:#ae81ff">25</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### Evita ataques DoS por ICMP Flood, limitando el numero de peticiones por segundo desde una misma IP</span>
+iptables -A INPUT -i enp0s6 -p icmp -m state --state NEW --icmp-type echo-request -m limit --limit 1/s --limit-burst <span style="color:#ae81ff">1</span> -j ACCEPT
+
+<span style="color:#75715e">### Evita ataques DoS por SYN Flood</span>
+iptables -N syn_flood
+iptables -A INPUT -p tcp --syn -j syn_flood
+iptables -A syn_flood -m limit --limit 1/s --limit-burst <span style="color:#ae81ff">3</span> -j RETURN
+iptables -A syn_flood -j DROP
+
+<span style="color:#75715e">### Permitimos al servidor DNS de Apolo hacer peticiones DNS a otros servidores</span>
+iptables -A OUTPUT -p tcp --dport <span style="color:#ae81ff">53</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --sport <span style="color:#ae81ff">53</span> -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp --dport <span style="color:#ae81ff">53</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp --sport <span style="color:#ae81ff">53</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### Permitimos a Zeus navegar</span>
+iptables -A OUTPUT -o enp0s8 -p tcp --dport <span style="color:#ae81ff">80</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i enp0s8 -p tcp --sport <span style="color:#ae81ff">80</span> -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -o enp0s8 -p tcp --dport <span style="color:#ae81ff">443</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i enp0s8 -p tcp --sport <span style="color:#ae81ff">443</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### Permitimos que se hagan consultas al servidor LDAP desde cualquier maquina del escenario y desde el exterior</span>
+iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport <span style="color:#ae81ff">389</span> -j DNAT --to 10.0.1.102
+iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport <span style="color:#ae81ff">636</span> -j DNAT --to 10.0.1.102
+
+iptables -A OUTPUT -p tcp --dport <span style="color:#ae81ff">389</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --sport <span style="color:#ae81ff">389</span> -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -p tcp --dport <span style="color:#ae81ff">636</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --sport <span style="color:#ae81ff">636</span> -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp --dport <span style="color:#ae81ff">389</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp --sport <span style="color:#ae81ff">389</span> -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp --dport <span style="color:#ae81ff">636</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp --sport <span style="color:#ae81ff">636</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### Apolo debe ser capaz de mandar correos al exterior</span>
+iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport <span style="color:#ae81ff">25</span> -j DNAT --to 10.0.1.102
+iptables -A FORWARD -s 10.0.1.102 -o enp0s8 -p tcp --dport <span style="color:#ae81ff">25</span> -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -d 10.0.1.102 -p tcp --sport <span style="color:#ae81ff">25</span> -m state --state ESTABLISHED -j ACCEPT
+
+<span style="color:#75715e">### El director Bacula en Ares debe ser capaz de conectarse a todas las máquinas del escenario</span>
+iptables -A OUTPUT -p tcp -m multiport --sport 9101,9102,9103 -m state --state ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp -m multiport --dport 9101,9102,9103 -m state --state NEW,ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp -m multiport --dport 9101,9102,9103 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp -m multiport --sport 9101,9102,9103 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><p>Damos los permisos de ejecución al fichero:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">chmod +x /usr/local/bin/iptables.sh
+</code></pre></div><p>Probamos las siguientes reglas:</p>
+<h3 id="permitimos-conectarnos-por-ssh-a-la-maquina-creando-una-regla-dnat-para-que-acceda-a-través-del-puerto-2222">
+  Permitimos conectarnos por ssh a la maquina, creando una regla DNAT para que acceda a través del puerto 2222
+  <a class="heading-link" href="#permitimos-conectarnos-por-ssh-a-la-maquina-creando-una-regla-dnat-para-que-acceda-a-trav%c3%a9s-del-puerto-2222">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -t nat -A PREROUTING -p tcp --dport 2222 -i enp0s8 -j DNAT --to 172.22.9.170:22
+iptables -A INPUT -i enp0s8 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -o enp0s8 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><p><img src="/images/practica_cortafuegosperimetral_iptables/img_1.png" alt="img_1.png"></p>
+<h3 id="permitimos-la-conexión-ssh-desde-zeus-a-cualquier-máquina-de-la-lan-y-la-dmz-para-poder-seguir-usando-el-escenario">
+  Permitimos la conexión ssh desde Zeus a cualquier máquina de la LAN y la DMZ (para poder seguir usando el escenario)
+  <a class="heading-link" href="#permitimos-la-conexi%c3%b3n-ssh-desde-zeus-a-cualquier-m%c3%a1quina-de-la-lan-y-la-dmz-para-poder-seguir-usando-el-escenario">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A OUTPUT -d 10.0.1.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 10.0.1.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -d 172.16.0.0/16 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 172.16.0.0/16 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><ul>
+<li>Apolo:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_2.png" alt="img_2.png"></p>
+<ul>
+<li>Ares:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_3.png" alt="img_3.png"></p>
+<ul>
+<li>Hera:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_4.png" alt="img_4.png"></p>
+<h3 id="desde-apolo-y-hera-se-debe-permitir-la-conexión-ssh-por-el-puerto-22-a-la-maquina-zeus">
+  Desde Apolo y Hera se debe permitir la conexión ssh por el puerto 22 a la maquina Zeus
+  <a class="heading-link" href="#desde-apolo-y-hera-se-debe-permitir-la-conexi%c3%b3n-ssh-por-el-puerto-22-a-la-maquina-zeus">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A OUTPUT -d 10.0.1.102/32 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 10.0.1.102/32 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -d 172.16.0.200/32 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+iptables -A INPUT -s 172.16.0.200/32 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+</code></pre></div><ul>
+<li>Desde Apolo:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_5.png" alt="img_5.png"></p>
+<ul>
+<li>Desde Hera:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_6.png" alt="img_6.png"></p>
+<h3 id="permitimos-trafico-para-la-interfaz-loopback">
+  Permitimos trafico para la interfaz loopback
+  <a class="heading-link" href="#permitimos-trafico-para-la-interfaz-loopback">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A INPUT -i lo -p icmp -j ACCEPT
+iptables -A OUTPUT -o lo -p icmp -j ACCEPT
+</code></pre></div><p><img src="/images/practica_cortafuegosperimetral_iptables/img_7.png" alt="img_7.png"></p>
+<h3 id="a-la-maquina-zeus-se-le-puede-hacer-ping-desde-la-dmz-pero-desde-la-lan-se-le-debe-rechazar-la-conexión-reject-y-desde-el-exterior-se-rechazara-de-manera-silenciosa">
+  A la maquina Zeus se le puede hacer ping desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT) y desde el exterior se rechazara de manera silenciosa
+  <a class="heading-link" href="#a-la-maquina-zeus-se-le-puede-hacer-ping-desde-la-dmz-pero-desde-la-lan-se-le-debe-rechazar-la-conexi%c3%b3n-reject-y-desde-el-exterior-se-rechazara-de-manera-silenciosa">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A INPUT -s 172.16.0.200/16 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A OUTPUT -d 172.16.0.200/16 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+iptables -A INPUT -s 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-request -j REJECT
+iptables -A OUTPUT -d 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-reply -j REJECT
+</code></pre></div><ul>
+<li>Desde el exterior:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_45.png" alt="img_45.png"></p>
+<ul>
+<li>Desde la DMZ:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_8.png" alt="img_8.png"></p>
+<ul>
+<li>Desde la LAN:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_44.png" alt="img_44.png"></p>
+<h3 id="la-máquina-zeus-puede-hacer-ping-a-la-lan-la-dmz-y-al-exterior">
+  La máquina Zeus puede hacer ping a la LAN, la DMZ y al exterior
+  <a class="heading-link" href="#la-m%c3%a1quina-zeus-puede-hacer-ping-a-la-lan-la-dmz-y-al-exterior">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A OUTPUT -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A INPUT -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+</code></pre></div><ul>
+<li>Al exterior:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_9.png" alt="img_9.png"></p>
+<ul>
+<li>A la DMZ:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_10.png" alt="img_10.png"></p>
+<ul>
+<li>A la LAN:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_11.png" alt="img_11.png"></p>
+<h3 id="desde-la-maquina-hera-se-puede-hacer-ping-y-conexión-ssh-a-las-maquinas-de-la-lan">
+  Desde la maquina Hera se puede hacer ping y conexión ssh a las maquinas de la LAN
+  <a class="heading-link" href="#desde-la-maquina-hera-se-puede-hacer-ping-y-conexi%c3%b3n-ssh-a-las-maquinas-de-la-lan">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A FORWARD -s 172.16.0.200/32 -d 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A FORWARD -d 172.16.0.200/32 -s 10.0.1.0/24 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+iptables -A FORWARD -s 172.16.0.200/32 -d 10.0.1.0/24 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -d 172.16.0.200/32 -s 10.0.1.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><ul>
+<li>Ping:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_12.png" alt="img_12.png"></p>
+<ul>
+<li>SSH:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_13.png" alt="img_13.png"></p>
+<h3 id="desde-cualquier-máquina-de-la-lan-se-puede-conectar-por-ssh-a-la-maquina-hera">
+  Desde cualquier máquina de la LAN se puede conectar por ssh a la maquina Hera.
+  <a class="heading-link" href="#desde-cualquier-m%c3%a1quina-de-la-lan-se-puede-conectar-por-ssh-a-la-maquina-hera">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A FORWARD -s 10.0.1.0/24 -d 172.16.0.200/32 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -s 172.16.0.200/32 -d 10.0.1.0/24 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><ul>
+<li>Desde Apolo:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_14.png" alt="img_14.png"></p>
+<ul>
+<li>Desde Ares:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_15.png" alt="img_15.png"></p>
+<h3 id="configura-la-máquina-zeus-para-que-las-máquinas-de-lan-y-dmz-puedan-acceder-al-exterior">
+  Configura la máquina Zeus para que las máquinas de LAN y DMZ puedan acceder al exterior
+  <a class="heading-link" href="#configura-la-m%c3%a1quina-zeus-para-que-las-m%c3%a1quinas-de-lan-y-dmz-puedan-acceder-al-exterior">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -t nat -A POSTROUTING -s 172.16.0.0/16 -o enp0s8 -j MASQUERADE
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+iptables -t nat -A POSTROUTING -s 10.0.1.0/24 -o enp0s8 -j MASQUERADE
+iptables -A FORWARD -i enp0s7 -o enp0s8 -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s7 -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+</code></pre></div><ul>
+<li>Desde la DMZ:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_16.png" alt="img_16.png"></p>
+<ul>
+<li>Desde la LAN:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_17.png" alt="img_17.png"></p>
+<h3 id="las-maquinas-de-la-lan-pueden-hacer-ping-al-exterior-y-navegar">
+  Las maquinas de la LAN pueden hacer ping al exterior y navegar
+  <a class="heading-link" href="#las-maquinas-de-la-lan-pueden-hacer-ping-al-exterior-y-navegar">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Como el &ldquo;ping&rdquo; ya se ha configurado en la regla anterior, solo haremos las reglas necesarias para la navegación.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A FORWARD -i enp0s7 -o enp0s8 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s7 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -i enp0s7 -o enp0s8 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s7 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><p><img src="/images/practica_cortafuegosperimetral_iptables/img_18.png" alt="img_18.png"></p>
+<h3 id="la-máquina-hera-puede-navegar">
+  La máquina Hera puede navegar
+  <a class="heading-link" href="#la-m%c3%a1quina-hera-puede-navegar">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Como en este escenario solo hay una máquina en la DMZ (Hera) podemos usar indistintamente la interfaz de red o la ip para identificarla:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><p><img src="/images/practica_cortafuegosperimetral_iptables/img_19.png" alt="img_19.png"></p>
+<h3 id="permitimos-las-consultas-dns-en-el-escenario-incluyendo-las-consultas-a-apolo-desde-el-exterior">
+  Permitimos las consultas DNS en el escenario, incluyendo las consultas a apolo desde el exterior
+  <a class="heading-link" href="#permitimos-las-consultas-dns-en-el-escenario-incluyendo-las-consultas-a-apolo-desde-el-exterior">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A OUTPUT -p udp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p udp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -t nat -A PREROUTING -p udp -i enp0s8 --dport 53 -j DNAT --to 10.0.1.102
+iptables -A FORWARD -p udp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p udp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><ul>
+<li>Desde la DMZ podemos hacer consultas al exterior y a apolo:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_20.png" alt="img_20.png"></p>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_21.png" alt="img_21.png"></p>
+<ul>
+<li>Desde la LAN podemos hacer consultas al exterior y a apolo:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_22.png" alt="img_22.png"></p>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_23.png" alt="img_23.png"></p>
+<ul>
+<li>Desde Zeus podemos hacer consultas al exterior y a apolo:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_24.png" alt="img_24.png"></p>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_25.png" alt="img_25.png"></p>
+<ul>
+<li>Desde el exterior podemos hacer consultas DNS al escenario:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_26.png" alt="img_26.png"></p>
+<h3 id="al-servidor-mariadb-en-ares-se-puede-acceder-desde-la-dmz-pero-no-desde-el-exterior">
+  Al servidor MariaDb en Ares se puede acceder desde la DMZ, pero no desde el exterior
+  <a class="heading-link" href="#al-servidor-mariadb-en-ares-se-puede-acceder-desde-la-dmz-pero-no-desde-el-exterior">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --dport 3306 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --sport 3306 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><p>La prueba de funcionamiento en el siguiente apartado, ya que la página web &ldquo;mezzanine&rdquo; necesita de un servidor de base de datos para funcionar, por lo que si se puede acceder a la página, se demuestra que hay conexión con la base de datos.</p>
+<h3 id="configura-la-maquina-zeus-para-que-los-servicios-web-y-ftp-sean-accesibles-desde-el-exterior">
+  Configura la maquina Zeus para que los servicios web y ftp sean accesibles desde el exterior
+  <a class="heading-link" href="#configura-la-maquina-zeus-para-que-los-servicios-web-y-ftp-sean-accesibles-desde-el-exterior">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport 80 -j DNAT --to 172.16.0.200
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport 21 -j DNAT --to 172.16.0.200
+iptables -A FORWARD -i enp0s8 -o enp0s6 -p tcp --dport 21 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s8 -p tcp --sport 21 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><ul>
+<li>FTP:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_27.png" alt="img_27.png"></p>
+<ul>
+<li>Servidor Web:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_28.png" alt="img_28.png"></p>
+<h3 id="el-servidor-web-y-el-servidor-ftp-deben-ser-accesibles-desde-la-lan">
+  El servidor web y el servidor ftp deben ser accesibles desde la LAN
+  <a class="heading-link" href="#el-servidor-web-y-el-servidor-ftp-deben-ser-accesibles-desde-la-lan">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --dport 21 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --sport 21 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><ul>
+<li>Servidor Web:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_29.png" alt="img_29.png"></p>
+<ul>
+<li>FTP:</li>
+</ul>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_30.png" alt="img_30.png"></p>
+<h3 id="el-servidor-de-correos-sólo-debe-ser-accesible-desde-la-lan">
+  El servidor de correos sólo debe ser accesible desde la LAN
+  <a class="heading-link" href="#el-servidor-de-correos-s%c3%b3lo-debe-ser-accesible-desde-la-lan">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A FORWARD -i enp0s7 -o enp0s6 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s6 -o enp0s7 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><p>Para que funcione he tenido que configurar postfix para que escuche en todas las interfaces, ya que en Rocky por defecto, está configurado para que escuche solo en localhost.</p>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_31.png" alt="img_31.png"></p>
+<h3 id="evita-ataques-dos-por-icmp-flood-limitando-el-número-de-peticiones-por-segundo-desde-una-misma-ip">
+  Evita ataques DoS por ICMP Flood, limitando el número de peticiones por segundo desde una misma IP
+  <a class="heading-link" href="#evita-ataques-dos-por-icmp-flood-limitando-el-n%c3%bamero-de-peticiones-por-segundo-desde-una-misma-ip">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Ya que el ping se encuentra bloqueado tanto desde el exterior como desde la LAN, solo tendríamos que bloquear el ICMP Flood desde la DMZ a Zeus (tenemos que comentar o quitar la regla antigua que permitía a Hera hacer ping a Zeus).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A INPUT -i enp0s6 -p icmp -m state --state NEW --icmp-type echo-request -m limit --limit 1/s --limit-burst 1 -j ACCEPT
+</code></pre></div><p>Probamos a hacer un ICMP Flood desde Hera:</p>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_32.png" alt="img_32.png"></p>
+<h3 id="evita-ataques-dos-por-syn-flood">
+  Evita ataques DoS por SYN Flood
+  <a class="heading-link" href="#evita-ataques-dos-por-syn-flood">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -N syn_flood
+iptables -A INPUT -p tcp --syn -j syn_flood
+iptables -A syn_flood -m limit --limit 1/s --limit-burst 3 -j RETURN
+iptables -A syn_flood -j DROP
+</code></pre></div><p>Hacemos el ataque:</p>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_33.png" alt="img_33.png"></p>
+<p>Vemos en los contadores que solo hemos respondido a 6 paquetes, descartando unos 278 mil paquetes:</p>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_34.png" alt="img_34.png"></p>
+<h3 id="evita-que-realicen-escaneos-de-tipo-null-a-zeus">
+  Evita que realicen escaneos de tipo NULL a Zeus
+  <a class="heading-link" href="#evita-que-realicen-escaneos-de-tipo-null-a-zeus">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A INPUT -p tcp --tcp-flags ALL NONE -m limit --limit 3/m --limit-burst 5 -j LOG --log-prefix &#34;Firewall&gt; Null scan &#34;
+iptables -A INPUT -p tcp --tcp-flags ALL NONE  -m recent --name blacklist_60 --set -m comment --comment &#34;Drop/Blacklist Null scan&#34; -j DROP
+</code></pre></div><p>Con la primera regla registramos en el log el ataque, y con la segunda descartamos los paquetes del escaneo y bloqueamos la ip durante 60 segundos.</p>
+<p>Al realizar un ataque nos aparece en los logs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nmap -sN 172.22.9.170
+</code></pre></div><p><img src="/images/practica_cortafuegosperimetral_iptables/img_35.png" alt="img_35.png"></p>
+<hr>
+<p>Con esto hemos terminado con las reglas que nos han exigido para el escenario. A continuación crearemos las reglas necesarias para que el escenario siga funcionando como hasta ahora:</p>
+<h3 id="permitimos-al-servidor-dns-de-apolo-hacer-peticiones-dns-a-otros-servidores">
+  Permitimos al servidor DNS de Apolo hacer peticiones DNS a otros servidores
+  <a class="heading-link" href="#permitimos-al-servidor-dns-de-apolo-hacer-peticiones-dns-a-otros-servidores">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A OUTPUT -p tcp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp --sport 53 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><p><img src="/images/practica_cortafuegosperimetral_iptables/img_36.png" alt="img_36.png"></p>
+<h3 id="permitimos-a-zeus-navegar">
+  Permitimos a Zeus navegar
+  <a class="heading-link" href="#permitimos-a-zeus-navegar">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A OUTPUT -o enp0s8 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i enp0s8 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -o enp0s8 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i enp0s8 -p tcp --sport 443 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><p><img src="/images/practica_cortafuegosperimetral_iptables/img_37.png" alt="img_37.png"></p>
+<h3 id="permitimos-que-se-hagan-consultas-al-servidor-ldap-desde-cualquier-máquina-del-escenario-y-desde-el-exterior">
+  Permitimos que se hagan consultas al servidor LDAP desde cualquier máquina del escenario y desde el exterior
+  <a class="heading-link" href="#permitimos-que-se-hagan-consultas-al-servidor-ldap-desde-cualquier-m%c3%a1quina-del-escenario-y-desde-el-exterior">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport 389 -j DNAT --to 10.0.1.102
+iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport 636 -j DNAT --to 10.0.1.102
+
+iptables -A OUTPUT -p tcp --dport 389 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --sport 389 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A OUTPUT -p tcp --dport 636 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A INPUT -p tcp --sport 636 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp --dport 389 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp --sport 389 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp --dport 636 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp --sport 636 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><p><img src="/images/practica_cortafuegosperimetral_iptables/img_38.png" alt="img_38.png"></p>
+<h3 id="apolo-debe-ser-capaz-de-mandar-correos-al-exterior-y-recibirlos">
+  Apolo debe ser capaz de mandar correos al exterior y recibirlos
+  <a class="heading-link" href="#apolo-debe-ser-capaz-de-mandar-correos-al-exterior-y-recibirlos">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -t nat -A PREROUTING -p tcp -i enp0s8 --dport 25 -j DNAT --to 10.0.1.102
+iptables -A FORWARD -s 10.0.1.102 -o enp0s8 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i enp0s8 -d 10.0.1.102 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -i enp0s8 -d 10.0.1.102 -p tcp --dport 25 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -s 10.0.1.102 -o enp0s8 -p tcp --sport 25 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><p><img src="/images/practica_cortafuegosperimetral_iptables/img_39.png" alt="img_39.png"></p>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_40.png" alt="img_40.png"></p>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_41.png" alt="img_41.png"></p>
+<h3 id="el-director-bacula-en-ares-debe-ser-capaz-de-conectarse-a-todas-las-máquinas-del-escenario">
+  El director Bacula en Ares debe ser capaz de conectarse a todas las máquinas del escenario
+  <a class="heading-link" href="#el-director-bacula-en-ares-debe-ser-capaz-de-conectarse-a-todas-las-m%c3%a1quinas-del-escenario">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">iptables -A INPUT -p tcp -m multiport --dport 9101,9102,9103 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A OUTPUT -p tcp -m multiport --sport 9101,9102,9103 -m state --state ESTABLISHED -j ACCEPT
+
+iptables -A FORWARD -p tcp -m multiport --dport 9101,9102,9103 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -p tcp -m multiport --sport 9101,9102,9103 -m state --state ESTABLISHED -j ACCEPT
+</code></pre></div><p><img src="/images/practica_cortafuegosperimetral_iptables/img_42.png" alt="img_42.png"></p>
+<p><img src="/images/practica_cortafuegosperimetral_iptables/img_43.png" alt="img_43.png"></p>
+<p>Con esto hemos terminado de configurar el cortafuegos para el escenario.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
