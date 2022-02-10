@@ -198,7 +198,7 @@
 <p>Primero creamos un contenedor con la imagen <code>mariadb</code> y que tenga las variables de entorno que nos han indicado. También crearemos una nueva red para la aplicación web.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker network create red_bookmedik
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">docker run -d --name bd_mariadb -v bookmedik_vol:/var/lib/mysql --network red_bookmedik -e MARIADB_ROOT_PASSWORD=root -e MARIADB_DATABASE=bookmedik -e MARIADB_USER=bookmedik -e MARIADB_PASSWORD=bookmedik mariadb
-</code></pre></div><p>Estto será para realizar las pruebas necesarias y comprobar que la imagen de la aplicación funcione como es debido.</p>
+</code></pre></div><p>Esto será para realizar las pruebas necesarias y comprobar que la imagen de la aplicación funcione como es debido.</p>
 <h2 id="tarea-1-creación-de-una-imagen-docker-con-una-aplicación-web-desde-una-imagen-base">
   Tarea 1: Creación de una imagen docker con una aplicación web desde una imagen base
   <a class="heading-link" href="#tarea-1-creaci%c3%b3n-de-una-imagen-docker-con-una-aplicaci%c3%b3n-web-desde-una-imagen-base">
