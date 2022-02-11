@@ -6,7 +6,18 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Feb 2022 11:52:11 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Feb 2022 18:37:27 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Implantación de aplicaciones web Python en Docker</title>
+      <link>https://sysadblog.onrender.com/posts/despliegue_python_docker/</link>
+      <pubDate>Fri, 11 Feb 2022 18:37:27 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/despliegue_python_docker/</guid>
+      <description>Implantación de aplicaciones web Python en Docker    Queremos desplegar en docker la aplicación escrita en python: tutorial de django 3.2, que desplegamos en la tarea Despliegue de aplicaciones python.
+Tienes que tener en cuenta los siguientes aspectos:
+ La aplicación debe guardar los datos en una base de datos mariadb. La aplicación se podrá configurar para indicar los parámetros de conexión a la base de datos: usuario, contraseña, host y base de datos.</description>
+    </item>
+    
     <item>
       <title>Práctica Cortafuegos Perimetral sobre el Escenario de Trabajo</title>
       <link>https://sysadblog.onrender.com/posts/practica_cortafuegosperimetral_iptables/</link>
