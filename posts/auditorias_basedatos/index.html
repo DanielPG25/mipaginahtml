@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Auditorías de Bases de Datos">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Auditorías de Bases de Datos"/>
+<meta name="twitter:description" content="Auditorías de Bases de Datos"/>
+
+    <meta property="og:title" content="Auditorías de Bases de Datos" />
+<meta property="og:description" content="Auditorías de Bases de Datos" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/auditorias_basedatos/" />
+<meta property="article:published_time" content="2022-02-13T13:19:45+01:00" />
+<meta property="article:modified_time" content="2022-02-13T13:19:45+01:00" />
+
+
+    <title>
+  Auditorías de Bases de Datos · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/auditorias_basedatos/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/auditorias_basedatos/">
+              Auditorías de Bases de Datos
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2022-02-13T13:19:45&#43;01:00'>
+                February 13, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/administraci%C3%B3n-de-bases-de-datos/">Administración de Bases de Datos</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <h1 id="auditorías-de-bases-de-datos">
+  Auditorías de Bases de Datos
+  <a class="heading-link" href="#auditor%c3%adas-de-bases-de-datos">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<h4 id="1-activa-desde-sqlplus-la-auditoría-de-los-intentos-de-acceso-fallidos-al-sistema">
+  1. Activa desde SQLPlus la auditoría de los intentos de acceso fallidos al sistema
+  <a class="heading-link" href="#1-activa-desde-sqlplus-la-auditor%c3%ada-de-los-intentos-de-acceso-fallidos-al-sistema">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h4>
+<p>Para comprobar si las auditorías se encuentran activadas en nuestra base de datos, ejecutamos la siguiente sentencia:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">SELECT name, value FROM v$parameter WHERE name like &#39;audit_trail&#39;;
+</code></pre></div><p><img src="/images/auditorias_basedatos/img_1.png" alt="img_1.png"></p>
+<p>Como vemos, el parámetro <code>audit_trail</code> tiene el valor de <code>db</code>, lo que quiere decir que las auditorías están activadas y se almacenan en la base de datos. Si no estuvieran activadas, el valor de <code>audit_trail</code> sería de <code>NONE</code>, y se activarían con la siguiente sentencia:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ALTER SYSTEM SET audit_trail=db scope=spfile;
+</code></pre></div><p>Una vez mencionado esto, vamos a pasar a la actividad que tenemos entre manos. Para activar la auditoría de intentos de acceso fallidos, ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">AUDIT CREATE SESSION WHENEVER NOT SUCCESSFUL;
+</code></pre></div><p>Una vez activada, vamos a intentar entrar con un usuario inexistente:</p>
+<p><img src="/images/auditorias_basedatos/img_2.png" alt="img_2.png"></p>
+<p>Ahora veamos si se ha registrado en la base de datos el intento fallido de acceso:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">SELECT OS_USERNAME, USERNAME, EXTENDED_TIMESTAMP, ACTION_NAME FROM DBA_AUDIT_SESSION;
+</code></pre></div><p><img src="/images/auditorias_basedatos/img_3.png" alt="img_3.png"></p>
+<p>Como vemos, se ha registrado el acceso, por lo que podemos concluir con este ejercicio.</p>
+<h4 id="2-realiza-un-procedimiento-en-plsql-que-te-muestre-los-accesos-fallidos-junto-con-el-motivo-de-los-mismos-transformando-el-código-de-error-almacenado-en-un-mensaje-de-texto-comprensible">
+  2. Realiza un procedimiento en PL/SQL que te muestre los accesos fallidos junto con el motivo de los mismos, transformando el código de error almacenado en un mensaje de texto comprensible
+  <a class="heading-link" href="#2-realiza-un-procedimiento-en-plsql-que-te-muestre-los-accesos-fallidos-junto-con-el-motivo-de-los-mismos-transformando-el-c%c3%b3digo-de-error-almacenado-en-un-mensaje-de-texto-comprensible">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">CREATE OR REPLACE PROCEDURE P_EXPLICAR_CODIGO_ERROR (P_CODIGO DBA_AUDIT_SESSION.RETURNCODE%TYPE)
+IS
+BEGIN
+CASE P_CODIGO 
+	WHEN 911 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;Contiene un carácter inválido&#39;);
+	WHEN 1004 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;El acceso se ha denegado&#39;);
+	WHEN 1017 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;El usuario/contraseña es inválido&#39;);
+	WHEN 1045 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;El usuario no tiene el permiso CREATE SESSION&#39;);
+	WHEN 28000 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;La cuenta está bloqueada&#39;);
+	WHEN 28001 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;La contraseña ha expirado&#39;);
+	WHEN 28002 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;La contraseña va a caducar pronto, deberías cambiarla&#39;);
+	WHEN 28003 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;La contraseña no es lo bastante compleja&#39;);
+	WHEN 28007 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;No puedes reutilizar la contraseña&#39;);
+	WHEN 28008 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;Contraseña antigua inválida&#39;);
+	WHEN 28009 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;La conexión a SYS debe ser a través de SYSDBA o SYSOPER&#39;);
+	WHEN 28011 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;La contraseña va a caducar pronto, deberías cambiarla&#39;);
+	WHEN 28009 THEN
+		DBMS_OUTPUT.PUT_LINE(&#39;La contraseña original no se ha introducido&#39;);
+	ELSE
+		DBMS_OUTPUT.PUT_LINE(&#39;Póngase en contacto con el administrador para saber la razón&#39;);
+END CASE;
+END P_EXPLICAR_CODIGO_ERROR;
+/
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">CREATE OR REPLACE PROCEDURE P_MOSTRAR_ACCESOS_FALLIDOS 
+IS
+CURSOR C_INTENTOS_FALLIDOS IS SELECT OS_USERNAME, USERNAME, EXTENDED_TIMESTAMP, RETURNCODE FROM DBA_AUDIT_SESSION;
+V_REG C_INTENTOS_FALLIDOS%ROWTYPE;
+BEGIN
+FOR V_REG IN C_INTENTOS_FALLIDOS LOOP
+	DBMS_OUTPUT.PUT_LINE(&#39;Intento fallido de acceso&#39;);
+	DBMS_OUTPUT.PUT_LINE(&#39;Usuario del sistema: &#39;||V_REG.OS_USERNAME);
+	DBMS_OUTPUT.PUT_LINE(&#39;Usuario de la base de datos: &#39;||V_REG.USERNAME);
+	DBMS_OUTPUT.PUT_LINE(&#39;Fecha y Hora: &#39;||V_REG.EXTENDED_TIMESTAMP);
+	P_EXPLICAR_CODIGO_ERROR(V_REG.RETURNCODE);
+	DBMS_OUTPUT.PUT_LINE(CHR(9));
+END LOOP;
+END P_MOSTRAR_ACCESOS_FALLIDOS;
+/
+</code></pre></div><p><img src="/images/auditorias_basedatos/img_4.png" alt="img_4.png"></p>
+<h4 id="3-activa-la-auditoría-de-las-operaciones-dml-realizadas-por-scott">
+  3. Activa la auditoría de las operaciones DML realizadas por SCOTT
+  <a class="heading-link" href="#3-activa-la-auditor%c3%ada-de-las-operaciones-dml-realizadas-por-scott">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h4>
+<p>Para activar la auditoría de las operaciones DML realizadas por SCOTT, ejecutamos la siguiente sentencia:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">AUDIT INSERT TABLE, UPDATE TABLE, DELETE TABLE BY C##SCOTT;
+</code></pre></div><p>Vamos a comprobar si funciona entrando como ese usuario y ejecutando algunas sentencias:</p>
+<p><img src="/images/auditorias_basedatos/img_5.png" alt="img_5.png"></p>
+<p><img src="/images/auditorias_basedatos/img_6.png" alt="img_6.png"></p>
+<p>Veamos si se han registrado los cambios que hemos hecho:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">SELECT USERNAME, OBJ_NAME, ACTION_NAME, EXTENDED_TIMESTAMP FROM DBA_AUDIT_OBJECT;
+</code></pre></div><p><img src="/images/auditorias_basedatos/img_7.png" alt="img_7.png"></p>
+<p><img src="/images/auditorias_basedatos/img_8.png" alt="img_8.png"></p>
+<p>Como vemos, las operaciones DML realizadas por el usuario SCOTT han quedado registradas, por lo que podemos concluir este ejercicio.</p>
+<h4 id="4-realiza-una-auditoría-de-grano-fino-para-almacenar-información-sobre-la-inserción-de-empleados-del-departamento-10-en-la-tabla-emp-de-scott">
+  4. Realiza una auditoría de grano fino para almacenar información sobre la inserción de empleados del departamento 10 en la tabla emp de scott
+  <a class="heading-link" href="#4-realiza-una-auditor%c3%ada-de-grano-fino-para-almacenar-informaci%c3%b3n-sobre-la-inserci%c3%b3n-de-empleados-del-departamento-10-en-la-tabla-emp-de-scott">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h4>
+<p>Una auditoría de grano fino es una auditoría que no solo guarda sobre que objeto se realizó una determinada operación, sino que también nos permite saber con más detalle que datos fueron consultados, o que datos fueron insertados, modificados o borrados por un usuario. Esto nos permite un mayor nivel de control sobre los datos de la base de datos, y también nos permite averiguar que usuarios podrían estar abusando de sus privilegios.</p>
+<p>Para realizar la auditoría de grano fino que nos han indicado, ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">BEGIN
+	DBMS_FGA.ADD_POLICY (
+	OBJECT_SCHEMA      =&gt; &#39;C##SCOTT&#39;,
+	OBJECT_NAME        =&gt; &#39;EMP&#39;,
+	POLICY_NAME        =&gt; &#39;AUDIT_FINA_DPARRALES&#39;,
+	AUDIT_CONDITION    =&gt; &#39;DEPTNO = 10&#39;,
+	STATEMENT_TYPES    =&gt; &#39;INSERT&#39;
+	);
+END;
+/
+</code></pre></div><p>Ahora entramos con el usuario SCOTT e insertamos varios registros, para comprobar si se registran en la auditoría:</p>
+<p><img src="/images/auditorias_basedatos/img_9.png" alt="img_9.png"></p>
+<p>Miremos si se han registrado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">SELECT DB_USER, OBJECT_NAME, SQL_TEXT, EXTENDED_TIMESTAMP FROM DBA_FGA_AUDIT_TRAIL WHERE POLICY_NAME=&#39;AUDIT_FINA_DPARRALES&#39;;
+</code></pre></div><p><img src="/images/auditorias_basedatos/img_10.png" alt="img_10.png"></p>
+<p><img src="/images/auditorias_basedatos/img_11.png" alt="img_11.png"></p>
+<p>Como podemos ver, aparecen todos los datos relacionados con las inserciones en la tabla EMP de SCOTT, incluyendo las sentencias ejecutadas, por lo que podemos dar por concluido este ejercicio.</p>
+<h4 id="5-explica-la-diferencia-entre-auditar-una-operación-by-access-o-by-session">
+  5. Explica la diferencia entre auditar una operación &ldquo;by access&rdquo; o &ldquo;by session&rdquo;
+  <a class="heading-link" href="#5-explica-la-diferencia-entre-auditar-una-operaci%c3%b3n-by-access-o-by-session">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h4>
+<p>La diferencia entre ambos radica en que &ldquo;by access&rdquo; almacena un registro por cada acción que se realice, sin importar que se haya repetido. No obstante, &ldquo;by session&rdquo; almacena un solo registro por una misma acción, lo que evita la repetición.</p>
+<p>Para elegir una u otra, habría que indicarlo al final de la creación de la auditoría. Por ejemplo, si usáramos la auditoría del ejercicio 3, la sintaxis sería la siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">AUDIT INSERT TABLE, UPDATE TABLE, DELETE TABLE BY C##SCOTT BY {ACCESS/SESSION};
+</code></pre></div><h4 id="6-documenta-las-diferencias-entre-los-valores-db-y-db-extended-del-parámetro-audit_trail-de-oracle">
+  6. Documenta las diferencias entre los valores &ldquo;db&rdquo; y &ldquo;db, extended&rdquo; del parámetro audit_trail de ORACLE
+  <a class="heading-link" href="#6-documenta-las-diferencias-entre-los-valores-db-y-db-extended-del-par%c3%a1metro-audit_trail-de-oracle">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h4>
+<p>Los dos valores indican que las auditorías están activadas en el sistema. La diferencia radica en que &ldquo;db, extended&rdquo;, además almacena los datos que se corresponden con &ldquo;SQLBIND&rdquo; y &ldquo;SQLTEXT&rdquo; en la tabla &ldquo;SYS.AUD$&rdquo;, mientras que &ldquo;db&rdquo; no los almacena.</p>
+<p>Si quisiéramos cambiar el valor de nuestra base de datos de &ldquo;db&rdquo; a &ldquo;db, extended&rdquo; deberemos ejecutar lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">ALTER SYSTEM SET audit_trail = DB,EXTENDED SCOPE=SPFILE;
+</code></pre></div><p>Tras esto, para aplicar los cambios, deberíamos reiniciar la base de datos:</p>
+<p><img src="/images/auditorias_basedatos/img_12.png" alt="img_12.png"></p>
+<p>Comprobemos si ha cambiado:</p>
+<p><img src="/images/auditorias_basedatos/img_13.png" alt="img_13.png"></p>
+<h4 id="7-averigua-si-en-postgres-se-pueden-realizar-los-apartados-1-3-y-4">
+  7. Averigua si en Postgres se pueden realizar los apartados 1, 3 y 4.
+  <a class="heading-link" href="#7-averigua-si-en-postgres-se-pueden-realizar-los-apartados-1-3-y-4">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h4>
+<p>La comprobación de los accesos fallidos a la base de datos no es como en Oracle. Si queremos ver dichos intentos, tenemos que mirar en los logs de postgresql. Dichos logs se encuentran en la ruta <code>/var/log/postgresql</code>, y no contienen tanta información como en oracle:</p>
+<p><img src="/images/auditorias_basedatos/img_14.png" alt="img_14.png"></p>
+<p>PostgreSQL no incorpora una herramienta para realizar auditorías, por lo que tenemos que hacer uso de una herramienta que ha creado la comunidad para realizar dichas auditorías: <strong>Audit trigger 91plus</strong>.</p>
+<p>Así pues, lo primero es descargarnos la herramienta:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">wget https://raw.githubusercontent.com/2ndQuadrant/audit-trigger/master/audit.sql
+</code></pre></div><p>Para activar la herramienta en el servidor, ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback"> \i audit.sql
+</code></pre></div><p>Una vez activadas las auditorías con esta herramienta, si queremos ver las operaciones DML que realice SCOTT, deberemos indicarlo tabla por tabla, ya que no podemos activar esta herramienta de forma global. Dicho de otra forma, con esta herramienta no podemos auditar a los usuarios, sino las tablas en sí. Si ejecutamos lo siguiente, por lo tanto, veríamos las operaciones realizadas sobre la tabla &ldquo;emp&rdquo; del esquema SCOTT:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">select audit.audit_table(&#39;scott.emp&#39;);
+
+NOTICE:  disparador «audit_trigger_row» para la relación «scott.emp» no existe, ignorando
+NOTICE:  disparador «audit_trigger_stm» para la relación «scott.emp» no existe, ignorando
+NOTICE:  CREATE TRIGGER audit_trigger_row AFTER INSERT OR UPDATE OR DELETE ON scott.emp FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func(&#39;true&#39;);
+NOTICE:  CREATE TRIGGER audit_trigger_stm AFTER TRUNCATE ON scott.emp FOR EACH STATEMENT EXECUTE PROCEDURE audit.if_modified_func(&#39;true&#39;);
+ audit_table 
+-------------
+ 
+(1 fila)
+</code></pre></div><p>Ahora, podemos entrar con el usuario scott y realizar operaciones de prueba, para ver si se registran (aunque podríamos hacerlo con otro usuario):</p>
+<p><img src="/images/auditorias_basedatos/img_15.png" alt="img_15.png"></p>
+<p>Miremos si se han registrado correctamente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">select session_user_name, action, table_name, action_tstamp_clk, client_query from audit.logged_actions;
+</code></pre></div><p><img src="/images/auditorias_basedatos/img_16.png" alt="img_16.png"></p>
+<p>Como vemos, nos muestra el usuario, la tabla, la fecha, la acción y le sentencia ejecutada, por lo que podemos decir que esta herramienta genera auditorías de grano fino.</p>
+<h4 id="8-averigua-si-en-mysql-se-pueden-realizar-los-apartados-1-3-y-4">
+  8. Averigua si en MySQL se pueden realizar los apartados 1, 3 y 4.
+  <a class="heading-link" href="#8-averigua-si-en-mysql-se-pueden-realizar-los-apartados-1-3-y-4">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h4>
+<p>Si queremos ver los registros de intentos fallidos de acceso, debemos verlos en los logs que genera mariadb. Para ello, primero debemos habilitar esto en la configuración (<code>/etc/mysql/mariadb.conf.d/50-server.cnf</code>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">general_log_file       = /var/log/mysql/mysql.log
+general_log            = 1
+log_error = /var/log/mysql/error.log
+</code></pre></div><p>Ahora cambiamos la propiedad de directorio (<code>/var/log/mysql/</code>) a &ldquo;mysql&rdquo; y reiniciamos los servicios de mariadb y mysql:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">chown mysql: mysql/
+systemctl restart mariadb
+systemctl restart mysql
+</code></pre></div><p>Ahora si miramos el log de errores, nos aparecen los intentos fallidos de acceso al servidor de base de datos:</p>
+<p><img src="/images/auditorias_basedatos/img_17.png" alt="img_17.png"></p>
+<p>Ahora bien, si queremos habilitar las auditorias, debemos instalar un plugin adicional de mariadb:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">INSTALL SONAME &#39;server_audit&#39;;
+</code></pre></div><p>Una vez hecho esto, para habilitar la auditoría DML de scott, debemos modificar la configuración de mariadb (<code>/etc/mysql/mariadb.conf.d/50-server.cnf</code>) con lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">[server]
+server_audit_events=CONNECT,QUERY,TABLE
+server_audit_logging=ON
+server_audit_incl_users=scott
+</code></pre></div><p>Ahora reiniciamos el servicio de mariadb para aplicar los cambios:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">systemctl restart mariadb
+</code></pre></div><p>Ahora, entramos con el usuario scott y ejecutamos algunas sentencias, para ver si se registran adecuadamente:</p>
+<p><img src="/images/auditorias_basedatos/img_18.png" alt="img_18.png"></p>
+<p>Miremos en el fichero de auditorías para ver si han guardado (por defecto se encuentra en <code>/var/lib/mysql/server_audit.log</code>):</p>
+<p><img src="/images/auditorias_basedatos/img_19.png" alt="img_19.png"></p>
+<p>Como vemos, se ha registrado el usuario que ejecutó la sentencia, la fecha y hora, la tabla y la sentencia que se ejecutó, por lo que podemos decir que esta auditoría es de grano fino.</p>
+<h4 id="9-averigua-las-posibilidades-que-ofrece-mongodb-para-auditar-los-cambios-que-va-sufriendo-un-documento">
+  9. Averigua las posibilidades que ofrece MongoDB para auditar los cambios que va sufriendo un documento
+  <a class="heading-link" href="#9-averigua-las-posibilidades-que-ofrece-mongodb-para-auditar-los-cambios-que-va-sufriendo-un-documento">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h4>
+<p>Mongodb Enterprise nos ofrece la capacidad de hacer auditorías. Para ello, nos da tres opciones a la hora de habilitarlas:</p>
+<ul>
+<li>Guardar las auditorías en el <code>syslog</code>.</li>
+<li>Guardar las auditorías en un fichero JSON o BSON.</li>
+<li>Hacer que las auditorías aparezcan directamente en la consola.</li>
+</ul>
+<p>Podemos habilitar las auditorías de dos formas: a través de la consola o modificando la configuración.</p>
+<ul>
+<li>
+<p>A través de la consola:</p>
+<ul>
+<li>Syslog:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mongod --dbpath data/db --auditDestination syslog
+</code></pre></div><ul>
+<li>JSON/BSON:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mongod --dbpath data/db --auditDestination file --auditFormat JSON --auditPath data/db/auditLog.json
+mongod --dbpath data/db --auditDestination file --auditFormat BSON --auditPath data/db/auditLog.bson
+</code></pre></div><ul>
+<li>Consola:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">mongod --dbpath data/db --auditDestination console
+</code></pre></div></li>
+<li>
+<p>Modificando la configuración (<code>/etc/mongod.conf</code>):</p>
+<ul>
+<li>Syslog:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">storage:
+  dbPath: data/db
+auditLog:
+  destination: syslog
+</code></pre></div><ul>
+<li>JSON/BSON:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">storage:
+  dbPath: data/db
+auditLog:
+  destination: file
+  format: JSON
+  path: data/db/auditLog.json
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">storage:
+  dbPath: data/db
+auditLog:
+  destination: file
+  format: BSON
+  path: data/db/auditLog.bson
+</code></pre></div><ul>
+<li>Consola:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">storage:
+  dbPath: data/db
+auditLog:
+  destination: console
+</code></pre></div></li>
+</ul>
+<h4 id="10-averigua-si-en-mongodb-se-pueden-auditar-los-accesos-al-sistema">
+  10. Averigua si en MongoDB se pueden auditar los accesos al sistema
+  <a class="heading-link" href="#10-averigua-si-en-mongodb-se-pueden-auditar-los-accesos-al-sistema">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h4>
+<p>Para ello, desde la consola de MongoDB ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">db.setLogLevel(3, &#34;accessControl&#34;)
+</code></pre></div><p>El número indica el nivel de verbosidad, siendo &ldquo;0&rdquo; equivalente a desactivado, y &ldquo;5&rdquo; el máximo. Una vez hecho esto, si intentamos entrar con un usuario equivocado y miramos los logs, nos aparece lo siguiente:</p>
+<p><img src="/images/auditorias_basedatos/img_20.png" alt="img_20.png"></p>
+<p>Como vemos, se nos indica que ha habido un intento de acceso al sistema no autorizado, aportando además bastante información al respecto (usuario, host, fecha y hora, etc.).</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El camino a la locura de un sysadmin</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
