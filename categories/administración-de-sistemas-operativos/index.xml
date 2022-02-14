@@ -6,7 +6,18 @@
     <description>Recent content in Administración de Sistemas Operativos on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 13 Feb 2022 16:41:06 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Feb 2022 12:54:46 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NFS y Samba en Rocky 8 con SELinux</title>
+      <link>https://sysadblog.onrender.com/posts/practica_selinux/</link>
+      <pubDate>Mon, 14 Feb 2022 12:54:46 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_selinux/</guid>
+      <description>Configuración/activación de SELinux    Habilita SELinux en un servidor basado en Rocky y asegúrate que los servicios samba y nfs funcionan correctamente con una configuración estricta y segura de SELinux.
+ El escenario consta de dos máquinas basadas en Rocky 8. Una actuará de cliente y otra de servidor, ambas con SELinux activado y en modo enforcing.
+En primer lugar tenemos que instalar los paquetes necesarios para los servicios de samba y nfs en el lado del servidor:</description>
+    </item>
+    
     <item>
       <title>Sistema de copias de seguridad (Bacula)</title>
       <link>https://sysadblog.onrender.com/posts/sistema_copias_seguridad/</link>
