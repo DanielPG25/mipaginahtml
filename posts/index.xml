@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 14 Feb 2022 12:54:46 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 17 Feb 2022 14:29:07 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cluster de Alta Disponibilidad</title>
+      <link>https://sysadblog.onrender.com/posts/practica_cluster_alta_disponibilidad/</link>
+      <pubDate>Thu, 17 Feb 2022 14:29:07 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_cluster_alta_disponibilidad/</guid>
+      <description>Cluster de Alta Disponibilidad    El objetivo de este práctica es la instalación de una aplicación php (WordPress) sobe dos cluster de alta disponibilidad:
+Cluster de HA activo-pasivo     Utiliza el Vagrantfile la receta ansible del escenario 6: 06-HA-IPFailover-Apache2+DRBD+GFS2 para crear un cluster de alta disponibilidad activo-pasivo. Nota: La receta instala apache2 + php. Comprueba que los recursos están configurados de manera adecuada, configura tu host para que use el servidor DNS y comprueba que puedes acceder de forma adecuada a la página.</description>
+    </item>
+    
     <item>
       <title>NFS y Samba en Rocky 8 con SELinux</title>
       <link>https://sysadblog.onrender.com/posts/practica_selinux/</link>

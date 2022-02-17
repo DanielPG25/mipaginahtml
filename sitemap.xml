@@ -3,37 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://sysadblog.onrender.com/authors/</loc>
+    <lastmod>2022-02-17T14:29:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/</loc>
+    <lastmod>2022-02-17T14:29:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/practica_cluster_alta_disponibilidad/</loc>
+    <lastmod>2022-02-17T14:29:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
+    <lastmod>2022-02-17T14:29:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/</loc>
+    <lastmod>2022-02-17T14:29:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</loc>
+    <lastmod>2022-02-17T14:29:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/</loc>
+    <lastmod>2022-02-17T14:29:07+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/</loc>
     <lastmod>2022-02-14T12:54:46+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://sysadblog.onrender.com/authors/</loc>
-    <lastmod>2022-02-14T12:54:46+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/</loc>
-    <lastmod>2022-02-14T12:54:46+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
-    <lastmod>2022-02-14T12:54:46+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://sysadblog.onrender.com/posts/practica_selinux/</loc>
-    <lastmod>2022-02-14T12:54:46+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/posts/</loc>
-    <lastmod>2022-02-14T12:54:46+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/</loc>
     <lastmod>2022-02-14T12:54:46+01:00</lastmod>
   </url>
   
@@ -64,11 +74,6 @@
   
   <url>
     <loc>https://sysadblog.onrender.com/posts/practica_cortafuegosperimetral_iptables/</loc>
-    <lastmod>2022-02-09T11:52:11+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/seguridad-y-alta-disponibilidad/</loc>
     <lastmod>2022-02-09T11:52:11+01:00</lastmod>
   </url>
   
