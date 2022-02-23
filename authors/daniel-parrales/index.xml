@@ -6,7 +6,17 @@
     <description>Recent content in Daniel Parrales on Sysadblog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 18 Feb 2022 10:18:02 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 23 Feb 2022 13:37:12 +0100</lastBuildDate><atom:link href="https://sysadblog.onrender.com/authors/daniel-parrales/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Despliegue de Bookmedik en Kubernetes</title>
+      <link>https://sysadblog.onrender.com/posts/practica_kubernetes/</link>
+      <pubDate>Wed, 23 Feb 2022 13:37:12 +0100</pubDate>
+      
+      <guid>https://sysadblog.onrender.com/posts/practica_kubernetes/</guid>
+      <description>En IAW has creado dos imágenes de dos aplicaciones: bookmedik (php) y polls (python django). Elige una de ellas y despliégala en kuberenetes. Para ello vamos a hacer dos ejercicios:
+Ejercicio1: Despliegue en Minikube    Escribe los ficheros yaml que te posibilitan desplegar la aplicación en minikube. Recuerda que la base de datos debe tener un volumen para hacerla persistente. Debes crear ficheros para los deployments, services, ingress, volúmenes, etc.</description>
+    </item>
+    
     <item>
       <title>Monitorización con Nagios</title>
       <link>https://sysadblog.onrender.com/posts/monitorizacion_nagios/</link>

@@ -3,37 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://sysadblog.onrender.com/authors/</loc>
+    <lastmod>2022-02-23T13:37:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/</loc>
+    <lastmod>2022-02-23T13:37:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/categories/cloud-computing/</loc>
+    <lastmod>2022-02-23T13:37:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
+    <lastmod>2022-02-23T13:37:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/practica_kubernetes/</loc>
+    <lastmod>2022-02-23T13:37:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/posts/</loc>
+    <lastmod>2022-02-23T13:37:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sysadblog.onrender.com/</loc>
+    <lastmod>2022-02-23T13:37:12+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://sysadblog.onrender.com/categories/administraci%C3%B3n-de-sistemas-operativos/</loc>
     <lastmod>2022-02-18T10:18:02+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://sysadblog.onrender.com/authors/</loc>
-    <lastmod>2022-02-18T10:18:02+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/</loc>
-    <lastmod>2022-02-18T10:18:02+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/authors/daniel-parrales/</loc>
-    <lastmod>2022-02-18T10:18:02+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://sysadblog.onrender.com/posts/monitorizacion_nagios/</loc>
-    <lastmod>2022-02-18T10:18:02+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/posts/</loc>
-    <lastmod>2022-02-18T10:18:02+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/</loc>
     <lastmod>2022-02-18T10:18:02+01:00</lastmod>
   </url>
   
@@ -120,11 +130,6 @@
   <url>
     <loc>https://sysadblog.onrender.com/categories/servicios-de-red/</loc>
     <lastmod>2022-01-28T13:46:58+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://sysadblog.onrender.com/categories/cloud-computing/</loc>
-    <lastmod>2022-01-27T18:59:42+01:00</lastmod>
   </url>
   
   <url>
