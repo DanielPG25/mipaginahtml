@@ -137,7 +137,7 @@
             </span>
             <span class="reading-time">
               <i class="fa fa-clock-o" aria-hidden="true"></i>
-              5-minute read
+              21-minute read
             </span>
           </div>
           <div class="authors">
@@ -293,6 +293,787 @@ spec:
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl delete rs replica-test-web 
 </code></pre></div><p><img src="/images/ejercicios_kubernetes/img_13.png" alt="img_13.png"></p>
 <p>Con la eliminación del ReplicaSet, damos por finalizado este ejercicio.</p>
+<h2 id="despliegues">
+  Despliegues
+  <a class="heading-link" href="#despliegues">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="trabajando-con-deployments">
+  Trabajando con Deployments
+  <a class="heading-link" href="#trabajando-con-deployments">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>En esta actividad vamos a crear un Deployment de una aplicación web. Sigamos los siguientes pasos:</p>
+<ol>
+<li>Crea un fichero yaml con la descripción del recurso Deployment, teniendo en cuenta los siguientes aspectos:
+<ul>
+<li>Indica nombres distintos para el Deployment y para el contenedor de los Pods que va a controlar.</li>
+<li>El Deployment va a crear 2 réplicas.</li>
+<li>La imagen que debes desplegar es <code>iesgn/test_web:latest</code>.</li>
+<li>Indica de manera adecuada una etiqueta en la especificación del Pod que vas a definir que coincida con el selector del Deployment.</li>
+</ul>
+</li>
+<li>Crea el Deployment.</li>
+<li>Comprueba los recursos que se han creado: Deployment, ReplicaSet y Pods.</li>
+<li>Obtén información detallada del Deployment creado.</li>
+<li>Crea un una redirección utilizando el port-forward para acceder a la aplicación, sabiendo que la aplicación ofrece el servicio en el puerto 80, y accede a la aplicación con un navegador web.</li>
+<li>Accede a los logs del despliegue para comprobar el acceso que has hecho en el punto anterior.</li>
+<li>Elimina el Deployment y comprueba que se han borrado todos los recursos creados.</li>
+</ol>
+<hr>
+<p>Vamos a empezar creando el fichero yaml:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano deployment-test-web.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-testweb
+  labels:
+    app: web
+spec:
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - image: iesgn/test_web:latest
+        name: contendor-testweb
+        ports:
+        - name: http
+          containerPort: 80
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_14.png" alt="img_14.png"></p>
+<p>Lanzamos el deployment:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f deployment-test-web.yaml
+</code></pre></div><p>Podemos ver los recursos que se han creado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl get all
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_15.png" alt="img_15.png"></p>
+<p>Si queremos ver información más detallada del deployment, ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl describe deployment.apps/deployment-testweb
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_16.png" alt="img_16.png"></p>
+<p>Si queremos comprobar que la aplicación se está sirviendo, podemos crear momentáneamente una redirección para acceder a través del navegador:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl port-forward deployment.apps/deployment-testweb 8080:80
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_17.png" alt="img_17.png"></p>
+<p>También podemos acceder a los logs del deployment para ver el acceso que hemos hecho a través del navegador web:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl logs deployment.apps/deployment-testweb
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_18.png" alt="img_18.png"></p>
+<p>Por último, podemos eliminar el deployment con la siguiente orden:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl delete deployments.apps deployment-testweb
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_19.png" alt="img_19.png"></p>
+<p>Con esto, damos por finalizado este ejercicio.</p>
+<h3 id="actualización-y-desactualización-de-nuestra-aplicación">
+  Actualización y desactualización de nuestra aplicación
+  <a class="heading-link" href="#actualizaci%c3%b3n-y-desactualizaci%c3%b3n-de-nuestra-aplicaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>El equipo de desarrollo ha creado una primera versión preliminar de una aplicación web y ha creado una imagen de contenedor con el siguiente nombre: <code>iesgn/test_web:version1</code>.</p>
+<p>Vamos a desplegar esta primera versión de la aplicación, para ello:</p>
+<ol>
+<li>Crea un fichero yaml (puedes usar el de la actividad anterior) para desplegar la imagen: <code>iesgn/test_web:version1</code>.</li>
+<li>Crea el Deployment, recuerda la opción que nos permite registrar los comandos que vamos a ejecutar a continuación para ir actualizando el despliegue.</li>
+<li>Crea una redirección utilizando el <code>port-forward</code> para acceder a la aplicación, sabiendo que la aplicación ofrece el servicio en el puerto 80, y accede a la aplicación con un navegador web.</li>
+</ol>
+<hr>
+<p>En primer lugar, crearemos el fichero yaml correspondiente a este despliegue:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano deployment-test-web2.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-testweb
+  labels:
+    app: web
+spec:
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - image: iesgn/test_web:version1
+        name: contendor-testweb
+        ports:
+        - name: http
+          containerPort: 80
+</code></pre></div><p>Ahora lanzamos el despliegue:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f deployment-test-web2.yaml
+</code></pre></div><p>Y anotamos el despliegue para tener un registro:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl annotate deployment/deployment-testweb kubernetes.io/change-cause=&#34;Lanzamos la primera versión de la aplicación&#34;
+</code></pre></div><p>Podemos acceder a través del navegador usando el <code>port-forwarding</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl port-forward deployment.apps/deployment-testweb 8080:80
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_20.png" alt="img_20.png"></p>
+<hr>
+<p>Nuestro equipo de desarrollo ha seguido trabajando y ya tiene lista la versión 2 de nuestra aplicación, han creado una imagen que se llama: <code>iesgn/test_web:version2</code>. Vamos a actualizar nuestro despliegue con la nueva versión, para ello:</p>
+<ol>
+<li>Realiza la actualización del despliegue utilizando la nueva imagen.</li>
+<li>Comprueba los recursos que se han creado: Deployment, ReplicaSet y Pods.</li>
+<li>Visualiza el historial de actualizaciones.</li>
+<li>Crea una redirección utilizando el <code>port-forward</code> para acceder a la aplicación, sabiendo que la aplicación ofrece el servicio en el puerto 80, y accede a la aplicación con un navegador web.</li>
+</ol>
+<hr>
+<p>Para ello ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl set image deployment.apps/deployment-testweb contendor-testweb=iesgn/test_web:version2
+</code></pre></div><p>Y creamos la anotación:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl annotate deployment/deployment-testweb kubernetes.io/change-cause=&#34;Lanzamos la segunda versión de la aplicación&#34;
+</code></pre></div><p>Podemos ver que se han creado los nuevos recursos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl get all
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_21.png" alt="img_21.png"></p>
+<p>Si vemos el historial de actualizaciones, nos saldrán los dos deployments que hemos hecho junto con las anotaciones:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl rollout history deployment deployment-testweb
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_22.png" alt="img_22.png"></p>
+<p>Ahora podemos acceder a la web usando el <code>port-forwarding</code> y ver si se han producido los cambios:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl port-forward deployment.apps/deployment-testweb 8080:80
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_23.png" alt="img_23.png"></p>
+<hr>
+<p>Finalmente después de un trabajo muy duro, el equipo de desarrollo ha creado la imagen iesgn/test_web:version3 con la última versión de nuestra aplicación y la vamos a poner en producción, para ello:</p>
+<ol>
+<li>Realiza la actualización del despliegue utilizando la nueva imagen.</li>
+<li>Comprueba los recursos que se han creado: Deployment, ReplicaSet y Pods.</li>
+<li>Visualiza el historial de actualizaciones.</li>
+<li>Crea una redirección utilizando el port-forward para acceder a la aplicación, sabiendo que la aplicación ofrece el servicio en el puerto 80, y accede a la aplicación con un navegador web.</li>
+</ol>
+<hr>
+<p>Para ello ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl set image deployment.apps/deployment-testweb contendor-testweb=iesgn/test_web:version3
+</code></pre></div><p>Y creamos la anotación:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl annotate deployment/deployment-testweb kubernetes.io/change-cause=&#34;Lanzamos la tercera versión de la aplicación&#34;
+</code></pre></div><p>Podemos ver que se han creado los nuevos recursos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl get all
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_24.png" alt="img_24.png"></p>
+<p>Si vemos el historial de actualizaciones, nos saldrán los dos deployments que hemos hecho junto con las anotaciones:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl rollout history deployment deployment-testweb
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_25.png" alt="img_25.png"></p>
+<p>Ahora podemos acceder a la web usando el <code>port-forwarding</code> y ver si se han producido los cambios:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl port-forward deployment.apps/deployment-testweb 8080:80
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_26.png" alt="img_26.png"></p>
+<hr>
+<p>¡Vaya!, parece que esta versión tiene un fallo, y no se ve de forma adecuada la hoja de estilos, tenemos que volver a la versión anterior:</p>
+<ol>
+<li>Ejecuta la instrucción que nos permite hacer un rollback de nuestro despliegue.</li>
+<li>Comprueba los recursos que se han creado: Deployment, ReplicaSet y Pods.</li>
+<li>Visualiza el historial de actualizaciones.</li>
+<li>Crea una redirección utilizando el <code>port-forward</code> para acceder a la aplicación, sabiendo que la aplicación ofrece el servicio en el puerto 80, y accede a la aplicación con un navegador web.</li>
+</ol>
+<hr>
+<p>Para volver a la versión anterior ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl rollout undo deployment.apps/deployment-testweb
+</code></pre></div><p>Y lo anotamos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl annotate deployment/deployment-testweb kubernetes.io/change-cause=&#34;Volvemos a la segunda versión de la aplicación&#34;
+</code></pre></div><p>Vemos los recursos que se han creado:</p>
+<p><img src="/images/ejercicios_kubernetes/img_27.png" alt="img_27.png"></p>
+<p>Si visualizamos el historial de actualizaciones, veremos que los números han cambiado, y hemos vuelto a la versión dos (ha desaparecido el número dos y se ha cambiado por el cuatro):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl rollout history deployment deployment-testweb
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_28.png" alt="img_28.png"></p>
+<p>Si ahora vemos la página web a través del <code>port-forward</code>, veremos que, efectivamente, hemos vuelto a la versión dos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl port-forward deployment.apps/deployment-testweb 8080:80
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_29.png" alt="img_29.png"></p>
+<p>Con esto, terminamos este ejercicio.</p>
+<h3 id="despliegue-de-la-aplicación-guestbook">
+  Despliegue de la aplicación GuestBook
+  <a class="heading-link" href="#despliegue-de-la-aplicaci%c3%b3n-guestbook">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>En esta tarea vamos a desplegar una aplicación web que requiere de dos servicios para su ejecución. La aplicación se llama GuestBook y necesita los siguientes servicios:</p>
+<ul>
+<li>La aplicación Guestbook es una aplicación web desarrollada en python que es servida en el puerto 5000/tcp. Utilizaremos la imagen <code>iesgn/guestbook</code>.</li>
+<li>Esta aplicación guarda la información en una base de datos no relacional redis, que utiliza el puerto 6379/tcp para recibir las conexiones. Usaremos la imagen <code>redis</code>.</li>
+</ul>
+<p>Por lo tanto si tenemos dos servicios distintos, tendremos dos ficheros yaml para crear dos recursos Deployment, uno para cada servicio. Con esta manera de trabajar podemos obtener las siguientes características:</p>
+<ul>
+<li>Cada conjunto de Pods creado en cada despliegue ejecutarán un solo proceso para ofrecer el servicio.</li>
+<li>Cada conjunto de Pods se puede escalar de manera independiente. Esto es importante, si identificamos que al acceder a alguno de los servicios se crea un cuello de botella, podemos escalarlo para tener más Pods ejecutando el servicio.</li>
+<li>Las actualizaciones de los distintos servicios no interfieren en el resto.</li>
+<li>Lo estudiaremos en un módulo posterior, pero podremos gestionar el almacenamiento de cada servicio de forma independiente.</li>
+</ul>
+<p>Por lo tanto para desplegar la aplicaciones tendremos dos ficheros.yaml:</p>
+<ul>
+<li><a href="https://github.com/iesgn/curso_kubernetes_cep/blob/main/modulo6/files/guestbook/guestbook-deployment.yaml">guestbook-deployment.yaml</a></li>
+<li><a href="https://github.com/iesgn/curso_kubernetes_cep/blob/main/modulo6/files/guestbook/redis-deployment.yaml">redis-deployment.yaml</a></li>
+</ul>
+<p>Para realizar el despliegue realiza los siguientes pasos:</p>
+<ul>
+<li>Usando los ficheros anteriores crea los dos Deployments.</li>
+<li>Comprueba que los recursos que se han creado: Deployment, ReplicaSet y Pods.</li>
+<li>Crea una redirección utilizando el port-forward para acceder a la aplicación, sabiendo que la aplicación ofrece el servicio en el puerto 5000, y accede a la aplicación con un navegador web.</li>
+</ul>
+<hr>
+<p>Así pues, creamos los dos ficheros para los deployments:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano guestbook-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guestbook
+  labels:
+    app: guestbook
+    tier: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: guestbook
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: guestbook
+        tier: frontend
+    spec:
+      containers:
+      - name: contenedor-guestbook
+        image: iesgn/guestbook
+        ports:
+          - name: http-server
+            containerPort: 5000
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano redis-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: redis
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: redis
+        tier: backend
+    spec:
+      containers:
+        - name: contenedor-redis
+          image: redis
+          ports:
+            - name: redis-server
+              containerPort: 6379
+</code></pre></div><p>Una vez hemos terminado con los ficheros, creamos los dos deployments:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f guestbook-deployment.yaml
+
+kubectl apply -f redis-deployment.yaml
+</code></pre></div><p>Podemos ver lo servicios que se han creado:</p>
+<p><img src="/images/ejercicios_kubernetes/img_30.png" alt="img_30.png"></p>
+<p>Si hacemos un <code>port-forward</code> podemos acceder a la página de guestbook, pero nos indica el siguiente mensaje:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl port-forward deployment.apps/guestbook 5000:5000
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_31.png" alt="img_31.png"></p>
+<p>Este mensaje nos sale porque los contenedores de guestbook no pueden acceder a la base de datos redis. En el siguiente apartado veremos como conectar los contenedores en kubernetes.</p>
+<h2 id="acceso-a-las-aplicaciones-servicios">
+  Acceso a las aplicaciones: Servicios
+  <a class="heading-link" href="#acceso-a-las-aplicaciones-servicios">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="despliegue-y-acceso-de-la-aplicación-guestbook">
+  Despliegue y acceso de la aplicación GuestBook
+  <a class="heading-link" href="#despliegue-y-acceso-de-la-aplicaci%c3%b3n-guestbook">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Una vez que tenemos creado el despliegue de la aplicación, que realizamos en la actividad anterior, vamos a crear los Services correspondientes para acceder a ella:</p>
+<ul>
+<li>Service para acceder a la aplicación:</li>
+</ul>
+<p>El Servicio para acceder a la aplicación será del tipo &ldquo;NodePort&rdquo;, y será definido con el siguiente yaml:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano servicio_guestbook.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: guestbook
+  labels:
+    app: guestbook
+    tier: frontend
+spec:
+  type: NodePort
+  ports:
+  - port: 80 
+    targetPort: http-server
+  selector:
+    app: guestbook
+    tier: frontend
+</code></pre></div><p>Una vez que hemos definido el servicio, lo lanzamos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f servicio_guestbook.yaml
+</code></pre></div><p>Podemos ver el puerto que nos ha asignado viendo la lista de recursos que se han creado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl get all
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_32.png" alt="img_32.png"></p>
+<p>Como vemos, se ha asignado el puerto 32127 para poder acceder al servicio desde el exterior. Podemos usar el navegador para acceder al servicio si usamos ese puerto:</p>
+<p><img src="/images/ejercicios_kubernetes/img_33.png" alt="img_33.png"></p>
+<p>Nos sigue apareciendo el mensaje de &ldquo;Waiting for database connection&hellip;&rdquo;. Esto es así porque el servicio que hemos creado sirve para conectar el exterior con las máquinas del &ldquo;frontend&rdquo;, sin embargo, no hemos creado aún el servicio que permita al &ldquo;frontend&rdquo; y el &ldquo;backend&rdquo; conectarse.</p>
+<ul>
+<li>Service para que la aplicación se conecte a la base de datos:</li>
+</ul>
+<p>El servicio que conectará el &ldquo;frontend&rdquo; y el &ldquo;backend&rdquo; será de tipo ClusterIP, y estará definido en el siguiente yaml:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano servicio_redis.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app: redis
+    tier: backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: redis-server
+  selector:
+    app: redis
+    tier: backend
+</code></pre></div><p>Una vez que hemos terminado con el fichero yaml, lanzamos el servicio:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f servicio_redis.yaml
+</code></pre></div><p>Podemos ver que se ha creado el servicio:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl get all
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_34.png" alt="img_34.png"></p>
+<p>Ahora que hemos creado este servicio, la aplicación debería poder conectarse perfectamente con la base de datos, por lo que el mensaje anterior de &ldquo;Waiting for database connection&hellip;&rdquo; debería haber desaparecido:</p>
+<p><img src="/images/ejercicios_kubernetes/img_35.png" alt="img_35.png"></p>
+<p>A continuación, vamos a crear un recurso de tipo &ldquo;Ingress&rdquo;, que nos permita acceder a la aplicación usando un nombre en lugar de la ip (básicamente actuará de proxy). Sin embargo, como estamos usando &ldquo;minikube&rdquo;, debemos habilitar primero ese tipo de recursos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">minikube addons enable ingress
+</code></pre></div><p>Una vez habilitado, podemos crear el fichero yaml en el cual definiremos el nuevo recurso:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano ingress_guestbook.yaml
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: guestbook
+spec:
+  rules:
+  - host: www.dparrales.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: guestbook
+            port:
+              number: 80
+</code></pre></div><p>Una vez finalizado con el fichero, creamos el nuevo recurso:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f ingress_guestbook.yaml
+</code></pre></div><p>Podemos ver el recurso creado:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl get ingress
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_36.png" alt="img_36.png"></p>
+<p>Para que podemos acceder a la web usando el nombre que le hemos asignado, debemos modificar el fichero <code>/etc/hosts</code> y añadir la siguiente línea:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">192.168.39.80 www.dparrales.org
+</code></pre></div><p>Ahora podemos acceder a la aplicación &ldquo;guestbook&rdquo; usando el nombre que le hemos asignado:</p>
+<p><img src="/images/ejercicios_kubernetes/img_37.png" alt="img_37.png"></p>
+<p>Con esto, damos por finalizado este ejercicio.</p>
+<h2 id="despliegues-parametrizados">
+  Despliegues parametrizados
+  <a class="heading-link" href="#despliegues-parametrizados">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="configurando-nuestra-aplicación-temperaturas">
+  Configurando nuestra aplicación &ldquo;Temperaturas&rdquo;
+  <a class="heading-link" href="#configurando-nuestra-aplicaci%c3%b3n-temperaturas">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>En un ejemplo del módulo anterior: <a href="https://github.com/iesgn/curso_kubernetes_cep/blob/main/modulo6/temperaturas.md">Ejemplo completo: Desplegando y accediendo a la aplicación Temperaturas</a> habíamos desplegado una aplicación formada por dos microservicios que nos permitía visualizar las temperaturas de municipios.</p>
+<p>Recordamos que el componente <code>frontend</code> hace peticiones al componente <code>backend</code> utilizando el nombre <code>temperaturas-backend</code>, que es el nombre que asignamos al Service ClusterIP para el acceso al <code>backend</code>.</p>
+<p>Vamos a cambiar la configuración de la aplicación para indicar otro nombre.</p>
+<p>Podemos configurar el nombre del servidor <code>backend</code> al que vamos acceder desde el <code>frontend</code> modificando la variable de entorno <em>TEMP_SERVER</em> a la hora de crear el despliegue del <code>frontend</code>.</p>
+<p>Por defecto el valor de esa variable es:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">TEMP_SERVER temperaturas-backend:5000
+</code></pre></div><p>Vamos a modificar esta variable en el despliegue del <code>frontend</code> y cambiaremos el nombre del Service del <code>backend</code> para que coincidan, para ello realiza los siguientes pasos:</p>
+<ol>
+<li>Crea un recurso <code>ConfigMap</code> con un dato que tenga como clave <strong>SERVIDOR_TEMPERATURAS</strong> y como contenido <strong>servidor-temperaturas:5000</strong>.</li>
+<li>Modifica el fichero de despliegue del <code>frontend</code>: <a href="https://github.com/iesgn/curso_kubernetes_cep/blob/main/modulo6/files/temperaturas/frontend-deployment.yaml">frontend-deployment.yaml</a> para añadir la modificación de la variable <strong>TEMP_SERVER</strong> con el valor que hemos guardado en el <code>ConfigMap</code>.</li>
+<li>Realiza el despliegue y crea el Service para acceder al <code>frontend</code>.</li>
+<li>Despliega el microservicio <code>backend</code>.</li>
+<li>Modifica el fichero <a href="https://github.com/iesgn/curso_kubernetes_cep/blob/main/modulo6/files/temperaturas/backend-srv.yaml">backend-srv.yaml</a> para cambiar el nombre del Service por <code>servidor-temperaturas</code> y crea el Service.</li>
+<li>Accede a la aplicación usando el puerto asignado al Service NodePort del <code>frontend</code> o creando el recurso <code>Ingress</code>.</li>
+</ol>
+<hr>
+<p>En primer lugar, vamos a crear el recurso &ldquo;ConfigMap&rdquo; con los valores indicados:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl create cm temperaturas --from-literal=SERVIDOR_TEMPERATURAS=servidor-temperaturas:5000
+</code></pre></div><p>Podemos ver la definición del recurso con el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl describe cm temperaturas
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_38.png" alt="img_38.png"></p>
+<p>A continuación crearemos los cuatro ficheros yaml que usaremos para desplegar la aplicación:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano frontend-deployment.yaml
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temperaturas-frontend
+  labels:
+    app: temperaturas
+    tier: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: temperaturas
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: temperaturas
+        tier: frontend
+    spec:
+      containers:
+      - name: contenedor-temperaturas
+        image: iesgn/temperaturas_frontend
+        ports:
+          - name: http-server
+            containerPort: 3000
+        env:
+          - name: TEMP_SERVER
+            valueFrom:
+              configMapKeyRef:
+                name: temperaturas
+                key: SERVIDOR_TEMPERATURAS
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_39.png" alt="img_39.png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano frontend-srv.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: temperaturas-frontend
+  labels:
+    app: temperaturas
+    tier: frontend
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+    targetPort: http-server
+  selector:
+    app: temperaturas
+    tier: frontend
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano backend-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temperaturas-backend
+  labels:
+    app: temperaturas
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temperaturas
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: temperaturas
+        tier: backend
+    spec:
+      containers:
+        - name: contendor-servidor-temperaturas
+          image: iesgn/temperaturas_backend
+          ports:
+            - name: api-server
+              containerPort: 5000
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano backend-srv.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: servidor-temperaturas
+  labels:
+    app: temperaturas
+    tier: backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5000
+    targetPort: api-server
+  selector:
+    app: temperaturas
+    tier: backend
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_40.png" alt="img_40.png"></p>
+<p>Ahora podemos crear todos los recursos que hemos definido en este directorio con el siguiente comando:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f .
+</code></pre></div><p>Podemos ver todos los recursos que se han creado:</p>
+<p><img src="/images/ejercicios_kubernetes/img_41.png" alt="img_41.png"></p>
+<p>Ahora intentemos acceder a la aplicación a través del navegador, usando el servicio <code>NodePort</code> que hemos creado:</p>
+<p><img src="/images/ejercicios_kubernetes/img_42.png" alt="img_42.png"></p>
+<p>Como vemos, no nos indica ningún error, por lo que podemos dar por concluido este ejercicio.</p>
+<h2 id="almacenamiento-en-kubernetes">
+  Almacenamiento en Kubernetes
+  <a class="heading-link" href="#almacenamiento-en-kubernetes">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<h3 id="desplegando-un-servidor-web-persistente">
+  Desplegando un servidor web persistente
+  <a class="heading-link" href="#desplegando-un-servidor-web-persistente">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>Siguiendo la guía explicada en el <a href="https://github.com/iesgn/curso_kubernetes_cep/blob/main/modulo8/ejemplo2.md">Ejemplo 2: Gestión dinámica de volúmenes</a>, vamos a crear un servidor web que permita la ejecución de scripts PHP con almacenamiento persistente.</p>
+<p>Para realizar esta actividad vamos a usar asignación dinámica de volúmenes y puedes usar, como modelos, los ficheros del ejemplo 2.</p>
+<p>Realiza los siguientes pasos:</p>
+<ol>
+<li>Crea un fichero yaml para definir un recurso PersistentVolumenClaim que se llame <code>pvc-webserver</code> y para solicitar un volumen de 2Gb.</li>
+<li>Crea el recurso y comprueba que se ha asociado un volumen de forma dinámica a la solicitud.</li>
+<li>Crea un fichero yaml para desplegar un servidor web desde la imagen <code>php:7.4-apache</code>, asocia el volumen al Pod que se va a crear e indica el punto de montaje en el DocumentRoot del servidor: <code>/var/www/html</code>.</li>
+<li>Despliega el servidor y crea un fichero <code>info.php</code> en <code>/var/www/html</code>, con el siguiente contenido: <code>&lt;?php phpinfo(); ?&gt;</code>.</li>
+<li>Define y crea un Service NodePort, accede desde un navegador al fichero <code>info.php</code> y comprueba que se visualiza de forma correcta.</li>
+<li>Comprobemos la persistencia: elimina el Deployment, vuelve a crearlo y vuelve a acceder desde el navegador al fichero <code>info.php</code>. ¿Se sigue visualizando?</li>
+</ol>
+<hr>
+<p>Creamos el fichero yaml que definirá el recurso PersistentVolumenClaim:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano pvc-webserver.yaml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: pvc-webserver
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_43.png" alt="img_43.png"></p>
+<p>Ahora creamos el recurso:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f pvc-webserver.yaml
+</code></pre></div><p>Podemos ver que se ha creado ejecutando lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl get pc, pvc
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_44.png" alt="img_44.png"></p>
+<p>Ahora crearemos el fichero que definirá el despliegue del servidor web:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano servidorweb-php.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servidorweb
+  labels:
+    app: apache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apache
+  template:
+    metadata:
+      labels:
+        app: apache
+    spec:
+      volumes:
+        - name: volumen-servidorweb
+          persistentVolumeClaim:
+            claimName: pvc-webserver
+      containers:
+        - name: contenedor-apache-php
+          image: php:7.4-apache
+          ports:
+            - name: http-server
+              containerPort: 80
+          volumeMounts:
+            - mountPath: &#34;/var/www/html&#34;
+              name: volumen-servidorweb
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_45.png" alt="img_45.png"></p>
+<p>Y creamos el despliegue:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f servidorweb-php.yaml
+</code></pre></div><p>A continuación, creamos el fichero <code>.yaml</code> que definirá el servicio &lsquo;NodePort&rsquo; con el que accederemos al servidor web a través del navegador:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano servicioweb.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: servicio-servidorweb
+spec:
+  type: NodePort
+  ports:
+  - name: service-http
+    port: 80
+    targetPort: http-server
+  selector:
+    app: apache
+</code></pre></div><p>Y lo creamos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f servidorweb-php.yaml
+</code></pre></div><p>Ahora creamos el fichero <code>info.php</code> en la ruta que nos han indicado. Para ello, primero debemos averiguar cual es el identificador del pod:</p>
+<p><img src="/images/ejercicios_kubernetes/img_46.png" alt="img_46.png"></p>
+<p>Sabiendo esto, ejecutamos lo siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl exec pod/servidorweb-745bc67f58-dmlbn -- bash -c &#34;echo &#39;&lt;?php phpinfo(); ?&gt;&#39; &gt; /var/www/html/info.php&#34;
+</code></pre></div><p>Ahora accedemos a la ip de minikube, al puerto que nos indica el servicio (31757):</p>
+<p><img src="/images/ejercicios_kubernetes/img_47.png" alt="img_47.png"></p>
+<p>Como vemos, se muestra correctamente el php. Ahora veremos la persistencia. Para ello eliminamos el despliegue y lo volvemos a crear:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl delete deployment.apps/servidorweb
+
+kubectl apply -f servidorweb-php.yaml
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_48.png" alt="img_48.png"></p>
+<p>Y si volvemos a acceder:</p>
+<p><img src="/images/ejercicios_kubernetes/img_49.png" alt="img_49.png"></p>
+<p>Podemos seguir accediendo a la información tras haber destruido y creado el despliegue, por lo que confirmamos que el almacenamiento es persistente.</p>
+<h3 id="haciendo-persistente-la-aplicación-guestbook">
+  Haciendo persistente la aplicación GuestBook
+  <a class="heading-link" href="#haciendo-persistente-la-aplicaci%c3%b3n-guestbook">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h3>
+<p>En este ejercicio vamos a volver a desplegar nuestra aplicación GuestBook, que realizamos en <a href="https://github.com/iesgn/curso_kubernetes_cep/blob/main/modulo5/actividad3.md">Actividad 5.3: Despliegue de la aplicación GuestBook</a> y en la <a href="https://github.com/iesgn/curso_kubernetes_cep/blob/main/modulo6/actividad1.md">Actividad 6.1: Acceso de la aplicación GuestBook</a> para añadirle persistencia a la base de datos redis. Por lo tanto necesitaremos solicitar un volumen, que se asociará de forma dinámica.</p>
+<p>Realiza los siguientes pasos:</p>
+<ol>
+<li>Crea un fichero yaml para definir un recurso PersistentVolumenClaim que se llame <code>pvc-redis</code> y para solicitar un volumen de 3Gb.</li>
+<li>Crea el recurso y comprueba que se ha asociado un volumen de forma dinámica a la solicitud.</li>
+<li>Modifica el fichero del despliegue de redis, modificando las <code>xxxxxxxxxxxx</code> por los valores correctos: el nombre del PersistentVolumenClaim y el directorio de montaje en el contenedor (como hemos visto anteriormente es <code>/data</code>).</li>
+<li>Crea el despliegue de redis. El despliegue de la aplicación <code>guestbook</code> y la creación de los Services de acceso se hace con los ficheros que ya utilizamos anteriormente: <a href="https://github.com/iesgn/curso_kubernetes_cep/blob/main/modulo8/files/guestbook/guestbook-deployment.yaml">guestbook-deployment.yaml</a>, <a href="https://github.com/iesgn/curso_kubernetes_cep/blob/main/modulo8/files/guestbook/guestbook-srv.yaml">guestbook-srv.yaml</a> y <a href="https://github.com/iesgn/curso_kubernetes_cep/blob/main/modulo8/files/guestbook/redis-srv.yaml">redis-srv.yaml</a>.</li>
+<li>Accede a la aplicación y escribe algunos mensajes.</li>
+<li>Comprobemos la persistencia: elimina el despliegue de redis, vuelve a crearlo, vuelve a acceder desde el navegador y comprueba que los mensajes no se han perdido.</li>
+</ol>
+<hr>
+<p>En primer lugar creamos el fichero <code>.yaml</code> para definir el recurso &ldquo;PersistentVolumenClaim&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano pvc-redis.yaml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: pvc-redis
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_50.png" alt="img_50.png"></p>
+<p>Y lo creamos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f pvc-redis.yaml
+</code></pre></div><p>Vemos que se ha creado la solicitud y se ha asignado el volumen:</p>
+<p><img src="/images/ejercicios_kubernetes/img_51.png" alt="img_51.png"></p>
+<p>Creamos el fichero <code>.yaml</code> que define el despliegue de redis usando el volumen que hemos definido anteriormente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano redis-despliegue.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: redis
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: redis
+        tier: backend
+    spec:
+      volumes:
+        - name: volumen-redis
+          persistentVolumeClaim:
+            claimName: pvc-redis
+      containers:
+        - name: contenedor-redis
+          image: redis
+          command: [&#34;redis-server&#34;]
+          args: [&#34;--appendonly&#34;, &#34;yes&#34;]
+          ports:
+            - name: redis-server
+              containerPort: 6379
+          volumeMounts:
+            - mountPath: &#34;/data&#34;
+              name: volumen-redis
+</code></pre></div><p><img src="/images/ejercicios_kubernetes/img_52.png" alt="img_52.png"></p>
+<p>Y el resto de recursos que necesitaremos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano guestbook-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guestbook
+  labels:
+    app: guestbook
+    tier: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: guestbook
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: guestbook
+        tier: frontend
+    spec:
+      containers:
+      - name: contenedor-guestbook
+        image: iesgn/guestbook
+        ports:
+          - name: http-server
+            containerPort: 5000
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano guestbook-srv.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: guestbook
+  labels:
+    app: guestbook
+    tier: frontend
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: http-server
+  selector:
+    app: guestbook
+    tier: frontend
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">nano redis-srv.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app: redis
+    tier: backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: redis-server
+  selector:
+    app: redis
+    tier: backend
+</code></pre></div><p>Y los creamos todos:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">kubectl apply -f .
+</code></pre></div><p>Vemos que se han creado todos los recursos:</p>
+<p><img src="/images/ejercicios_kubernetes/img_53.png" alt="img_53.png"></p>
+<p>Ya podemos acceder a la aplicación de guestbook desde el navegador y crear algunos mensajes de prueba:</p>
+<p><img src="/images/ejercicios_kubernetes/img_54.png" alt="img_54.png"></p>
+<p>Ahora eliminamos el despliegue de redis y lo volvemos a crear, para comprobar si el almacenamiento es persistente:</p>
+<p><img src="/images/ejercicios_kubernetes/img_55.png" alt="img_55.png"></p>
+<p>Y entramos en la url para ver si los mensajes se han guardado:</p>
+<p><img src="/images/ejercicios_kubernetes/img_56.png" alt="img_56.png"></p>
+<p>Como vemos, se han guardado los mensajes, por lo que podemos dar por concluido el ejercicio.</p>
 
       </div>
 
