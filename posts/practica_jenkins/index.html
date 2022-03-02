@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="Daniel Parrales">
+    <meta name="description" content="Práctica: IC/DC con Jenkins">
+    <meta name="keywords" content="blog,developer,personal,">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Práctica: IC/DC con Jenkins"/>
+<meta name="twitter:description" content="Práctica: IC/DC con Jenkins"/>
+
+    <meta property="og:title" content="Práctica: IC/DC con Jenkins" />
+<meta property="og:description" content="Práctica: IC/DC con Jenkins" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sysadblog.onrender.com/posts/practica_jenkins/" />
+<meta property="article:published_time" content="2022-03-02T14:04:16+01:00" />
+<meta property="article:modified_time" content="2022-03-02T14:04:16+01:00" />
+
+
+    <title>
+  Práctica: IC/DC con Jenkins · Sysadblog
+</title>
+
+    
+      <link rel="canonical" href="https://sysadblog.onrender.com/posts/practica_jenkins/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.8e2b2510f60e1715eae08d113a808dcdaf17f6f711edb9e969be38d0074d240d.css" integrity="sha256-jislEPYOFxXq4I0ROoCNza8X9vcR7bnpab440AdNJA0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.aa883b9ce35a8ff4a2a5008619005175e842bb18a8a9f9cc2bbcf44dab2d91fa.css" integrity="sha256-qog7nONaj/SipQCGGQBRdehCuxioqfnMK7z0Tastkfo=" crossorigin="anonymous" media="screen" />
+      
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.80.0" />
+  </head>
+
+  
+  
+    
+  
+  <body class="preload-transitions colorscheme-auto"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Sysadblog
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/aboutme">About</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/categories">Categories</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://sysadblog.onrender.com/posts/practica_jenkins/">
+              Práctica: IC/DC con Jenkins
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2022-03-02T14:04:16&#43;01:00'>
+                March 2, 2022
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          <div class="authors">
+    <i class="fa fa-user" aria-hidden="true"></i>
+      <a href="/authors/daniel-parrales/">Daniel Parrales</a></div>
+          <div class="categories">
+  <i class="fa fa-folder" aria-hidden="true"></i>
+    <a href="/categories/aplicaciones-web/">Aplicaciones Web</a></div>
+
+          
+        </div>
+      </header>
+
+      <div>
+        
+        <p>El objetivo de esta práctica es el desarrollo gradual de un Pipeline que vaya realizando tareas sobre el repositorio de una aplicación.</p>
+<p>La aplicación con la que vamos a trabajar será tu fork de la aplicación django Polls. Como hemos visto esta aplicación que implementa el tutorial de Django tiene implementado un módulo de pruebas.</p>
+<p>Vamos a construir el Pipeline en varias fases:</p>
+<h2 id="ejercicio-1-testeo-de-la-aplicación">
+  Ejercicio 1: Testeo de la aplicación
+  <a class="heading-link" href="#ejercicio-1-testeo-de-la-aplicaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Vamos a comenzar a crear un pipeline, que realice las siguientes tareas:</p>
+<ol>
+<li>Clone el repositorio.</li>
+<li>Instale los requerimientos python.</li>
+<li>Realice los tests al programa.</li>
+</ol>
+<p>Este pipeline se tiene que ejecutar sobre la imagen <code>python:3</code>. Otras consideraciones:</p>
+<ul>
+<li>Este pipeline se disparará cuando observe un cambio en el repositorio. Esta comprobación se hará cada minuto.</li>
+</ul>
+<hr>
+<p>Para ello creamos en Jenkins el siguiente pipeline:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">pipeline {
+    agent {
+        docker { image &#39;python:3&#39;
+        args &#39;-u root:root&#39;
+        }
+    }
+    stages {
+        stage(&#39;Clone&#39;) {
+            steps {
+                git branch:&#39;master&#39;,url:&#39;https://github.com/DanielPG25/django_tutorial.git&#39;
+            }
+        }
+        stage(&#39;Install&#39;) {
+            steps {
+                sh &#39;pip install -r requirements.txt&#39;
+            }
+        }
+        stage(&#39;Test&#39;)
+        {
+            steps {
+                sh &#39;python3 manage.py test&#39;
+            }
+        }
+    }
+}
+</code></pre></div><p>Para que se ejecute cada minuto, en el programador de triggers escribimos lo siguiente:</p>
+<p><img src="/images/practica_jenkins/img_1.png" alt="img_1.png"></p>
+<p>Una vez hecho esto, se iniciará el pipeline. Como acabamos de hacer un fork del repositorio, no debe haber ningún error, por lo que el tests del programa serán exitosos:</p>
+<p><img src="/images/practica_jenkins/img_2.png" alt="img_2.png"></p>
+<p>Una vez que hemos comprobado que los tests funcionan, vamos a cambiar el código de la aplicación para crear algunos errores. Para ello, en el fichero <code>polls/templates/polls/index.html</code> cambiamos el mensaje de &ldquo;No polls are available&rdquo; por &ldquo;No hay encuestas disponibles&rdquo;. Si subimos los cambios al repositorio, debería salir un error al hacer los tests, ya que hay uno en concreto que busca ese mensaje:</p>
+<p><img src="/images/practica_jenkins/img_3.png" alt="img_3.png"></p>
+<p>Si vemos los logs, nos indica que ha podido encontrar el mensaje que hemos cambiado:</p>
+<p><img src="/images/practica_jenkins/img_4.png" alt="img_4.png"></p>
+<p>Como vemos, los tests que están programados funcionan bien.</p>
+<hr>
+<h2 id="ejercicio-2-construcción-de-una-imagen-docker">
+  Ejercicio 2: Construcción de una imagen docker
+  <a class="heading-link" href="#ejercicio-2-construcci%c3%b3n-de-una-imagen-docker">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Modifica el pipeline para que después de hacer el test sobre la aplicación, genere una imagen docker. tienes que tener en cuenta que los pasos para generar la imagen lo tienes que realizar en la máquina donde está instalado Jenkins. Tendrás que añadir las siguientes acciones:</p>
+<ol>
+<li>Construir la imagen con el <code>Dockerfile</code> que tengas en el repositorio.</li>
+<li>Subir la imagen a tu cuenta de Docker Hub.</li>
+<li>Borrar la imagen que se ha creado.</li>
+</ol>
+<p>Por lo tanto tienes que estudiar el apartado <a href="https://fp.josedomingo.org/iaw2122/u06/runner.html">Ejecución de un pipeline</a> en varios runner para ejecutar el pipeline en dos runner:</p>
+<ul>
+<li>En el contenedor docker a partir de la imagen <code>python:3</code> los pasos del ejercicio1.</li>
+<li>En la máquina de Jenkins los pasos de este ejercicio.</li>
+</ul>
+<p>Otras consideraciones:</p>
+<ul>
+<li>Cuando termine de ejecutar el pipeline te mandará un correo de notificación.</li>
+<li>El pipeline se guardará en un fichero Jenkinsfile en tu repositorio, y la configuración del pipeline hará referencia a él.</li>
+</ul>
+<hr>
+<p>El Dockerfile queda de la siguiente forma (esta basado en el que creamos en la práctica de Docker con python):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">FROM python:3
+WORKDIR /usr/src/app
+MAINTAINER Daniel Parrales García &#34;daniparrales16@gmail.com&#34;
+RUN pip install django mysqlclient
+ADD django_tutorial/ /usr/src/app
+ADD django_polls.sh /opt
+RUN mkdir static &amp;&amp; chmod +x /opt/django_polls.sh
+ENV ALLOWED_HOSTS=*
+ENV HOST=mariadb
+ENV USUARIO=django
+ENV CONTRA=django
+ENV BASE_DATOS=django
+ENV DJANGO_SUPERUSER_PASSWORD=admin
+ENV DJANGO_SUPERUSER_USERNAME=admin
+ENV DJANGO_SUPERUSER_EMAIL=admin@example.org
+CMD [&#34;/opt/django_polls.sh&#34;]
+</code></pre></div><p>Ahora debemos modificar el pipeline que hemos creado antes, para que cuando pase los tests, cree la imagen y la suba a Docker Hub:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">pipeline {
+    environment {
+        IMAGEN = &#34;dparrales/django_python&#34;
+        LOGIN = &#39;USER_DOCKERHUB&#39;
+    }
+    agent none
+    stages {
+        stage(&#34;Desarrollo&#34;) {
+            agent {
+                docker { image &#34;python:3&#34;
+                args &#39;-u root:root&#39;
+                }
+            }
+            stages {
+                stage(&#39;Clone&#39;) {
+                    steps {
+                        git branch:&#39;master&#39;,url:&#39;https://github.com/DanielPG25/django_tutorial.git&#39;
+                    }
+                }
+                stage(&#39;Install&#39;) {
+                    steps {
+                        sh &#39;pip install -r requirements.txt&#39;
+                    }
+                }
+                stage(&#39;Test&#39;)
+                {
+                    steps {
+                        sh &#39;python3 manage.py test&#39;
+                    }
+                }
+
+            }
+        }
+        stage(&#34;Construccion&#34;) {
+            agent any
+            stages {
+                stage(&#39;CloneAnfitrion&#39;) {
+                    steps {
+                        git branch:&#39;main&#39;,url:&#39;https://github.com/DanielPG25/docker_python.git&#39;
+                    }
+                }
+                stage(&#39;BuildImage&#39;) {
+                    steps {
+                        script {
+                            newApp = docker.build &#34;$IMAGEN:latest&#34;
+                        }
+                    }
+                }
+                stage(&#39;UploadImage&#39;) {
+                    steps {
+                        script {
+                            docker.withRegistry( &#39;&#39;, LOGIN ) {
+                                newApp.push()
+                            }
+                        }
+                    }
+                }
+                stage(&#39;RemoveImage&#39;) {
+                    steps {
+                        sh &#34;docker rmi $IMAGEN:latest&#34;
+                    }
+                }
+            }
+        }           
+    }
+    post {
+        always {
+            mail to: &#39;daniparrales16@gmail.com&#39;,
+            subject: &#34;Status of pipeline: ${currentBuild.fullDisplayName}&#34;,
+            body: &#34;${env.BUILD_URL} has result ${currentBuild.result}&#34;
+        }
+    }
+}
+</code></pre></div><p>Podemos ver ahora que todos los pasos del pipeline se han ejecutado con éxito:</p>
+<p><img src="/images/practica_jenkins/img_5.png" alt="img_5.png"></p>
+<p>También podemos observar que la imagen se ha subido con éxito a Docker Hub:</p>
+<p><img src="/images/practica_jenkins/img_6.png" alt="img_6.png"></p>
+<p>Y tal como le indicamos, nos ha mandado un correo con la información de la ejecución del pipeline:</p>
+<p><img src="/images/practica_jenkins/img_7.png" alt="img_7.png"></p>
+<p>Por último, si cambiamos el <code>Dockerfile</code>, y le indicamos un archivo que no exista, falla la ejecución y no se crea la imagen:</p>
+<p><img src="/images/practica_jenkins/img_8.png" alt="img_8.png"></p>
+<p>Podemos ver los ficheros que he usado en este pipeline en mi <a href="https://github.com/DanielPG25/docker_python">repositorio</a> de Github.</p>
+<hr>
+<h2 id="ejercicio-3-despliegue-de-la-aplicación">
+  Ejercicio 3: Despliegue de la aplicación
+  <a class="heading-link" href="#ejercicio-3-despliegue-de-la-aplicaci%c3%b3n">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>Amplía el pipeline anterior para que tenga una última etapa donde se haga el despliegue de la imagen que se ha subido a Docker Hub en tu entorno de producción (VPS). Algunas pistas:</p>
+<ul>
+<li>Busca información de cómo hacer el despliegue a un servidor remoto (ssh, buscando algún plugin con esa funcionalidad,…)</li>
+<li>Si vas a hacer conexiones por ssh, tendrás que guardar una credencial en tu Jenkins con el nombre de usuario y contraseña.</li>
+<li>Para el despliegue deberá usar el fichero <code>docker-compose.yaml</code> que has generado en otras prácticas.</li>
+<li>Se deberá borrar el contenedor con la versión anterior, descargar la nueva imagen y crear un nuevo contenedor.</li>
+</ul>
+<p>Otras consideraciones:</p>
+<ul>
+<li>Cambia el disparador del pipeline. Configúralo con un webhook de github, para que cada vez que se produce un push se ejecute el pipeline. Para que el webhook pueda acceder a tu Jenkins puedes usar <a href="https://ngrok.com/">ngrok</a>.</li>
+</ul>
+<hr>
+<p>En primer lugar, debemos instalar los plugins necesarios para que jenkins pueda usar SSH para acceder a nuestra VPS y ejecutar los comandos necesarios:</p>
+<p><img src="/images/practica_jenkins/img_9.png" alt="img_9.png"></p>
+<p>También creamos las credenciales:</p>
+<p><img src="/images/practica_jenkins/img_10.png" alt="img_10.png"></p>
+<p>Una vez hecho eso, modificamos el pipeline anterior y añadimos lo siguiente después del borrado de la imagen:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">stage (&#39;SSH&#39;) {
+    steps{
+        sshagent(credentials : [&#39;SSH_ROOT&#39;]) {
+            sh &#39;ssh -o StrictHostKeyChecking=no root@blackstar.sysadblog.com wget https://raw.githubusercontent.com/DanielPG25/docker_python/main/docker-compose.yaml -O docker-compose.yaml&#39;
+            sh &#39;ssh -o StrictHostKeyChecking=no root@blackstar.sysadblog.com docker-compose up -d --force-recreate&#39;
+        }
+    }
+}
+</code></pre></div><p>El docker-compose que introducimos mediante scp es el siguiente:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">version: &#39;3.1&#39;
+services:
+  django-tutorial:
+    container_name: django-tutorial2
+    image: dparrales/django_python  
+    restart: always
+    environment:
+      ALLOWED_HOSTS: &#34;*&#34;
+      HOST: db_mariadb
+      USUARIO: django
+      CONTRA: django
+      BASE_DATOS: django
+      DJANGO_SUPERUSER_PASSWORD: admin
+      DJANGO_SUPERUSER_USERNAME: admin
+      DJANGO_SUPERUSER_EMAIL: admin@example.org
+    ports:
+      - 8086:8006
+    depends_on:
+      - db
+  db:
+    container_name: db_mariadb
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: django
+      MARIADB_USER: django
+      MARIADB_PASSWORD: django
+    volumes:
+      - mariadb_data_django2:/var/lib/mysql
+volumes:
+    mariadb_data_django2:
+</code></pre></div><p>Si ejecutamos el pipeline a mano, nos funciona:</p>
+<p><img src="/images/practica_jenkins/img_11.png" alt="img_11.png"></p>
+<p>Sin embargo, lo que queremos es que cada vez que actualicemos la aplicación, se despliegue automáticamente. Para ello, vamos a utilizar un webhook de Github, para que cada vez que actualice el repositorio, mande una notificación a Jenkins y se ejecute el pipeline que hemos definido en el Jenkinsfile. No obstante, al tener Jenkins en una red interna, vamos a usar la herramienta <code>ngrok</code> para permitir que Jenkins reciba la notificación del &ldquo;push&rdquo;. Así pues, lo primero es cambiar la configuración de la seguridad de Jenkins, activando la siguiente opción:</p>
+<p><img src="/images/practica_jenkins/img_12.png" alt="img_12.png"></p>
+<p>A continuación descargamos <code>ngrok</code> de su <a href="https://ngrok.com/">página oficial</a>. Lo que he descargado, al menos en mi caso, es un ejecutable, por lo que para hacer uso de él, deberemos indicar la ruta del mismo en el comando. Así pues, siguiendo la documentación, lo primero que haremos será generar un fichero con nuestro &ldquo;Token&rdquo;. Para ello ejecutamos el siguiente comando con el token que encontraremos en la web, en la sección de &ldquo;Your Authtoken&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">./ngrok authtoken tu-authtoken
+</code></pre></div><p>Tras esto, debemos ejecutar el siguiente comando para exponer el servidor de Jenkins al exterior (por defecto escucha en el puerto 8080):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">./ngrok http 8080
+</code></pre></div><p>Esto nos generará una URL que será la que pondremos en el webhook de Github (no hay que cortar el servicio, o la url cambiará):</p>
+<p><img src="/images/practica_jenkins/img_13.png" alt="img_13.png"></p>
+<p>Una vez hecho esto, debemos instalar en Jenkins los plugins que harán que podamos trabajar con Github:</p>
+<p><img src="/images/practica_jenkins/img_14.png" alt="img_14.png"></p>
+<p>Esto nos posibilitará editar el &ldquo;trigger&rdquo; del pipeline a un &ldquo;webhook&rdquo; de Github. Para ello, nos dirigimos a la configuración del pipeline y seleccionamos la siguiente opción:</p>
+<p><img src="/images/practica_jenkins/img_15.png" alt="img_15.png"></p>
+<p>Al seleccionar esta opción, deberemos indicar al pipeline el repositorio de Github del que debe recibir notificaciones:</p>
+<p><img src="/images/practica_jenkins/img_16.png" alt="img_16.png"></p>
+<p>Como vemos, al ejecutar un pipeline de esta forma, debemos tener un fichero en el repositorio llamado &ldquo;Jenkinsfile&rdquo; (por defecto), en el cual se encontrarán todos los pasos que realizará dicho pipeline. Con esto, Jenkins ya estaría esperando a recibir las notificaciones de Github, pero aún no hemos introducido en Github la configuración necesaria para que mande dichas notificaciones. Para ello, nos dirigimos al apartado de configuración de nuestro repositorio y creamos un nuevo &ldquo;webhook&rdquo;:</p>
+<p><img src="/images/practica_jenkins/img_17.png" alt="img_17.png"></p>
+<p>El &ldquo;webhook&rdquo; hay que configurarlo de la siguiente forma para que no de errores a la hora de conectarse con Jenkins:</p>
+<p><img src="/images/practica_jenkins/img_18.png" alt="img_18.png"></p>
+<ul>
+<li>En el apartado de &ldquo;Payload URL&rdquo;, debemos poner la URL que nos indica <code>ngrok</code> seguida de <code>/github-webhook/</code>.</li>
+<li>En el apartado de &ldquo;Secret&rdquo;, debemos añadir el Token que hemos generado para nuestro usuario en Jenkins (lo explicamos a continuación).</li>
+</ul>
+<p>Para generar el Token de Jenkins y poder añadirlo al &ldquo;Webhook&rdquo; de Github hay que irnos a la zona de administración de Jenkins, y en la configuración del usuario, darle a generar Token:</p>
+<p><img src="/images/practica_jenkins/img_19.png" alt="img_19.png"></p>
+<p>Ahora, cada vez que hagamos un &ldquo;push&rdquo; al repositorio que hemos indicado, se disparará el trigger y se ejecutará el pipeline, haciendo que nuestra aplicación se despliegue continuamente.</p>
+<p><img src="/images/practica_jenkins/img_20.png" alt="img_20.png"></p>
+<p>Con esto podemos dar por concluida la práctica con éxito.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+        <p>El descenso hacia Debian profundo</p>
+      
+      
+        ©
+        
+          2021 -
+        
+        2022
+         Daniel Parrales 
+      
+      
+         · 
+        Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.a350362441276ec5c1671926420497bb8e52b63ead1d51d3c9bc4342d0039526.js" integrity="sha256-o1A2JEEnbsXBZxkmQgSXu45Stj6tHVHTybxDQtADlSY="></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>
